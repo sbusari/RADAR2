@@ -1,5 +1,7 @@
 package radar.model;
 
+import java.util.List;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.InputMismatchException;
@@ -25,11 +27,11 @@ public class Parser {
 	public int getSimulationRun(){
 		return simulation_;
 	}
-	public Parser(String modelString, int simulation){
-		parseModel(modelString,simulation);
+	public Parser(String modelString, int simulation, List<String> infoValueParameter){
+		parseModel(modelString,simulation, infoValueParameter);
 	}
-	public Visitor runVisitor (String inputString, int simulation) {
-		Visitor visitor = new Visitor(simulation);
+	public Visitor runVisitor (String inputString, int simulation, List<String> infoValueParameter) {
+		Visitor visitor = new Visitor(simulation,infoValueParameter);
 		String model = inputString + "\n\n\n";
 		ModelExceptionListener errorListener = null;
 		try{
@@ -55,8 +57,8 @@ public class Parser {
 		}
 		return visitor;
 	}
-	void parseModel(String inputString, int simulation)  {
-		Visitor visitor = runVisitor (inputString,simulation);	
+	void parseModel(String inputString, int simulation,  List<String> infoValueParameter)  {
+		Visitor visitor = runVisitor (inputString,simulation,infoValueParameter);	
 		Model semanticModel = visitor.getSemanticModel();
 		setSemanticModel(semanticModel);
 	}

@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
+
 import radar.enumeration.DecisionVectorType;
 import radar.enumeration.OptimisationType;
 import radar.exception.ModelException;
@@ -38,6 +39,7 @@ import radar.jmetal.experiments.util.Friedman;
 import radar.jmetal.util.JMException;
 import radar.model.AlternativeAnalyser;
 import radar.model.Parser;
+import radar.model.QualityVariable;
 import radar.model.problem.DecisionProblem;
 import radar.utilities.ConfigSetting;
 import radar.utilities.SolutionDetail;
@@ -158,7 +160,7 @@ public class EmpiricalStudy extends Experiment {
 			}
 			List<String> infoValueQV = new ArrayList<String>();
 			if(args[3] != null || !StringUtils.isEmpty(args[3] )){
-				infoValueQV =new ArrayList<String>( Arrays.asList(args[3].split(","))); //args[4]; 
+				infoValueQV =new ArrayList<String>( Arrays.asList(args[3].split("[+]"))); //args[4]; 
 			}
 			OptimisationType optimisationType = OptimisationType.valueOf("APPROXIMATE".toUpperCase(Locale.ENGLISH));
 			if (algorithm.equals("ExhaustiveSearch")){
@@ -195,7 +197,7 @@ public class EmpiricalStudy extends Experiment {
 					modelFilePath = ConfigSetting.ROOTDIRECTORY +  ConfigSetting.CBA;
 				}
 				System.out.println (" model path: "+ modelFilePath);
-				exp.setUp(modelFilePath,typeOfOptimisation, infoValueObj.get(0));
+				exp.setUp(modelFilePath,typeOfOptimisation, infoValueObj.get(0),infoValueQV);
 			} catch (Exception e) {
 				throw new RuntimeException (e.getMessage());
 			}
@@ -321,7 +323,22 @@ public class EmpiricalStudy extends Experiment {
 			
 			InformationValueAnalysis infoAnalysis = new InformationValueAnalysis();
 			double infoValue = infoAnalysis.computeEVTPI(testParser.getSemanticModel().getInfoValueObjective(), testParser.getSemanticModel().getAlternative());
-			System.out.print("infor value is: "+ infoValue );
+			System.out.println("evtpi value is: "+ infoValue );
+			
+			Map<String, double[]> paramsdata =testParser.getSemanticModel().getParameters();
+			for (Map.Entry<String, double[]> entry: paramsdata.entrySet()){
+				double evppi = infoAnalysis.computeEVPPI(testParser.getSemanticModel().getInfoValueObjective(), testParser.getSemanticModel().getAlternative(), entry.getValue());
+				System.out.println("evppi for "+ entry.getKey()+ " is "+ evppi );
+			}
+			List<String> params = testParser.getSemanticModel().getParams();
+			for (int i =0; i < params.size(); i ++){
+				QualityVariable qv =  testParser.getSemanticModel().getQualityVariables().get(params.get(i));
+				Map<String, double[]> paramSimData = qv.getParameterSimData();
+				for (Map.Entry<String, double[]> entry: paramSimData.entrySet()){
+					double evppi = infoAnalysis.computeEVPPI(testParser.getSemanticModel().getInfoValueObjective(), testParser.getSemanticModel().getAlternative(), entry.getValue());
+					System.out.println("evppi for "+ entry.getKey()+ " is "+ evppi );
+				}
+			}
 			
 		}catch (IndexOutOfBoundsException e){
 			throw new RuntimeException ("Results cannot be displayed!");
@@ -335,17 +352,19 @@ public class EmpiricalStudy extends Experiment {
 		
 	} // main
 
-	public void setUp(String modelFilePath, String typeOfOptimisation, String infoValueObj) throws Exception ,ModelException, RuntimeException, InterruptedException {
+	public void setUp(String modelFilePath, String typeOfOptimisation, String infoValueObj, List<String> params) throws Exception ,ModelException, RuntimeException, InterruptedException {
 		this.modelFilePath = modelFilePath; 
 		//String typeOfOptimisation = Config.getConfig("OPTIMISATION_TYPE","APROXIMATE");
 		OptimisationType optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
 		
 		String model = readFile(modelFilePath);
-		this.goalParserEngine = new Parser (model,ConfigSetting.NUMBER_OF_SIMULATION);
+		this.goalParserEngine = new Parser (model,ConfigSetting.NUMBER_OF_SIMULATION,params);
 		if (!typeOfOptimisation.equals("EXACT")){
 			this.algorithmParameter = new AlgorithmParameter().getParameterSettings(goalParserEngine);		
 		}
 		this.goalParserEngine.getSemanticModel().setInfoValueObjectiveName(infoValueObj);
+		// need  to remove params from model at this point.
+		this.goalParserEngine.getSemanticModel().setParams(params);
 		this.solutionType = "ArrayBitVector";	
 		problem = new DecisionProblem(solutionType, goalParserEngine, optimisationType);
 	}
@@ -375,7 +394,7 @@ public class EmpiricalStudy extends Experiment {
 		
 		OptimisationType optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
 		
-		this.goalParserEngine = new Parser(modelString,ConfigSetting.NUMBER_OF_SIMULATION);
+		this.goalParserEngine = new Parser(modelString,ConfigSetting.NUMBER_OF_SIMULATION, new ArrayList<String>());
 		this.goalParserEngine.getSemanticModel().setSimulationNumber(expdata.getSimulationNumber());
 		//this.goalParserEngine.getSemanticModel().setInfoValueObjective(infoValueObj);
 		this.algorithmParameter = new AlgorithmParameter(goalParserEngine,expdata);

@@ -53,7 +53,8 @@ public class DecisionProblem extends Problem {
 				 solution.setObjective(i, entry.getValue());
 			 }
 			 String infoValueObj = parserEngine_.getSemanticModel().getInfoValueObjectiveName();
-			 if (infoValueObj.equals(entry.getKey().getQualityVariable().getLabel())){
+			 if (infoValueObj.equals(entry.getKey().getQualityVariable().getLabel())
+					 && parserEngine_.getSemanticModel().getInfoValueObjective() == null){
 				 parserEngine_.getSemanticModel().setInfoValueObjective( entry.getKey());
 			 }
 			 i++;

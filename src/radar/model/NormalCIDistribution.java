@@ -15,6 +15,8 @@ class NormalCIDistribution extends Distribution {
 	}
 	@Override
 	public double[] simulate(Alternative s) {
+	
+		isExpresionDistribution_ = true;
 		return  normalCIDistribution(a_,b_, N);
 	}
 }

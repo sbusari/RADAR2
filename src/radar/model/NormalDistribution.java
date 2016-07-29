@@ -7,16 +7,20 @@ class NormalDistribution extends Distribution{
 	public NormalDistribution(){
 		
 	}
+	public NormalDistribution(int simulation){
+		
+	}
 	public NormalDistribution(double mean, double sd, int simulation){
 		mean_ =mean;
 		sd_ =sd;
 		N= simulation;
 	}
-	double [] simulate (){
+	public double [] simulate (){
 		return  normalDistribution(mean_, sd_, N);
 	}
 	@Override
 	public double[] simulate(Alternative s) {
+		isExpresionDistribution_ = true;
 		return  normalCIDistribution(mean_,sd_, N);
 	}
 }

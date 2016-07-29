@@ -7,7 +7,10 @@ public class Alternative {
 	private Map<Decision, String> selection;
 	// added this cos during simulation, for an identifier expr e.g cost, we need to get the qv definition from this model.
 	private Model sematicModel;
+	// added this here to aid computation of evtpi
 	private String infoValueObj_;
+	// added this here to aid computation of evtpi
+	private Objective informationValueObjective_;
 	public String getOption (Decision d){
 		String option ="";
 		for (Map.Entry<Decision, String> entry:selection.entrySet() ){
@@ -34,11 +37,17 @@ public class Alternative {
 	public void setSemanticModel(Model model){
 		sematicModel =  model;
 	}
-	public String getInfoValueObjective (){
+	public String getInfoValueObjectiveName (){
 		return infoValueObj_;
 	}
-	public void setInfoValueObjective (String infoValueObj){
+	public void setInfoValueObjectiveName (String infoValueObj){
 		infoValueObj_ =  infoValueObj;
+	}
+	public Objective getInformationValueObjective (){
+		return informationValueObjective_;
+	}
+	public void setInformationValueObjective (Objective infoValueObj){
+		informationValueObjective_ =  infoValueObj;
 	}
 	public String selectionToString (){
 		String output = "";

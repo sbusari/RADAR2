@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 public class ModelConstructor {
@@ -104,6 +105,39 @@ public class ModelConstructor {
 		qv.setDefinition(qv_def.getExpression());
 		return qv;
 	}
+	public void addInformationValueParameters (List<String> infoParameters, Model m, String qv_name, Value qv_def){
+		if (infoParameters != null && infoParameters.contains(qv_name)){
+			if (qv_def.getExpression() instanceof Distribution){
+				double [] param = getExpressionDistribution(qv_def.getExpression());
+				m.addParameters(qv_name, param);
+			}else if (qv_def.getExpression() instanceof OR_Refinement){
+				Map<String, Expression> optionsExpr = ((OR_Refinement)qv_def.getExpression()).getDefinition();
+				for (Map.Entry<String, Expression> entry: optionsExpr.entrySet()){
+					if (entry.getValue() instanceof Distribution){
+						double [] param = getExpressionDistribution(entry.getValue());
+						m.addParameters(qv_name + "[" + entry.getKey() + "]", param);
+					}
+				}
+			}
+		}
+	}
+	private double [] getExpressionDistribution (Expression expr){
+		double [] result = new double [simulation];
+		if (expr instanceof NormalDistribution){
+			NormalDistribution nd = (NormalDistribution)expr;
+			result = nd.simulate();
+		}else if (expr instanceof NormalCIDistribution){
+			NormalCIDistribution ncid = (NormalCIDistribution)expr;
+			result =ncid.simulate();
+		}else if (expr instanceof TriangularDistribution){
+			TriangularDistribution trd = (TriangularDistribution)expr;
+			result =trd.simulate();
+		}else if (expr instanceof UniformDistribution){
+			UniformDistribution ud = (UniformDistribution)expr;
+			result =ud.simulate();
+		}
+		return result;
+	}
 	public  QualityVariable addDecisionsBeforeQualityVariable (QualityVariable qv, Map<String, Decision> precedingDecision){
 		Map<String, Decision> decision = new HashMap<String, Decision>(precedingDecision);
 		qv.setDecisionsBeforeVar(decision);
@@ -189,10 +223,36 @@ public class ModelConstructor {
 		numeric.setValue(decimalValue);
 		return new Value(numeric);
 	}
+	private void validateDistributionArgumentCount (Value distribution, List<Value> distributionArguments){
+		if (distributionArguments.size() != 0 && distribution.toString().equals(ParameterDistribution.RANDOM.toString()) ){
+			 throw new RuntimeException ("Only random distribution can have empty parameter list. Check the documentation for details.");
+		}else if (distributionArguments.size() != 1 && (distribution.toString().equals(ParameterDistribution.EXPONENTIAL.toString())
+				|| distribution.toString().equals(ParameterDistribution.GEOMETRIC.toString()) || distribution.toString().equals(ParameterDistribution.DETERMINISTIC.toString() ))){
+			throw new RuntimeException ("Only exponential, determistic and geometric distributions can have one parameter list. Check the documentation for details.");
+		}else if (distributionArguments.size() != 2 && (distribution.toString().equals(ParameterDistribution.NORMAL.toString())
+				|| distribution.toString().equals(ParameterDistribution.BINOMIAL.toString()) ||distribution.toString().equals(ParameterDistribution.UNIFORM.toString())
+				|| distribution.toString().equals(ParameterDistribution.NORMAL_CI.toString())) ){
+			throw new RuntimeException ("Only normal, uniform , normal_CI and binomial distributions can have two parameter list. Check the documentation for details.");
+		}else if (distributionArguments.size() != 3 && distribution.toString().equals(ParameterDistribution.TRIANGULAR.toString())){
+			throw new RuntimeException ("Distibution error: only triangualr distribution can have three parameter list. Check the documentation for details.");
+		}else{}
+	}
+	private void checkDistributionArgumentIsNumber (Value distribution, List<Value> distributionArguments){
+		if (distributionArguments != null && distributionArguments.size() >0){
+			for (int i =0; i < distributionArguments.size(); i ++){
+				try{
+					Double.parseDouble(distributionArguments.get(i).toString());
+				}catch (Exception e ){
+					throw new RuntimeException ("Arguments parameter for distribution " + distribution.toString() + " must be a number");
+				}
+			}
+		}
+	}
 	public  Value addDistribution (Value distribution, List<Value> distributionArguments){
 		Expression baseExpr =null;
+		validateDistributionArgumentCount(distribution,distributionArguments);
+		checkDistributionArgumentIsNumber(distribution,distributionArguments);
 		if (distribution.toString().equals(ParameterDistribution.NORMAL.toString())){
-			//TODO: check that the  distributionArguments.get(0) are instance of number expression.
 			double mean = distributionArguments.get(0).convertToDouble();
 			double sd = distributionArguments.get(1).convertToDouble();
 			baseExpr = new NormalDistribution(mean,sd,simulation);
@@ -212,6 +272,20 @@ public class ModelConstructor {
 		}else if (distribution.toString().equals(ParameterDistribution.DETERMINISTIC.toString())){
 			double value = distributionArguments.get(0).convertToDouble();
 			baseExpr = new DeterministicDistribution(value);
+		}
+		else if (distribution.toString().equals(ParameterDistribution.EXPONENTIAL.toString())){
+			double mean = distributionArguments.get(0).convertToDouble();
+			baseExpr = new ExponentialDistribution(mean,simulation);
+		}else if (distribution.toString().equals(ParameterDistribution.GEOMETRIC.toString())){
+			double prob = distributionArguments.get(0).convertToDouble();
+			baseExpr = new GeometricDistribution(prob,simulation);
+		}
+		else if (distribution.toString().equals(ParameterDistribution.BINOMIAL.toString())){
+			double trial = distributionArguments.get(0).convertToDouble();
+			double prob = distributionArguments.get(1).convertToDouble();
+			baseExpr = new BinomialDistribution((int)trial,prob, simulation);
+		}else if (distribution.toString().equals(ParameterDistribution.RANDOM.toString())){;
+			baseExpr = new RandomDistribution(simulation);
 		}
 		return new Value(baseExpr);
 	}

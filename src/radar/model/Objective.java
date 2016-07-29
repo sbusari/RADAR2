@@ -43,7 +43,9 @@ public class Objective {
 			double result  = definition_.evaluate(a, qualityVariable_);
 			value_.put(a, result);
 			return result;
-		}else if (!value_.containsKey(a)) {
+		}
+		//else if (!value_.containsKey(a)) {
+		else if (value_.get(a) == null) {
 			double result  = definition_.evaluate(a, qualityVariable_);
 			value_.put(a, result);
 			return result;

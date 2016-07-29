@@ -174,9 +174,9 @@ class InformationAnalysis {
             }
         }
 
-        if (!isStochastic) {
+       /* if (!isStochastic) {
             throw new ParameterNotSctochasticException("Input parameter is not stochastic.");
-        }
+        }*/
 
         int N = param.length;
         int d = NB.length;

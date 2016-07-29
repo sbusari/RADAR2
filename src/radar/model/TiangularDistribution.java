@@ -16,6 +16,7 @@ class TriangularDistribution extends Distribution {
 	}
 	@Override
 	public double[] simulate(Alternative s) {
+		isExpresionDistribution_ = true;
 		return  triangularDistribution(lower_,mode_, upper_, N);
 	}
 	

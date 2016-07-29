@@ -17,31 +17,28 @@ public class InformationValueAnalysis {
 
 	}
 	public double computeEVTPI (Objective infoValueObj, List<Alternative> allAlternative){
-		QualityVariable var = infoValueObj.getQualityVariable();
-		Map<Alternative, double[]> varSimData = var.getSimData();
-		Map<Alternative, double[]> alternativesSimData = new LinkedHashMap<Alternative,double[]> ();
-		for (Map.Entry<Alternative, double[]> entry:varSimData.entrySet() ){
-			if (entry.getKey().getInfoValueObjective().equals(var.getLabel())){
-				alternativesSimData.put(entry.getKey(), entry.getValue());
-			}
-			/*for (int i =0 ; i < allAlternative.size(); i ++){
-				if (entry.getKey().selectionToString().equals(allAlternative.get(i).selectionToString())){
-					alternativesSimData.put(allAlternative.get(i), entry.getValue());
-				}
-			}*/
-		}
+		Map<Alternative, double[]> alternativesSimData =getAlternativeSimData(infoValueObj);
 		double [][] simData = getSimData (alternativesSimData);
  		return InformationAnalysis.evpi(simData);
 	}
-
-	/*private double[][] getSimData(List<Alternative> allAlternative) {
-		double [][] simData = new double [allAlternative.size()][];
-		for (int i =0; i <  allAlternative.size() ; i ++){
-			simData[i] = allAlternative.get(i).getObjectiveSimData();
-			i++;
+	public double computeEVPPI (Objective infoValueObj, List<Alternative> allAlternative, double [] param){
+		Map<Alternative, double[]> alternativesSimData =getAlternativeSimData(infoValueObj);
+		double [][] simData = getSimData (alternativesSimData);
+ 		return InformationAnalysis.evppi(param, simData);
+	}
+	private Map<Alternative, double[]> getAlternativeSimData (Objective infoValueObj){
+		Map<Alternative, double[]> alternativesSimData = new LinkedHashMap<Alternative,double[]> ();
+		QualityVariable var = infoValueObj.getQualityVariable();
+		Map<Alternative, double[]> varSimData = var.getSimData();
+		for (Map.Entry<Alternative, double[]> entry:varSimData.entrySet() ){
+			// dis this check cos varSimData contains sim for all objective, had to get sim data for the objective we want.
+			if (entry.getKey().getInfoValueObjectiveName().equals(var.getLabel())
+					&& entry.getKey().getInformationValueObjective().getStatistic().equals(infoValueObj.getStatistic()) ){
+				alternativesSimData.put(entry.getKey(), entry.getValue());
+			}
 		}
-		return simData;
-	}*/
+		return alternativesSimData;
+	}
 	private double[][] getSimData(Map<Alternative, double[]> allAlternative) {
 		double [][] simData = new double [allAlternative.size()][];
 		int i =0;

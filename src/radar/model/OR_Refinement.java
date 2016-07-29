@@ -7,11 +7,19 @@ import java.util.Map;
 public class OR_Refinement extends Expression {
 	private Decision decision_;
 	private Map<String, Expression> definition_;
+	
 	public OR_Refinement(){}
 	@Override
 	public double[] simulate(Alternative s) {
 		String option = s.getOption(decision_);
 		Expression expr = definition_.get(option);
+		if (expr instanceof Distribution){
+			isExpresionDistribution_ = true;
+			parameterOption_ = option;
+		}
+		//check if expr is a distribution
+		// also in the distribution qv, we set this boolean value to true i there.
+		// set a field with option name and this name wil be used in QV that calls this
 		return expr.simulate(s);
 	}
 	public void setDecision (Decision decision){

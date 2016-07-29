@@ -2,6 +2,7 @@ package radar.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -65,14 +66,14 @@ public class ModelParsing {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testSemanicModel() throws Exception {
-		Parser model_parser = new Parser (modelString, 10000);
+		Parser model_parser = new Parser (modelString, 10000,new ArrayList<String>());
 		semantic_model = model_parser.getSemanticModel();
 		Assert.assertNotNull(semantic_model);
 	}
 	@SuppressWarnings("deprecation")
 	@Test
 	public void generateSolutions() throws Exception {
-		Parser model_parser = new Parser (modelString,10000);
+		Parser model_parser = new Parser (modelString,10000,new ArrayList<String>());
 		semantic_model = model_parser.getSemanticModel();
 		Map<String , Decision> decisions = semantic_model.getDecisions();
 		List<Alternative> allSolutions = AlternativeAnalyser.getAllAlternative(decisions) ;

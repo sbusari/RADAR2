@@ -1,5 +1,6 @@
 package radar.test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class ParserTest {
 		//String inputFile = "./subjectmodels/BSPDM2.gm"; 
 		//String inputFile = "./model/fitnessExpr.gm"; 
         String modelString = Helper.readFile(inputFile);
-		Parser testParser = new Parser (modelString,10000); 
+		Parser testParser = new Parser (modelString,10000,new ArrayList<String>()); 
 		Model semantic_model = testParser.getSemanticModel();
 		Map<String , Decision> decisions = semantic_model.getDecisions();
 		List<Alternative> allSolutions = AlternativeAnalyser.getAllAlternative(decisions);

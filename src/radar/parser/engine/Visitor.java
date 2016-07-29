@@ -31,9 +31,11 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	Map<String, Objective> obj_list;
 	Map<String, Decision> decision_list;
 	int simulationRun;
+	List<String> infoValueParameter;
 	ModelConstructor modelConstructor;
-	public Visitor(int simulation){
+	public Visitor(int simulation, List<String> infoValueParam){
 		simulationRun =simulation;
+		infoValueParameter = infoValueParam;
 	}
 	public Model getSemanticModel() {
 		return semanticModel;
@@ -45,6 +47,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		obj_list = new LinkedHashMap<String,Objective > ();
 		decision_list = new LinkedHashMap<String,Decision>();
 		obj_definitions = new LinkedHashMap<String, Value> ();
+		semanticModel = modelConstructor.createNewModel();
 		if (ctx.model_element() != null && ctx.model_element().size() > 0 ){
 			for (Model_elementContext modelElementContext : ctx.model_element()){
 				visit (modelElementContext);
@@ -52,14 +55,15 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		}else{
 			throw new RuntimeException ("Model cannot be empty.");
 		}
+		
+		
 		// need objective definition to get the quality variable an objective refers to
-		Model model = modelConstructor.createNewModel();
-		modelConstructor.addObjectivesToModel(model, obj_definitions, obj_list,qv_list );
-		modelConstructor.addQualityVariablesToModel(model, qv_list );
-		modelConstructor.addDecisionsToModel(model,decision_list);
-		modelConstructor.addModelName(model,ctx.var_name().getText());
-		modelConstructor.updateDecisionsAfterAllQualityVariables(model, decision_list);
-		semanticModel = model;
+		
+		modelConstructor.addObjectivesToModel(semanticModel, obj_definitions, obj_list,qv_list );
+		modelConstructor.addQualityVariablesToModel(semanticModel, qv_list );
+		modelConstructor.addDecisionsToModel(semanticModel,decision_list);
+		modelConstructor.addModelName(semanticModel,ctx.var_name().getText());
+		modelConstructor.updateDecisionsAfterAllQualityVariables(semanticModel, decision_list);
 		return new Value(null);
 	}
 	@Override 
@@ -123,6 +127,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		qv = modelConstructor.addQualityVariableExpression(qv, qv_name,qv_def);
 		qv_list.put(qv_name.toString(), qv);
 		qv =modelConstructor.updateCurrentQVWhenItDependsOnDecision(qv);
+		modelConstructor.addInformationValueParameters(infoValueParameter,semanticModel,qv_name,qv_def);
 		return new Value (qv);
 	}
 	@Override 
@@ -184,7 +189,6 @@ public class Visitor extends ModelBaseVisitor<Value> {
 				distributionArgument.add(visit(arg));
 			}
 		}
-		// TODO: do a check of the number of parameters and see if it tallies with the expected argument no for each.
 		Value param_def_expr =  modelConstructor.addDistribution(distribution, distributionArgument) ;
 		return param_def_expr;
 	}

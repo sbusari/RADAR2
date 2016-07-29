@@ -20,6 +20,9 @@ public class Model {
 	private String modelName_;
 	private Map<String, Objective> objectives_;
 	private Map<String, QualityVariable> qualityVariables_;
+	private Map<String, double []> parameters_;
+	// list param variables to be used in finding evppi.
+	private List<String> params_;
 	private Map<String, Decision> decisions_;
 	private List<Alternative> alternative_;
 	private Objective infoValueObjective_;
@@ -35,12 +38,25 @@ public class Model {
 		if (qualityVariables_ == null){
 			qualityVariables_ = new LinkedHashMap<String,QualityVariable >();
 			qualityVariables_.put(qv_name, qualityVariable);
+			
 		}else{
 			qualityVariables_.put(qv_name, qualityVariable);
 		}
 	}
 	public Map<String, QualityVariable> getQualityVariables(){
 		return qualityVariables_;
+	}
+	public void addParameters(String param_name, double [] parameter){
+		if (parameters_ == null){
+			parameters_ = new LinkedHashMap<String,double [] >();
+			parameters_.put(param_name, parameter);
+			
+		}else{
+			parameters_.put(param_name, parameter);
+		}
+	}
+	public Map<String, double []> getParameters(){
+		return parameters_;
 	}
 	public void addObjective(String obj_name, Objective objective){
 		if (objectives_ == null){
@@ -91,6 +107,12 @@ public class Model {
 	}
 	public int getSimulationNumber() {
 		return noOfSimulation_;
+	}
+	public void setParams(List<String> param) {
+		params_ = param;
+	}
+	public List<String> getParams() {
+		return params_;
 	}
 	
 	
