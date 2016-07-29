@@ -85,6 +85,7 @@ public class QualityVariable extends ArithmeticExpression {
 				subsolution.addDecision(d,option);
 			}
 		}
+		subsolution.setInfoValueObjective(s.getInfoValueObjective());
 		subsolution.setSemanticModel(s.getSemanticModel());
 		return subsolution;
 	}

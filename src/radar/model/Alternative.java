@@ -7,7 +7,7 @@ public class Alternative {
 	private Map<Decision, String> selection;
 	// added this cos during simulation, for an identifier expr e.g cost, we need to get the qv definition from this model.
 	private Model sematicModel;
-	private double[] objSimData;
+	private String infoValueObj_;
 	public String getOption (Decision d){
 		String option ="";
 		for (Map.Entry<Decision, String> entry:selection.entrySet() ){
@@ -34,11 +34,11 @@ public class Alternative {
 	public void setSemanticModel(Model model){
 		sematicModel =  model;
 	}
-	public double[] getObjectiveSimData (){
-		return objSimData;
+	public String getInfoValueObjective (){
+		return infoValueObj_;
 	}
-	public void setObjectiveSimData (double[] objSimData){
-		objSimData =  objSimData;
+	public void setInfoValueObjective (String infoValueObj){
+		infoValueObj_ =  infoValueObj;
 	}
 	public String selectionToString (){
 		String output = "";

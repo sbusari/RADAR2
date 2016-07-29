@@ -319,7 +319,7 @@ public class EmpiricalStudy extends Experiment {
 				allAlgorithmRunsshortlist. put(mainentry.getKey(),anAlgorithmShortlist );
 			}
 			
-			InformationValueAnalysis infoAnalysis = new InformationValueAnalysis(testParser.getSimulationRun());
+			InformationValueAnalysis infoAnalysis = new InformationValueAnalysis();
 			double infoValue = infoAnalysis.computeEVTPI(testParser.getSemanticModel().getInfoValueObjective(), testParser.getSemanticModel().getAlternative());
 			System.out.print("infor value is: "+ infoValue );
 			

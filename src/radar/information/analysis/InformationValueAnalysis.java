@@ -13,10 +13,7 @@ import radar.model.QualityVariable;
 
 public class InformationValueAnalysis {
 	
-	int sampleSize;
-	Model model;
-	public InformationValueAnalysis (int sampleNumber){
-		sampleSize = sampleNumber;
+	public InformationValueAnalysis (){
 
 	}
 	public double computeEVTPI (Objective infoValueObj, List<Alternative> allAlternative){
@@ -24,26 +21,29 @@ public class InformationValueAnalysis {
 		Map<Alternative, double[]> varSimData = var.getSimData();
 		Map<Alternative, double[]> alternativesSimData = new LinkedHashMap<Alternative,double[]> ();
 		for (Map.Entry<Alternative, double[]> entry:varSimData.entrySet() ){
-			for (int i =0 ; i < allAlternative.size(); i ++){
+			if (entry.getKey().getInfoValueObjective().equals(var.getLabel())){
+				alternativesSimData.put(entry.getKey(), entry.getValue());
+			}
+			/*for (int i =0 ; i < allAlternative.size(); i ++){
 				if (entry.getKey().selectionToString().equals(allAlternative.get(i).selectionToString())){
 					alternativesSimData.put(allAlternative.get(i), entry.getValue());
 				}
-			}
+			}*/
 		}
 		double [][] simData = getSimData (alternativesSimData);
  		return InformationAnalysis.evpi(simData);
 	}
 
-	private double[][] getSimData(List<Alternative> allAlternative) {
+	/*private double[][] getSimData(List<Alternative> allAlternative) {
 		double [][] simData = new double [allAlternative.size()][];
 		for (int i =0; i <  allAlternative.size() ; i ++){
 			simData[i] = allAlternative.get(i).getObjectiveSimData();
 			i++;
 		}
 		return simData;
-	}
+	}*/
 	private double[][] getSimData(Map<Alternative, double[]> allAlternative) {
-		double [][] simData = new double [allAlternative.size()][sampleSize];
+		double [][] simData = new double [allAlternative.size()][];
 		int i =0;
 		for (Map.Entry<Alternative, double[]> entry: allAlternative.entrySet()){
 			simData[i] = entry.getValue();

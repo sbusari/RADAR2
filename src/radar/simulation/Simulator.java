@@ -26,6 +26,7 @@ public class Simulator {
 		for (int i =0; i < objList.size(); i ++){
 			Objective obj = objList.get(i);
 			this.selectedAlternative.setSemanticModel(semanticModel);
+			this.selectedAlternative.setInfoValueObjective(obj.getQualityVariable().getLabel());
 			//double [] value = obj.getQualityVariable().simulate(this.selectedAlternative);
 			double value = obj.evaluate(this.selectedAlternative);
 			objectiveValues_.put(obj,value);
