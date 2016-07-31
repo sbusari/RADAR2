@@ -41,6 +41,25 @@ class BinaryExpression extends ArithmeticExpression {
 				case "/" : {
 					combinedSim[i] = leftSim[i] / rightSim[i];
 				};break;
+				case "||": {
+					combinedSim[i] = Math.max(leftSim[i] , rightSim[i]);
+				};break;
+				case "&&": {
+					combinedSim[i] = leftSim[i] * rightSim[i];
+				};break;
+				case "<": {
+					combinedSim[i] = leftSim[i] < rightSim[i] ? 1 : 0;
+				};break;
+				case ">": {
+					combinedSim[i] = leftSim[i] > rightSim[i] ? 1 : 0;
+				};break;
+				case "<=": {
+					combinedSim[i] = leftSim[i] <= rightSim[i] ? 1 : 0;
+				};break;
+				case ">=": {
+					combinedSim[i] = leftSim[i] <= rightSim[i] ? 1 : 0;
+				};break;
+				default : combinedSim[i] = leftSim[i] + rightSim[i];
 			}
 		}
 		return combinedSim;

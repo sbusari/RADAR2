@@ -20,7 +20,7 @@ public class Simulator {
 		this.selectedAlternative =selectedAlternative;
 		this.semanticModel = semanticModel;
 	}
-	public Map<Objective, Double> computeObjectiveValues (){
+/*	public Map<Objective, Double> computeObjectiveValues (){
 		objectiveValues_ = new LinkedHashMap<Objective, Double>();
 		List<Objective> objList = new ArrayList<Objective>(this.semanticModel.getObjectives().values());
 		for (int i =0; i < objList.size(); i ++){
@@ -32,6 +32,28 @@ public class Simulator {
 			double value = obj.evaluate(this.selectedAlternative);
 			objectiveValues_.put(obj,value);
 		}
+		return objectiveValues_;
+	}*/
+	public Map<Objective, Double> computeObjectiveValues (){
+		objectiveValues_ = new LinkedHashMap<Objective, Double>();
+		this.selectedAlternative.setSemanticModel(semanticModel);
+		List<Objective> objList = new ArrayList<Objective>(this.semanticModel.getObjectives().values());
+		for (int i =0; i < objList.size(); i ++){
+			Objective obj = objList.get(i);
+			// if they have same name and same statistic definition.
+			if (semanticModel.getInfoValueObjectiveName().equals(obj.getQualityVariable().getLabel())
+					&& semanticModel.getInfoValueObjective().getStatistic().getObjExpression().getClass().equals(obj.getStatistic().getObjExpression().getClass())){	
+				this.selectedAlternative.setInfoValueObjectiveName(obj.getQualityVariable().getLabel());
+				this.selectedAlternative.setInformationValueObjective(semanticModel.getInfoValueObjective());
+			}
+			// set this to to know if an alternative has already been simulated for a particular objective.
+			this.selectedAlternative.setCurrentSimulatedObjective(obj);
+			double value = obj.evaluate(this.selectedAlternative);
+			// set the alternative infoValueOb so that if the next objective also has it willbe updated back to prevent carrying on for all obejectives
+			this.selectedAlternative.setInformationValueObjective(null);
+			objectiveValues_.put(obj,value);
+		}
+		this.selectedAlternative.setInformationValueObjective(semanticModel.getInfoValueObjective());
 		return objectiveValues_;
 	}
 	

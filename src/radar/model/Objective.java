@@ -7,12 +7,21 @@ import java.util.List;
 import java.util.Map;
 
 public class Objective {
+	private double margin_;
 	private boolean isMinimisation_;
 	private String label_;
 	private QualityVariable qualityVariable_;
 	private Statistic definition_;
 	private Map<Alternative, Double> value_;
 	public Objective(){}
+	public Objective (Objective o){
+		isMinimisation_ = o.getIsMinimisation();
+		label_ = o.getLabel();
+		qualityVariable_ = o.getQualityVariable();
+		definition_ =o.getStatistic();
+		margin_ = o.getMargin();
+		
+	}
 	public void setIsMinimisation(boolean isMinimisation ){
 		isMinimisation_ =isMinimisation;
 	}
@@ -24,6 +33,12 @@ public class Objective {
 	}
 	public String getLabel (){
 		return label_;
+	}
+	public void setMargin(double margin ){
+		margin_ =margin;
+	}
+	public double getMargin (){
+		return margin_;
 	}
 	public void setQualityVariable(QualityVariable qualityVariable ){
 		qualityVariable_ =qualityVariable;
@@ -44,7 +59,6 @@ public class Objective {
 			value_.put(a, result);
 			return result;
 		}
-		//else if (!value_.containsKey(a)) {
 		else if (value_.get(a) == null) {
 			double result  = definition_.evaluate(a, qualityVariable_);
 			value_.put(a, result);
@@ -53,5 +67,12 @@ public class Objective {
 		else{
 			return value_.get(a);
 		}
+	}
+	@Override
+	public int hashCode (){
+		if (qualityVariable_ == null){
+			return 0;
+		}
+		return qualityVariable_.hashCode();
 	}
 }

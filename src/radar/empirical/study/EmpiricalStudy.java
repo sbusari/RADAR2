@@ -32,7 +32,7 @@ import radar.jmetal.approximate.algorithm.RandomSearch_Settings;
 import radar.jmetal.approximate.algorithm.SPEA2_Settings;
 import radar.jmetal.core.Algorithm;
 import radar.jmetal.core.Problem;
-import radar.jmetal.exact.algorithm.exhaustiveSearch_Settings;
+import radar.jmetal.exact.algorithm.ExhaustiveSearch_Settings;
 import radar.jmetal.experiments.Experiment;
 import radar.jmetal.experiments.Settings;
 import radar.jmetal.experiments.util.Friedman;
@@ -85,7 +85,7 @@ public class EmpiricalStudy extends Experiment {
 			for (int i = 0; i < numberOfAlgorithms; i++) {
 				switch (this.algorithmNameList_[i]) {
 				case "ExhaustiveSearch": {
-					algorithm[i] = new exhaustiveSearch_Settings(problemName,
+					algorithm[i] = new ExhaustiveSearch_Settings(problemName,
 							solutionType, goalParserEngine, problem, alternativesObjectiveAndDecisionsPath)
 							.configure(parameters[i]);
 					break;
@@ -179,8 +179,6 @@ public class EmpiricalStudy extends Experiment {
 			
 			// set the type of optimisation, whether exact, approximate or both.
 			exp.optimisationType_ = optimisationType;
-			// set up experiment by parsing the decision model and store in
-			// memory, and read configurations settings.
 			
 			try {
 				
@@ -302,9 +300,8 @@ public class EmpiricalStudy extends Experiment {
 				}
 				solutionDetailsForEachRun.put(i, solutionDetailsPerAlg);
 			}
-			
-			
-			Parser testParser = null;
+			Parser parser = null;
+			InformationValueAnalysis infoAnalysis = null;
 			// first index is run, second index is algorithm and value is shortlist
 			LinkedHashMap<Integer, LinkedHashMap<String,LinkedHashMap<String, List<ArrayList<String>>>>> allAlgorithmRunsshortlist = new LinkedHashMap<Integer, LinkedHashMap<String,LinkedHashMap<String, List<ArrayList<String>>>>>(); 
 			//int i =0;
@@ -312,32 +309,13 @@ public class EmpiricalStudy extends Experiment {
 				//int j= 0;
 				LinkedHashMap<String,LinkedHashMap<String, List<ArrayList<String>>>> anAlgorithmShortlist = new LinkedHashMap<String,LinkedHashMap<String, List<ArrayList<String>>>>();
 				for (Map.Entry<String,SolutionDetail> entry : mainentry.getValue().entrySet()){
-					
-					testParser = entry.getValue().getGoalModelParserEngine();
-					LinkedHashMap<String, List<ArrayList<String>>> shortlist = AlternativeAnalyser.getShortlist (entry.getValue(), entry.getKey(),mainentry.getKey());
-				
+					parser = entry.getValue().getGoalModelParserEngine();
+				    infoAnalysis = new InformationValueAnalysis(parser.getSemanticModel().getSimulationNumber());
+				    infoAnalysis.performInformationAnalysis(parser.getSemanticModel(),entry.getValue().getNonDominatedSolutions());
+				    LinkedHashMap<String, List<ArrayList<String>>> shortlist = AlternativeAnalyser.getShortlist (entry.getValue(), entry.getKey(),mainentry.getKey());
 					anAlgorithmShortlist.put(entry.getKey(),shortlist);
 				}
 				allAlgorithmRunsshortlist. put(mainentry.getKey(),anAlgorithmShortlist );
-			}
-			
-			InformationValueAnalysis infoAnalysis = new InformationValueAnalysis();
-			double infoValue = infoAnalysis.computeEVTPI(testParser.getSemanticModel().getInfoValueObjective(), testParser.getSemanticModel().getAlternative());
-			System.out.println("evtpi value is: "+ infoValue );
-			
-			Map<String, double[]> paramsdata =testParser.getSemanticModel().getParameters();
-			for (Map.Entry<String, double[]> entry: paramsdata.entrySet()){
-				double evppi = infoAnalysis.computeEVPPI(testParser.getSemanticModel().getInfoValueObjective(), testParser.getSemanticModel().getAlternative(), entry.getValue());
-				System.out.println("evppi for "+ entry.getKey()+ " is "+ evppi );
-			}
-			List<String> params = testParser.getSemanticModel().getParams();
-			for (int i =0; i < params.size(); i ++){
-				QualityVariable qv =  testParser.getSemanticModel().getQualityVariables().get(params.get(i));
-				Map<String, double[]> paramSimData = qv.getParameterSimData();
-				for (Map.Entry<String, double[]> entry: paramSimData.entrySet()){
-					double evppi = infoAnalysis.computeEVPPI(testParser.getSemanticModel().getInfoValueObjective(), testParser.getSemanticModel().getAlternative(), entry.getValue());
-					System.out.println("evppi for "+ entry.getKey()+ " is "+ evppi );
-				}
 			}
 			
 		}catch (IndexOutOfBoundsException e){
@@ -351,6 +329,8 @@ public class EmpiricalStudy extends Experiment {
 		}
 		
 	} // main
+	
+
 
 	public void setUp(String modelFilePath, String typeOfOptimisation, String infoValueObj, List<String> params) throws Exception ,ModelException, RuntimeException, InterruptedException {
 		this.modelFilePath = modelFilePath; 
@@ -358,10 +338,11 @@ public class EmpiricalStudy extends Experiment {
 		OptimisationType optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
 		
 		String model = readFile(modelFilePath);
-		this.goalParserEngine = new Parser (model,ConfigSetting.NUMBER_OF_SIMULATION,params);
+		this.goalParserEngine = new Parser (model,ConfigSetting.NUMBER_OF_SIMULATION,infoValueObj);
 		if (!typeOfOptimisation.equals("EXACT")){
 			this.algorithmParameter = new AlgorithmParameter().getParameterSettings(goalParserEngine);		
 		}
+		this.goalParserEngine.getSemanticModel().setSimulationNumber(ConfigSetting.NUMBER_OF_SIMULATION);
 		this.goalParserEngine.getSemanticModel().setInfoValueObjectiveName(infoValueObj);
 		// need  to remove params from model at this point.
 		this.goalParserEngine.getSemanticModel().setParams(params);
@@ -394,7 +375,7 @@ public class EmpiricalStudy extends Experiment {
 		
 		OptimisationType optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
 		
-		this.goalParserEngine = new Parser(modelString,ConfigSetting.NUMBER_OF_SIMULATION, new ArrayList<String>());
+		this.goalParserEngine = new Parser(modelString,ConfigSetting.NUMBER_OF_SIMULATION, "");
 		this.goalParserEngine.getSemanticModel().setSimulationNumber(expdata.getSimulationNumber());
 		//this.goalParserEngine.getSemanticModel().setInfoValueObjective(infoValueObj);
 		this.algorithmParameter = new AlgorithmParameter(goalParserEngine,expdata);

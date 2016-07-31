@@ -9,18 +9,18 @@ import radar.jmetal.util.JMException;
 import radar.jmetal.util.ProblemFactory;
 import radar.model.Parser;
 
-public class exhaustiveSearch_Settings extends Settings {
+public class ExhaustiveSearch_Settings extends Settings {
 	Parser parserEngine_;
 	public String alternativesObjectiveAndDecisionsPath_;
-	public exhaustiveSearch_Settings(){
+	public ExhaustiveSearch_Settings(){
 		
 	}
-	public exhaustiveSearch_Settings(String problemName, String solutionType,
+	public ExhaustiveSearch_Settings(String problemName, String solutionType,
 			Parser goalParserEngine,Problem problem) {
 		parserEngine_= goalParserEngine;
 		problem_ = problem;	    
 	}
-	public exhaustiveSearch_Settings(String problemName, String solutionType,
+	public ExhaustiveSearch_Settings(String problemName, String solutionType,
 			Parser goalParserEngine,Problem problem, String alternativesObjectiveAndDecisionsPath ) {
 		parserEngine_= goalParserEngine;
 		problem_ = problem;	
@@ -34,7 +34,7 @@ public class exhaustiveSearch_Settings extends Settings {
 	*/
 	public Algorithm configure() throws JMException {
 		Algorithm algorithm ;
-		algorithm = new exhaustiveSearch(problem_,parserEngine_ ,alternativesObjectiveAndDecisionsPath_ ) ;
+		algorithm = new ExhaustiveSearch(problem_,parserEngine_ ,alternativesObjectiveAndDecisionsPath_ ) ;
 		return algorithm ;
 	} // configure
 	
@@ -46,7 +46,7 @@ public class exhaustiveSearch_Settings extends Settings {
 	public Algorithm configure(Properties configuration) throws JMException {
 	
 		Algorithm algorithm ;
-		algorithm = new exhaustiveSearch(problem_,parserEngine_  ) ;
+		algorithm = new ExhaustiveSearch(problem_,parserEngine_  ) ;
 		return algorithm ;
 	}
 

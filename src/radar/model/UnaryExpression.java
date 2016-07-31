@@ -29,6 +29,9 @@ class UnaryExpression extends Expression {
 					case "-" : {
 						expr[i] =-1* expr[i];
 					}; break;
+					case "!" : {
+						expr[i] =1 - expr[i];
+					}; break;
 					default : expr[i] = expr[i];
 				}
 			}

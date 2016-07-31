@@ -133,9 +133,9 @@ public class AlternativeAnalyser {
 		 }
 		 return solutionsDecisionVector;
 	}
-	public static List<Alternative> getAllAlternative(Map<String, Decision> decisions){
-		List<Alternative> solutions = new ArrayList<Alternative>();
-		List<Decision> allDecisions = new ArrayList<Decision>(decisions.values());
+	public static ArrayList<Alternative> getAllAlternative(Map<String, Decision> decisions){
+		ArrayList<Alternative> solutions = new ArrayList<Alternative>();
+		ArrayList<Decision> allDecisions = new ArrayList<Decision>(decisions.values());
 		ArrayList<Integer[]> selectedOptionIndices = generateSelectedOptionIndices (decisions);
 		String print = "";
 		for (int i =0; i <selectedOptionIndices.size(); i++ ){
@@ -189,6 +189,7 @@ public class AlternativeAnalyser {
 				 }
 			 }
 			 result.addDecision(decisionList.get(i), selectedOption);
+			 result.addDecisionToGlobalSelection(decisionList.get(i), selectedOption);
 		}
 		
 		return result;

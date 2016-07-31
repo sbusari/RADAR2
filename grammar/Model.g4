@@ -6,8 +6,9 @@ model 						:'Model' var_name  ';' NEWLINE* (model_element)*
 model_element				: objective_decl+ 								#modelObjectiveList
 							| quality_var_decl+								#modelQualityVariableList
 							;
+
 																
-objective_decl				:'Objective' optimisationDirection  var_name ('=' objective_def)? ';' NEWLINE* ;			
+objective_decl				:'Objective' optimisationDirection  var_name ('=' objective_def)? ('with' number 'margin')? ';' NEWLINE* ;			
 
 objective_def				:'E'SINGLESPACE* '(' var_name ')' 													#objectiveExpectation
 							|'P'SINGLESPACE* '(' var_name ')' 													#objectiveBooleanProbability
@@ -56,9 +57,8 @@ distribution_args 			: distribution_arg ( ',' distribution_arg ) *  ;
 // used expessio to cater for e.g. normal(10^6*5, 50)
 distribution_arg 			: arithmetic_expr
 							;	
-
-																									
-arithmetic_expr				: atomicExpression 																													#exprAtomicExpression
+																							
+arithmetic_expr				: number 																															#exprNumber
 							|<assoc=right> arithmetic_expr '^' arithmetic_expr																					#exprPower
 							| '(' arithmetic_expr ')'																											#exprBracket						
 							| arithmetic_expr (NEWLINE|WS)* '/' (NEWLINE|WS)* arithmetic_expr 																	#exprDiv
@@ -80,7 +80,7 @@ comparision					:var_name relationalOp=comparator var_name 											#compareVa
 							;																					
 
 							
-atomicExpression			: integerLiteral												    #atomicInteger
+number			: integerLiteral												    #atomicInteger
     						| FloatingPointLiteral												#atomicFloat
 							| DecimalLiteral													#atomicDecimal
     						;

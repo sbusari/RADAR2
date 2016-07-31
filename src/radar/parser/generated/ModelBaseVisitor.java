@@ -192,7 +192,7 @@ public class ModelBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExprAtomicExpression(ModelParser.ExprAtomicExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExprNumber(ModelParser.ExprNumberContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

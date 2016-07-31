@@ -13,13 +13,12 @@ public class OR_Refinement extends Expression {
 	public double[] simulate(Alternative s) {
 		String option = s.getOption(decision_);
 		Expression expr = definition_.get(option);
-		if (expr instanceof Distribution){
+		//check if expr is a distribution, set this boolean value to true i there.
+		// set a field with option name and this name wil be used in QV that calls this
+		if (expr instanceof Distribution && !(expr instanceof DeterministicDistribution)){
 			isExpresionDistribution_ = true;
 			parameterOption_ = option;
 		}
-		//check if expr is a distribution
-		// also in the distribution qv, we set this boolean value to true i there.
-		// set a field with option name and this name wil be used in QV that calls this
 		return expr.simulate(s);
 	}
 	public void setDecision (Decision decision){

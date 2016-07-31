@@ -31,11 +31,11 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	Map<String, Objective> obj_list;
 	Map<String, Decision> decision_list;
 	int simulationRun;
-	List<String> infoValueParameter;
+	String infoValueObjectiveName;
 	ModelConstructor modelConstructor;
-	public Visitor(int simulation, List<String> infoValueParam){
+	public Visitor(int simulation, String infoValueObjName ){
 		simulationRun =simulation;
-		infoValueParameter = infoValueParam;
+		infoValueObjectiveName= infoValueObjName;
 	}
 	public Model getSemanticModel() {
 		return semanticModel;
@@ -59,7 +59,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		
 		// need objective definition to get the quality variable an objective refers to
 		
-		modelConstructor.addObjectivesToModel(semanticModel, obj_definitions, obj_list,qv_list );
+		modelConstructor.addObjectivesToModel(semanticModel, obj_definitions, obj_list,qv_list, infoValueObjectiveName );
 		modelConstructor.addQualityVariablesToModel(semanticModel, qv_list );
 		modelConstructor.addDecisionsToModel(semanticModel,decision_list);
 		modelConstructor.addModelName(semanticModel,ctx.var_name().getText());
@@ -88,6 +88,11 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		}
 		String obj_opt_direction = ctx.optimisationDirection().getText();
 		Objective obj = modelConstructor.createNewObjective(obj_name,obj_opt_direction);
+		// set model infovalueObj if the objective name equal info value obj
+		if (ctx.number() != null){
+			Value margin = visit (ctx.number());
+			obj.setMargin(margin.convertToDouble());
+		}
 		obj_definitions.put(obj_name, obj_def);
 		obj_list.put(obj_name, obj);
 		return new Value(obj);
@@ -127,7 +132,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		qv = modelConstructor.addQualityVariableExpression(qv, qv_name,qv_def);
 		qv_list.put(qv_name.toString(), qv);
 		qv =modelConstructor.updateCurrentQVWhenItDependsOnDecision(qv);
-		modelConstructor.addInformationValueParameters(infoValueParameter,semanticModel,qv_name,qv_def);
+		modelConstructor.addInformationValueParameters(semanticModel,qv_name,qv_def);
 		return new Value (qv);
 	}
 	@Override 
@@ -337,8 +342,8 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		Value value = modelConstructor.addNumberExpression(String.valueOf(percentValue) );
 		return value;
 	}
-	@Override public Value visitExprAtomicExpression(ModelParser.ExprAtomicExpressionContext ctx) {
-		Value atomicExpr = visit(ctx.atomicExpression());
+	@Override public Value visitExprNumber(ModelParser.ExprNumberContext ctx) {
+		Value atomicExpr = visit(ctx.number());
 		return atomicExpr;
 	}
 	@Override 

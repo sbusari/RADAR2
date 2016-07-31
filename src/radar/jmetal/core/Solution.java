@@ -66,11 +66,19 @@ public class Solution implements Serializable,Cloneable {
    * Stores the composite solution or alternative.
    */
   private CompositeVariable compositeMultiVariable_ ;
-
+  /**
+   * Stores alternative that has selected options
+   */
+  private Alternative alternative_ ;
   /**
    * Stores the objectives values of the solution.
    */
   private final double [] objective_ ;
+  
+  /**
+   * Stores the objective margins
+   */
+  private final double [] margin_ ;
 
   /**
    * Stores the number of objective values of the solution
@@ -146,6 +154,7 @@ public class Solution implements Serializable,Cloneable {
     decisionMultiVariable_ 		  = new ArrayList<Variable[]>();
     decisionSubsetMultiVariable_  = new ArrayList<Variable[]>();
     objective_                    = null ;
+    margin_						 = null;
   } // Solution
 
   /**
@@ -158,6 +167,7 @@ public class Solution implements Serializable,Cloneable {
   public Solution(int numberOfObjectives) {
     numberOfObjectives_ = numberOfObjectives;
     objective_          = new double[numberOfObjectives];
+    margin_				= new double[numberOfObjectives];
   }
   /**
    * This constructor is used mainly to read decision vector values from a file to
@@ -168,6 +178,7 @@ public class Solution implements Serializable,Cloneable {
   public Solution(int numberOfObjectives, String decisionVector) {
 	    numberOfObjectives_ = numberOfObjectives;
 	    objective_          = new double[numberOfObjectives];
+	    margin_          = new double[numberOfObjectives];
 	    decisionVariables_ = decisionVector;
   }
   
@@ -181,6 +192,7 @@ public class Solution implements Serializable,Cloneable {
     type_ = problem.getSolutionType() ;
     numberOfObjectives_ = problem.getNumberOfObjectives() ;
     objective_          = new double[numberOfObjectives_] ;
+    margin_          = new double[numberOfObjectives_] ;
 
     // Setting initial values
     fitness_              = 0.0 ;
@@ -219,7 +231,7 @@ public class Solution implements Serializable,Cloneable {
   	type_ = problem.getSolutionType() ;
     numberOfObjectives_ = problem.getNumberOfObjectives() ;
     objective_          = new double[numberOfObjectives_] ;
-
+    margin_          = new double[numberOfObjectives_] ;
     // Setting initial values
     fitness_              = 0.0 ;
     kDistance_            = 0.0 ;
@@ -284,8 +296,12 @@ public class Solution implements Serializable,Cloneable {
 
     numberOfObjectives_ = solution.getNumberOfObjectives();
     objective_ = new double[numberOfObjectives_];
+    margin_ = new double[numberOfObjectives_];
     for (int i = 0; i < objective_.length;i++) {
       objective_[i] = solution.getObjective(i);
+    } // for
+    for (int i = 0; i < objective_.length;i++) {
+    	margin_[i] = solution.getMargin(i);
     } // for
     //<-
     
@@ -346,7 +362,7 @@ public class Solution implements Serializable,Cloneable {
 	    type_ = problem.getSolutionType() ;
 	    numberOfObjectives_ = problem.getNumberOfObjectives() ;
 	    objective_          = new double[numberOfObjectives_] ;
-
+	    margin_          = new double[numberOfObjectives_] ;
 	    // Setting initial values
 	    fitness_              = 0.0 ;
 	    kDistance_            = 0.0 ;
@@ -366,6 +382,7 @@ public class Solution implements Serializable,Cloneable {
 	    type_ = problem.getSolutionType() ;
 	    numberOfObjectives_ = problem.getNumberOfObjectives() ;
 	    objective_          = new double[numberOfObjectives_] ;
+	    margin_          = new double[numberOfObjectives_] ;
 
 	    // Setting initial values
 	    fitness_              = 0.0 ;
@@ -481,6 +498,10 @@ public class Solution implements Serializable,Cloneable {
   public void setObjective(int i, double value) {
     objective_[i] = value;
   } // setObjective
+  
+  public void setMargin(int i, double value) {
+	 margin_[i] = value;
+  } // setObjective
 
   /**
    * Returns the value of the i-th objective.
@@ -489,6 +510,10 @@ public class Solution implements Serializable,Cloneable {
   public double getObjective(int i) {
     return objective_[i];
   } // getObjective
+
+  public double getMargin(int i) {
+	    return margin_[i];
+  } // getMargin
 
   /**
    * Returns the number of objectives.
@@ -758,6 +783,12 @@ public class Solution implements Serializable,Cloneable {
   } // setBitVectorVariables
   public String getAlternativeInStringForm (){
 	  return  alternativeInStringForm_;
+  }
+  public Alternative getAlternative (){
+	  return alternative_;
+  }
+  public void setAlternative (Alternative a){
+	   alternative_ = a;
   }
 
 } // Solution

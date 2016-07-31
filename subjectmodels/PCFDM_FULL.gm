@@ -2,7 +2,7 @@ Model PCFDM ;
 
 //This model is a fraud detection model
 
-Objective Min FinancialLoss = E(FinLoss);
+Objective Min FinancialLoss = E(FinLoss) with 50000 margin;
 
 FinLoss =AverageFraudValue* NbrCompromisedAccounts*NbrFraudPerAccountBeforeBlocked;
 
@@ -52,7 +52,7 @@ BatchAlertThreshold = decision("threshold level"){
 	"low"    : deterministic(0.75);
 }
 
-Objective Min InvestigationCost = E(InvestCost);
+Objective Min InvestigationCost = E(InvestCost) with 50000 margin;
 
 InvestCost = NbrAlerts * CostPerAlert; 
     

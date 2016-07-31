@@ -290,17 +290,17 @@ public interface ModelListener extends ParseTreeListener {
 	 */
 	void exitExprMult(ModelParser.ExprMultContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code exprAtomicExpression}
+	 * Enter a parse tree produced by the {@code exprNumber}
 	 * labeled alternative in {@link ModelParser#arithmetic_expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterExprAtomicExpression(ModelParser.ExprAtomicExpressionContext ctx);
+	void enterExprNumber(ModelParser.ExprNumberContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code exprAtomicExpression}
+	 * Exit a parse tree produced by the {@code exprNumber}
 	 * labeled alternative in {@link ModelParser#arithmetic_expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitExprAtomicExpression(ModelParser.ExprAtomicExpressionContext ctx);
+	void exitExprNumber(ModelParser.ExprNumberContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code exprCompare}
 	 * labeled alternative in {@link ModelParser#arithmetic_expr}.
@@ -435,37 +435,37 @@ public interface ModelListener extends ParseTreeListener {
 	void exitCompareExpression(ModelParser.CompareExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code atomicInteger}
-	 * labeled alternative in {@link ModelParser#atomicExpression}.
+	 * labeled alternative in {@link ModelParser#number}.
 	 * @param ctx the parse tree
 	 */
 	void enterAtomicInteger(ModelParser.AtomicIntegerContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code atomicInteger}
-	 * labeled alternative in {@link ModelParser#atomicExpression}.
+	 * labeled alternative in {@link ModelParser#number}.
 	 * @param ctx the parse tree
 	 */
 	void exitAtomicInteger(ModelParser.AtomicIntegerContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code atomicFloat}
-	 * labeled alternative in {@link ModelParser#atomicExpression}.
+	 * labeled alternative in {@link ModelParser#number}.
 	 * @param ctx the parse tree
 	 */
 	void enterAtomicFloat(ModelParser.AtomicFloatContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code atomicFloat}
-	 * labeled alternative in {@link ModelParser#atomicExpression}.
+	 * labeled alternative in {@link ModelParser#number}.
 	 * @param ctx the parse tree
 	 */
 	void exitAtomicFloat(ModelParser.AtomicFloatContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code atomicDecimal}
-	 * labeled alternative in {@link ModelParser#atomicExpression}.
+	 * labeled alternative in {@link ModelParser#number}.
 	 * @param ctx the parse tree
 	 */
 	void enterAtomicDecimal(ModelParser.AtomicDecimalContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code atomicDecimal}
-	 * labeled alternative in {@link ModelParser#atomicExpression}.
+	 * labeled alternative in {@link ModelParser#number}.
 	 * @param ctx the parse tree
 	 */
 	void exitAtomicDecimal(ModelParser.AtomicDecimalContext ctx);

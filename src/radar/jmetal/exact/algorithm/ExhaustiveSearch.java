@@ -17,8 +17,9 @@ import radar.jmetal.core.SolutionSet;
 import radar.jmetal.util.JMException;
 import radar.jmetal.util.comparators.DominanceComparator;
 
-public class exhaustiveSearch extends Algorithm  {
+public class ExhaustiveSearch extends Algorithm  {
 	 
+	 static double margin_ = 0;
 	 int maxEvaluation_;
 	 Parser parserEngine_;
 	 List<Alternative> alternatives_;
@@ -33,16 +34,17 @@ public class exhaustiveSearch extends Algorithm  {
 	   * Constructor
 	   * @param problem Problem to solve
 	   */
-	  public exhaustiveSearch(Problem problem) {
+	  public ExhaustiveSearch(Problem problem) {
 	    super (problem) ;
 		
 	  }
-	  public exhaustiveSearch (Problem problem, Parser parserEngine){
+	  public ExhaustiveSearch (Problem problem, Parser parserEngine){
 		  super (problem) ;
 		  parserEngine_= parserEngine;
 		  alternatives_ = getAllAlternatives(parserEngine);
+		  //margin_ = parserEngine_;
 	  }
-	  public exhaustiveSearch (Problem problem, Parser parserEngine,String alternativesObjectiveAndDecisionsPath){
+	  public ExhaustiveSearch (Problem problem, Parser parserEngine,String alternativesObjectiveAndDecisionsPath){
 		  super (problem) ;
 		  parserEngine_= parserEngine;
 		  alternatives_ = getAllAlternatives(parserEngine);
@@ -84,8 +86,8 @@ public class exhaustiveSearch extends Algorithm  {
 			}
 			return exactolutions;
 		}
-	  private List<Alternative> getAllAlternatives (Parser parserEngine){
-		List<Alternative> results = AlternativeAnalyser.getAllAlternative(parserEngine.getSemanticModel().getDecisions());
+	  private ArrayList<Alternative> getAllAlternatives (Parser parserEngine){
+		ArrayList<Alternative> results = AlternativeAnalyser.getAllAlternative(parserEngine.getSemanticModel().getDecisions());
 		return results;
 	  }
 	  // decision block in the sense that it is initialised to zero. shows the structure of the decision block.
@@ -127,6 +129,7 @@ public class exhaustiveSearch extends Algorithm  {
 				char [] optionsForDecisionAtIndexI =  decisionsInBitForm.get(i);
 				optionsForDecisionAtIndexI[optionPositionIndexInDecision]='1';
 				decisionsInBitForm.set(i,optionsForDecisionAtIndexI);
+				i++;
 			}	
 	  }
 	  public SolutionDetail exactParetoSet (Parser parserEngine, Problem problem ) throws ClassNotFoundException, JMException{

@@ -1,10 +1,9 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 public class ModelConstructor {
@@ -16,7 +15,26 @@ public class ModelConstructor {
 	public  Model createNewModel (){
 		return Model.getInstance();
 	}
-	 void addModelObjective (Model model, String obj_name, Objective objective){
+	void addModelInfoValueObjective (Model model, String obj_name, Objective objective, String infoValueObjName){
+		List<Objective> infoValueObjectiveList = new ArrayList<Objective>();
+		for (Map.Entry<String, Objective> entry : model.getObjectives().entrySet()){
+			if (entry.getValue().getQualityVariable().getLabel().equals(infoValueObjName)){
+				infoValueObjectiveList.add(entry.getValue());
+			}
+		}
+		if (infoValueObjectiveList != null && infoValueObjectiveList.size() == 1){
+			model.setInfoValueObjective(infoValueObjectiveList.get(0));
+		}else if (infoValueObjectiveList != null && infoValueObjectiveList.size() > 1){
+			for (int i =0; i < infoValueObjectiveList.size(); i ++){
+				if (infoValueObjectiveList.get(i).getStatistic() instanceof Expectation){
+					model.setInfoValueObjective(infoValueObjectiveList.get(i));
+					return;
+				}
+			}
+		}
+		
+	}
+	void addModelObjective (Model model, String obj_name, Objective objective, String infoValueObjName){
 		model.addObjective(obj_name, objective);
 	}
 	 void addModelQualityVariable(Model model, String qv_name, QualityVariable qualityVariable){
@@ -51,17 +69,22 @@ public class ModelConstructor {
 					if (decisionBefore == false){
 						// add decision after to qv
 						entry.getValue().addDecisionsAfterVar(decisionEntry.getKey(), decisionEntry.getValue());
-						
 					}
-					
 				}
 				
 			}
+			if (entry.getValue().getDecisionsAfterVar() == null || entry.getValue().getDecisionsAfterVar().size() <= 0){
+				if (entry.getValue().getDefinition() instanceof OR_Refinement){
+					Decision d = ((OR_Refinement)entry.getValue().getDefinition()).getDecision();
+					entry.getValue().addDecisionsAfterVar(d.getDecisionLabel(), d);
+				}
+			}
+			
 			
 		}
 		return model;
 	}
-	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist){
+	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist, String infoValueObjName){
 		for (Map.Entry<String, Objective> entry: obj_list.entrySet()){
 			Value obj = obj_definition.get(entry.getKey());
 			Objective modelObj = entry.getValue();
@@ -87,12 +110,9 @@ public class ModelConstructor {
 					//add Objective Quality Variable ReferedTo
 					modelObj.setQualityVariable(qvlist.get(((Identifier)binaryExpr.getLeftExpression()).getID()));
 				}
-				//add Objective Quality Variable ReferedTo
-				/*if ((binaryExpr.getRightExpression() instanceof Identifier)){
-					modelObj.addQualityVariable(qvlist.get(((Identifier)binaryExpr.getRightExpression()).getID()));
-				}*/
 			}
-			addModelObjective(model,modelObj.getLabel(),modelObj );
+			addModelObjective(model,modelObj.getLabel(),modelObj, infoValueObjName );
+			addModelInfoValueObjective(model,modelObj.getLabel(),modelObj, infoValueObjName );
 		}
 		return model;
 	}
@@ -105,18 +125,17 @@ public class ModelConstructor {
 		qv.setDefinition(qv_def.getExpression());
 		return qv;
 	}
-	public void addInformationValueParameters (List<String> infoParameters, Model m, String qv_name, Value qv_def){
-		if (infoParameters != null && infoParameters.contains(qv_name)){
-			if (qv_def.getExpression() instanceof Distribution){
-				double [] param = getExpressionDistribution(qv_def.getExpression());
-				m.addParameters(qv_name, param);
-			}else if (qv_def.getExpression() instanceof OR_Refinement){
-				Map<String, Expression> optionsExpr = ((OR_Refinement)qv_def.getExpression()).getDefinition();
-				for (Map.Entry<String, Expression> entry: optionsExpr.entrySet()){
-					if (entry.getValue() instanceof Distribution){
-						double [] param = getExpressionDistribution(entry.getValue());
-						m.addParameters(qv_name + "[" + entry.getKey() + "]", param);
-					}
+	public void addInformationValueParameters (Model m, String qv_name, Value qv_def){
+		if (qv_name.equals("CostPerAlert"))	{
+			System.out.print("Cost Per Alter");
+		}
+		if (qv_def.getExpression() instanceof Distribution &&  !(qv_def.getExpression() instanceof DeterministicDistribution) ){
+				m.addParameters(qv_name);
+		}else if (qv_def.getExpression() instanceof OR_Refinement){
+			Map<String, Expression> optionsExpr = ((OR_Refinement)qv_def.getExpression()).getDefinition();
+			for (Map.Entry<String, Expression> entry: optionsExpr.entrySet()){
+				if (entry.getValue() instanceof Distribution && !(entry.getValue() instanceof DeterministicDistribution)){
+					m.addParameters(qv_name);
 				}
 			}
 		}
@@ -182,6 +201,9 @@ public class ModelConstructor {
 			obj.setIsMinimisation(true);
 		}
 		return obj;
+	}
+	public void setModelInfoValueObjective (String infoValueObjective, Model model, Objective Objective){
+		
 	}
 	public  Value addObjectiveExpectation (String referredQV){
 		Expectation exp = new Expectation();
@@ -271,7 +293,7 @@ public class ModelConstructor {
 			baseExpr = new UniformDistribution(lower,upper,simulation);
 		}else if (distribution.toString().equals(ParameterDistribution.DETERMINISTIC.toString())){
 			double value = distributionArguments.get(0).convertToDouble();
-			baseExpr = new DeterministicDistribution(value);
+			baseExpr = new DeterministicDistribution(value,simulation);
 		}
 		else if (distribution.toString().equals(ParameterDistribution.EXPONENTIAL.toString())){
 			double mean = distributionArguments.get(0).convertToDouble();
@@ -301,7 +323,7 @@ public class ModelConstructor {
 			case "-": bop = BinaryOperator.SUB; break;
 			case "/": bop = BinaryOperator.DIV; break;
 			case "*": bop = BinaryOperator.MUL; break;
-			case "||": bop = BinaryOperator.SUB; break;
+			case "||": bop = BinaryOperator.OR; break;
 			case "&&": bop = BinaryOperator.AND; break;
 			case "<": bop = BinaryOperator.LESS; break;
 			case ">": bop = BinaryOperator.GRET; break;

@@ -30,7 +30,7 @@ import radar.jmetal.core.Algorithm;
 import radar.jmetal.core.Operator;
 import radar.jmetal.core.Problem;
 import radar.jmetal.evolutionary.operators.*;
-import radar.jmetal.exact.algorithm.exhaustiveSearch;
+import radar.jmetal.exact.algorithm.ExhaustiveSearch;
 import radar.jmetal.experiments.Settings;
 import radar.jmetal.util.JMException;
 import radar.jmetal.util.ProblemFactory;

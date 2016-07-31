@@ -177,12 +177,12 @@ public interface ModelVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExprMult(ModelParser.ExprMultContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code exprAtomicExpression}
+	 * Visit a parse tree produced by the {@code exprNumber}
 	 * labeled alternative in {@link ModelParser#arithmetic_expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExprAtomicExpression(ModelParser.ExprAtomicExpressionContext ctx);
+	T visitExprNumber(ModelParser.ExprNumberContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code exprCompare}
 	 * labeled alternative in {@link ModelParser#arithmetic_expr}.
@@ -262,21 +262,21 @@ public interface ModelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCompareExpression(ModelParser.CompareExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code atomicInteger}
-	 * labeled alternative in {@link ModelParser#atomicExpression}.
+	 * labeled alternative in {@link ModelParser#number}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAtomicInteger(ModelParser.AtomicIntegerContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code atomicFloat}
-	 * labeled alternative in {@link ModelParser#atomicExpression}.
+	 * labeled alternative in {@link ModelParser#number}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAtomicFloat(ModelParser.AtomicFloatContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code atomicDecimal}
-	 * labeled alternative in {@link ModelParser#atomicExpression}.
+	 * labeled alternative in {@link ModelParser#number}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */

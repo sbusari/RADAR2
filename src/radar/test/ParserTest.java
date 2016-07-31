@@ -22,7 +22,7 @@ public class ParserTest {
 		//String inputFile = "./subjectmodels/BSPDM2.gm"; 
 		//String inputFile = "./model/fitnessExpr.gm"; 
         String modelString = Helper.readFile(inputFile);
-		Parser testParser = new Parser (modelString,10000,new ArrayList<String>()); 
+		Parser testParser = new Parser (modelString,10000, ""); 
 		Model semantic_model = testParser.getSemanticModel();
 		Map<String , Decision> decisions = semantic_model.getDecisions();
 		List<Alternative> allSolutions = AlternativeAnalyser.getAllAlternative(decisions);

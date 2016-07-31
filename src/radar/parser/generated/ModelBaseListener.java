@@ -316,13 +316,13 @@ public class ModelBaseListener implements ModelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExprAtomicExpression(ModelParser.ExprAtomicExpressionContext ctx) { }
+	@Override public void enterExprNumber(ModelParser.ExprNumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExprAtomicExpression(ModelParser.ExprAtomicExpressionContext ctx) { }
+	@Override public void exitExprNumber(ModelParser.ExprNumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -4,13 +4,13 @@ GoalFailure = (BatteryUsage_Failure || ResponseTime_Failure);
 BatteryUsage_Failure = BatteryUsage < BatteryUsage_must; 
 BatteryUsage_must = deterministic(60);
 BatteryUsage = decision("File Sharing"){
-	"OpenIntent" : triangular(50, 65, 70);
-	"In house" : triangular(40, 60, 100);
+	"OpenIntent" : deterministic(50);
+	"In house" : deterministic(60);
 }
 
 ResponseTime_Failure = 	ResponseTime < ResponseTime_must;
 ResponseTime_must = deterministic(882);
 ResponseTime =  decision("File Sharing"){
-	"OpenIntent" : triangular(480, 500, 990);
-	"In house" : triangular(500, 700, 1000);
+	"OpenIntent" : deterministic(500);
+	"In house" : deterministic(700);
 }

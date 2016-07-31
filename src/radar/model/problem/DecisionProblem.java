@@ -16,6 +16,7 @@ import radar.jmetal.util.JMException;
 import radar.model.Alternative;
 import radar.model.Objective;
 import radar.model.Parser;
+import radar.model.QualityVariable;
 import radar.simulation.Simulator;
 
 public class DecisionProblem extends Problem {
@@ -52,20 +53,26 @@ public class DecisionProblem extends Problem {
 			 }else{
 				 solution.setObjective(i, entry.getValue());
 			 }
-			 String infoValueObj = parserEngine_.getSemanticModel().getInfoValueObjectiveName();
-			 if (infoValueObj.equals(entry.getKey().getQualityVariable().getLabel())
-					 && parserEngine_.getSemanticModel().getInfoValueObjective() == null){
-				 parserEngine_.getSemanticModel().setInfoValueObjective( entry.getKey());
-			 }
+			 solution.setMargin(i, entry.getKey().getMargin());
 			 i++;
 		 }
 		 parserEngine_.getSemanticModel().addAlternative(a);
+		 resetSimulationVariables();
+		 solution.setAlternative(a);
 		 
 	 } // evaluate
 	 
 	 public Solution checkViolations (Solution solution) throws JMException{
 		 return solution;
 	 }//constraint checking
+	 private void resetSimulationVariables(){
+		 Map<String, QualityVariable> qvList = parserEngine_.getSemanticModel().getQualityVariables();
+		 for (Map.Entry<String, QualityVariable> entry: qvList.entrySet()){
+			 if( !parserEngine_.getSemanticModel().getInfoValueObjectiveName().equals(entry.getValue().getLabel()) ){
+				entry.getValue().setSimData(null);
+			 }
+		 }
+	 }
 	 
 
 	 
