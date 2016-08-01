@@ -9,6 +9,7 @@ import java.util.Map;
 import radar.model.Alternative;
 import radar.model.Model;
 import radar.model.Objective;
+import radar.model.ObjectiveValues;
 import radar.utilities.Statistics;
 
 public class Simulator {
@@ -33,6 +34,20 @@ public class Simulator {
 			objectiveValues_.put(obj,value);
 		}
 		return objectiveValues_;
+	}
+	public ObjectiveValues computeObjectivesValues (){
+		ObjectiveValues results = new ObjectiveValues();
+		this.selectedAlternative.setSemanticModel(semanticModel);
+		List<Objective> objList = new ArrayList<Objective>(this.semanticModel.getObjectives().values());
+		for (int i =0; i < objList.size(); i ++){
+			Objective obj = objList.get(i);
+			this.selectedAlternative.setStoreSimParameter(storeSimulationParameters(obj));
+			double value = obj.evaluate(this.selectedAlternative);
+			value = obj.getIsMinimisation() == false ? value *-1 : value;
+			results.addObjectiveValue(obj, value);
+		}
+		results.setSolution(this.selectedAlternative);
+		return results;
 	}
 	boolean storeSimulationParameters (Objective obj){
 		boolean result =false;
