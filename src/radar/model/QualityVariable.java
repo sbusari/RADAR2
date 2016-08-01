@@ -19,23 +19,11 @@ public class QualityVariable extends ArithmeticExpression {
 	private Map<String, double[]> simParameters_;
 	private Map<String, Decision> decisionsBeforeVar;
 	private Map<String, Decision> decisionsAfterVar;
-	public QualityVariable(){}
-	public QualityVariable (QualityVariable qv){
-		label_ = qv.getLabel();
-		definition_ = qv.getDefinition();
+	public QualityVariable(){
 		simData_ = new LinkedHashMap<Alternative, double[]>();
-		if (qv.getSimData() != null){
-			for (Map.Entry<Alternative, double[]> entry : qv.getSimData().entrySet()){
-				simData_.put(entry.getKey(), entry.getValue());
-			}
-		}
 		simParameters_ = new LinkedHashMap<String, double[]>();
-		if (qv.getParameterSimData() != null){
-			for (Map.Entry<String, double[]> entry : qv.getParameterSimData().entrySet()){
-				simParameters_.put(entry.getKey(), entry.getValue());
-			}
-		}
-		
+		decisionsBeforeVar = new LinkedHashMap <String, Decision>();
+		decisionsAfterVar  = new LinkedHashMap <String, Decision>();
 	}
 	public void setLabel (String label){
 		label_ = label;
@@ -80,20 +68,6 @@ public class QualityVariable extends ArithmeticExpression {
 		}
 		return result;
 	}
-
-	private boolean alreadySimulatedAlternative (Alternative a){
-		boolean result = false;
-		if (simData_ != null && a.getSelection() != null){
-			// they have equal selection and refer to the same objective function.
-			for (Map.Entry<Alternative, double []> entry:simData_.entrySet() ){
-				if (entry.getKey().hashCode() == a.hashCode() 
-						&& entry.getKey().getCurrentSimulatedObjective().getLabel().equals(a.getCurrentSimulatedObjective().getLabel())){
-					return true;
-				}
-			}
-		}
-		return result;
-	}
 	@Override
 	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
 		Node qv_node = g.addNode();
@@ -102,7 +76,7 @@ public class QualityVariable extends ArithmeticExpression {
 		qv_node.set("nodeValue", label_);
 		List<Node> results = new ArrayList<Node>();
 		results.add(qv_node);
-		List<Node> children = definition_.createDependecyGraph(g,model,qv_name);
+		List<Node> children = definition_.createDependecyGraph(g,model,label_);
 		if (children != null &&  children.size() > 0){
 			for (int i =0 ; i <  children.size() ; i ++){
 				g.addEdge(qv_node, children.get(i));
@@ -113,35 +87,17 @@ public class QualityVariable extends ArithmeticExpression {
 	public double [] simulate (Alternative s){
 		//System.out.println("entered quality variable " + label_);
 		double [] simdata = null;
-		if (label_.equals("TrueAlertRate")){
-			System.out.print("TrueAlertRate");
-		}
-		Alternative solutionCopy = new Alternative (s);
-		Alternative localSolution =  subSolution(solutionCopy);
-		if (simData_ == null ){
-			simData_ = new HashMap<Alternative, double[]> ();
+		//Alternative solutionCopy = new Alternative (s);
+		Alternative localSolution =  subSolution(s);
+		if (simData_.get(localSolution) == null){
 			double [] sim = definition_.simulate(localSolution);
 			simData_.put(localSolution, sim);
 			simdata=sim ;
+		}else{
+			simdata = simData_.get(localSolution);
 		}
-		else{
-			if ( !alreadySimulatedAlternative(localSolution) || simData_.get(localSolution) == null){
-				double [] sim = definition_.simulate(localSolution);
-				simData_.put(localSolution, sim);
-				simdata=sim ;
-			}else{
-				simdata = simData_.get(localSolution);
-			}
-		}
-		// also check that the current obj is the objective to be used in information analysis.
-		if (definition_.getIsExpresionDistribution() && solutionCopy.getSemanticModel().getParameters() != null &&  solutionCopy.getSemanticModel().getParameters().contains(label_)
-				&& solutionCopy.getInformationValueObjective() != null && solutionCopy.getInformationValueObjective().getQualityVariable().getLabel().equals( solutionCopy.getInfoValueObjectiveName())){
-			if (simParameters_ == null){
-				simParameters_ = new LinkedHashMap<String, double[]>();
-				addParameterDistributions(simParameters_,simdata);
-			}else{
-				addParameterDistributions(simParameters_,simdata);
-			}
+		if (definition_.getIsExpresionDistribution() && s.getSemanticModel().getParameters() != null &&  s.getSemanticModel().getParameters().contains(label_) && s.getStoreSimParameter()){
+			addParameterDistributions(simParameters_,simdata);
 		}
 		return simdata;
 	}
@@ -159,18 +115,15 @@ public class QualityVariable extends ArithmeticExpression {
 		if (decisionsAfterVar != null){
 			for (Map.Entry<String, Decision> entry:decisionsAfterVar.entrySet()){
 				Decision d = entry.getValue();
-				// instead, use the global selection to get options cos selectio at times is null.
 				String option = s.getOptionFromSelction(d);
 				if (option != "" && StringUtils.isNotEmpty(option)){
 					subsolution.addDecision(d,option);
 				}
-				
 			}
 		}
 		subsolution.setInfoValueObjectiveName(s.getInfoValueObjectiveName());
-		subsolution.setInformationValueObjective(s.getInformationValueObjective());
-		subsolution.setCurrentSimulatedObjective(s.getCurrentSimulatedObjective());
 		subsolution.setSemanticModel(s.getSemanticModel());
+		subsolution.setStoreSimParameter(s.getStoreSimParameter());
 		return subsolution;
 	}
 	public Map<Alternative, double[]> getSimData(){

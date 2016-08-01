@@ -13,33 +13,10 @@ public class Alternative {
 	// added this here to aid computation of evtpi
 	private String infoValueObj_;
 	// added this here to aid computation of evtpi
-	private Objective informationValueObjective_;
-	private Objective currentSimulatedObjective_;
+	/*private Objective informationValueObjective_;
+	private Objective currentSimulatedObjective_;*/
+	private boolean storeSimParameter_;
 	public Alternative(){}
-	public Alternative (Alternative a){
-		sematicModel = a.sematicModel;
-		infoValueObj_ = a.getInfoValueObjectiveName();
-		if (a.getCurrentSimulatedObjective() != null){
-			currentSimulatedObjective_ = a.getCurrentSimulatedObjective();
-		}
-		if (a.getInformationValueObjective() != null){
-			informationValueObjective_ = a.getInformationValueObjective();
-		}
-		selection = new LinkedHashMap<Decision, String>();
-		if (a.selection != null){
-			selection.putAll(a.selection);
-		}
-		globalSelection = new LinkedHashMap<Decision, String>();
-		if (a.globalSelection != null){
-			globalSelection.putAll(a.globalSelection);
-		}
-		
-		/*if (a.getSelection() != null){
-			for (Map.Entry<Decision, String> entry : a.getSelection().entrySet()){
-				selection.put(entry.getKey(), entry.getValue());
-			}
-		}*/
-	}
 	public String getOption (Decision d){
 		String option ="";
 		if (selection  != null){
@@ -87,6 +64,12 @@ public class Alternative {
 			globalSelection.put(d, option);
 		}
 	}
+	public void setStoreSimParameter (boolean storeSimParam){
+		storeSimParameter_ = storeSimParam;
+	}
+	public boolean getStoreSimParameter (){
+		return 	storeSimParameter_;
+	}
 	public Model getSemanticModel (){
 		return sematicModel;
 	}
@@ -98,18 +81,6 @@ public class Alternative {
 	}
 	public void setInfoValueObjectiveName (String infoValueObj){
 		infoValueObj_ =  infoValueObj;
-	}
-	public Objective getInformationValueObjective (){
-		return informationValueObjective_;
-	}
-	public void setInformationValueObjective (Objective infoValueObj){
-		informationValueObjective_ =  infoValueObj;
-	}
-	public Objective getCurrentSimulatedObjective (){
-		return currentSimulatedObjective_;
-	}
-	public void setCurrentSimulatedObjective (Objective currentSimulatedObjective){
-		currentSimulatedObjective_ =  currentSimulatedObjective;
 	}
 	public String selectionToString (){
 		String output = "";

@@ -32,7 +32,6 @@ class BinaryExpression extends ArithmeticExpression {
 	public List<Node> createDependecyGraph(Graph g, Model model,String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		Node exprJoiner = addNode(g, "ExpressionJoiner","ExpressionJoiner","" );
-		
 		List<Node> leftChild = leftExpr_.createDependecyGraph(g, model, qv_name);
 		List<Node> rightChild = rightExpr_.createDependecyGraph(g, model, qv_name);
 		if (leftChild != null &&  leftChild.size() > 0){

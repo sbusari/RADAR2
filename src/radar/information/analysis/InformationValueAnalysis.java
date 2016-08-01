@@ -28,17 +28,16 @@ public class InformationValueAnalysis {
 					optimalAlternative.add(optimalSolutions.get(i).getAlternative());
 				}
 			}
-			double infoValue = computeEVTPI(sematicmodel.getInfoValueObjective(), optimalAlternative);
+			double infoValue = computeEVTPI(sematicmodel.getInfoValueObjective(), null);
 			System.out.println("evtpi value is: "+ infoValue );
 			List<String> params = sematicmodel.getParameters();
 			if (params != null){
 				for (int i =0; i < params.size(); i ++){
 					QualityVariable qvSim= sematicmodel.getQualityVariables().get(params.get(i));
-					QualityVariable qv = new QualityVariable (qvSim);
 					Map<String, double[]> paramSimData = new LinkedHashMap<String, double[]>();
-					paramSimData.putAll(qv.getParameterSimData());
+					paramSimData.putAll(qvSim.getParameterSimData());
 					for (Map.Entry<String, double[]> entry: paramSimData.entrySet()){
-						double evppi = computeEVPPI(sematicmodel.getInfoValueObjective(), optimalAlternative, entry.getValue());
+						double evppi = computeEVPPI(sematicmodel.getInfoValueObjective(), null, entry.getValue());
 						System.out.println("evppi for "+ entry.getKey()+ " is "+ evppi );
 					}
 				}
@@ -78,11 +77,11 @@ public class InformationValueAnalysis {
 			optimalSolutionVarSimData = varSimData;
 		}
 		for (Map.Entry<Alternative, double[]> entry: optimalSolutionVarSimData.entrySet() ){
-			if (entry.getKey().getInfoValueObjectiveName().equals(var.getLabel())
-					&& entry.getKey().getInformationValueObjective() != null && entry.getKey().getInformationValueObjective().getStatistic().equals(infoValueObj.getStatistic()) ){
+			//if (entry.getKey().getInfoValueObjectiveName().equals(var.getLabel())
+				//	&& entry.getKey().getInformationValueObjective() != null && entry.getKey().getInformationValueObjective().getStatistic().equals(infoValueObj.getStatistic()) ){
 				
 				alternativesSimData.put(entry.getKey(), entry.getValue());
-			}
+			//}
 		}
 		return alternativesSimData;
 	}

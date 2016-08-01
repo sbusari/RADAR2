@@ -69,7 +69,7 @@ public class DecisionProblem extends Problem {
 		 Map<String, QualityVariable> qvList = parserEngine_.getSemanticModel().getQualityVariables();
 		 for (Map.Entry<String, QualityVariable> entry: qvList.entrySet()){
 			 if( !parserEngine_.getSemanticModel().getInfoValueObjectiveName().equals(entry.getValue().getLabel()) ){
-				entry.getValue().setSimData(null);
+				entry.getValue().setSimData(new LinkedHashMap<Alternative, double[]>());
 			 }
 		 }
 	 }
