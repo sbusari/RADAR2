@@ -28,7 +28,7 @@ public class InformationValueAnalysis {
 					optimalAlternative.add(optimalSolutions.get(i).getAlternative());
 				}
 			}
-			double infoValue = computeEVTPI(sematicmodel.getInfoValueObjective(), null);
+			double infoValue = computeEVTPI(sematicmodel.getInfoValueObjective(), optimalAlternative);
 			System.out.println("evtpi value is: "+ infoValue );
 			List<String> params = sematicmodel.getParameters();
 			if (params != null){
@@ -37,7 +37,7 @@ public class InformationValueAnalysis {
 					Map<String, double[]> paramSimData = new LinkedHashMap<String, double[]>();
 					paramSimData.putAll(qvSim.getParameterSimData());
 					for (Map.Entry<String, double[]> entry: paramSimData.entrySet()){
-						double evppi = computeEVPPI(sematicmodel.getInfoValueObjective(), null, entry.getValue());
+						double evppi = computeEVPPI(sematicmodel.getInfoValueObjective(), optimalAlternative, entry.getValue());
 						System.out.println("evppi for "+ entry.getKey()+ " is "+ evppi );
 					}
 				}
@@ -64,25 +64,18 @@ public class InformationValueAnalysis {
 		QualityVariable var = infoValueObj.getQualityVariable();
 		Map<Alternative, double[]> varSimData =  var.getSimData();
 		// create a var data for only the optimal solutions only. 
-		Map<Alternative, double[]> optimalSolutionVarSimData = new LinkedHashMap<Alternative, double[]>();
 		if (optimalSolutions != null && optimalSolutions.size() > 0){
 			for (int i =0; i < optimalSolutions.size(); i++){
 				for (Map.Entry<Alternative , double[]> simEntry : varSimData.entrySet()){
 					if (optimalSolutions.get(i).selectionToString().equals(simEntry.getKey().selectionToString())){
-						optimalSolutionVarSimData.put(simEntry.getKey(), simEntry.getValue());
+						alternativesSimData.put(simEntry.getKey(), simEntry.getValue());
 					}	
 				}
 			}
 		}else{
-			optimalSolutionVarSimData = varSimData;
+			alternativesSimData = varSimData;
 		}
-		for (Map.Entry<Alternative, double[]> entry: optimalSolutionVarSimData.entrySet() ){
-			//if (entry.getKey().getInfoValueObjectiveName().equals(var.getLabel())
-				//	&& entry.getKey().getInformationValueObjective() != null && entry.getKey().getInformationValueObjective().getStatistic().equals(infoValueObj.getStatistic()) ){
-				
-				alternativesSimData.put(entry.getKey(), entry.getValue());
-			//}
-		}
+		
 		return alternativesSimData;
 	}
 	private double[][] getSimData(Map<Alternative, double[]> allAlternative) {
