@@ -31,10 +31,21 @@ class BinaryExpression extends ArithmeticExpression {
 	@Override
 	public List<Node> createDependecyGraph(Graph g, Model model,String qv_name) {
 		List<Node> result = new ArrayList<Node>();
+		Node exprJoiner = addNode(g, "ExpressionJoiner","ExpressionJoiner","" );
+		
 		List<Node> leftChild = leftExpr_.createDependecyGraph(g, model, qv_name);
 		List<Node> rightChild = rightExpr_.createDependecyGraph(g, model, qv_name);
-		result.addAll(leftChild);
-		result.addAll(rightChild);
+		if (leftChild != null &&  leftChild.size() > 0){
+			for (int i =0 ; i <  leftChild.size() ; i ++){
+				g.addEdge(exprJoiner, leftChild.get(i));
+			}
+		}
+		if (rightChild != null &&  rightChild.size() > 0){
+			for (int i =0 ; i <  rightChild.size() ; i ++){
+				g.addEdge(exprJoiner, rightChild.get(i));
+			}
+		}
+		result.add(exprJoiner);
 		return result;
 	}
 	@Override

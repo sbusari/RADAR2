@@ -24,11 +24,8 @@ class Identifier extends Expression {
 	}
 	@Override
 	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
-		Node id = g.addNode();
-		id.set("id", id_);
-		id.set("nodeType", "Identifier");
-		id.set("nodeValue", id_);
 		List<Node> results = new ArrayList<Node>();
+		Node id = addNode (g, id_,"Identifier", id_ );
 		results.add(id);
 		Map<String, QualityVariable> qvList = model.getQualityVariables();
 		QualityVariable qv = qvList.get(id_);
