@@ -12,11 +12,22 @@ public class Alternative {
 	private Model sematicModel;
 	// added this here to aid computation of evtpi
 	private String infoValueObj_;
-	// added this here to aid computation of evtpi
-	/*private Objective informationValueObjective_;
-	private Objective currentSimulatedObjective_;*/
+	// added this boolean field so that for each obejctive to simulate, ....
 	private boolean storeSimParameter_;
 	public Alternative(){}
+	public Alternative (Alternative a){
+		sematicModel = a.sematicModel;
+		infoValueObj_ = a.getInfoValueObjectiveName();
+		storeSimParameter_ = a.getStoreSimParameter();
+		selection = new LinkedHashMap<Decision, String>();
+		if (a.selection != null){
+			selection.putAll(a.selection);
+		}
+		globalSelection = new LinkedHashMap<Decision, String>();
+		if (a.globalSelection != null){
+			globalSelection.putAll(a.globalSelection);
+		}
+	}
 	public String getOption (Decision d){
 		String option ="";
 		if (selection  != null){
