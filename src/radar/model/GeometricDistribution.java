@@ -1,5 +1,10 @@
 package radar.model;
 
+import java.util.List;
+
+import prefuse.data.Graph;
+import prefuse.data.Node;
+
 class GeometricDistribution extends Distribution {
 	private double prob_ ;
 	int N;
@@ -17,5 +22,10 @@ class GeometricDistribution extends Distribution {
 	public double[] simulate(Alternative s) {
 		isExpresionDistribution_ = true;
 		return  geometricDistribution(prob_, N);
+	}
+	@Override
+	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
+		// just return null for distributions
+		return null;
 	}
 }

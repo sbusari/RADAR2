@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import prefuse.data.Node;
 import radar.model.Decision;
 import radar.model.Model;
 import radar.model.ModelConstructor;

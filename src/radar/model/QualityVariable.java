@@ -1,11 +1,15 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+
+import prefuse.data.Graph;
+import prefuse.data.Node;
 
 public class QualityVariable extends ArithmeticExpression {
 
@@ -90,6 +94,22 @@ public class QualityVariable extends ArithmeticExpression {
 		}
 		return result;
 	}
+	@Override
+	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
+		Node qv_node = g.addNode();
+		qv_node.set("id", label_);
+		qv_node.set("nodeType", "QualityVariable");
+		qv_node.set("nodeValue", label_);
+		List<Node> results = new ArrayList<Node>();
+		results.add(qv_node);
+		List<Node> children = definition_.createDependecyGraph(g,model,qv_name);
+		if (children != null &&  children.size() > 0){
+			for (int i =0 ; i <  children.size() ; i ++){
+				g.addEdge(qv_node, children.get(i));
+			}
+		}
+		return results;
+	}
 	public double [] simulate (Alternative s){
 		//System.out.println("entered quality variable " + label_);
 		double [] simdata = null;
@@ -162,6 +182,7 @@ public class QualityVariable extends ArithmeticExpression {
 	public Map<String, double[]> getParameterSimData(){
 		return simParameters_;
 	}
+
 
 
 	

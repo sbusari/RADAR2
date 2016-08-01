@@ -1,14 +1,36 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import prefuse.data.Graph;
+import prefuse.data.Node;
 
 public class OR_Refinement extends Expression {
 	private Decision decision_;
 	private Map<String, Expression> definition_;
 	
 	public OR_Refinement(){}
+	@Override
+	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
+		
+		List<Node> result = new ArrayList<Node>();
+		for (Map.Entry<String, Expression> entry: definition_.entrySet()){
+			Node option = addNode (g, qv_name + "[" + entry.getKey() + "]","Option",qv_name + "[" + entry.getKey() + "]");
+			result.add(option);
+			// add edge between option node and its own children
+			List<Node> optionChildren = entry.getValue().createDependecyGraph(g,model,qv_name);
+			if (optionChildren != null &&  optionChildren.size() > 0){
+				for (int i =0 ; i <  optionChildren.size() ; i ++){
+					g.addEdge(option, optionChildren.get(i));
+				}
+			}
+		}
+		return result;
+	}
 	@Override
 	public double[] simulate(Alternative s) {
 		String option = s.getOption(decision_);
@@ -41,5 +63,6 @@ public class OR_Refinement extends Expression {
 			definition_.put(option_name, def);
 		}
 	}
+	
 	
 }

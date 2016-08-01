@@ -1,5 +1,10 @@
 package radar.model;
 
+import java.util.List;
+
+import prefuse.data.Graph;
+import prefuse.data.Node;
+
 class Number extends ArithmeticExpression {
 
 	private double value_;
@@ -19,5 +24,10 @@ class Number extends ArithmeticExpression {
 			sim[i] =value_;
 		}
 		return sim;
+	}
+	@Override
+	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
+		// just return null for distributions
+		return null;
 	}
 }

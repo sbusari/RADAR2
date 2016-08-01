@@ -1,5 +1,10 @@
 package radar.model;
 
+import java.util.List;
+
+import prefuse.data.Graph;
+import prefuse.data.Node;
+
 
 public abstract class Expression {
 
@@ -16,8 +21,14 @@ public abstract class Expression {
 	public String getparameterOption(){
 		return parameterOption_;
 	}
-
-	
+	public abstract List<Node> createDependecyGraph (Graph g, Model model, String qv_name);
+	public Node addNode (Graph g, String node_name, String node_type, String node_value){
+		Node n = g.addNode();
+		n.set("id", node_name);
+		n.set("nodeType", node_type);
+		n.set("nodeValue", node_value);
+		return n;
+	}
 	
 
 }

@@ -1,5 +1,11 @@
 package radar.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import prefuse.data.Graph;
+import prefuse.data.Node;
+
 
 class BinaryExpression extends ArithmeticExpression {
 	private BinaryOperator bop_;
@@ -21,6 +27,15 @@ class BinaryExpression extends ArithmeticExpression {
 	}
 	public Expression getRightExpression (){
 		return rightExpr_;
+	}
+	@Override
+	public List<Node> createDependecyGraph(Graph g, Model model,String qv_name) {
+		List<Node> result = new ArrayList<Node>();
+		List<Node> leftChild = leftExpr_.createDependecyGraph(g, model, qv_name);
+		List<Node> rightChild = rightExpr_.createDependecyGraph(g, model, qv_name);
+		result.addAll(leftChild);
+		result.addAll(rightChild);
+		return result;
 	}
 	@Override
 	public double[] simulate(Alternative s) {
@@ -64,4 +79,5 @@ class BinaryExpression extends ArithmeticExpression {
 		}
 		return combinedSim;
 	}
+	
 }

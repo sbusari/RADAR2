@@ -1,5 +1,10 @@
 package radar.model;
 
+import java.util.List;
+
+import prefuse.data.Graph;
+import prefuse.data.Node;
+
 class NormalCIDistribution extends Distribution {
 
 	private double a_, b_;
@@ -18,5 +23,10 @@ class NormalCIDistribution extends Distribution {
 	
 		isExpresionDistribution_ = true;
 		return  normalCIDistribution(a_,b_, N);
+	}
+	@Override
+	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
+		// just return null for distributions
+		return null;
 	}
 }

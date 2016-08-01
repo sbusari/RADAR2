@@ -1,5 +1,11 @@
 package radar.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import prefuse.data.Graph;
+import prefuse.data.Node;
+
 
 class UnaryExpression extends Expression {
 
@@ -16,6 +22,13 @@ class UnaryExpression extends Expression {
 	}
 	public Expression getExpression (){
 		return expr_;
+	}
+	@Override
+	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
+		List<Node> result = new ArrayList<Node>();
+		List<Node> expr = expr_.createDependecyGraph(g, model,qv_name);
+		result.addAll(expr);
+		return result;
 	}
 	@Override
 	public double[] simulate(Alternative s) {
