@@ -26,6 +26,7 @@ public class ModelConstructor {
 				infoValueObjectiveList.add(entry.getValue());
 			}
 		}
+		
 		if (infoValueObjectiveList != null && infoValueObjectiveList.size() == 1){
 			model.setInfoValueObjective(infoValueObjectiveList.get(0));
 		}else if (infoValueObjectiveList != null && infoValueObjectiveList.size() > 1){

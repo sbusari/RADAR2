@@ -12,7 +12,7 @@ public class AlgorithmParameter {
 	private String selection_;
 	private int maxEvaluation_;
 	public AlgorithmParameter(){}
-	public AlgorithmParameter(Parser parserEngine, UIData expData){
+	public AlgorithmParameter(Parser parserEngine, ExperiementData expData){
 		this.populationSize_ = expData.getUseDefaultParameterSettings() == true? ConfigSetting.POPULATION_SIZE: expData.getPopulationSize() ;	
 		if (this.populationSize_ % 2 != 0){
 			this.populationSize_ = this.populationSize_ +1;

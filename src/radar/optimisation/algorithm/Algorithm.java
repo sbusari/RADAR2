@@ -7,7 +7,7 @@ import radar.model.SolutionValues;
 
 public abstract class Algorithm {
 	boolean solveAll_;
-	public abstract  List<SolutionValues> solveAll ();
+	public abstract  List<SolutionValues> solve ();
 	public abstract  SolutionValues solve (Alternative s);
 	public void setSolveAll (boolean solveAll){
 		solveAll_ = solveAll;

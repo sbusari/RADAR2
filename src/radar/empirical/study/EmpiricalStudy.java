@@ -21,7 +21,7 @@ import radar.enumeration.DecisionVectorType;
 import radar.enumeration.OptimisationType;
 import radar.exception.ModelException;
 import radar.experiment.data.AlgorithmParameter;
-import radar.experiment.data.UIData;
+import radar.experiment.data.ExperiementData;
 import radar.experiment.data.UIResult;
 import radar.information.analysis.InformationValueAnalysis;
 import radar.jmetal.approximate.algorithm.IBEA_Settings;
@@ -55,7 +55,7 @@ public class EmpiricalStudy extends Experiment {
 	public int repetitions;
 	private int numberOfThreads;
 	private DecisionVectorType typeOfDecisonVector;
-	UIData expData_;
+	ExperiementData expData_;
 	UIResult expResult_;
 	public EmpiricalStudy(){
 	}
@@ -368,12 +368,12 @@ public class EmpiricalStudy extends Experiment {
 		return null;
 	}
 	//public void setUp(String model, String optimisationtype, int simulationRun, boolean useDefault) throws Exception {
-	public void setUp(UIData expdata) throws Exception {
+	public void setUp(ExperiementData expdata) throws Exception {
 		
-		String modelString = expdata.getModel(); //model;
-		String typeOfOptimisation = expdata.getTypeOfOptimisation();
+		String modelString = expdata.getTextualModel(); //model;
+		//String typeOfOptimisation = expdata.getTypeOfOptimisation();
 		
-		OptimisationType optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
+		OptimisationType optimisationType =expdata.getTypeOfOptimisation();
 		
 		this.goalParserEngine = new Parser(modelString,ConfigSetting.NUMBER_OF_SIMULATION, "");
 		this.goalParserEngine.getSemanticModel().setSimulationNumber(expdata.getSimulationNumber());
@@ -423,12 +423,12 @@ public class EmpiricalStudy extends Experiment {
 		return algorithmNameList_;
 	}
 	
-	 String[] getAlgorithmList( UIData expData_) {
+	 String[] getAlgorithmList( ExperiementData expData_) {
 		
 		boolean runAllApproximate = expData_.getRunAllApproxAlgorithms();
 		String[] approxAlgorithmList = expData_.getApproxAlgorithmList();
 		String[] algorithmNameList_ = null;
-		switch (expData_.getTypeOfOptimisation()) {
+		switch (expData_.getTypeOfOptimisation().toString()) {
 			case "EXACT" : {
 				algorithmNameList_ = new String[] { expData_.getExactAlgorithm() };
 				repetitions = 1;

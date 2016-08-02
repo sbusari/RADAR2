@@ -1,19 +1,22 @@
 package radar.experiment.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import radar.enumeration.OptimisationType;
+import radar.model.Model;
 import radar.model.Parser;
-public class UIData {
+public class ExperiementData {
 	
-	public UIData(){
+	public ExperiementData(){
 		
 	}
 	String outputDirectory_;
 	String problemName_;
 	String experimentName_;
 	String defaultApproximateAlg_;
-	String model_;
-	String typeOfOptimisation_;
+	String textualModel_;
+	OptimisationType typeOfOptimisation_;
 	boolean runAllApproxAlgorithms_;
 	boolean useDefaultParameterSettings_;
 	String exactAlgorithm_;
@@ -31,43 +34,20 @@ public class UIData {
 	String nonDominatedSolutionPlotPath_;
 	String dominatedSolutionPlotPath_;
 	String expBaseDirectory_;
-	ArrayList<String> informationValueObjective_;
-	ArrayList<String> informationvalueQualityVariable_;
-	boolean computeInformationValue_;
-	boolean informationValueForOptimalSolution_;
-	Parser parser_;
-	public void setInformationValueObjective( ArrayList<String> informationValueObjective ){
+	String informationValueObjective_;
+	Model semanticModel_;
+	public void setInformationValueObjective( String informationValueObjective ){
 		informationValueObjective_ = informationValueObjective;
 	}
-	public  ArrayList<String> getInformationValueObjective(){
+	public  String getInformationValueObjective(){
 		return informationValueObjective_;
 	}
-	public void setParser(Parser parser ){
-		parser_ = parser;
+	public void setSemanticModel(Model semanticModel ){
+		semanticModel_ = semanticModel;
 	}
-	public Parser getParser(){
-		return parser_;
+	public Model getSemanticModel(){
+		return semanticModel_;
 	}
-	public void setInformationvalueQualityVariable( ArrayList<String> informationvalueQualityVariable ){
-		informationvalueQualityVariable_ = informationvalueQualityVariable;
-	}
-	public  ArrayList<String> getInformationvalueQualityVariable(){
-		return informationvalueQualityVariable_;
-	}
-	
-	public void setComputeInformationValue(boolean computeInformationValue) {
-		computeInformationValue_ = computeInformationValue;
-	}
-	public boolean getComputeInformationValue() {
-		return computeInformationValue_;
-	}
-	public void setInformationValueForOptimalSolution(boolean informationValueForOptimalSolution) {
-		informationValueForOptimalSolution_ = informationValueForOptimalSolution;
-	}
-	public boolean getInformationValueForOptimalSolution() {
-		return informationValueForOptimalSolution_;
-	}
-	
 	public void setSimulationNumber(int noOfSimulation) {
 		this.noOfSimulation_ = noOfSimulation;
 	}
@@ -128,17 +108,17 @@ public class UIData {
 	public String getExperimentName (){
 		return experimentName_;
 	}
-	public void setTypeOfOptimisation (String typeOfOptimisation ){
+	public void setTypeOfOptimisation (OptimisationType typeOfOptimisation ){
 		typeOfOptimisation_ = typeOfOptimisation;
 	}
-	public String getTypeOfOptimisation (){
+	public OptimisationType getTypeOfOptimisation (){
 		return typeOfOptimisation_;
 	}
-	public void setModel (String model ){
-		model_ = model;
+	public void setTextualModel (String textualModel ){
+		textualModel_ = textualModel;
 	}
-	public String getModel (){
-		return model_;
+	public String getTextualModel (){
+		return textualModel_;
 	}
 	public void setExactAlgorithm (String exactAlgorithm ){
 		exactAlgorithm_ = exactAlgorithm;

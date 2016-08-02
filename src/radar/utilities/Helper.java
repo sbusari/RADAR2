@@ -14,6 +14,19 @@ import java.util.LinkedHashMap;
 
 public class Helper {
 
+	public static void printResults (String directory, String expResult, String fileName) throws IOException{
+		File resultFile;
+		resultFile = new File(directory);
+		if (!resultFile.exists()) {
+			new File(directory).mkdirs();
+			System.out.println("Creating " + directory);
+		}
+	      FileOutputStream fos   = new FileOutputStream(directory + fileName ) ;
+	      OutputStreamWriter osw = new OutputStreamWriter(fos)    ;
+	      BufferedWriter bw      = new BufferedWriter(osw)        ;
+	      bw.write(expResult);
+	      bw.close();
+	}
 	@SuppressWarnings("resource")
 	public static String readFile(String fileName) {
 		StringBuilder model = new StringBuilder(100);

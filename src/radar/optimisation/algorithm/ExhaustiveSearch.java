@@ -40,7 +40,9 @@ public class ExhaustiveSearch extends Algorithm{
 		semanticModel_.resetSimulationVariables();
 		return value;
 	}
-	public List<SolutionValues> solveAll() {
+	public List<SolutionValues> solve() {
+		List<SolutionValues> optimalSolutionValues = new ArrayList<SolutionValues>();
+		
 		for (int i = 0; i < alternatives_.size(); i++){
 			SolutionValues value = new SolutionValues ();
 			Simulator simulator = new Simulator(alternatives_.get(i), semanticModel_);
@@ -49,8 +51,13 @@ public class ExhaustiveSearch extends Algorithm{
 			semanticModel_.resetSimulationVariables();
 			objValues_.add(value);
 		}
-		return objValues_;
+		
+		// still need t o find pareto optimal
+		
+		return optimalSolutionValues;
 	}
+	
+	
 	
 	public List<Alternative> getAlternatives (){
 		return alternatives_;
