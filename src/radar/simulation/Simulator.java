@@ -9,7 +9,7 @@ import java.util.Map;
 import radar.model.Alternative;
 import radar.model.Model;
 import radar.model.Objective;
-import radar.model.ObjectiveValues;
+import radar.model.SolutionValues;
 import radar.utilities.Statistics;
 
 public class Simulator {
@@ -35,8 +35,8 @@ public class Simulator {
 		}
 		return objectiveValues_;
 	}
-	public ObjectiveValues computeObjectivesValues (){
-		ObjectiveValues results = new ObjectiveValues();
+	public SolutionValues computeObjectivesValues (){
+		SolutionValues results = new SolutionValues();
 		this.selectedAlternative.setSemanticModel(semanticModel);
 		List<Objective> objList = new ArrayList<Objective>(this.semanticModel.getObjectives().values());
 		for (int i =0; i < objList.size(); i ++){

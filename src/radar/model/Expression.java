@@ -15,10 +15,10 @@ public abstract class Expression {
 	public Expression() {
 		
 	}
-	public boolean getIsExpresionDistribution(){
+	protected boolean getIsExpresionDistribution(){
 		return isExpresionDistribution_;
 	}
-	public String getparameterOption(){
+	protected String getparameterOption(){
 		return parameterOption_;
 	}
 	public abstract List<Node> createDependecyGraph (Graph g, Model model, String qv_name);

@@ -189,7 +189,7 @@ public class AlternativeAnalyser {
 				 }
 			 }
 			 result.addDecision(decisionList.get(i), selectedOption);
-			 result.addDecisionToGlobalSelection(decisionList.get(i), selectedOption);
+			 //result.addDecisionToGlobalSelection(decisionList.get(i), selectedOption);
 		}
 		
 		return result;

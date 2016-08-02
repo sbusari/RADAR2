@@ -31,6 +31,7 @@ public class Model {
 	private Objective infoValueObjective_;
 	private String infoValueObjectiveName_;
 	private int noOfSimulation_;
+	private String solutionType_;
 	public void setModelName(String modelName ){
 		modelName_ =modelName;
 	}
@@ -119,6 +120,21 @@ public class Model {
 	}
 	public List<String> getParams() {
 		return params_;
+	}
+	// since we were getting out memory error
+	public  void resetSimulationVariables(){
+		 Map<String, QualityVariable> qvList = this.getQualityVariables();
+		 for (Map.Entry<String, QualityVariable> entry: qvList.entrySet()){
+			 if( !this.getInfoValueObjectiveName().equals(entry.getValue().getLabel()) ){
+				entry.getValue().setSimData(new LinkedHashMap<Alternative, double[]>());
+			 }
+		 }
+	}
+	public String getSolutionType (){
+		return solutionType_;
+	}
+	public void setSolutionType (String solutionType){
+		solutionType_ =solutionType ;
 	}
 	
 	

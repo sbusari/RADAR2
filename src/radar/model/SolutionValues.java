@@ -3,11 +3,11 @@ package radar.model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ObjectiveValues {
+public class SolutionValues {
 
 	Map<Objective, Double> objvalue_ ;
 	Alternative solution_;
-	public ObjectiveValues(){
+	public SolutionValues(){
 		objvalue_ = new LinkedHashMap<Objective, Double>();
 	}
 	public void setSolution (Alternative solution){
@@ -25,4 +25,8 @@ public class ObjectiveValues {
 	public void  addObjectiveValue (Objective obj, double value){
 		objvalue_.put(obj, value);
 	}
+	public String solutionValueToString (){
+		return null;
+	}
+	
 }

@@ -14,7 +14,10 @@ public class Alternative {
 	private String infoValueObj_;
 	// added this boolean field so that for each obejctive to simulate, ....
 	private boolean storeSimParameter_;
-	public Alternative(){}
+	public Alternative(){
+		selection = new LinkedHashMap<Decision, String>();
+		globalSelection = new LinkedHashMap<Decision, String>();
+	}
 	public Alternative (Alternative a){
 		sematicModel = a.sematicModel;
 		infoValueObj_ = a.getInfoValueObjectiveName();
@@ -54,12 +57,8 @@ public class Alternative {
 		return selection;
 	}
 	public void addDecision (Decision d, String option){
-		if (selection == null){
-			selection = new LinkedHashMap<Decision, String>();
-			selection.put(d, option);
-		}else{
-			selection.put(d, option);
-		}
+		selection.put(d, option);
+		globalSelection.put(d, option);
 	}
 	public void setGlobalSelection(Map<Decision, String> aGlobalSelection){
 		globalSelection =aGlobalSelection ;
@@ -67,14 +66,9 @@ public class Alternative {
 	public Map<Decision, String> getGlobalSelection(){
 		return globalSelection;
 	}
-	public void addDecisionToGlobalSelection (Decision d, String option){
-		if (globalSelection == null){
-			globalSelection = new LinkedHashMap<Decision, String>();
-			globalSelection.put(d, option);
-		}else{
-			globalSelection.put(d, option);
-		}
-	}
+	/*public void addDecisionToGlobalSelection (Decision d, String option){
+		globalSelection.put(d, option);
+	}*/
 	public void setStoreSimParameter (boolean storeSimParam){
 		storeSimParameter_ = storeSimParam;
 	}
