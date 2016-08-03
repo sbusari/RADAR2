@@ -1,0 +1,5 @@
+ENB
+ system type:New, with model parameter Benefit[New], 0.5410979023258218
+system type:Legacy, with model parameter Benefit[Legacy], 4.350783707265382E-4
+system type:New, with model parameter Cost[New], 0.14180901158701387
+system type:Legacy, with model parameter Cost[Legacy], 3.5129556692892194E-4

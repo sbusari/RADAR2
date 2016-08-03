@@ -1,0 +1,55 @@
+FinancialLoss
+ blocking policy:block first,processing type:continuous,fraud detection method:classifier,threshold level:high, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:classifier,threshold level:medium, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:classifier,threshold level:low, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:rule-based,threshold level:high, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:rule-based,threshold level:medium, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:rule-based,threshold level:low, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:classifier,threshold level:high, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:classifier,threshold level:medium, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:classifier,threshold level:low, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:rule-based,threshold level:high, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:rule-based,threshold level:medium, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:rule-based,threshold level:low, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:classifier,threshold level:high, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:classifier,threshold level:medium, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:classifier,threshold level:low, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:rule-based,threshold level:high, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:rule-based,threshold level:medium, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:rule-based,threshold level:low, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:classifier,threshold level:high, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:classifier,threshold level:medium, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:classifier,threshold level:low, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:rule-based,threshold level:high, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:rule-based,threshold level:medium, with model parameter NbrAccounts, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:rule-based,threshold level:low, with model parameter NbrAccounts, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:classifier,threshold level:high, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:classifier,threshold level:medium, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:classifier,threshold level:low, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:rule-based,threshold level:high, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:rule-based,threshold level:medium, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:continuous,fraud detection method:rule-based,threshold level:low, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:classifier,threshold level:high, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:classifier,threshold level:medium, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:classifier,threshold level:low, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:rule-based,threshold level:high, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:rule-based,threshold level:medium, with model parameter AverageFraudValue, 0.0
+blocking policy:block first,processing type:batch,fraud detection method:rule-based,threshold level:low, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:classifier,threshold level:high, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:classifier,threshold level:medium, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:classifier,threshold level:low, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:rule-based,threshold level:high, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:rule-based,threshold level:medium, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:continuous,fraud detection method:rule-based,threshold level:low, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:classifier,threshold level:high, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:classifier,threshold level:medium, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:classifier,threshold level:low, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:rule-based,threshold level:high, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:rule-based,threshold level:medium, with model parameter AverageFraudValue, 0.0
+blocking policy:investigage first,processing type:batch,fraud detection method:rule-based,threshold level:low, with model parameter AverageFraudValue, 0.0
+fraud detection method:rule-based,threshold level:high, with model parameter ContinuousTrueAlertRate[rule-based], 0.0
+fraud detection method:rule-based,threshold level:medium, with model parameter ContinuousTrueAlertRate[rule-based], 0.0
+fraud detection method:rule-based,threshold level:low, with model parameter ContinuousTrueAlertRate[rule-based], 0.0
+fraud detection method:classifier,threshold level:high, with model parameter ContinuousTrueAlertRate[rule-based], 0.0
+fraud detection method:classifier,threshold level:medium, with model parameter ContinuousTrueAlertRate[rule-based], 0.0
+fraud detection method:classifier,threshold level:low, with model parameter ContinuousTrueAlertRate[rule-based], 0.0

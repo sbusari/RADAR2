@@ -78,7 +78,7 @@ public class ModelAnalysisResult {
 							double value = infoValueAnalysis.computeEVPPI(currentInfoValueObj, optimalSolutions, entry.getValue());
 
 							evppi.put(entry.getKey().getParameter(), value);
-							System.out.println("evppi for  objective "+  currentInfoValueObj.getLabel()+ " and parameter "+ entry.getKey().getParameter()+ " is "+ value );
+							System.out.println("evppi for  objective "+  currentInfoValueObj.getLabel()+ " and selection "+ entry.getKey().getParameter()+ " is "+ value );
 						}
 					}
 				}

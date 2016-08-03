@@ -98,9 +98,9 @@ public class Alternative {
 		String output = "";
 		if (selection != null){
 			for (Map.Entry<Decision, String> entry:selection.entrySet() ){
-				output += entry.getKey().getDecisionLabel() + " " +entry.getValue() + ",";
+				output += entry.getKey().getDecisionLabel() + ":" +entry.getValue() + ",";
 			}
-			output += output.substring(0,output.length()-1 );
+			output = output.substring(0,output.length()-1 );
 		}
 		return output;
 	}

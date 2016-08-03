@@ -103,11 +103,11 @@ public class QualityVariable extends ArithmeticExpression {
 	}
 	private void addParameterDistributions (Map<Alternative, double[]> simParameters, Alternative s,  double [] simdata){
 		if (definition_.getparameterOption() != null && StringUtils.isNoneEmpty(definition_.getparameterOption())){
-			// set the parameter 
-			s.setParameter(label_ + "[" + definition_.getparameterOption() +"]");
+			// set the parameter, added [option] incase the parameter depends on deciion.
+			s.setParameter( s.selectionToString() + ", with model parameter " +  label_ + "[" + definition_.getparameterOption() +"]");
 			simParameters.put(s,simdata);
 		}else{
-			s.setParameter(label_);
+			s.setParameter( s.selectionToString() + ", with model parameter " +  label_);
 			simParameters.put(s ,simdata);
 		}
 	}
