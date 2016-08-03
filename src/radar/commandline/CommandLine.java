@@ -208,6 +208,11 @@ public class CommandLine {
 			Helper.printResults (dataInput.getOutputDirectory() + "/", cvsResult, dataInput.getProblemName()+ "_shortlist.csv");
 			
 			// print evtpi and evppi in outputfolder
+			String evtpiToCSV = result.evtpiToString();
+			Helper.printResults (dataInput.getOutputDirectory() + "/", evtpiToCSV, dataInput.getProblemName()+ "_evtpi.csv");
+			
+			String evppiToCSV = result.evppiToString();
+			Helper.printResults (dataInput.getOutputDirectory() + "/", evppiToCSV, dataInput.getProblemName()+ "_evppi.csv");
 			
 			
 			//5. when decision is specified, display the decision on console.

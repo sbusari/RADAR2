@@ -16,8 +16,8 @@ public class ModelAnalysisResult {
 	List<SolutionValues> optimalSolutions_;
 	List<SolutionValues> allSolutions_;
 	List<String> shortlist_;
-	double evtpi_;
-	Map<String, Double> evppi_;
+	Map<Objective, Double> evtpi_;
+	Map<Objective, Map<String, Double>> evppi_;
 	Model semanticModel_;
 	OptimisationType optimisationType_;
 	Algorithm alg_;
@@ -28,7 +28,8 @@ public class ModelAnalysisResult {
 		alg_ = getAlgorithm(optimisationType);
 		optimalSolutions_ = new ArrayList<SolutionValues>();
 		allSolutions_ =  new ArrayList<SolutionValues>();
-		evppi_ = new LinkedHashMap<String, Double>();
+		evppi_ = new LinkedHashMap<Objective, Map<String, Double>>();
+		evtpi_ = new LinkedHashMap<Objective, Double>();
 		shortlist_ = new ArrayList<String>();
 		 
 	}
@@ -42,32 +43,30 @@ public class ModelAnalysisResult {
 	}
 	public void anlyseByExhaustiveSearch(){
 		// compute objective values
-		List<SolutionValues> optimalsolutionValues =  alg_.solve();
+		optimalSolutions_ =  alg_.solve();
 		
 		List<Alternative> optimalSolutions = new ArrayList<Alternative>();
-		for (int i =0; i < optimalsolutionValues.size(); i ++){
-			Alternative s = optimalsolutionValues.get(i).getSolution();
+		for (int i =0; i < optimalSolutions_.size(); i ++){
+			Alternative s = optimalSolutions_.get(i).getSolution();
 			optimalSolutions.add(s);
 		}
 		
 		// perform information analsysis
 		InformationValueAnalysis infoValueAnalysis = new InformationValueAnalysis (semanticModel_.getSimulationNumber());
-		
-		
 		if (semanticModel_.getInfoValueObjective() != null && semanticModel_.getInfoValueObjective().size() > 0){
 			List<Objective> infoValueObjs = semanticModel_.getInfoValueObjective();
 			for (Objective currentInfoValueObj : infoValueObjs){
 				// compute evpi
-				evtpi_ = infoValueAnalysis.computeEVTPI(currentInfoValueObj, optimalSolutions);
-				System.out.println("evtpi for "+ currentInfoValueObj .getLabel()+ " is "+ evtpi_ );
-				
+				double evtpi = infoValueAnalysis.computeEVTPI(currentInfoValueObj, optimalSolutions);
+				evtpi_.put(currentInfoValueObj, evtpi);
+				System.out.println("evtpi for "+ currentInfoValueObj .getLabel()+ " is "+ evtpi );
 				// compute evppi for all parameters
 				List<String> params = semanticModel_.getParameters();
+				Map<String, Double> evppi = new LinkedHashMap<String, Double>();
 				if (params != null){
 					for (int i =0; i < params.size(); i ++){
 						QualityVariable qvSim= semanticModel_.getQualityVariables().get(params.get(i));
 						Map<Alternative, double[]> paramSimData = qvSim.getParameterSimData();
-						
 						// get sim data of the the current currentInfoValueObj
 						Map<Alternative, double[]> currentInfoValueObjSimData  = new LinkedHashMap<Alternative, double[]>();
 						for (Map.Entry<Alternative, double[]> entry: paramSimData.entrySet()){
@@ -75,18 +74,16 @@ public class ModelAnalysisResult {
 								currentInfoValueObjSimData.put(entry.getKey(), entry.getValue());
 							}
 						}
-						
 						for (Map.Entry<Alternative, double[]> entry: currentInfoValueObjSimData.entrySet()){
-							double evppi = infoValueAnalysis.computeEVPPI(currentInfoValueObj, optimalSolutions, entry.getValue());
-							evppi_.put(params.get(i), evppi);
-							System.out.println("evppi for  objective "+  currentInfoValueObj.getLabel()+ " and parameter "+ entry.getKey().getParameter()+ " is "+ evppi );
+							double value = infoValueAnalysis.computeEVPPI(currentInfoValueObj, optimalSolutions, entry.getValue());
+
+							evppi.put(entry.getKey().getParameter(), value);
+							System.out.println("evppi for  objective "+  currentInfoValueObj.getLabel()+ " and parameter "+ entry.getKey().getParameter()+ " is "+ value );
 						}
-						
-						
 					}
-				}	
+				}
+				evppi_.put(currentInfoValueObj, evppi);
 			}
-			
 		}
 		// plot goal graphs and decision graph
 		
@@ -94,12 +91,6 @@ public class ModelAnalysisResult {
 	
 	public List<String> getShortList (){
 		return shortlist_;
-	}
-	public double getEvtpi (){
-		return evtpi_;
-	}
-	public Map<String, Double> getEvppi (){
-		return evppi_;
 	}
 	public List<SolutionValues> getOptimalSolutions (){
 		return optimalSolutions_;
@@ -111,12 +102,12 @@ public class ModelAnalysisResult {
 		return obejctives_;
 	}
 	public String generateResultHeader (){
-		String result ="";
+		String result =",";
 		for(Map.Entry<String ,Decision> entry: semanticModel_.getDecisions().entrySet()){
 			result +=entry.getValue().getDecisionLabel() + ",";
 		}
 		for(Map.Entry<String, Objective> entry: semanticModel_.getObjectives().entrySet()){
-			result +=entry.getValue() + ",";
+			result +=entry.getValue().getLabel() + ",";
 		}
 		result += "Optimal";
 		return result;
@@ -134,7 +125,8 @@ public class ModelAnalysisResult {
 	        }
 	        
 	        for(Map.Entry<Objective, Double> entry: solutions.get(count).getObjectiveValue().entrySet()){
-	        	record += entry.getValue() +",";
+	        	double value= (entry.getKey().getIsMinimisation())? entry.getValue():  (-1 * entry.getValue());
+	        	record += value + ",";
 	        }
 	        
 	        row += (record);
@@ -173,6 +165,26 @@ public class ModelAnalysisResult {
 			 }
 		}
 		return nonOptimalSolutions;
+	}
+	public String  evtpiToString (){
+		Map<Objective, Double> evtpi = evtpi_;
+		String result = "";
+		for (Map.Entry<Objective, Double> entry: evtpi.entrySet()){
+			result += entry.getKey().getLabel() + ", " + entry.getValue() + "\n";
+		}
+		return result;
+	}
+	
+	public String  evppiToString (){
+		Map<Objective, Map<String, Double>> evppi = evppi_;
+		String result = "";
+		for (Map.Entry<Objective, Map<String, Double>> entry: evppi.entrySet()){
+			result += entry.getKey().getLabel() + "\n ";
+			for (Map.Entry<String, Double> valueEntry : entry.getValue().entrySet()){
+				result += valueEntry.getKey() + ", " + valueEntry.getValue() + "\n";
+			}
+		}
+		return result;
 	}
 	public String decisionsToCSV ( ){
 		StringBuilder decision = new StringBuilder ();
