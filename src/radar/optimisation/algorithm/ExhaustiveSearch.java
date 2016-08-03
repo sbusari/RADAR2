@@ -27,10 +27,7 @@ public class ExhaustiveSearch extends Algorithm{
 		
 	}
 	private DecisionVector getDecisionVector ( Model model){
-		DecisionVector result = null;
-		if (model.getSolutionType().equals(SolutionType.XOR.toString())){
-			result = new XOR_DecisionVector(model);
-		}
+		DecisionVector result =new XOR_DecisionVector(model);
 		return result;
 	}
 	@Override

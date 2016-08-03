@@ -16,12 +16,12 @@ public class QualityVariable extends ArithmeticExpression {
 	private String label_;
 	private Expression definition_;
 	private Map<Alternative, double[]> simData_;
-	private Map<String, double[]> simParameters_;
+	private Map<Alternative, double[]> simParameters_;
 	private Map<String, Decision> decisionsBeforeVar;
 	private Map<String, Decision> decisionsAfterVar;
 	public QualityVariable(){
 		simData_ = new LinkedHashMap<Alternative, double[]>();
-		simParameters_ = new LinkedHashMap<String, double[]>();
+		simParameters_ = new LinkedHashMap<Alternative, double[]>();
 		decisionsBeforeVar = new LinkedHashMap <String, Decision>();
 		decisionsAfterVar  = new LinkedHashMap <String, Decision>();
 	}
@@ -85,9 +85,8 @@ public class QualityVariable extends ArithmeticExpression {
 		return results;
 	}
 	public double [] simulate (Alternative s){
-		//System.out.println("entered quality variable " + label_);
 		double [] simdata = null;
-		//Alternative localSolution = s;//new Alternative(s);
+		//Alternative localSolution = new Alternative(s);
 		Alternative localSolution = subSolution(s);
 		if (simData_.get(localSolution) == null){
 			double [] sim = definition_.simulate(localSolution);
@@ -96,16 +95,20 @@ public class QualityVariable extends ArithmeticExpression {
 		}else{
 			simdata = simData_.get(localSolution);
 		}
-		if (definition_.getIsExpresionDistribution() && s.getSemanticModel().getParameters() != null &&  s.getSemanticModel().getParameters().contains(label_) && s.getStoreSimParameter()){
-			addParameterDistributions(simParameters_,simdata);
+		//used this check getIsObjSimParameterStored when objs refer to the same qv and to prevent one repacing another.
+		if (definition_.getIsExpresionDistribution() && s.getSemanticModel().getParameters() != null &&  s.getSemanticModel().getParameters().contains(label_) && s.getIsObjSimParameterStored()){
+			addParameterDistributions(simParameters_,localSolution, simdata);
 		}
 		return simdata;
 	}
-	private void addParameterDistributions (Map<String, double[]> simParameters, double [] simdata){
+	private void addParameterDistributions (Map<Alternative, double[]> simParameters, Alternative s,  double [] simdata){
 		if (definition_.getparameterOption() != null && StringUtils.isNoneEmpty(definition_.getparameterOption())){
-			simParameters.put(label_ + "[" + definition_.getparameterOption() +"]",simdata);
+			// set the parameter 
+			s.setParameter(label_ + "[" + definition_.getparameterOption() +"]");
+			simParameters.put(s,simdata);
 		}else{
-			simParameters.put(label_ ,simdata);
+			s.setParameter(label_);
+			simParameters.put(s ,simdata);
 		}
 	}
 	private Alternative subSolution (Alternative s){
@@ -121,9 +124,9 @@ public class QualityVariable extends ArithmeticExpression {
 				}
 			}
 		}
-		subsolution.setInfoValueObjectiveName(s.getInfoValueObjectiveName());
 		subsolution.setSemanticModel(s.getSemanticModel());
-		subsolution.setStoreSimParameter(s.getStoreSimParameter());
+		subsolution.setStoredObjSimParameter(s.getIsObjSimParameterStored());
+		subsolution.setInfoValueObjective(s.getInfoValueObjective());
 		return subsolution;
 	}
 	public Map<Alternative, double[]> getSimData(){
@@ -132,7 +135,7 @@ public class QualityVariable extends ArithmeticExpression {
 	public void setSimData(Map<Alternative, double[]> simdata){
 		simData_ =simdata;
 	}
-	public Map<String, double[]> getParameterSimData(){
+	public Map<Alternative, double[]> getParameterSimData(){
 		return simParameters_;
 	}
 

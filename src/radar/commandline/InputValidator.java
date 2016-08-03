@@ -1,6 +1,7 @@
 package radar.commandline;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,17 +10,23 @@ import radar.model.Objective;
 
 public class InputValidator {
 	
-	public static boolean objectiveExist (Model model, String infoValueObjective){
+	public static void objectiveExist (Model model, List<String> infoValueObjective) throws Exception{
 		boolean exist =false;
 		if (infoValueObjective != null){
-			Map<String, Objective>  objs = model.getObjectives();
-			for (Map.Entry<String, Objective> entry:objs.entrySet() ){
-				if (entry.getKey().equals(infoValueObjective)){
-					exist = true;
+			for (int i =0; i < infoValueObjective.size(); i++){
+				Map<String, Objective>  objs = model.getObjectives();
+				List<String> objNames = new ArrayList<String>(objs.keySet());
+				if (!objNames.contains(infoValueObjective.get(i).trim())){
+					throw new Exception ("Error: "+ "information value objective name "+ infoValueObjective.get(i)+ " does not exist in the model."); 
 				}
+				/*for (Map.Entry<String, Objective> entry:objs.entrySet() ){
+					if (!entry.getKey().equals(infoValueObjective.get(i).trim())){
+						throw new Exception ("Error: "+ "information value objective name "+ infoValueObjective.get(i)+ " does not exist in the model."); 
+		    		
+					}
+				}*/
 			}
 		}
-		return exist;
 	}
 	public static void validateModelPath (String modelPath) throws Exception{
 		if (modelPath != null){

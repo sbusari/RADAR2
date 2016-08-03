@@ -1,6 +1,8 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 public class Alternative {
 
@@ -10,18 +12,19 @@ public class Alternative {
 	private Map<Decision, String> globalSelection;
 	// added this cos during simulation, for an identifier expr e.g cost, we need to get the qv definition from this model.
 	private Model sematicModel;
-	// added this here to aid computation of evtpi
-	private String infoValueObj_;
-	// added this boolean field so that for each obejctive to simulate, ....
-	private boolean storeSimParameter_;
+	// used during simulation of each objective to know which obj we would like to store its simulation values.
+	// incase more than one obj refer to the same qv, and we want to perform info analyis on the objectives, this field is used to distinguish objs.
+	private Objective infoValueObj_;
+	private String parameter_;
+	private boolean storeObjSimParameter_;
 	public Alternative(){
 		selection = new LinkedHashMap<Decision, String>();
 		globalSelection = new LinkedHashMap<Decision, String>();
 	}
 	public Alternative (Alternative a){
 		sematicModel = a.sematicModel;
-		infoValueObj_ = a.getInfoValueObjectiveName();
-		storeSimParameter_ = a.getStoreSimParameter();
+		infoValueObj_ = a.getInfoValueObjective();
+		storeObjSimParameter_ = a.getIsObjSimParameterStored();
 		selection = new LinkedHashMap<Decision, String>();
 		if (a.selection != null){
 			selection.putAll(a.selection);
@@ -31,6 +34,7 @@ public class Alternative {
 			globalSelection.putAll(a.globalSelection);
 		}
 	}
+	
 	public String getOption (Decision d){
 		String option ="";
 		if (selection  != null){
@@ -66,14 +70,11 @@ public class Alternative {
 	public Map<Decision, String> getGlobalSelection(){
 		return globalSelection;
 	}
-	/*public void addDecisionToGlobalSelection (Decision d, String option){
-		globalSelection.put(d, option);
-	}*/
-	public void setStoreSimParameter (boolean storeSimParam){
-		storeSimParameter_ = storeSimParam;
+	public void setStoredObjSimParameter (boolean storedObjSimParameter){
+		storeObjSimParameter_ = storedObjSimParameter;
 	}
-	public boolean getStoreSimParameter (){
-		return 	storeSimParameter_;
+	public boolean getIsObjSimParameterStored (){
+		return 	storeObjSimParameter_;
 	}
 	public Model getSemanticModel (){
 		return sematicModel;
@@ -81,11 +82,17 @@ public class Alternative {
 	public void setSemanticModel(Model model){
 		sematicModel =  model;
 	}
-	public String getInfoValueObjectiveName (){
+	public Objective getInfoValueObjective (){
 		return infoValueObj_;
 	}
-	public void setInfoValueObjectiveName (String infoValueObj){
+	public void setInfoValueObjective (Objective infoValueObj){
 		infoValueObj_ =  infoValueObj;
+	}
+	public void setParameter (String parameter){
+		parameter_ =parameter;
+	}
+	public String getParameter (){
+		return parameter_;
 	}
 	public String selectionToString (){
 		String output = "";

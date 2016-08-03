@@ -17,28 +17,42 @@ public class InformationValueAnalysis {
 	
 	
 	int simulation;
+	Model semanticModel_;
 	public InformationValueAnalysis (int noOfSim){
 		simulation = noOfSim;
 	}
 	public void performInformationAnalysis (Model sematicmodel,  SolutionSet optimalSolutions ){
-		if (sematicmodel.getInfoValueObjective() != null){
-			List<Alternative> optimalAlternative = new ArrayList<Alternative>();
-			if (optimalSolutions != null){
-				for (int i =0 ; i < optimalSolutions.size(); i ++){
-					optimalAlternative.add(optimalSolutions.get(i).getAlternative());
+		if (sematicmodel.getInfoValueObjective() != null && sematicmodel.getInfoValueObjective().size() > 0 ){
+			List<Objective> infoValueObjs = sematicmodel.getInfoValueObjective();
+			for (Objective currentInfoValueObj : infoValueObjs){
+				List<Alternative> optimalAlternative = new ArrayList<Alternative>();
+				if (optimalSolutions != null){
+					for (int i =0 ; i < optimalSolutions.size(); i ++){
+						optimalAlternative.add(optimalSolutions.get(i).getAlternative());
+					}
 				}
-			}
-			double infoValue = computeEVTPI(sematicmodel.getInfoValueObjective(), optimalAlternative);
-			System.out.println("evtpi value is: "+ infoValue );
-			List<String> params = sematicmodel.getParameters();
-			if (params != null){
-				for (int i =0; i < params.size(); i ++){
-					QualityVariable qvSim= sematicmodel.getQualityVariables().get(params.get(i));
-					Map<String, double[]> paramSimData = new LinkedHashMap<String, double[]>();
-					paramSimData.putAll(qvSim.getParameterSimData());
-					for (Map.Entry<String, double[]> entry: paramSimData.entrySet()){
-						double evppi = computeEVPPI(sematicmodel.getInfoValueObjective(), optimalAlternative, entry.getValue());
-						System.out.println("evppi for "+ entry.getKey()+ " is "+ evppi );
+				
+				double infoValue = computeEVTPI(currentInfoValueObj, optimalAlternative);
+				System.out.println("evtpi for objective "+  currentInfoValueObj.getLabel()+ " is: "+ infoValue );
+
+				List<String> params = sematicmodel.getParameters();
+				if (params != null){
+					for (int i =0; i < params.size(); i ++){
+						QualityVariable qvSim= sematicmodel.getQualityVariables().get(params.get(i));
+						Map<Alternative, double[]> paramSimData = qvSim.getParameterSimData();
+						
+						// sim data of the the current currentInfoValueObj
+						Map<Alternative, double[]> currentInfoValueObjSimData  = new LinkedHashMap<Alternative, double[]>();
+						for (Map.Entry<Alternative, double[]> entry: paramSimData.entrySet()){
+							if (entry.getKey().getInfoValueObjective().getLabel().equals(currentInfoValueObj.getLabel())){
+								currentInfoValueObjSimData.put(entry.getKey(), entry.getValue());
+							}
+						}
+						// 
+						for (Map.Entry<Alternative, double[]> entry: currentInfoValueObjSimData.entrySet()){
+							double evppi = computeEVPPI(currentInfoValueObj, optimalAlternative, entry.getValue());
+							System.out.println("evppi for  objective "+  currentInfoValueObj.getLabel()+ " and parameter "+ entry.getKey().getParameter()+ " is "+ evppi );
+						}
 					}
 				}
 			}
@@ -67,7 +81,9 @@ public class InformationValueAnalysis {
 		if (optimalSolutions != null && optimalSolutions.size() > 0){
 			for (int i =0; i < optimalSolutions.size(); i++){
 				for (Map.Entry<Alternative , double[]> simEntry : varSimData.entrySet()){
-					if (optimalSolutions.get(i).selectionToString().equals(simEntry.getKey().selectionToString())){
+					// did this check in case two objectives refer to same qv and may be only one obj is to be used for information value analysis
+					if (optimalSolutions.get(i).selectionToString().equals(simEntry.getKey().selectionToString()) && simEntry.getKey().getIsObjSimParameterStored() 
+							&& infoValueObj.getLabel().equals(simEntry.getKey().getInfoValueObjective().getLabel())){
 						alternativesSimData.put(simEntry.getKey(), simEntry.getValue());
 					}	
 				}
@@ -75,7 +91,6 @@ public class InformationValueAnalysis {
 		}else{
 			alternativesSimData = varSimData;
 		}
-		
 		return alternativesSimData;
 	}
 	private double[][] getSimData(Map<Alternative, double[]> allAlternative) {

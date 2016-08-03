@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import radar.enumeration.OptimisationType;
 import radar.information.analysis.InformationValueAnalysis;
 import radar.optimisation.algorithm.Algorithm;
@@ -52,24 +53,41 @@ public class ModelAnalysisResult {
 		// perform information analsysis
 		InformationValueAnalysis infoValueAnalysis = new InformationValueAnalysis (semanticModel_.getSimulationNumber());
 		
-		// compute evpi
-		evtpi_ = infoValueAnalysis.computeEVTPI(semanticModel_.getInfoValueObjective(), optimalSolutions);
 		
-		// compute evppi for all parameters
-		List<String> params = semanticModel_.getParameters();
-		if (params != null){
-			for (int i =0; i < params.size(); i ++){
-				QualityVariable qvSim= semanticModel_.getQualityVariables().get(params.get(i));
-				Map<String, double[]> paramSimData = new LinkedHashMap<String, double[]>();
-				paramSimData.putAll(qvSim.getParameterSimData());
-				for (Map.Entry<String, double[]> entry: paramSimData.entrySet()){
-					double evppi = infoValueAnalysis.computeEVPPI(semanticModel_.getInfoValueObjective(), optimalSolutions, entry.getValue());
-					evppi_.put(params.get(i), evppi);
-					System.out.println("evppi for "+ entry.getKey()+ " is "+ evppi );
-				}
+		if (semanticModel_.getInfoValueObjective() != null && semanticModel_.getInfoValueObjective().size() > 0){
+			List<Objective> infoValueObjs = semanticModel_.getInfoValueObjective();
+			for (Objective currentInfoValueObj : infoValueObjs){
+				// compute evpi
+				evtpi_ = infoValueAnalysis.computeEVTPI(currentInfoValueObj, optimalSolutions);
+				System.out.println("evtpi for "+ currentInfoValueObj .getLabel()+ " is "+ evtpi_ );
+				
+				// compute evppi for all parameters
+				List<String> params = semanticModel_.getParameters();
+				if (params != null){
+					for (int i =0; i < params.size(); i ++){
+						QualityVariable qvSim= semanticModel_.getQualityVariables().get(params.get(i));
+						Map<Alternative, double[]> paramSimData = qvSim.getParameterSimData();
+						
+						// get sim data of the the current currentInfoValueObj
+						Map<Alternative, double[]> currentInfoValueObjSimData  = new LinkedHashMap<Alternative, double[]>();
+						for (Map.Entry<Alternative, double[]> entry: paramSimData.entrySet()){
+							if (entry.getKey().getInfoValueObjective().getLabel().equals(currentInfoValueObj.getLabel())){
+								currentInfoValueObjSimData.put(entry.getKey(), entry.getValue());
+							}
+						}
+						
+						for (Map.Entry<Alternative, double[]> entry: currentInfoValueObjSimData.entrySet()){
+							double evppi = infoValueAnalysis.computeEVPPI(currentInfoValueObj, optimalSolutions, entry.getValue());
+							evppi_.put(params.get(i), evppi);
+							System.out.println("evppi for  objective "+  currentInfoValueObj.getLabel()+ " and parameter "+ entry.getKey().getParameter()+ " is "+ evppi );
+						}
+						
+						
+					}
+				}	
 			}
-		}		
-		
+			
+		}
 		// plot goal graphs and decision graph
 		
 	}

@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import radar.enumeration.OptimisationDirection;
@@ -67,10 +68,16 @@ public class DecisionProblem extends Problem {
 	 }//constraint checking
 	 private void resetSimulationVariables(){
 		 Map<String, QualityVariable> qvList = parserEngine_.getSemanticModel().getQualityVariables();
-		 for (Map.Entry<String, QualityVariable> entry: qvList.entrySet()){
-			 if( !parserEngine_.getSemanticModel().getInfoValueObjectiveName().equals(entry.getValue().getLabel()) ){
-				entry.getValue().setSimData(new LinkedHashMap<Alternative, double[]>());
+		 List<Objective> infoValueObj = parserEngine_.getSemanticModel().getInfoValueObjective();
+		 if (infoValueObj != null && infoValueObj.size() > 0){
+			 for (int i =0; i < infoValueObj.size(); i ++){
+				 for (Map.Entry<String, QualityVariable> entry: qvList.entrySet()){
+					 if( !infoValueObj.get(i).getQualityVariable().getLabel().equals(entry.getValue().getLabel()) ){
+						entry.getValue().setSimData(new LinkedHashMap<Alternative, double[]>());
+					 }
+				 }
 			 }
+			
 		 }
 	 }
 	 

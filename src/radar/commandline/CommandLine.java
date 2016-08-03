@@ -62,7 +62,7 @@ public class CommandLine {
 	
 	// a list needs an arity, but because we do not know the arity we enforce every thing in a quoted string separated by comma.
 	@Parameter(names ="--infoValueObjective", description = "Computes evtpi and evppi. Input is an objective name. An example usage of this command is: --infoValueObjective 'FinancialLoss' ")
-	private String infoValueObjective = null;
+	private List<String> infoValueObjective = new ArrayList<String>();
 
 	@Parameter(names ="--variable_dependeny_graph", description = "Displays the AND/OR goal graph.")
 	public boolean goalmodel = false;
@@ -84,11 +84,11 @@ public class CommandLine {
         cmd.run(cmd);
     }
 	
-	private Model parseModel (String modelPath,int simulation,String infoValueObjectiveName){
+	private Model parseModel (String modelPath,int simulation, List<String> infoValueObjective){
 		Model semanticModel = null;
 		try {
 			String model = Helper.readFile(modelPath);
-			Parser parser  = new Parser(model,simulation,infoValueObjectiveName );
+			Parser parser  = new Parser(model,simulation,infoValueObjective );
 			semanticModel = parser.getSemanticModel();
 		}
 		catch (RuntimeException re){
@@ -97,7 +97,6 @@ public class CommandLine {
 		
 		return semanticModel;
 	}
-
 	private boolean runSbseAlgorithm(){
 		boolean result = false;
 		if (solve != null && solve.contains("NSGAII") ||  solve.contains("SPEA2") ||  solve.contains("IBEA") ||  solve.contains("MoCell") ||  solve.contains("PAES") ||  solve.contains("RandomSearch")){
@@ -191,13 +190,14 @@ public class CommandLine {
     		ExperiementData dataInput = populateExperimentData();
     		// get sematic model from model file
     		Model semanticModel = loadModel ();
+    		semanticModel.setSimulationNumber(simulationNumber);
+    		
     		// update experiemnt data with semantic model and information value objective.
     		dataInput.setSemanticModel(semanticModel);
     		dataInput.setProblemName(semanticModel.getModelName());
-    		boolean objExist = InputValidator.objectiveExist(semanticModel, infoValueObjective);
-    		if (objExist){
-    			dataInput.setInformationValueObjective(infoValueObjective);
-    		}
+    		InputValidator.objectiveExist(semanticModel, infoValueObjective);
+    		dataInput.setInformationValueObjective(infoValueObjective);
+
     		// analyse model
     		ModelAnalysisResult result = new ModelAnalysisResult(dataInput.getSemanticModel(), dataInput.getTypeOfOptimisation());
 			if (dataInput.getTypeOfOptimisation().equals(OptimisationType.EXACT)){
@@ -205,7 +205,7 @@ public class CommandLine {
 			}
 			// print result to ouput folder
 			String cvsResult = result.shortlistToCSV();
-			Helper.printResults (dataInput.getExpBaseDirectory() + "/", cvsResult, dataInput.getProblemName()+ "_shortlist.csv");
+			Helper.printResults (dataInput.getOutputDirectory() + "/", cvsResult, dataInput.getProblemName()+ "_shortlist.csv");
 			
 			// print evtpi and evppi in outputfolder
 			

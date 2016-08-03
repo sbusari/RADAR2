@@ -32,11 +32,11 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	Map<String, Objective> obj_list;
 	Map<String, Decision> decision_list;
 	int simulationRun;
-	String infoValueObjectiveName;
+	List<String> infoValueObjective;
 	ModelConstructor modelConstructor;
-	public Visitor(int simulation, String infoValueObjName ){
+	public Visitor(int simulation, List<String> infoValueObj){
 		simulationRun =simulation;
-		infoValueObjectiveName= infoValueObjName;
+		infoValueObjective= infoValueObj;
 	}
 	public Model getSemanticModel() {
 		return semanticModel;
@@ -60,7 +60,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		
 		// need objective definition to get the quality variable an objective refers to
 		
-		modelConstructor.addObjectivesToModel(semanticModel, obj_definitions, obj_list,qv_list, infoValueObjectiveName );
+		modelConstructor.addObjectivesToModel(semanticModel, obj_definitions, obj_list,qv_list, infoValueObjective );
 		modelConstructor.addQualityVariablesToModel(semanticModel, qv_list );
 		modelConstructor.addDecisionsToModel(semanticModel,decision_list);
 		modelConstructor.addModelName(semanticModel,ctx.var_name().getText());

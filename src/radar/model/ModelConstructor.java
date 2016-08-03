@@ -19,27 +19,20 @@ public class ModelConstructor {
 	public  Model createNewModel (){
 		return Model.getInstance();
 	}
-	void addModelInfoValueObjective (Model model, String obj_name, Objective objective, String infoValueObjName){
-		List<Objective> infoValueObjectiveList = new ArrayList<Objective>();
-		for (Map.Entry<String, Objective> entry : model.getObjectives().entrySet()){
-			if (entry.getValue().getQualityVariable().getLabel().equals(infoValueObjName)){
-				infoValueObjectiveList.add(entry.getValue());
-			}
-		}
+	void addModelInfoValueObjective (Model model, String obj_name, Objective objective, List<String> infoValueObj){
 		
-		if (infoValueObjectiveList != null && infoValueObjectiveList.size() == 1){
-			model.setInfoValueObjective(infoValueObjectiveList.get(0));
-		}else if (infoValueObjectiveList != null && infoValueObjectiveList.size() > 1){
-			for (int i =0; i < infoValueObjectiveList.size(); i ++){
-				if (infoValueObjectiveList.get(i).getStatistic() instanceof Expectation){
-					model.setInfoValueObjective(infoValueObjectiveList.get(i));
-					return;
+		List<Objective> infoValueObjectiveList = new ArrayList<Objective>();
+		for (int i =0; i < infoValueObj.size(); i ++){
+			for (Map.Entry<String, Objective> entry : model.getObjectives().entrySet()){
+				if (entry.getValue().getLabel().equals(infoValueObj.get(i).trim())){
+					infoValueObjectiveList.add(entry.getValue());
 				}
 			}
 		}
+		model.setInfoValueObjective(infoValueObjectiveList);
 		
 	}
-	void addModelObjective (Model model, String obj_name, Objective objective, String infoValueObjName){
+	void addModelObjective (Model model, String obj_name, Objective objective){
 		model.addObjective(obj_name, objective);
 	}
 	 void addModelQualityVariable(Model model, String qv_name, QualityVariable qualityVariable){
@@ -84,12 +77,10 @@ public class ModelConstructor {
 					entry.getValue().addDecisionsAfterVar(d.getDecisionLabel(), d);
 				}
 			}
-			
-			
 		}
 		return model;
 	}
-	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist, String infoValueObjName){
+	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist, List<String> infoValueObj){
 		for (Map.Entry<String, Objective> entry: obj_list.entrySet()){
 			Value obj = obj_definition.get(entry.getKey());
 			Objective modelObj = entry.getValue();
@@ -116,8 +107,8 @@ public class ModelConstructor {
 					modelObj.setQualityVariable(qvlist.get(((Identifier)binaryExpr.getLeftExpression()).getID()));
 				}
 			}
-			addModelObjective(model,modelObj.getLabel(),modelObj, infoValueObjName );
-			addModelInfoValueObjective(model,modelObj.getLabel(),modelObj, infoValueObjName );
+			addModelObjective(model,modelObj.getLabel(),modelObj );
+			addModelInfoValueObjective(model,modelObj.getLabel(),modelObj, infoValueObj );
 		}
 		return model;
 	}

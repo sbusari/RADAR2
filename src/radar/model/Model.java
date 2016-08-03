@@ -12,8 +12,6 @@ import prefuse.data.Node;
 public class Model {
 	
 	private static Model instance = null;
-	private Model() {
-	}
 	public static Model getInstance() {
 		if(instance == null) {
 			instance = new Model();
@@ -28,7 +26,7 @@ public class Model {
 	private List<String> params_;
 	private Map<String, Decision> decisions_;
 	private List<Alternative> alternative_;
-	private Objective infoValueObjective_;
+	private List<Objective> infoValueObjective_;
 	private String infoValueObjectiveName_;
 	private int noOfSimulation_;
 	private String solutionType_;
@@ -103,10 +101,10 @@ public class Model {
 	public void setInfoValueObjectiveName (String infoValueObjectiveName){
 		infoValueObjectiveName_ = infoValueObjectiveName;
 	}
-	public void setInfoValueObjective (Objective objective){
+	public void setInfoValueObjective (List<Objective> objective){
 			infoValueObjective_ = objective;
 	}
-	public Objective getInfoValueObjective (){
+	public List<Objective> getInfoValueObjective (){
 		return infoValueObjective_ ;
 	}
 	public void setSimulationNumber(int noOfSimulation) {
@@ -125,7 +123,7 @@ public class Model {
 	public  void resetSimulationVariables(){
 		 Map<String, QualityVariable> qvList = this.getQualityVariables();
 		 for (Map.Entry<String, QualityVariable> entry: qvList.entrySet()){
-			 if( !this.getInfoValueObjectiveName().equals(entry.getValue().getLabel()) ){
+			 if(this.getInfoValueObjectiveName() != null && !this.getInfoValueObjectiveName().equals(entry.getValue().getLabel()) ){
 				entry.getValue().setSimData(new LinkedHashMap<Alternative, double[]>());
 			 }
 		 }
