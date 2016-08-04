@@ -6,11 +6,8 @@ import radar.model.Alternative;
 import radar.model.Decision;
 
 public abstract class DecisionVector {
-	
-	protected abstract List<Integer[]> encodeSolution();
-	protected abstract Alternative encodingToAlternative (List<Integer[]> encodedSolution);
-	protected abstract int [] getDecisionOptionsCount (Map<String, Decision> decisions);
-	public abstract List<Alternative> getAllSolutions ();
+	protected abstract List<Integer[]> encodeExactDecisionVector (Integer[] selectedOptionIndex);
+	protected abstract List<Integer[]> encodeSBSEDecisionVector ();
 }	
 	
 	

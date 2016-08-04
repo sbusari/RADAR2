@@ -87,7 +87,7 @@ public class ExhaustiveSearch extends Algorithm  {
 			return exactolutions;
 		}
 	  private ArrayList<Alternative> getAllAlternatives (Parser parserEngine){
-		ArrayList<Alternative> results = AlternativeAnalyser.getAllAlternative(parserEngine.getSemanticModel().getDecisions());
+		ArrayList<Alternative> results = null;//AlternativeAnalyser.getAllAlternative(parserEngine.getSemanticModel().getDecisions());
 		return results;
 	  }
 	  // decision block in the sense that it is initialised to zero. shows the structure of the decision block.

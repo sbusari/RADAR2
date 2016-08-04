@@ -76,7 +76,7 @@ public class ModelParsing {
 		Parser model_parser = new Parser (modelString,10000, null);
 		semantic_model = model_parser.getSemanticModel();
 		Map<String , Decision> decisions = semantic_model.getDecisions();
-		List<Alternative> allSolutions = AlternativeAnalyser.getAllAlternative(decisions) ;
+		List<Alternative> allSolutions =  new AlternativeAnalyser(semantic_model).getAllSolutions() ;
 		Assert.assertNotSame(0, allSolutions.size());
 	}
 	

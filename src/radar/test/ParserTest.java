@@ -25,7 +25,7 @@ public class ParserTest {
 		Parser testParser = new Parser (modelString,10000, null); 
 		Model semantic_model = testParser.getSemanticModel();
 		Map<String , Decision> decisions = semantic_model.getDecisions();
-		List<Alternative> allSolutions = AlternativeAnalyser.getAllAlternative(decisions);
+		List<Alternative> allSolutions = new AlternativeAnalyser(semantic_model).getAllSolutions();
 		System.out.print("Done");
 
 	}

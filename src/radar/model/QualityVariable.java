@@ -86,7 +86,7 @@ public class QualityVariable extends ArithmeticExpression {
 	}
 	public double [] simulate (Alternative s){
 		double [] simdata = null;
-		//Alternative localSolution = new Alternative(s);
+		//Alternative localSolution = s;//new Alternative(s);
 		Alternative localSolution = subSolution(s);
 		if (simData_.get(localSolution) == null){
 			double [] sim = definition_.simulate(localSolution);

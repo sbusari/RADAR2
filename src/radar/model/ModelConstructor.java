@@ -122,9 +122,6 @@ public class ModelConstructor {
 		return qv;
 	}
 	public void addInformationValueParameters (Model m, String qv_name, Value qv_def){
-		if (qv_name.equals("CostPerAlert"))	{
-			System.out.print("Cost Per Alter");
-		}
 		if (qv_def.getExpression() instanceof Distribution &&  !(qv_def.getExpression() instanceof DeterministicDistribution) ){
 				m.addParameters(qv_name);
 		}else if (qv_def.getExpression() instanceof OR_Refinement){

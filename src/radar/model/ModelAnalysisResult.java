@@ -41,25 +41,28 @@ public class ModelAnalysisResult {
 		}
 		return alg;
 	}
-	public void anlyseByExhaustiveSearch(){
-		// compute objective values
+	public void anlyseByExhaustiveSearch(){	
+		// stochastic simulation and  multi-objective optimisation
 		optimalSolutions_ =  alg_.solve();
-		
 		List<Alternative> optimalSolutions = new ArrayList<Alternative>();
 		for (int i =0; i < optimalSolutions_.size(); i ++){
 			Alternative s = optimalSolutions_.get(i).getSolution();
 			optimalSolutions.add(s);
 		}
 		
-		// perform information analsysis
+		// perform information value analysis
 		InformationValueAnalysis infoValueAnalysis = new InformationValueAnalysis (semanticModel_.getSimulationNumber());
 		if (semanticModel_.getInfoValueObjective() != null && semanticModel_.getInfoValueObjective().size() > 0){
+			
+			// for each supplied objective, we perform infomation vaue analysis
 			List<Objective> infoValueObjs = semanticModel_.getInfoValueObjective();
 			for (Objective currentInfoValueObj : infoValueObjs){
+				
 				// compute evpi
 				double evtpi = infoValueAnalysis.computeEVTPI(currentInfoValueObj, optimalSolutions);
 				evtpi_.put(currentInfoValueObj, evtpi);
 				System.out.println("evtpi for "+ currentInfoValueObj .getLabel()+ " is "+ evtpi );
+				
 				// compute evppi for all parameters
 				List<String> params = semanticModel_.getParameters();
 				Map<String, Double> evppi = new LinkedHashMap<String, Double>();
@@ -85,7 +88,11 @@ public class ModelAnalysisResult {
 				evppi_.put(currentInfoValueObj, evppi);
 			}
 		}
-		// plot goal graphs and decision graph
+		
+		// generate goal graphs 
+		
+		// generate decision graph
+		
 		
 	}
 	

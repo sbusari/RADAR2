@@ -203,6 +203,7 @@ public class CommandLine {
 			if (dataInput.getTypeOfOptimisation().equals(OptimisationType.EXACT)){
 				result.anlyseByExhaustiveSearch();
 			}
+			
 			// print result to ouput folder
 			String cvsResult = result.shortlistToCSV();
 			Helper.printResults (dataInput.getOutputDirectory() + "/", cvsResult, dataInput.getProblemName()+ "_shortlist.csv");

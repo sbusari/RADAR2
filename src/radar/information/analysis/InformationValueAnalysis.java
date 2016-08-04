@@ -96,12 +96,14 @@ public class InformationValueAnalysis {
 	private double[][] getSimData(Map<Alternative, double[]> allAlternative) {
 		double [][] simData = new double [allAlternative.size()][simulation];
 		int i =0;
-		for (Map.Entry<Alternative, double[]> entry: allAlternative.entrySet()){
-			// did this looping to create new instance as computation updates dim values if i pass by reference.
-			for (int j = 0 ; j < entry.getValue().length; j ++){
-				simData[i][j] = entry.getValue()[j];
+		if(allAlternative.size() > 0){
+			for (Map.Entry<Alternative, double[]> entry: allAlternative.entrySet()){
+				// did this looping to create new instance as computation updates dim values if i pass by reference.
+				for (int j = 0 ; j < entry.getValue().length; j ++){
+					simData[i][j] = entry.getValue()[j];
+				}
+				i++;
 			}
-			i++;
 		}
 		return simData;
 	}

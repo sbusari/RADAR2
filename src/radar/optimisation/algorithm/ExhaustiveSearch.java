@@ -8,6 +8,7 @@ import java.util.List;
 import radar.enumeration.SolutionType;
 import radar.jmetal.core.SolutionSet;
 import radar.model.Alternative;
+import radar.model.AlternativeAnalyser;
 import radar.model.Model;
 import radar.model.SolutionValues;
 import radar.optimisation.decisionvector.DecisionVector;
@@ -22,7 +23,7 @@ public class ExhaustiveSearch extends Algorithm{
 	public ExhaustiveSearch (Model model){
 		semanticModel_ = model;
 		decisionVector_ = getDecisionVector(model);
-		alternatives_ = decisionVector_.getAllSolutions();
+		alternatives_ = new AlternativeAnalyser(semanticModel_).getAllSolutions();
 		solutionValues_ = new ArrayList<SolutionValues>();
 		
 	}

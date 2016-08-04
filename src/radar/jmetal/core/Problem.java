@@ -30,6 +30,7 @@ import radar.jmetal.util.JMException;
 import radar.model.Decision;
 import radar.model.AlternativeAnalyser;
 import radar.model.Parser;
+import radar.utilities.Helper;
 
 /**
  * Abstract class representing a multiobjective optimization problem
@@ -282,12 +283,12 @@ public abstract class Problem implements Serializable {
 
 	public int numberOfArrayBitVectorVariables() {
 		// TODO Auto-generated method stub
-		return AlternativeAnalyser.getTotalOptions(parserEngine_.getSemanticModel());
+		return Helper.getTotalOptions(parserEngine_.getSemanticModel());
 	}
 
 	public int numberOfBitVectorVariables() {
 		// TODO Auto-generated method stub
-		return AlternativeAnalyser.getTotalOptions(parserEngine_.getSemanticModel());
+		return Helper.getTotalOptions(parserEngine_.getSemanticModel());
 	}
 
 

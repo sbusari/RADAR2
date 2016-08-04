@@ -30,6 +30,7 @@ import radar.model.Alternative;
 import radar.model.Decision;
 import radar.model.AlternativeAnalyser;
 import radar.model.Parser;
+import radar.utilities.Helper;
 
 /** 
  * Class representing a SolutionSet (a set of solutions)
@@ -328,7 +329,7 @@ public class SolutionSet implements Serializable {
 
       if (size()>0) {
         for (Solution aSolutionsList_ : solutionsList_) {
-        	Alternative alternative = AlternativeAnalyser.convertDecisionVectorToSolution(aSolutionsList_.getArrayBitVectorVariables(), aSolutionsList_.getProblem().getParserEngine().getSemanticModel());
+        	Alternative alternative = Helper.convertDecisionVectorToSolution(aSolutionsList_.getArrayBitVectorVariables(), aSolutionsList_.getProblem().getParserEngine().getSemanticModel());
         	Map<Decision, String > selection = alternative.getSelection();
             String entryRecord ="";
         	for (Map.Entry<Decision, String> entry: selection.entrySet()){

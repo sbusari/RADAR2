@@ -19,6 +19,7 @@ import radar.model.Objective;
 import radar.model.Parser;
 import radar.model.QualityVariable;
 import radar.simulation.Simulator;
+import radar.utilities.Helper;
 
 public class DecisionProblem extends Problem {
 	
@@ -44,7 +45,7 @@ public class DecisionProblem extends Problem {
 	 }
 	 public void evaluate(Solution solution) throws JMException {
 		 ArrayList<Variable[]> variable  = solution.getArrayBitVectorVariables(); 
-		 Alternative a = radar.model.AlternativeAnalyser.convertDecisionVectorToSolution(variable, parserEngine_.getSemanticModel());
+		 Alternative a = Helper.convertDecisionVectorToSolution(variable, parserEngine_.getSemanticModel());
 		 Simulator simulator = new Simulator(a, parserEngine_.getSemanticModel());
 		 Map<Objective, Double> fitness =  simulator.computeObjectiveValues();
 		 int i =0;

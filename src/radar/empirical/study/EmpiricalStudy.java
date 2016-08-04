@@ -42,6 +42,7 @@ import radar.model.Parser;
 import radar.model.QualityVariable;
 import radar.model.problem.DecisionProblem;
 import radar.utilities.ConfigSetting;
+import radar.utilities.Helper;
 import radar.utilities.SolutionDetail;
 
 public class EmpiricalStudy extends Experiment {
@@ -307,7 +308,7 @@ public class EmpiricalStudy extends Experiment {
 					parser = entry.getValue().getGoalModelParserEngine();
 				    infoAnalysis = new InformationValueAnalysis(parser.getSemanticModel().getSimulationNumber());
 				    infoAnalysis.performInformationAnalysis(parser.getSemanticModel(),entry.getValue().getNonDominatedSolutions());
-				    LinkedHashMap<String, List<ArrayList<String>>> shortlist = AlternativeAnalyser.getShortlist (entry.getValue(), entry.getKey(),mainentry.getKey());
+				    LinkedHashMap<String, List<ArrayList<String>>> shortlist = Helper.getShortlist (entry.getValue(), entry.getKey(),mainentry.getKey());
 					anAlgorithmShortlist.put(entry.getKey(),shortlist);
 				}
 				allAlgorithmRunsshortlist. put(mainentry.getKey(),anAlgorithmShortlist );

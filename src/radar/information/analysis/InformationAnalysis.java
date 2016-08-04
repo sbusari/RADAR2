@@ -19,9 +19,9 @@ class InformationAnalysis {
     public static double evppi(double[] param, double[][] nbs) {
 
         // Check if param has at least 100 samples
-        /*if (param.length < 100) {
+        if (param.length < 100) {
             throw new StatsException("Too few samples.");
-        }*/
+        }
 
         // Ensure parameter is stochastic.
         double val = param[0];
@@ -33,8 +33,9 @@ class InformationAnalysis {
                 break;
             }
         }
-
-        /*if (!isStochastic) {
+        
+        /*
+        if (!isStochastic) {
             throw new ParameterNotSctochasticException("Input parameter is not stochastic.");
         }*/
 
