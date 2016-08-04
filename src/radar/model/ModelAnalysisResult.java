@@ -42,6 +42,7 @@ public class ModelAnalysisResult {
 		return alg;
 	}
 	public void anlyseByExhaustiveSearch(){	
+		
 		// stochastic simulation and  multi-objective optimisation
 		optimalSolutions_ =  alg_.solve();
 		List<Alternative> optimalSolutions = new ArrayList<Alternative>();
@@ -49,6 +50,10 @@ public class ModelAnalysisResult {
 			Alternative s = optimalSolutions_.get(i).getSolution();
 			optimalSolutions.add(s);
 		}
+		
+		
+		// get all simulated solutions
+		allSolutions_ =  allSimulatedSolution ();
 		
 		// perform information value analysis
 		InformationValueAnalysis infoValueAnalysis = new InformationValueAnalysis (semanticModel_.getSimulationNumber());
@@ -102,8 +107,8 @@ public class ModelAnalysisResult {
 	public List<SolutionValues> getOptimalSolutions (){
 		return optimalSolutions_;
 	}
-	public List<Alternative> allSolution (){
-		return ((ExhaustiveSearch)alg_).getAlternatives();
+	public List<SolutionValues> allSimulatedSolution (){
+		return ((ExhaustiveSearch)alg_).getAllSolutionValues();
 	}
 	public List<Objective> getObjectives(){
 		return obejctives_;
@@ -120,7 +125,7 @@ public class ModelAnalysisResult {
 		return result;
 	}
 	
-	private String getSolutionsToCSV(int startIndex, List<SolutionValues> solutions ){
+	private String getSolutionsToCSV(int startIndex, List<SolutionValues> solutions, boolean isOptimal ){
 		StringBuilder result = new StringBuilder();
 		for (int count = startIndex; count < solutions.size(); count++) {
 			String row = "";
@@ -137,7 +142,8 @@ public class ModelAnalysisResult {
 	        }
 	        
 	        row += (record);
-	        row += ("Yes\n");
+	        String optimal = isOptimal == true ? "Yes" :"No";
+	        row += (optimal + "\n");
 	        result.append(row);
 	    }
 		return result.toString();
@@ -147,10 +153,10 @@ public class ModelAnalysisResult {
 		String shortlistHeader = generateResultHeader();
 		solutions.append(shortlistHeader);
 		solutions.append("\n");
-		String optimalSolutions = getSolutionsToCSV(0, optimalSolutions_);
+		String optimalSolutions = getSolutionsToCSV(0, optimalSolutions_, true);
 		solutions.append(optimalSolutions);
 		List<SolutionValues> nonOptimalSolutions =getNonOptimalSolutions();
-		String otherSolutions = getSolutionsToCSV(optimalSolutions_.size()+1, nonOptimalSolutions);
+		String otherSolutions = getSolutionsToCSV(optimalSolutions_.size()+1, nonOptimalSolutions, false);
 		solutions.append(otherSolutions);
 		return solutions.toString();
 	}

@@ -114,8 +114,8 @@ public class ExhaustiveSearch extends Algorithm{
 	    }
 	    return 1;    // solution2 dominate 
 	}
-	public List<Alternative> getAlternatives (){
-		return alternatives_;
+	public List<SolutionValues> getAllSolutionValues (){
+		return solutionValues_;
 	}
 	
 }
