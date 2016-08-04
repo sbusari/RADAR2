@@ -28,9 +28,6 @@ public class Simulator {
 	public Map<Objective, Double> computeObjectiveValues (){
 		objectiveValues_ = new LinkedHashMap<Objective, Double>();
 		this.selectedAlternative.setSemanticModel(semanticModel);
-		
-		//this.selectedAlternative.setInfoValueObjectiveName(semanticModel.getInfoValueObjective().getQualityVariable().getLabel());
-		
 		List<Objective> objList = new ArrayList<Objective>(this.semanticModel.getObjectives().values());
 		for (int i =0; i < objList.size(); i ++){
 			Objective obj = objList.get(i);
@@ -91,20 +88,6 @@ public class Simulator {
 		}
 		return result;
 	}
-/*	boolean storeSimulationParameters (Objective obj){
-		boolean result =false;
-		if (this.objectivesReferToSameQV_){
-			// we only want to check  for the objective statistic when the objective refer to the same qv.
-			//semanticModel.getInfoValueObjective().getQualityVariable().getLabel()
-			if (semanticModel.getInfoValueObjective().getQualityVariable().getLabel().equals(obj.getQualityVariable().getLabel()) 
-					&& semanticModel.getInfoValueObjective().getStatistic().getObjExpression().getClass().equals(obj.getStatistic().getObjExpression().getClass())){
-				result =true;
-			}
-		}else{
-			result = true;
-		}
-		return result;
-	}*/
 	boolean objectiveReferToSameQV (){
 		objectivesReferToSameQV_ = false;
 		List<Objective> objList = new ArrayList<Objective>(this.semanticModel.getObjectives().values());

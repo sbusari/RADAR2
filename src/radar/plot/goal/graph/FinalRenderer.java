@@ -32,14 +32,21 @@ public class FinalRenderer extends AbstractShapeRenderer
 		Shape result = m_ecl;
 		if(item instanceof NodeItem)
 		{
-			//"Unaryxpression", "BinaryExpression", "Idntifier", "Distribution", "OR_Refinement", "Decision", "ArithmeticJoiner"};
+			
 			String expr = (String) item.get("nodeType");
-			if (expr.trim().equals("Unaryxpression") || expr.trim().equals("BinaryExpression") || 
-					expr.trim().equals("Idntifier") || expr.trim().equals("Distribution") || expr.trim().equals("OR_Refinement") ) {
-				m_rect.setFrame(item.getX(), item.getY(), (Integer) 400, (Integer)50);
+			if (expr.trim().equals("Objective") ) {
+				m_rect.setFrame(item.getX(), item.getY(), (Integer) 300, (Integer)50);
+				result =m_rect;  
+			}else if (expr.trim().equals("QualityVariable")  || expr.trim().equals("Identifier")  ) {
+				RectangularShape m_rect = new RoundRectangle2D.Double(item.getX(), item.getY(), (Integer) 300, (Integer)50,25, 25);
 				result =m_rect;
-			}else if (expr.trim().equals("Decision")){
-				RectangularShape m_rect = new RoundRectangle2D.Double(item.getX(), item.getY(), (Integer) 300, (Integer)50, 55, 55);
+			}
+			if (expr.trim().equals("Joiner") ) {
+				RectangularShape m_rect = new RoundRectangle2D.Double(item.getX(), item.getY(), (Integer) 20, (Integer)20, 20, 20);
+				result =m_rect;
+			}
+			else if (expr.trim().equals("Option")){
+				RectangularShape m_rect = new RoundRectangle2D.Double(item.getX(), item.getY(), (Integer) 300, (Integer)50, 160, 160);
 				result =m_rect;
 			}else if (expr.trim().equals("ArithmeticJoiner")){
 				m_ecl.setFrame(item.getX(), item.getY(), (Integer)1, (Integer)1);

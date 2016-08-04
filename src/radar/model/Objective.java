@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import prefuse.data.Graph;
+
 public class Objective {
 	private double margin_;
 	private boolean isMinimisation_;

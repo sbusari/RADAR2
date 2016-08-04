@@ -1,11 +1,22 @@
 package radar.plot.goal.graph;
-
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import prefuse.Constants;
@@ -15,8 +26,10 @@ import prefuse.action.ActionList;
 import prefuse.action.RepaintAction;
 import prefuse.action.assignment.ColorAction;
 import prefuse.action.assignment.DataColorAction;
+import prefuse.action.layout.graph.BalloonTreeLayout;
 import prefuse.action.layout.graph.ForceDirectedLayout;
 import prefuse.action.layout.graph.NodeLinkTreeLayout;
+import prefuse.action.layout.graph.SquarifiedTreeMapLayout;
 import prefuse.activity.Activity;
 import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
@@ -24,45 +37,151 @@ import prefuse.controls.ZoomControl;
 import prefuse.data.Graph;
 import prefuse.data.Node;
 import prefuse.data.Schema;
-import prefuse.data.io.GraphWriter;
-import prefuse.data.tuple.TupleSet;
 import prefuse.render.DefaultRendererFactory;
 import prefuse.render.EdgeRenderer;
 import prefuse.render.LabelRenderer;
 import prefuse.util.ColorLib;
 import prefuse.util.FontLib;
 import prefuse.util.PrefuseLib;
+import prefuse.util.display.ScaleSelector;
 import prefuse.visual.VisualItem;
 import prefuse.visual.expression.InGroupPredicate;
-import radar.enumeration.ExpressionType;
-import radar.parser.generated.ModelParser;
+import radar.model.Alternative;
+import radar.model.Model;
+import radar.model.Objective;
+import radar.model.QualityVariable;
+import radar.model.SolutionValues;
 
-public class DynamicGoalGraph 
+public class DynamicGraph 
 {
-	Map <String, Node> nodeList_;
+	private static final int W = 640;
+	private static final int H = 480;
+	Map<String, Node> nodeList_;
 	private  Graph graph;
 	private  Visualization vis;
 	private  Display d;	
 	String graphType_ ="GoalGraph";
-	public DynamicGoalGraph (Map <String, Node> nodeList, Graph varGraph){
-		nodeList_ = nodeList;
-		graph = varGraph;
-
+	Model semanticModel_;
+	String outputFolder_;
+	public DynamicGraph ( Model semanticModel, String outputFolder){
+		semanticModel_ = semanticModel;
+		nodeList_ = new LinkedHashMap<String, Node>();
+		outputFolder_ = outputFolder;
 	}
+	void createDependencyGraphPerObjective (Graph g, Objective obj){
+		Node obj_node = g.addNode();
+		obj_node.set("id",obj.getLabel());
+		obj_node.set("nodeType", "Objective");
+		obj_node.set("nodeValue", obj.getLabel());
+		nodeList_.put(obj.getLabel(), obj_node);
+		QualityVariable qvObjReferTo = obj.getQualityVariable();
+		if (!nodeList_.containsKey(qvObjReferTo.getLabel())){
+			List<Node> qv_nodes = qvObjReferTo.addNodeToGraph(g, semanticModel_, qvObjReferTo.getLabel(), nodeList_);
+			for (int j=0; j < qv_nodes.size(); j ++){
+				g.addEdge(obj_node, qv_nodes.get(j));
+			}
+		}else{
+			
+			Node qv_node = nodeList_.get(qvObjReferTo.getLabel());
+			g.addEdge(obj_node, qv_node);
+		}
+		
+	}
+	void createDependencyGraphForAllObjectives (Graph g){
+		List<Objective> objList = new ArrayList<Objective>(semanticModel_.getObjectives().values());
+		
+		for (int i =0; i < objList.size(); i ++){
+			Objective obj = objList.get(i);
+			Node obj_node = g.addNode();
+			obj_node.set("id",obj.getLabel());
+			obj_node.set("nodeType", "Objective");
+			obj_node.set("nodeValue", obj.getLabel());
+			nodeList_.put(obj.getLabel(), obj_node);
+			QualityVariable qvObjReferTo = obj.getQualityVariable();
+			if (!nodeList_.containsKey(qvObjReferTo.getLabel())){
+				List<Node> qv_nodes = qvObjReferTo.addNodeToGraph(g, semanticModel_, qvObjReferTo.getLabel(), nodeList_);
+				for (int j=0; j < qv_nodes.size(); j ++){
+					g.addEdge(obj_node, qv_nodes.get(j));
+				}
+			}else{
+				
+				Node qv_node = nodeList_.get(qvObjReferTo.getLabel());
+				g.addEdge(obj_node, qv_node);
+			}
+		}
+		
+	}
+	private void createGraph(File f){
+		ScaleSelector scaler  = new ScaleSelector();
+		//Display display   = new Display(vis);
+		scaler.setImage(d.getOffscreenBuffer());
+		double scale = scaler.getScale();
+		boolean success = false;
+	    try {
+	        OutputStream out = new BufferedOutputStream(
+	                            new FileOutputStream(f));
+	        System.out.print("Saving image "+f.getName()+", "+
+	                         "png"+" format...");
+	        
+	        success = d.saveImage(out, "png", scale);
+	        out.flush();
+	        out.close();
+	        System.out.println("\tDONE");
+	    } catch ( Exception e ) {
+	        success = false;
+	    }
+	}
+	private void createImage(File f){
 
-    //public static void main(String[] argv) 
-    public void goalGraph(String graphType) 
+	        FileOutputStream out = null;
+	        try {
+	            Rectangle2D bounds = vis.getBounds("graph");
+
+	                        // Adding some margins here
+	            double  width  = 400; //bounds.getWidth() + 100;
+	            double  height = 500; //bounds.getHeight() + 100;
+	            Display display   =  d; //new Display(vis);          
+	                        // I forget why this big of code is called.
+	            display.pan(-bounds.getX() + 50, -bounds.getY() + 50);
+
+	            BufferedImage img = new BufferedImage((int)width, 
+	                    (int)height, BufferedImage.TYPE_INT_RGB);
+	            
+	            Graphics2D g = (Graphics2D)img.getGraphics();
+	            
+	            display.paintDisplay(g, new Dimension((int)width, (int)height));
+
+	            out = new FileOutputStream(f);
+	            ImageIO.write(img,"png",f);
+
+	        } catch (Exception ex) {
+	            try {
+	                Logger.getLogger(DynamicGraph.class.getName()).log(Level.SEVERE, null, ex);
+	                out.close();
+	            } catch (IOException ex1) {
+	                Logger.getLogger(DynamicGraph.class.getName()).log(Level.SEVERE, null, ex1);
+	            }
+	        } 
+	    }
+
+	public void plotDecisionGraph(String graphType, Objective obj ) {
+	
+	}
+    public void plotVariableDependencyGraph(String graphType, Objective obj ) 
 	{
     	// string id
     	// string expression
     	// string expressiontype
     	
     	graphType_ = graphType;
-		setUpData(graphType);
+		setUpData(graphType,obj);
 		setUpVisualization();
 		setUpRenderers();
 		setUpActions();
 		setUpDisplay();
+		File f = new File (outputFolder_ +"/graph.png");
+		createImage(f);
+		//createGraph(f);
 		
         // The following is standard java.awt.
         // A JFrame is the basic window element in awt. 
@@ -74,7 +193,7 @@ public class DynamicGoalGraph
         JFrame frame = new JFrame(graphType);
         
         // Ensure application exits when window is closed
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // The Display object (d) is a subclass of JComponent, which
         // can be added to JFrames with the add method.
@@ -91,34 +210,18 @@ public class DynamicGoalGraph
         vis.run("layout");
 	}
 	
-	private  void setUpData(String graphType)
+	private  void setUpData(String graphType, Objective obj)
 	{
         // -- 1. load the data ------------------------------------------------
-    	
-    	// Here we are manually creating the data structures.  500 nodes are
-    	// added to the Graph structure.  500 edges are made randomly 
-    	// between the nodes.
        	
 		graph = new Graph(true);
-        
-    	// For this example, we will add a little bit more
-        // information to the graph.  
-        // We can add data columns (recall that the graph
-        // is backed by a table).
-        
-        // Add columns for gender, age, and job.
-        
         graph.addColumn("id", String.class);
         graph.addColumn("nodeType", String.class);
         graph.addColumn("nodeValue", String.class);
-       
-        //graph.putClientProperty("edgedefault", "directed");
-        //System.out.println (s);
-        // The set of jobs that our population will randomly pull from.
-        String[] nodeTypeList = {"Decision", "Objective", "DecisionSubset", "ModelParameter", "ParameterValue", "DecisionJoiner", "OptionJoiner"};
+        String[] nodeTypeList = {"Objective", "QualityVariable", "Option"};
         
-        // A random number generator.
-        Random rand = new Random();
+        createDependencyGraphPerObjective (graph, obj);
+        System.out.println("Graph generated");
         
 	}
 
@@ -142,9 +245,9 @@ public class DynamicGoalGraph
         /*LabelRenderer r = new LabelRenderer("id");
         r.setRoundedCorner(8, 8); // round the corners
 */        
-        EdgeRenderer e = new EdgeRenderer(Constants.EDGE_TYPE_LINE, Constants.EDGE_ARROW_REVERSE);
+        EdgeRenderer e = new EdgeRenderer(Constants.EDGE_TYPE_CURVE, Constants.EDGE_ARROW_REVERSE);
         e.setArrowType(Constants.EDGE_ARROW_REVERSE);
-        //e.setArrowHeadSize(30, 30);
+        e.setArrowHeadSize(10, 10);
         
         
         DefaultRendererFactory drf = new DefaultRendererFactory(r,e);
@@ -163,7 +266,7 @@ public class DynamicGoalGraph
         final Schema DECORATOR_SCHEMA = PrefuseLib.getVisualItemSchema();
         DECORATOR_SCHEMA.setDefault(VisualItem.INTERACTIVE, false); 
     	DECORATOR_SCHEMA.setDefault(VisualItem.TEXTCOLOR, ColorLib.rgb(0, 0, 0)); 
-    	DECORATOR_SCHEMA.setDefault(VisualItem.FONT, FontLib.getFont("Tahoma",25));
+    	DECORATOR_SCHEMA.setDefault(VisualItem.FONT, FontLib.getFont("Tahoma",15));
         
         vis.addDecorators("nodedec", "graph.nodes", DECORATOR_SCHEMA);
 	}
@@ -182,7 +285,7 @@ public class DynamicGoalGraph
         // The ColorLib class has convenience methods for constructing color ints.
         
         //int[] palette = {ColorLib.rgb(0, 255, 255), ColorLib.rgb(153, 153, 225),  ColorLib.rgb(255, 204, 153),  ColorLib.rgb(0, 128, 128), ColorLib.rgb(0, 255, 0)}; 
-        int[] palette = {ColorLib.rgb(153, 153, 225), ColorLib.rgb(153, 153, 225),  ColorLib.rgb(153, 153, 225),  ColorLib.rgb(153, 153, 225), ColorLib.rgb(153, 153, 225),ColorLib.rgb(153, 153, 225),ColorLib.rgb(153, 153, 225)}; 
+        int[] palette = {ColorLib.rgb(153, 153, 225), ColorLib.rgb(153, 153, 225),  ColorLib.rgb(153, 153, 225)}; 
         //"Decision", "Objective", "DecisionSubset", "ModelParameter", "ParameterValue", "DecisionJoiner", "OptionJoiner";
 
         // Now we create the DataColorAction
@@ -212,8 +315,9 @@ public class DynamicGoalGraph
         // We add the layout to the layout ActionList, and tell it
         // to operate on the "graph".
         //layout.add(new NodeLinkTreeLayout("graph"));
-        layout.add(new NodeLinkTreeLayout("graph", 2, 40,100, 100));
+        layout.add(new NodeLinkTreeLayout("graph", 2, 20,50, 50));
         //layout.add(new ForceDirectedLayout("graph", true));
+        //layout.add(new SquarifiedTreeMapLayout("graph"));
         
         layout.add(new FinalDecoratorLayout("nodedec"));
         
@@ -232,20 +336,33 @@ public class DynamicGoalGraph
     {
         // Create the Display object, and pass it the visualization that it 
         // will hold.
-		d = new Display(vis);
+		//d = new Display(vis);
+		
+		d = new Display(vis) {
+
+		    @Override
+		    public Dimension getPreferredSize() {
+		        return new Dimension(W, H);
+		    }
+		};
+		d.pan(W / 2, H / 2);
+		
         
         // Set the size of the display.
-        d.setSize(500, 400); 
+		
+        //d.setSize(500, 400); 
         
         // We use the addControlListener method to set up interaction.
         
         // The DragControl is a built in class for manually moving
         // nodes with the mouse. 
-        d.addControlListener(new DragControl(true));
+        d.addControlListener(new DragControl());
         // Pan with left-click drag on background
-        d.addControlListener(new PanControl(16, true)); 
+        d.addControlListener(new PanControl(PanControl.LEFT_MOUSE_BUTTON, true)); 
         // Zoom with right-click drag
         d.addControlListener(new ZoomControl());
+        
+        
         
     }
     

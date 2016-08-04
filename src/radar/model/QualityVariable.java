@@ -69,25 +69,26 @@ public class QualityVariable extends ArithmeticExpression {
 		return result;
 	}
 	@Override
-	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
-		Node qv_node = g.addNode();
-		qv_node.set("id", label_);
-		qv_node.set("nodeType", "QualityVariable");
-		qv_node.set("nodeValue", label_);
+	public List<Node> addNodeToGraph(Graph g, Model model, String qv_name, Map<String, Node> cache) {
+		if (label_.equals("ContinuousAlertThreshold")){
+			System.out.print("ContinuousAlertThreshold");
+		}
 		List<Node> results = new ArrayList<Node>();
-		results.add(qv_node);
-		List<Node> children = definition_.createDependecyGraph(g,model,label_);
+		Node qv_node = null;
+		qv_node =createNode (g, label_,"QualityVariable", label_ ,cache);
+		List<Node> children = definition_.addNodeToGraph(g,model,qv_name,cache);
 		if (children != null &&  children.size() > 0){
 			for (int i =0 ; i <  children.size() ; i ++){
 				g.addEdge(qv_node, children.get(i));
 			}
 		}
+		results.add(qv_node);
 		return results;
 	}
 	public double [] simulate (Alternative s){
 		double [] simdata = null;
-		//Alternative localSolution = s;//new Alternative(s);
-		Alternative localSolution = subSolution(s);
+		Alternative localSolution = new Alternative(s);
+		//Alternative localSolution = subSolution(s);
 		if (simData_.get(localSolution) == null){
 			double [] sim = definition_.simulate(localSolution);
 			simData_.put(localSolution, sim);

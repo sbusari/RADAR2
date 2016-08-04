@@ -15,14 +15,14 @@ public class OR_Refinement extends Expression {
 	
 	public OR_Refinement(){}
 	@Override
-	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
-		
+	public List<Node> addNodeToGraph(Graph g, Model model, String qv_name,Map<String, Node> cache) {
 		List<Node> result = new ArrayList<Node>();
 		for (Map.Entry<String, Expression> entry: definition_.entrySet()){
-			Node option = addNode (g, qv_name + "[" + entry.getKey() + "]","Option",qv_name + "[" + entry.getKey() + "]");
+			String optionName = qv_name + "[" + entry.getKey() + "]";
+			Node option = createNode (g, optionName,"Option",optionName, cache);
 			result.add(option);
 			// add edge between option node and its own children
-			List<Node> optionChildren = entry.getValue().createDependecyGraph(g,model,qv_name);
+			List<Node> optionChildren = entry.getValue().addNodeToGraph(g,model,qv_name,cache);
 			if (optionChildren != null &&  optionChildren.size() > 0){
 				for (int i =0 ; i <  optionChildren.size() ; i ++){
 					g.addEdge(option, optionChildren.get(i));

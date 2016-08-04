@@ -1,6 +1,7 @@
 package radar.model;
 
 import java.util.List;
+import java.util.Map;
 
 import prefuse.data.Graph;
 import prefuse.data.Node;
@@ -18,8 +19,7 @@ class DeterministicDistribution extends Distribution {
 		return  deterministicDistribution(value_, N);
 	}
 	@Override
-	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
-		// just return null for distributions
+	public List<Node> addNodeToGraph(Graph g, Model model, String qv_name, Map<String, Node> cache) {
 		return null;
 	}
 

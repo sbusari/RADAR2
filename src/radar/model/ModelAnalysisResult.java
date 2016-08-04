@@ -8,6 +8,7 @@ import radar.enumeration.OptimisationType;
 import radar.information.analysis.InformationValueAnalysis;
 import radar.optimisation.algorithm.Algorithm;
 import radar.optimisation.algorithm.ExhaustiveSearch;
+import radar.plot.goal.graph.DynamicGraph;
 
 
 public class ModelAnalysisResult {
@@ -21,6 +22,7 @@ public class ModelAnalysisResult {
 	Model semanticModel_;
 	OptimisationType optimisationType_;
 	Algorithm alg_;
+	String outputDirectory_;
 	public ModelAnalysisResult(Model semanticModel, OptimisationType optimisationType){
 		obejctives_ = new ArrayList<Objective>(semanticModel.getObjectives().values());
 		semanticModel_ = semanticModel;
@@ -96,6 +98,12 @@ public class ModelAnalysisResult {
 		
 		// generate goal graphs 
 		
+		for (int i =0; i < obejctives_.size() ; i++){
+			DynamicGraph dg = new DynamicGraph (semanticModel_, outputDirectory_);
+			dg.plotVariableDependencyGraph("GoalGraph", obejctives_.get(i));
+		}
+		
+		
 		// generate decision graph
 		
 		
@@ -112,6 +120,9 @@ public class ModelAnalysisResult {
 	}
 	public List<Objective> getObjectives(){
 		return obejctives_;
+	}
+	public Model getSemanticModel (){
+		return semanticModel_;
 	}
 	public String generateResultHeader (){
 		String result =",";

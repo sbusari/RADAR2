@@ -2,6 +2,7 @@ package radar.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import prefuse.data.Graph;
 import prefuse.data.Node;
@@ -24,9 +25,9 @@ class UnaryExpression extends Expression {
 		return expr_;
 	}
 	@Override
-	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
+	public List<Node> addNodeToGraph(Graph g, Model model, String qv_name,Map<String, Node> cache) {
 		List<Node> result = new ArrayList<Node>();
-		List<Node> expr = expr_.createDependecyGraph(g, model,qv_name);
+		List<Node> expr = expr_.addNodeToGraph(g, model,qv_name,cache);
 		result.addAll(expr);
 		return result;
 	}

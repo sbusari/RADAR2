@@ -52,6 +52,7 @@ BatchAlertThreshold = decision("threshold level"){
 	"low"    : deterministic(0.75);
 }
 
+
 Objective Min InvestigationCost = E(InvestCost) with 50000 margin;
 
 InvestCost = NbrAlerts * CostPerAlert; 
@@ -104,4 +105,6 @@ NbrLegitTransactions = NbrAccounts  * NbrLegitTransactionsPerAccountPerDay;
 NbrFraudPerCompromisedAccountPerDay  = deterministic(3);
 
 NbrLegitTransactionsPerAccountPerDay = deterministic(2);
+
+
 

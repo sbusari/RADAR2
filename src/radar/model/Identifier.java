@@ -19,17 +19,20 @@ class Identifier extends Expression {
 	public double[] simulate(Alternative s) {
 		Map<String, QualityVariable> qvList = s.getSemanticModel().getQualityVariables();
 		QualityVariable qv = qvList.get(id_);
+		if (qv ==null){
+			throw new RuntimeException ("Quality variable " + id_ + " is not defined in the model.");
+		}
 		double [] result = qv.simulate(s);
 		return result;
 	}
 	@Override
-	public List<Node> createDependecyGraph(Graph g, Model model, String qv_name) {
+	public List<Node> addNodeToGraph(Graph g, Model model, String qv_name,Map<String, Node> cache) {
 		List<Node> results = new ArrayList<Node>();
-		Node id = addNode (g, id_,"Identifier", id_ );
+		Node id = createNode (g, id_,"Identifier", id_, cache);
 		results.add(id);
 		Map<String, QualityVariable> qvList = model.getQualityVariables();
 		QualityVariable qv = qvList.get(id_);
-		List<Node> children = qv.createDependecyGraph(g,model,qv_name);
+		List<Node> children = qv.addNodeToGraph(g,model,id_, cache);
 		if (children != null &&  children.size() > 0){
 			for (int i =0 ; i <  children.size() ; i ++){
 				g.addEdge(id, children.get(i));

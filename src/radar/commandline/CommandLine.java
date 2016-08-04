@@ -2,16 +2,12 @@ package radar.commandline;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-
-import prefuse.data.Graph;
-import prefuse.data.Node;
 import radar.enumeration.OptimisationType;
 import radar.experiment.data.ExperiementData;
 import radar.model.Model;
 import radar.model.ModelAnalysisResult;
 import radar.model.Parser;
-import radar.plot.goal.graph.DynamicGoalGraph;
+import radar.plot.goal.graph.DynamicGraph;
 import radar.utilities.ConfigSetting;
 import radar.utilities.Helper;
 
@@ -64,7 +60,7 @@ public class CommandLine {
 	@Parameter(names ="--infoValueObjective", description = "Computes evtpi and evppi. Input is an objective name. An example usage of this command is: --infoValueObjective 'FinancialLoss' ")
 	private List<String> infoValueObjective = new ArrayList<String>();
 
-	@Parameter(names ="--variable_dependeny_graph", description = "Displays the AND/OR goal graph.")
+	@Parameter(names ="--variable_graph", description = "Displays the AND/OR goal graph.")
 	public boolean goalmodel = false;
 	
 	@Parameter(names ="--pareto", description = "Displays the pareto plots.")
@@ -227,10 +223,9 @@ public class CommandLine {
     		
     		//6. if goal graph and pareto is specified invoke that jframe to display
     		if (goalmodel == true){
-    			Map <String, Node> nodeList = null; 
-    			Graph varGraph = null;
-    			DynamicGoalGraph varibaleDependecyGraph = new DynamicGoalGraph (nodeList,varGraph);
-    			varibaleDependecyGraph.goalGraph("GoalGraph");
+    			
+    			DynamicGraph varibaleDependecyGraph = new DynamicGraph (result.getSemanticModel(), dataInput.getOutputDirectory());
+    			//varibaleDependecyGraph.plotVariableDependencyGraph("GoalGraph");
     		}
     		
     		if (pareto == true){
@@ -240,7 +235,7 @@ public class CommandLine {
     		System.out.println("Finished!");
     		
     	}catch (Exception e){
-    		System.out.println("got here5");
+    		System.out.println("Error");
     		System.out.println(e.getMessage());
     	}
     	

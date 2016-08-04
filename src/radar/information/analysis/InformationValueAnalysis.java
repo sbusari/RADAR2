@@ -58,7 +58,7 @@ public class InformationValueAnalysis {
 			}
 			
 		}else{
-			System.out.println("information valu analysis cannot be performed because of any of the following: \n1. There was no specified objective. \n2. The specified objective is not in the model. \n3. The specified objective has no quality variable it refers to." );
+			System.out.println("information value analysis cannot be performed because of any of the following: \n1. There was no specified objective. \n2. The specified objective is not in the model. \n3. The specified objective has no quality variable it refers to." );
 		}
 	}
 	public double computeEVTPI (Objective infoValueObj, List<Alternative> allAlternative){
