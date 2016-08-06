@@ -39,7 +39,7 @@ class UnaryExpression extends Expression {
 		return result;
 	}
 	@Override
-	public double[] simulate(Alternative s) {
+	public double[] simulate(Solution s) {
 		double [] expr = expr_.simulate(s);
 		if (uop_ != null){
 			for (int i =0 ; i < expr.length; i ++){

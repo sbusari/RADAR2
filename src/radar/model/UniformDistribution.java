@@ -20,7 +20,7 @@ class UniformDistribution extends Distribution {
 		return  uniformDistribution(lower_,upper_, N);
 	}
 	@Override
-	public double[] simulate(Alternative s) {
+	public double[] simulate(Solution s) {
 		isExpresionDistribution_ = true;
 		return  uniformDistribution(lower_,upper_, N);
 	}

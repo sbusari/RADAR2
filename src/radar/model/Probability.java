@@ -24,7 +24,7 @@ class Probability extends Statistic {
 		}
 	}
 	@Override
-	double evaluate(Alternative s, QualityVariable var) {
+	double evaluate(Solution s, QualityVariable var) {
 		double [] simData = var.getSimData(s);
 		double [] booleanData = applyComparator (simData);
 		return new Statistics(booleanData).computeMean();

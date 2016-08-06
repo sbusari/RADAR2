@@ -44,6 +44,7 @@ class BinaryExpression extends ArithmeticExpression {
 	@Override
 	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
+	
 		List<Node> result = new ArrayList<Node>();
 		//String joinerNodeName = qv_name + System.currentTimeMillis();
 		Node Joiner = null;  
@@ -53,11 +54,12 @@ class BinaryExpression extends ArithmeticExpression {
 		boolean isrightExprANumber =(rightExpr_ instanceof Number )? true :false;
 		// even when a no exits in a binary expr,we do not want a number o show in the graph, hence the check
 		// when there is no no in the expr, we create a joiner node fro the expr terms
+		g.incrementOperatorID();
 		if (isleftExprANumber == false && isrightExprANumber ==false){
 			Joiner = g.addDOTNode(); //createNode (g, "","Joiner", "", cache);
 			Joiner.setLabel("\"" + bop_.toString()+ "_"+ g.getOperatorID() +"\"");
-			Joiner.setShape("doublecircle");
-			Joiner.setStyle("");
+			Joiner.setShape("point");
+			Joiner.setStyle("filled");
 		}
 		leftChild = leftExpr_.addNodeToVariableGraph(g, model, qv_name);
 		rightChild = rightExpr_.addNodeToVariableGraph(g, model, qv_name);
@@ -84,7 +86,7 @@ class BinaryExpression extends ArithmeticExpression {
 		return result;
 	}
 	@Override
-	public double[] simulate(Alternative s) {
+	public double[] simulate(Solution s) {
 		double [] leftSim = leftExpr_.simulate(s);
 		double [] rightSim = rightExpr_.simulate(s);
 		double [] combinedSim = new double [leftSim.length];

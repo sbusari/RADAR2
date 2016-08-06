@@ -41,8 +41,11 @@ public class Graph {
 	public List<String> getEdgeStatements (){
 		return edgeStatements_;
 	}
+	public void incrementOperatorID (){
+		operatorId_ = operatorId_ + 1;
+	}
 	public int getOperatorID (){
-		return operatorId_++;
+		return operatorId_;
 	}
 	public void createVariableGraph(){
 		List<Objective> objList = new ArrayList<Objective>(this.semanticModel_.getObjectives().values());

@@ -13,7 +13,7 @@ class DeterministicDistribution extends Distribution {
 		N = simulation;
 	}
 	@Override
-	public double[] simulate(Alternative s) {
+	public double[] simulate(Solution s) {
 		return  deterministicDistribution(value_, N);
 	}
 	@Override

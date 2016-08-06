@@ -22,7 +22,7 @@ public class Model {
 	// list param variables to be used in finding evppi.
 	private List<String> params_;
 	private Map<String, Decision> decisions_;
-	private List<Alternative> alternative_;
+	private List<Solution> alternative_;
 	private List<Objective> infoValueObjective_;
 	private String infoValueObjectiveName_;
 	private int noOfSimulation_;
@@ -78,15 +78,15 @@ public class Model {
 	public Map<String, Decision> getDecisions (){
 		return decisions_;
 	}
-	public void setAlternative(List<Alternative>  solutions){
+	public void setAlternative(List<Solution>  solutions){
 		alternative_ =solutions;
 	}
-	public List<Alternative>  getAlternative (){
+	public List<Solution>  getAlternative (){
 		return alternative_;
 	}
-	public void addAlternative(Alternative a){
+	public void addAlternative(Solution a){
 		if (alternative_ == null){
-			alternative_ = new ArrayList<Alternative>();
+			alternative_ = new ArrayList<Solution>();
 			alternative_.add(a);
 		}else{
 			alternative_.add(a);
@@ -121,7 +121,7 @@ public class Model {
 		 Map<String, QualityVariable> qvList = this.getQualityVariables();
 		 for (Map.Entry<String, QualityVariable> entry: qvList.entrySet()){
 			 if(this.getInfoValueObjectiveName() != null && !this.getInfoValueObjectiveName().equals(entry.getValue().getLabel()) ){
-				entry.getValue().setSimData(new LinkedHashMap<Alternative, double[]>());
+				entry.getValue().setSimData(new LinkedHashMap<Solution, double[]>());
 			 }
 		 }
 	}

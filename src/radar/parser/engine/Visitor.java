@@ -31,19 +31,17 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	Map<String, Value> obj_definitions;
 	Map<String, Objective> obj_list;
 	Map<String, Decision> decision_list;
-	int simulationRun;
-	List<String> infoValueObjective;
+	int nbr_simulation;
 	ModelConstructor modelConstructor;
-	public Visitor(int simulation, List<String> infoValueObj){
-		simulationRun =simulation;
-		infoValueObjective= infoValueObj;
+	public Visitor(int nbr_sim){
+		nbr_simulation =nbr_sim;
 	}
 	public Model getSemanticModel() {
 		return semanticModel;
 	}
 	@Override 
 	public Value visitModel(ModelParser.ModelContext ctx) {
-		modelConstructor = new ModelConstructor (simulationRun);
+		modelConstructor = new ModelConstructor (nbr_simulation);
 		qv_list = new LinkedHashMap<String,QualityVariable > ();
 		obj_list = new LinkedHashMap<String,Objective > ();
 		decision_list = new LinkedHashMap<String,Decision>();
@@ -56,11 +54,9 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		}else{
 			throw new RuntimeException ("Model cannot be empty.");
 		}
-		
-		
 		// need objective definition to get the quality variable an objective refers to
 		
-		modelConstructor.addObjectivesToModel(semanticModel, obj_definitions, obj_list,qv_list, infoValueObjective );
+		modelConstructor.addObjectivesToModel(semanticModel, obj_definitions, obj_list,qv_list );
 		modelConstructor.addQualityVariablesToModel(semanticModel, qv_list );
 		modelConstructor.addDecisionsToModel(semanticModel,decision_list);
 		modelConstructor.addModelName(semanticModel,ctx.var_name().getText());

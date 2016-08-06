@@ -23,7 +23,7 @@ class NormalDistribution extends Distribution{
 		return  normalDistribution(mean_, sd_, N);
 	}
 	@Override
-	public double[] simulate(Alternative s) {
+	public double[] simulate(Solution s) {
 		isExpresionDistribution_ = true;
 		return  normalCIDistribution(mean_,sd_, N);
 	}

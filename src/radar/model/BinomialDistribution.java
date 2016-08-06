@@ -20,7 +20,7 @@ class BinomialDistribution extends Distribution {
 		return  binomialDistribution(trials_, prob_, N);
 	}
 	@Override
-	public double[] simulate(Alternative s) {
+	public double[] simulate(Solution s) {
 		isExpresionDistribution_ = true;
 		return  binomialDistribution(trials_, prob_, N);
 	}

@@ -15,7 +15,7 @@ class Identifier extends Expression {
 		return id_;
 	}
 	@Override
-	public double[] simulate(Alternative s) {
+	public double[] simulate(Solution s) {
 		Map<String, QualityVariable> qvList = s.getSemanticModel().getQualityVariables();
 		QualityVariable qv = qvList.get(id_);
 		if (qv ==null){

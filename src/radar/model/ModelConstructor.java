@@ -77,7 +77,7 @@ public class ModelConstructor {
 		}
 		return model;
 	}
-	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist, List<String> infoValueObj){
+	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist){
 		for (Map.Entry<String, Objective> entry: obj_list.entrySet()){
 			Value obj = obj_definition.get(entry.getKey());
 			Objective modelObj = entry.getValue();
@@ -105,7 +105,7 @@ public class ModelConstructor {
 				}
 			}
 			addModelObjective(model,modelObj.getLabel(),modelObj );
-			addModelInfoValueObjective(model,modelObj.getLabel(),modelObj, infoValueObj );
+
 		}
 		return model;
 	}

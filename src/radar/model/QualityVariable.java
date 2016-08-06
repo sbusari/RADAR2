@@ -13,13 +13,13 @@ public class QualityVariable extends ArithmeticExpression {
 
 	private String label_;
 	private Expression definition_;
-	private Map<Alternative, double[]> simData_;
-	private Map<Alternative, double[]> simParameters_;
+	private Map<Solution, double[]> simData_;
+	private Map<Solution, double[]> simParameters_;
 	private Map<String, Decision> decisionsBeforeVar;
 	private Map<String, Decision> decisionsAfterVar;
 	public QualityVariable(){
-		simData_ = new LinkedHashMap<Alternative, double[]>();
-		simParameters_ = new LinkedHashMap<Alternative, double[]>();
+		simData_ = new LinkedHashMap<Solution, double[]>();
+		simParameters_ = new LinkedHashMap<Solution, double[]>();
 		decisionsBeforeVar = new LinkedHashMap <String, Decision>();
 		decisionsAfterVar  = new LinkedHashMap <String, Decision>();
 	}
@@ -56,10 +56,10 @@ public class QualityVariable extends ArithmeticExpression {
 	public Map<String, Decision> getDecisionsBeforeVar ( ){
 		return decisionsBeforeVar;
 	}
-	public double[] getSimData(Alternative s) {
+	public double[] getSimData(Solution s) {
 		return simulate(s);
 	}
-	public double[][] getSimData(List<Alternative> s) {
+	public double[][] getSimData(List<Solution> s) {
 		double [][] result = new double [s.size()][];
 		for (int i =0 ; i < s.size(); i ++){
 			result[i] = getSimData (s.get(i));
@@ -69,6 +69,7 @@ public class QualityVariable extends ArithmeticExpression {
 	@Override
 	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
+		//g.incrementOperatorID();
 		List<Node> results = new ArrayList<Node>();
 		Node qv_node =createDOTNode (g, label_,"box", "rounded");
 		List<Node> children = definition_.addNodeToVariableGraph(g,model,qv_name);
@@ -87,9 +88,13 @@ public class QualityVariable extends ArithmeticExpression {
 		return children;
 	}
 
-	public double [] simulate (Alternative s){
+	public double [] simulate (Solution s){
+		return definition_.simulate(s);
+	}
+	
+	public double [] simulate2 (Solution s){
 		double [] simdata = null;
-		Alternative localSolution = new Alternative(s);
+		Solution localSolution = new Solution(s);
 		//Alternative localSolution = subSolution(s);
 		if (simData_.get(localSolution) == null){
 			double [] sim = definition_.simulate(localSolution);
@@ -104,7 +109,7 @@ public class QualityVariable extends ArithmeticExpression {
 		}
 		return simdata;
 	}
-	private void addParameterDistributions (Map<Alternative, double[]> simParameters, Alternative s,  double [] simdata){
+	private void addParameterDistributions (Map<Solution, double[]> simParameters, Solution s,  double [] simdata){
 		if (definition_.getparameterOption() != null && StringUtils.isNoneEmpty(definition_.getparameterOption())){
 			// set the parameter, added [option] incase the parameter depends on deciion.
 			s.setParameter( s.selectionToString() + ", with model parameter " +  label_ + "[" + definition_.getparameterOption() +"]");
@@ -114,8 +119,8 @@ public class QualityVariable extends ArithmeticExpression {
 			simParameters.put(s ,simdata);
 		}
 	}
-	private Alternative subSolution (Alternative s){
-		Alternative subsolution = new Alternative();
+	private Solution subSolution (Solution s){
+		Solution subsolution = new Solution();
 		subsolution.setGlobalSelection(s.getGlobalSelection());
 		// set gobal selection and use it to populate a subselection.
 		if (decisionsAfterVar != null){
@@ -132,13 +137,13 @@ public class QualityVariable extends ArithmeticExpression {
 		subsolution.setInfoValueObjective(s.getInfoValueObjective());
 		return subsolution;
 	}
-	public Map<Alternative, double[]> getSimData(){
+	public Map<Solution, double[]> getSimData(){
 		return simData_;
 	}
-	public void setSimData(Map<Alternative, double[]> simdata){
+	public void setSimData(Map<Solution, double[]> simdata){
 		simData_ =simdata;
 	}
-	public Map<Alternative, double[]> getParameterSimData(){
+	public Map<Solution, double[]> getParameterSimData(){
 		return simParameters_;
 	}
 

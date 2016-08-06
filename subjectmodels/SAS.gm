@@ -542,5 +542,3 @@ DeploymentTime_ArchitecturalPattern = decision("Architectural Pattern"){
 		"Client-Server" : triangular(7, 9, 10);
 		"Push-based" : triangular(8, 9, 12);
 }
-
-

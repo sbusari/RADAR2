@@ -6,9 +6,9 @@ import java.util.Map;
 
 import radar.model.Decision;
 import radar.model.Model;
-import radar.model.AlternativeAnalyser;
+import radar.model.SolutionAnalyser;
 import radar.model.Parser;
-import radar.model.Alternative;
+import radar.model.Solution;
 import radar.utilities.Helper;
 
 public class ParserTest {
@@ -22,10 +22,10 @@ public class ParserTest {
 		//String inputFile = "./subjectmodels/BSPDM2.gm"; 
 		//String inputFile = "./model/fitnessExpr.gm"; 
         String modelString = Helper.readFile(inputFile);
-		Parser testParser = new Parser (modelString,10000, null); 
+		Parser testParser = new Parser (modelString,10000); 
 		Model semantic_model = testParser.getSemanticModel();
 		Map<String , Decision> decisions = semantic_model.getDecisions();
-		List<Alternative> allSolutions = new AlternativeAnalyser(semantic_model).getAllSolutions();
+		List<Solution> allSolutions = new SolutionAnalyser(semantic_model).getAllSolutions();
 		System.out.print("Done");
 
 	}

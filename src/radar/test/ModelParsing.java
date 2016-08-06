@@ -24,9 +24,9 @@ import org.junit.Test;
 
 import radar.model.Decision;
 import radar.model.Model;
-import radar.model.AlternativeAnalyser;
+import radar.model.SolutionAnalyser;
 import radar.model.Parser;
-import radar.model.Alternative;
+import radar.model.Solution;
 import radar.parser.error.handler.UnderlineModelExceptionListener;
 import radar.parser.generated.ModelLexer;
 import radar.parser.generated.ModelParser;
@@ -66,17 +66,17 @@ public class ModelParsing {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testSemanicModel() throws Exception {
-		Parser model_parser = new Parser (modelString, 10000, null);
+		Parser model_parser = new Parser (modelString, 10000);
 		semantic_model = model_parser.getSemanticModel();
 		Assert.assertNotNull(semantic_model);
 	}
 	@SuppressWarnings("deprecation")
 	@Test
 	public void generateSolutions() throws Exception {
-		Parser model_parser = new Parser (modelString,10000, null);
+		Parser model_parser = new Parser (modelString,10000);
 		semantic_model = model_parser.getSemanticModel();
 		Map<String , Decision> decisions = semantic_model.getDecisions();
-		List<Alternative> allSolutions =  new AlternativeAnalyser(semantic_model).getAllSolutions() ;
+		List<Solution> allSolutions =  new SolutionAnalyser(semantic_model).getAllSolutions() ;
 		Assert.assertNotSame(0, allSolutions.size());
 	}
 	

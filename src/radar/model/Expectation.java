@@ -6,7 +6,7 @@ class Expectation extends Statistic {
 	public Expectation() {
 	}
 	@Override
-	double evaluate(Alternative s, QualityVariable var) {
+	double evaluate(Solution s, QualityVariable var) {
 		double [] simData = var.getSimData(s);
 		return new Statistics(simData).computeMean();
 	}

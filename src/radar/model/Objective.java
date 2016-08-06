@@ -10,7 +10,7 @@ public class Objective {
 	private String label_;
 	private QualityVariable qualityVariable_;
 	private Statistic definition_;
-	private Map<Alternative, Double> value_;
+	private Map<Solution, Double> value_;
 	public Objective(){}
 	public Objective (Objective o){
 		isMinimisation_ = o.getIsMinimisation();
@@ -50,9 +50,9 @@ public class Objective {
 	public Statistic getStatistic (){
 		return definition_;
 	}
-	public double evaluate (Alternative a){
+	public double evaluate (Solution a){
 		if (value_ == null){
-			value_ = new LinkedHashMap<Alternative, Double>();
+			value_ = new LinkedHashMap<Solution, Double>();
 			double result  = definition_.evaluate(a, qualityVariable_);
 			value_.put(a, result);
 			return result;

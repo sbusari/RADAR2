@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import radar.enumeration.SolutionType;
-import radar.jmetal.core.SolutionSet;
-import radar.model.Alternative;
-import radar.model.AlternativeAnalyser;
+import radar.model.Solution;
+import radar.model.SolutionAnalyser;
 import radar.model.Model;
 import radar.model.SolutionValues;
 import radar.optimisation.decisionvector.DecisionVector;
@@ -19,11 +17,11 @@ public class ExhaustiveSearch extends Algorithm{
 	Model semanticModel_;
 	DecisionVector decisionVector_;
 	List<SolutionValues> solutionValues_;
-	List<Alternative> alternatives_;
+	List<Solution> alternatives_;
 	public ExhaustiveSearch (Model model){
 		semanticModel_ = model;
 		decisionVector_ = getDecisionVector(model);
-		alternatives_ = new AlternativeAnalyser(semanticModel_).getAllSolutions();
+		alternatives_ = new SolutionAnalyser(semanticModel_).getAllSolutions();
 		solutionValues_ = new ArrayList<SolutionValues>();
 		
 	}
@@ -32,7 +30,7 @@ public class ExhaustiveSearch extends Algorithm{
 		return result;
 	}
 	@Override
-	public SolutionValues solve(Alternative s) {
+	public SolutionValues solve(Solution s) {
 		SolutionValues value = new SolutionValues ();
 		Simulator simulator = new Simulator(s, semanticModel_);
 		value =  simulator.computeObjectivesValues();	
@@ -48,8 +46,9 @@ public class ExhaustiveSearch extends Algorithm{
 			Simulator simulator = new Simulator(alternatives_.get(i), semanticModel_);
 			value =  simulator.computeObjectivesValues();	
 			semanticModel_.addAlternative(alternatives_.get(i));
-			semanticModel_.resetSimulationVariables();
+			//semanticModel_.resetSimulationVariables();
 			solutionValues_.add(value);
+			System.out.print("Solution number "+ i + "\n");
 		}
 		optimalSolutionValues = ParetoSet(solutionValues_);
 		return optimalSolutionValues;

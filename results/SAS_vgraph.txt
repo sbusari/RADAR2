@@ -1,0 +1,813 @@
+digraph G { 
+rankdir = BT; 
+edge[dir=forward]; 
+ENB[shape=box]
+NB[shape=box, style=rounded]
+BatteryUsage_weight[shape=box, style=rounded]
+BatteryUsage_Preference[shape=box, style=rounded]
+BatteryUsage[shape=box, style=rounded]
+BatteryUsage_LocationFinding[shape=box, style=rounded]
+"BatteryUsage_LocationFinding[GPS]"[shape=ellipse]
+"BatteryUsage_LocationFinding[radio triangulation]"[shape=ellipse]
+BatteryUsage_FileSharing[shape=box, style=rounded]
+"BatteryUsage_FileSharing[OpenIntent]"[shape=ellipse]
+"BatteryUsage_FileSharing[In house]"[shape=ellipse]
+BatteryUsage_ReportSyncing[shape=box, style=rounded]
+"BatteryUsage_ReportSyncing[Explicit]"[shape=ellipse]
+"BatteryUsage_ReportSyncing[Implicit]"[shape=ellipse]
+BatteryUsage_ChatProtocol[shape=box, style=rounded]
+"BatteryUsage_ChatProtocol[XMPP (Open Fire)]"[shape=ellipse]
+"BatteryUsage_ChatProtocol[In house]"[shape=ellipse]
+BatteryUsage_MapAccess[shape=box, style=rounded]
+"BatteryUsage_MapAccess[On Demand (Google)]"[shape=ellipse]
+"BatteryUsage_MapAccess[Cache on server]"[shape=ellipse]
+"BatteryUsage_MapAccess[Preloaded (ESRI)]"[shape=ellipse]
+BatteryUsage_HardwarePlatform[shape=box, style=rounded]
+"BatteryUsage_HardwarePlatform[Nexus I (HTC)]"[shape=ellipse]
+"BatteryUsage_HardwarePlatform[Droid (Motorola)]"[shape=ellipse]
+BatteryUsage_Connectivity[shape=box, style=rounded]
+"BatteryUsage_Connectivity[Wifi]"[shape=ellipse]
+"BatteryUsage_Connectivity[3G on Nexus I]"[shape=ellipse]
+"BatteryUsage_Connectivity[3G on Droid]"[shape=ellipse]
+"BatteryUsage_Connectivity[Bluetooth]"[shape=ellipse]
+BatteryUsage_DataBase[shape=box, style=rounded]
+"BatteryUsage_DataBase[MySQL]"[shape=ellipse]
+"BatteryUsage_DataBase[sqLite]"[shape=ellipse]
+BatteryUsage_ArchitecturalPattern[shape=box, style=rounded]
+"BatteryUsage_ArchitecturalPattern[Peer-to-peer]"[shape=ellipse]
+"BatteryUsage_ArchitecturalPattern[Client-Server]"[shape=ellipse]
+"BatteryUsage_ArchitecturalPattern[Push-based]"[shape=ellipse]
+BatteryUsage_DataExchangeFormat[shape=box, style=rounded]
+"BatteryUsage_DataExchangeFormat[XML]"[shape=ellipse]
+"BatteryUsage_DataExchangeFormat[Compressed XML]"[shape=ellipse]
+"BatteryUsage_DataExchangeFormat[Unformatted data]"[shape=ellipse]
+BatteryUsage_best[shape=box, style=rounded]
+BatteryUsage_worst[shape=box, style=rounded]
+ResponseTime_weight[shape=box, style=rounded]
+ResponseTime_Preference[shape=box, style=rounded]
+ResponseTime[shape=box, style=rounded]
+ResponseTime_LocationFinding[shape=box, style=rounded]
+"ResponseTime_LocationFinding[GPS]"[shape=ellipse]
+"ResponseTime_LocationFinding[radio triangulation]"[shape=ellipse]
+ResponseTime_FileSharing[shape=box, style=rounded]
+"ResponseTime_FileSharing[OpenIntent]"[shape=ellipse]
+"ResponseTime_FileSharing[In house]"[shape=ellipse]
+ResponseTime_ReportSyncing[shape=box, style=rounded]
+"ResponseTime_ReportSyncing[Explicit]"[shape=ellipse]
+"ResponseTime_ReportSyncing[Implicit]"[shape=ellipse]
+ResponseTime_ChatProtocol[shape=box, style=rounded]
+"ResponseTime_ChatProtocol[XMPP (Open Fire)]"[shape=ellipse]
+"ResponseTime_ChatProtocol[In house]"[shape=ellipse]
+ResponseTime_MapAccess[shape=box, style=rounded]
+"ResponseTime_MapAccess[On Demand (Google)]"[shape=ellipse]
+"ResponseTime_MapAccess[Cache on server]"[shape=ellipse]
+"ResponseTime_MapAccess[Preloaded (ESRI)]"[shape=ellipse]
+ResponseTime_HardwarePlatform[shape=box, style=rounded]
+"ResponseTime_HardwarePlatform[Nexus I (HTC)]"[shape=ellipse]
+"ResponseTime_HardwarePlatform[Droid (Motorola)]"[shape=ellipse]
+ResponseTime_Connectivity[shape=box, style=rounded]
+"ResponseTime_Connectivity[Wifi]"[shape=ellipse]
+"ResponseTime_Connectivity[3G on Nexus I]"[shape=ellipse]
+"ResponseTime_Connectivity[3G on Droid]"[shape=ellipse]
+"ResponseTime_Connectivity[Bluetooth]"[shape=ellipse]
+ResponseTime_DataBase[shape=box, style=rounded]
+"ResponseTime_DataBase[MySQL]"[shape=ellipse]
+"ResponseTime_DataBase[sqLite]"[shape=ellipse]
+ResponseTime_ArchitecturalPattern[shape=box, style=rounded]
+"ResponseTime_ArchitecturalPattern[Peer-to-peer]"[shape=ellipse]
+"ResponseTime_ArchitecturalPattern[Client-Server]"[shape=ellipse]
+"ResponseTime_ArchitecturalPattern[Push-based]"[shape=ellipse]
+ResponseTime_DataExchangeFormat[shape=box, style=rounded]
+"ResponseTime_DataExchangeFormat[XML]"[shape=ellipse]
+"ResponseTime_DataExchangeFormat[Compressed XML]"[shape=ellipse]
+"ResponseTime_DataExchangeFormat[Unformatted data]"[shape=ellipse]
+ResponseTime_worst[shape=box, style=rounded]
+ResponseTime_best[shape=box, style=rounded]
+Reliability_weight[shape=box, style=rounded]
+Reliability_Preference[shape=box, style=rounded]
+Reliability[shape=box, style=rounded]
+Reliability_LocationFinding[shape=box, style=rounded]
+"Reliability_LocationFinding[GPS]"[shape=ellipse]
+"Reliability_LocationFinding[radio triangulation]"[shape=ellipse]
+Reliability_FileSharing[shape=box, style=rounded]
+"Reliability_FileSharing[OpenIntent]"[shape=ellipse]
+"Reliability_FileSharing[In house]"[shape=ellipse]
+Reliability_ReportSyncing[shape=box, style=rounded]
+"Reliability_ReportSyncing[Explicit]"[shape=ellipse]
+"Reliability_ReportSyncing[Implicit]"[shape=ellipse]
+Reliability_ChatProtocol[shape=box, style=rounded]
+"Reliability_ChatProtocol[XMPP (Open Fire)]"[shape=ellipse]
+"Reliability_ChatProtocol[In house]"[shape=ellipse]
+Reliability_MapAccess[shape=box, style=rounded]
+"Reliability_MapAccess[On Demand (Google)]"[shape=ellipse]
+"Reliability_MapAccess[Cache on server]"[shape=ellipse]
+"Reliability_MapAccess[Preloaded (ESRI)]"[shape=ellipse]
+Reliability_HardwarePlatform[shape=box, style=rounded]
+"Reliability_HardwarePlatform[Nexus I (HTC)]"[shape=ellipse]
+"Reliability_HardwarePlatform[Droid (Motorola)]"[shape=ellipse]
+Reliability_Connectivity[shape=box, style=rounded]
+"Reliability_Connectivity[Wifi]"[shape=ellipse]
+"Reliability_Connectivity[3G on Nexus I]"[shape=ellipse]
+"Reliability_Connectivity[3G on Droid]"[shape=ellipse]
+"Reliability_Connectivity[Bluetooth]"[shape=ellipse]
+Reliability_DataBase[shape=box, style=rounded]
+"Reliability_DataBase[MySQL]"[shape=ellipse]
+"Reliability_DataBase[sqLite]"[shape=ellipse]
+Reliability_ArchitecturalPattern[shape=box, style=rounded]
+"Reliability_ArchitecturalPattern[Peer-to-peer]"[shape=ellipse]
+"Reliability_ArchitecturalPattern[Client-Server]"[shape=ellipse]
+"Reliability_ArchitecturalPattern[Push-based]"[shape=ellipse]
+Reliability_DataExchangeFormat[shape=box, style=rounded]
+"Reliability_DataExchangeFormat[XML]"[shape=ellipse]
+"Reliability_DataExchangeFormat[Compressed XML]"[shape=ellipse]
+"Reliability_DataExchangeFormat[Unformatted data]"[shape=ellipse]
+Reliability_worst[shape=box, style=rounded]
+Reliability_best[shape=box, style=rounded]
+RampUpTime_weight[shape=box, style=rounded]
+RampUpTime_Preference[shape=box, style=rounded]
+RampUpTime[shape=box, style=rounded]
+RampUpTime_LocationFinding[shape=box, style=rounded]
+"RampUpTime_LocationFinding[GPS]"[shape=ellipse]
+"RampUpTime_LocationFinding[radio triangulation]"[shape=ellipse]
+RampUpTime_FileSharing[shape=box, style=rounded]
+"RampUpTime_FileSharing[OpenIntent]"[shape=ellipse]
+"RampUpTime_FileSharing[In house]"[shape=ellipse]
+RampUpTime_ReportSyncing[shape=box, style=rounded]
+"RampUpTime_ReportSyncing[Explicit]"[shape=ellipse]
+"RampUpTime_ReportSyncing[Implicit]"[shape=ellipse]
+RampUpTime_ChatProtocol[shape=box, style=rounded]
+"RampUpTime_ChatProtocol[XMPP (Open Fire)]"[shape=ellipse]
+"RampUpTime_ChatProtocol[In house]"[shape=ellipse]
+RampUpTime_MapAccess[shape=box, style=rounded]
+"RampUpTime_MapAccess[On Demand (Google)]"[shape=ellipse]
+"RampUpTime_MapAccess[Cache on server]"[shape=ellipse]
+"RampUpTime_MapAccess[Preloaded (ESRI)]"[shape=ellipse]
+RampUpTime_HardwarePlatform[shape=box, style=rounded]
+"RampUpTime_HardwarePlatform[Nexus I (HTC)]"[shape=ellipse]
+"RampUpTime_HardwarePlatform[Droid (Motorola)]"[shape=ellipse]
+RampUpTime_Connectivity[shape=box, style=rounded]
+"RampUpTime_Connectivity[Wifi]"[shape=ellipse]
+"RampUpTime_Connectivity[3G on Nexus I]"[shape=ellipse]
+"RampUpTime_Connectivity[3G on Droid]"[shape=ellipse]
+"RampUpTime_Connectivity[Bluetooth]"[shape=ellipse]
+RampUpTime_DataBase[shape=box, style=rounded]
+"RampUpTime_DataBase[MySQL]"[shape=ellipse]
+"RampUpTime_DataBase[sqLite]"[shape=ellipse]
+RampUpTime_ArchitecturalPattern[shape=box, style=rounded]
+"RampUpTime_ArchitecturalPattern[Peer-to-peer]"[shape=ellipse]
+"RampUpTime_ArchitecturalPattern[Client-Server]"[shape=ellipse]
+"RampUpTime_ArchitecturalPattern[Push-based]"[shape=ellipse]
+RampUpTime_DataExchangeFormat[shape=box, style=rounded]
+"RampUpTime_DataExchangeFormat[XML]"[shape=ellipse]
+"RampUpTime_DataExchangeFormat[Compressed XML]"[shape=ellipse]
+"RampUpTime_DataExchangeFormat[Unformatted data]"[shape=ellipse]
+RampUpTime_worst[shape=box, style=rounded]
+RampUpTime_best[shape=box, style=rounded]
+Cost_weight[shape=box, style=rounded]
+Cost_Preference[shape=box, style=rounded]
+Cost[shape=box, style=rounded]
+Cost_LocationFinding[shape=box, style=rounded]
+"Cost_LocationFinding[GPS]"[shape=ellipse]
+"Cost_LocationFinding[radio triangulation]"[shape=ellipse]
+Cost_FileSharing[shape=box, style=rounded]
+"Cost_FileSharing[OpenIntent]"[shape=ellipse]
+"Cost_FileSharing[In house]"[shape=ellipse]
+Cost_ReportSyncing[shape=box, style=rounded]
+"Cost_ReportSyncing[Explicit]"[shape=ellipse]
+"Cost_ReportSyncing[Implicit]"[shape=ellipse]
+Cost_ChatProtocol[shape=box, style=rounded]
+"Cost_ChatProtocol[XMPP (Open Fire)]"[shape=ellipse]
+"Cost_ChatProtocol[In house]"[shape=ellipse]
+Cost_MapAccess[shape=box, style=rounded]
+"Cost_MapAccess[On Demand (Google)]"[shape=ellipse]
+"Cost_MapAccess[Cache on server]"[shape=ellipse]
+"Cost_MapAccess[Preloaded (ESRI)]"[shape=ellipse]
+Cost_HardwarePlatform[shape=box, style=rounded]
+"Cost_HardwarePlatform[Nexus I (HTC)]"[shape=ellipse]
+"Cost_HardwarePlatform[Droid (Motorola)]"[shape=ellipse]
+Cost_Connectivity[shape=box, style=rounded]
+"Cost_Connectivity[Wifi]"[shape=ellipse]
+"Cost_Connectivity[3G on Nexus I]"[shape=ellipse]
+"Cost_Connectivity[3G on Droid]"[shape=ellipse]
+"Cost_Connectivity[Bluetooth]"[shape=ellipse]
+Cost_DataBase[shape=box, style=rounded]
+"Cost_DataBase[MySQL]"[shape=ellipse]
+"Cost_DataBase[sqLite]"[shape=ellipse]
+Cost_ArchitecturalPattern[shape=box, style=rounded]
+"Cost_ArchitecturalPattern[Peer-to-peer]"[shape=ellipse]
+"Cost_ArchitecturalPattern[Client-Server]"[shape=ellipse]
+"Cost_ArchitecturalPattern[Push-based]"[shape=ellipse]
+Cost_DataExchangeFormat[shape=box, style=rounded]
+"Cost_DataExchangeFormat[XML]"[shape=ellipse]
+"Cost_DataExchangeFormat[Compressed XML]"[shape=ellipse]
+"Cost_DataExchangeFormat[Unformatted data]"[shape=ellipse]
+Cost_worst[shape=box, style=rounded]
+Cost_best[shape=box, style=rounded]
+DevelopmentTime_weight[shape=box, style=rounded]
+DevelopmentTime_Preference[shape=box, style=rounded]
+DevelopmentTime[shape=box, style=rounded]
+DevelopmentTime_LocationFinding[shape=box, style=rounded]
+"DevelopmentTime_LocationFinding[GPS]"[shape=ellipse]
+"DevelopmentTime_LocationFinding[radio triangulation]"[shape=ellipse]
+DevelopmentTime_FileSharing[shape=box, style=rounded]
+"DevelopmentTime_FileSharing[OpenIntent]"[shape=ellipse]
+"DevelopmentTime_FileSharing[In house]"[shape=ellipse]
+DevelopmentTime_ReportSyncing[shape=box, style=rounded]
+"DevelopmentTime_ReportSyncing[Explicit]"[shape=ellipse]
+"DevelopmentTime_ReportSyncing[Implicit]"[shape=ellipse]
+DevelopmentTime_ChatProtocol[shape=box, style=rounded]
+"DevelopmentTime_ChatProtocol[XMPP (Open Fire)]"[shape=ellipse]
+"DevelopmentTime_ChatProtocol[In house]"[shape=ellipse]
+DevelopmentTime_MapAccess[shape=box, style=rounded]
+"DevelopmentTime_MapAccess[On Demand (Google)]"[shape=ellipse]
+"DevelopmentTime_MapAccess[Cache on server]"[shape=ellipse]
+"DevelopmentTime_MapAccess[Preloaded (ESRI)]"[shape=ellipse]
+DevelopmentTime_DataBase[shape=box, style=rounded]
+"DevelopmentTime_DataBase[MySQL]"[shape=ellipse]
+"DevelopmentTime_DataBase[sqLite]"[shape=ellipse]
+DevelopmentTime_ArchitecturalPattern[shape=box, style=rounded]
+"DevelopmentTime_ArchitecturalPattern[Peer-to-peer]"[shape=ellipse]
+"DevelopmentTime_ArchitecturalPattern[Client-Server]"[shape=ellipse]
+"DevelopmentTime_ArchitecturalPattern[Push-based]"[shape=ellipse]
+DevelopmentTime_DataExchangeFormat[shape=box, style=rounded]
+"DevelopmentTime_DataExchangeFormat[XML]"[shape=ellipse]
+"DevelopmentTime_DataExchangeFormat[Compressed XML]"[shape=ellipse]
+"DevelopmentTime_DataExchangeFormat[Unformatted data]"[shape=ellipse]
+DevelopmentTime_worst[shape=box, style=rounded]
+DevelopmentTime_best[shape=box, style=rounded]
+DeploymentTime_weight[shape=box, style=rounded]
+DeploymentTime_Preference[shape=box, style=rounded]
+DeploymentTime[shape=box, style=rounded]
+DeploymentTime_LocationFinding[shape=box, style=rounded]
+"DeploymentTime_LocationFinding[GPS]"[shape=ellipse]
+"DeploymentTime_LocationFinding[radio triangulation]"[shape=ellipse]
+DeploymentTime_FileSharing[shape=box, style=rounded]
+"DeploymentTime_FileSharing[OpenIntent]"[shape=ellipse]
+"DeploymentTime_FileSharing[In house]"[shape=ellipse]
+DeploymentTime_ReportSyncing[shape=box, style=rounded]
+"DeploymentTime_ReportSyncing[Explicit]"[shape=ellipse]
+"DeploymentTime_ReportSyncing[Implicit]"[shape=ellipse]
+DeploymentTime_ChatProtocol[shape=box, style=rounded]
+"DeploymentTime_ChatProtocol[XMPP (Open Fire)]"[shape=ellipse]
+"DeploymentTime_ChatProtocol[In house]"[shape=ellipse]
+DeploymentTime_MapAccess[shape=box, style=rounded]
+"DeploymentTime_MapAccess[On Demand (Google)]"[shape=ellipse]
+"DeploymentTime_MapAccess[Cache on server]"[shape=ellipse]
+"DeploymentTime_MapAccess[Preloaded (ESRI)]"[shape=ellipse]
+DeploymentTime_Connectivity[shape=box, style=rounded]
+"DeploymentTime_Connectivity[Wifi]"[shape=ellipse]
+"DeploymentTime_Connectivity[3G on Nexus I]"[shape=ellipse]
+"DeploymentTime_Connectivity[3G on Droid]"[shape=ellipse]
+"DeploymentTime_Connectivity[Bluetooth]"[shape=ellipse]
+DeploymentTime_DataBase[shape=box, style=rounded]
+"DeploymentTime_DataBase[MySQL]"[shape=ellipse]
+"DeploymentTime_DataBase[sqLite]"[shape=ellipse]
+DeploymentTime_ArchitecturalPattern[shape=box, style=rounded]
+"DeploymentTime_ArchitecturalPattern[Peer-to-peer]"[shape=ellipse]
+"DeploymentTime_ArchitecturalPattern[Client-Server]"[shape=ellipse]
+"DeploymentTime_ArchitecturalPattern[Push-based]"[shape=ellipse]
+DeploymentTime_worst[shape=box, style=rounded]
+DeploymentTime_best[shape=box, style=rounded]
+Risk[shape=box]
+GoalFailure[shape=box, style=rounded]
+BatteryUsage_Failure[shape=box, style=rounded]
+BatteryUsage_must[shape=box, style=rounded]
+ResponseTime_Failure[shape=box, style=rounded]
+ResponseTime_must[shape=box, style=rounded]
+Reliability_Failure[shape=box, style=rounded]
+Reliability_must[shape=box, style=rounded]
+RampUpTime_Failure[shape=box, style=rounded]
+RampUpTime_must[shape=box, style=rounded]
+Cost_Failure[shape=box, style=rounded]
+Cost_must[shape=box, style=rounded]
+DevelopmentTime_Failure[shape=box, style=rounded]
+DevelopmentTime_must[shape=box, style=rounded]
+DeploymentTime_Failure[shape=box, style=rounded]
+DeploymentTime_must[shape=box, style=rounded]
+"BatteryUsage_LocationFinding[GPS]"->BatteryUsage_LocationFinding
+"BatteryUsage_LocationFinding[radio triangulation]"->BatteryUsage_LocationFinding
+"BatteryUsage_FileSharing[OpenIntent]"->BatteryUsage_FileSharing
+"BatteryUsage_FileSharing[In house]"->BatteryUsage_FileSharing
+BatteryUsage_LocationFinding->"ADD_18"
+BatteryUsage_FileSharing->"ADD_18"
+"BatteryUsage_ReportSyncing[Explicit]"->BatteryUsage_ReportSyncing
+"BatteryUsage_ReportSyncing[Implicit]"->BatteryUsage_ReportSyncing
+"ADD_18"->"ADD_17"
+BatteryUsage_ReportSyncing->"ADD_17"
+"BatteryUsage_ChatProtocol[XMPP (Open Fire)]"->BatteryUsage_ChatProtocol
+"BatteryUsage_ChatProtocol[In house]"->BatteryUsage_ChatProtocol
+"ADD_17"->"ADD_16"
+BatteryUsage_ChatProtocol->"ADD_16"
+"BatteryUsage_MapAccess[On Demand (Google)]"->BatteryUsage_MapAccess
+"BatteryUsage_MapAccess[Cache on server]"->BatteryUsage_MapAccess
+"BatteryUsage_MapAccess[Preloaded (ESRI)]"->BatteryUsage_MapAccess
+"ADD_16"->"ADD_15"
+BatteryUsage_MapAccess->"ADD_15"
+"BatteryUsage_HardwarePlatform[Nexus I (HTC)]"->BatteryUsage_HardwarePlatform
+"BatteryUsage_HardwarePlatform[Droid (Motorola)]"->BatteryUsage_HardwarePlatform
+"ADD_15"->"ADD_14"
+BatteryUsage_HardwarePlatform->"ADD_14"
+"BatteryUsage_Connectivity[Wifi]"->BatteryUsage_Connectivity
+"BatteryUsage_Connectivity[3G on Nexus I]"->BatteryUsage_Connectivity
+"BatteryUsage_Connectivity[3G on Droid]"->BatteryUsage_Connectivity
+"BatteryUsage_Connectivity[Bluetooth]"->BatteryUsage_Connectivity
+"ADD_14"->"ADD_13"
+BatteryUsage_Connectivity->"ADD_13"
+"BatteryUsage_DataBase[MySQL]"->BatteryUsage_DataBase
+"BatteryUsage_DataBase[sqLite]"->BatteryUsage_DataBase
+"ADD_13"->"ADD_12"
+BatteryUsage_DataBase->"ADD_12"
+"BatteryUsage_ArchitecturalPattern[Peer-to-peer]"->BatteryUsage_ArchitecturalPattern
+"BatteryUsage_ArchitecturalPattern[Client-Server]"->BatteryUsage_ArchitecturalPattern
+"BatteryUsage_ArchitecturalPattern[Push-based]"->BatteryUsage_ArchitecturalPattern
+"ADD_12"->"ADD_11"
+BatteryUsage_ArchitecturalPattern->"ADD_11"
+"BatteryUsage_DataExchangeFormat[XML]"->BatteryUsage_DataExchangeFormat
+"BatteryUsage_DataExchangeFormat[Compressed XML]"->BatteryUsage_DataExchangeFormat
+"BatteryUsage_DataExchangeFormat[Unformatted data]"->BatteryUsage_DataExchangeFormat
+"ADD_11"->"ADD_10"
+BatteryUsage_DataExchangeFormat->"ADD_10"
+"ADD_10"->BatteryUsage
+BatteryUsage->"SUB_9"
+BatteryUsage_best->"SUB_9"
+BatteryUsage_worst->"SUB_19"
+BatteryUsage_best->"SUB_19"
+"SUB_9"->"DIV_8"
+"SUB_19"->"DIV_8"
+"DIV_8"->BatteryUsage_Preference
+BatteryUsage_weight->"MUL_7"
+BatteryUsage_Preference->"MUL_7"
+"ResponseTime_LocationFinding[GPS]"->ResponseTime_LocationFinding
+"ResponseTime_LocationFinding[radio triangulation]"->ResponseTime_LocationFinding
+"ResponseTime_FileSharing[OpenIntent]"->ResponseTime_FileSharing
+"ResponseTime_FileSharing[In house]"->ResponseTime_FileSharing
+ResponseTime_LocationFinding->"ADD_31"
+ResponseTime_FileSharing->"ADD_31"
+"ResponseTime_ReportSyncing[Explicit]"->ResponseTime_ReportSyncing
+"ResponseTime_ReportSyncing[Implicit]"->ResponseTime_ReportSyncing
+"ADD_31"->"ADD_30"
+ResponseTime_ReportSyncing->"ADD_30"
+"ResponseTime_ChatProtocol[XMPP (Open Fire)]"->ResponseTime_ChatProtocol
+"ResponseTime_ChatProtocol[In house]"->ResponseTime_ChatProtocol
+"ADD_30"->"ADD_29"
+ResponseTime_ChatProtocol->"ADD_29"
+"ResponseTime_MapAccess[On Demand (Google)]"->ResponseTime_MapAccess
+"ResponseTime_MapAccess[Cache on server]"->ResponseTime_MapAccess
+"ResponseTime_MapAccess[Preloaded (ESRI)]"->ResponseTime_MapAccess
+"ADD_29"->"ADD_28"
+ResponseTime_MapAccess->"ADD_28"
+"ResponseTime_HardwarePlatform[Nexus I (HTC)]"->ResponseTime_HardwarePlatform
+"ResponseTime_HardwarePlatform[Droid (Motorola)]"->ResponseTime_HardwarePlatform
+"ADD_28"->"ADD_27"
+ResponseTime_HardwarePlatform->"ADD_27"
+"ResponseTime_Connectivity[Wifi]"->ResponseTime_Connectivity
+"ResponseTime_Connectivity[3G on Nexus I]"->ResponseTime_Connectivity
+"ResponseTime_Connectivity[3G on Droid]"->ResponseTime_Connectivity
+"ResponseTime_Connectivity[Bluetooth]"->ResponseTime_Connectivity
+"ADD_27"->"ADD_26"
+ResponseTime_Connectivity->"ADD_26"
+"ResponseTime_DataBase[MySQL]"->ResponseTime_DataBase
+"ResponseTime_DataBase[sqLite]"->ResponseTime_DataBase
+"ADD_26"->"ADD_25"
+ResponseTime_DataBase->"ADD_25"
+"ResponseTime_ArchitecturalPattern[Peer-to-peer]"->ResponseTime_ArchitecturalPattern
+"ResponseTime_ArchitecturalPattern[Client-Server]"->ResponseTime_ArchitecturalPattern
+"ResponseTime_ArchitecturalPattern[Push-based]"->ResponseTime_ArchitecturalPattern
+"ADD_25"->"ADD_24"
+ResponseTime_ArchitecturalPattern->"ADD_24"
+"ResponseTime_DataExchangeFormat[XML]"->ResponseTime_DataExchangeFormat
+"ResponseTime_DataExchangeFormat[Compressed XML]"->ResponseTime_DataExchangeFormat
+"ResponseTime_DataExchangeFormat[Unformatted data]"->ResponseTime_DataExchangeFormat
+"ADD_24"->"ADD_23"
+ResponseTime_DataExchangeFormat->"ADD_23"
+"ADD_23"->ResponseTime
+ResponseTime->"SUB_22"
+ResponseTime_worst->"SUB_22"
+ResponseTime_best->"SUB_32"
+ResponseTime_worst->"SUB_32"
+"SUB_22"->"DIV_21"
+"SUB_32"->"DIV_21"
+"DIV_21"->ResponseTime_Preference
+ResponseTime_weight->"MUL_20"
+ResponseTime_Preference->"MUL_20"
+"MUL_7"->"ADD_6"
+"MUL_20"->"ADD_6"
+"Reliability_LocationFinding[GPS]"->Reliability_LocationFinding
+"Reliability_LocationFinding[radio triangulation]"->Reliability_LocationFinding
+"Reliability_FileSharing[OpenIntent]"->Reliability_FileSharing
+"Reliability_FileSharing[In house]"->Reliability_FileSharing
+Reliability_LocationFinding->"ADD_44"
+Reliability_FileSharing->"ADD_44"
+"Reliability_ReportSyncing[Explicit]"->Reliability_ReportSyncing
+"Reliability_ReportSyncing[Implicit]"->Reliability_ReportSyncing
+"ADD_44"->"ADD_43"
+Reliability_ReportSyncing->"ADD_43"
+"Reliability_ChatProtocol[XMPP (Open Fire)]"->Reliability_ChatProtocol
+"Reliability_ChatProtocol[In house]"->Reliability_ChatProtocol
+"ADD_43"->"ADD_42"
+Reliability_ChatProtocol->"ADD_42"
+"Reliability_MapAccess[On Demand (Google)]"->Reliability_MapAccess
+"Reliability_MapAccess[Cache on server]"->Reliability_MapAccess
+"Reliability_MapAccess[Preloaded (ESRI)]"->Reliability_MapAccess
+"ADD_42"->"ADD_41"
+Reliability_MapAccess->"ADD_41"
+"Reliability_HardwarePlatform[Nexus I (HTC)]"->Reliability_HardwarePlatform
+"Reliability_HardwarePlatform[Droid (Motorola)]"->Reliability_HardwarePlatform
+"ADD_41"->"ADD_40"
+Reliability_HardwarePlatform->"ADD_40"
+"Reliability_Connectivity[Wifi]"->Reliability_Connectivity
+"Reliability_Connectivity[3G on Nexus I]"->Reliability_Connectivity
+"Reliability_Connectivity[3G on Droid]"->Reliability_Connectivity
+"Reliability_Connectivity[Bluetooth]"->Reliability_Connectivity
+"ADD_40"->"ADD_39"
+Reliability_Connectivity->"ADD_39"
+"Reliability_DataBase[MySQL]"->Reliability_DataBase
+"Reliability_DataBase[sqLite]"->Reliability_DataBase
+"ADD_39"->"ADD_38"
+Reliability_DataBase->"ADD_38"
+"Reliability_ArchitecturalPattern[Peer-to-peer]"->Reliability_ArchitecturalPattern
+"Reliability_ArchitecturalPattern[Client-Server]"->Reliability_ArchitecturalPattern
+"Reliability_ArchitecturalPattern[Push-based]"->Reliability_ArchitecturalPattern
+"ADD_38"->"ADD_37"
+Reliability_ArchitecturalPattern->"ADD_37"
+"Reliability_DataExchangeFormat[XML]"->Reliability_DataExchangeFormat
+"Reliability_DataExchangeFormat[Compressed XML]"->Reliability_DataExchangeFormat
+"Reliability_DataExchangeFormat[Unformatted data]"->Reliability_DataExchangeFormat
+"ADD_37"->"ADD_36"
+Reliability_DataExchangeFormat->"ADD_36"
+"ADD_36"->Reliability
+Reliability->"SUB_35"
+Reliability_worst->"SUB_35"
+Reliability_best->"SUB_45"
+Reliability_worst->"SUB_45"
+"SUB_35"->"DIV_34"
+"SUB_45"->"DIV_34"
+"DIV_34"->Reliability_Preference
+Reliability_weight->"MUL_33"
+Reliability_Preference->"MUL_33"
+"ADD_6"->"ADD_5"
+"MUL_33"->"ADD_5"
+"RampUpTime_LocationFinding[GPS]"->RampUpTime_LocationFinding
+"RampUpTime_LocationFinding[radio triangulation]"->RampUpTime_LocationFinding
+"RampUpTime_FileSharing[OpenIntent]"->RampUpTime_FileSharing
+"RampUpTime_FileSharing[In house]"->RampUpTime_FileSharing
+RampUpTime_LocationFinding->"ADD_57"
+RampUpTime_FileSharing->"ADD_57"
+"RampUpTime_ReportSyncing[Explicit]"->RampUpTime_ReportSyncing
+"RampUpTime_ReportSyncing[Implicit]"->RampUpTime_ReportSyncing
+"ADD_57"->"ADD_56"
+RampUpTime_ReportSyncing->"ADD_56"
+"RampUpTime_ChatProtocol[XMPP (Open Fire)]"->RampUpTime_ChatProtocol
+"RampUpTime_ChatProtocol[In house]"->RampUpTime_ChatProtocol
+"ADD_56"->"ADD_55"
+RampUpTime_ChatProtocol->"ADD_55"
+"RampUpTime_MapAccess[On Demand (Google)]"->RampUpTime_MapAccess
+"RampUpTime_MapAccess[Cache on server]"->RampUpTime_MapAccess
+"RampUpTime_MapAccess[Preloaded (ESRI)]"->RampUpTime_MapAccess
+"ADD_55"->"ADD_54"
+RampUpTime_MapAccess->"ADD_54"
+"RampUpTime_HardwarePlatform[Nexus I (HTC)]"->RampUpTime_HardwarePlatform
+"RampUpTime_HardwarePlatform[Droid (Motorola)]"->RampUpTime_HardwarePlatform
+"ADD_54"->"ADD_53"
+RampUpTime_HardwarePlatform->"ADD_53"
+"RampUpTime_Connectivity[Wifi]"->RampUpTime_Connectivity
+"RampUpTime_Connectivity[3G on Nexus I]"->RampUpTime_Connectivity
+"RampUpTime_Connectivity[3G on Droid]"->RampUpTime_Connectivity
+"RampUpTime_Connectivity[Bluetooth]"->RampUpTime_Connectivity
+"ADD_53"->"ADD_52"
+RampUpTime_Connectivity->"ADD_52"
+"RampUpTime_DataBase[MySQL]"->RampUpTime_DataBase
+"RampUpTime_DataBase[sqLite]"->RampUpTime_DataBase
+"ADD_52"->"ADD_51"
+RampUpTime_DataBase->"ADD_51"
+"RampUpTime_ArchitecturalPattern[Peer-to-peer]"->RampUpTime_ArchitecturalPattern
+"RampUpTime_ArchitecturalPattern[Client-Server]"->RampUpTime_ArchitecturalPattern
+"RampUpTime_ArchitecturalPattern[Push-based]"->RampUpTime_ArchitecturalPattern
+"ADD_51"->"ADD_50"
+RampUpTime_ArchitecturalPattern->"ADD_50"
+"RampUpTime_DataExchangeFormat[XML]"->RampUpTime_DataExchangeFormat
+"RampUpTime_DataExchangeFormat[Compressed XML]"->RampUpTime_DataExchangeFormat
+"RampUpTime_DataExchangeFormat[Unformatted data]"->RampUpTime_DataExchangeFormat
+"ADD_50"->"ADD_49"
+RampUpTime_DataExchangeFormat->"ADD_49"
+"ADD_49"->RampUpTime
+RampUpTime->"SUB_48"
+RampUpTime_worst->"SUB_48"
+RampUpTime_best->"SUB_58"
+RampUpTime_worst->"SUB_58"
+"SUB_48"->"DIV_47"
+"SUB_58"->"DIV_47"
+"DIV_47"->RampUpTime_Preference
+RampUpTime_weight->"MUL_46"
+RampUpTime_Preference->"MUL_46"
+"ADD_5"->"ADD_4"
+"MUL_46"->"ADD_4"
+"Cost_LocationFinding[GPS]"->Cost_LocationFinding
+"Cost_LocationFinding[radio triangulation]"->Cost_LocationFinding
+"Cost_FileSharing[OpenIntent]"->Cost_FileSharing
+"Cost_FileSharing[In house]"->Cost_FileSharing
+Cost_LocationFinding->"ADD_70"
+Cost_FileSharing->"ADD_70"
+"Cost_ReportSyncing[Explicit]"->Cost_ReportSyncing
+"Cost_ReportSyncing[Implicit]"->Cost_ReportSyncing
+"ADD_70"->"ADD_69"
+Cost_ReportSyncing->"ADD_69"
+"Cost_ChatProtocol[XMPP (Open Fire)]"->Cost_ChatProtocol
+"Cost_ChatProtocol[In house]"->Cost_ChatProtocol
+"ADD_69"->"ADD_68"
+Cost_ChatProtocol->"ADD_68"
+"Cost_MapAccess[On Demand (Google)]"->Cost_MapAccess
+"Cost_MapAccess[Cache on server]"->Cost_MapAccess
+"Cost_MapAccess[Preloaded (ESRI)]"->Cost_MapAccess
+"ADD_68"->"ADD_67"
+Cost_MapAccess->"ADD_67"
+"Cost_HardwarePlatform[Nexus I (HTC)]"->Cost_HardwarePlatform
+"Cost_HardwarePlatform[Droid (Motorola)]"->Cost_HardwarePlatform
+"ADD_67"->"ADD_66"
+Cost_HardwarePlatform->"ADD_66"
+"Cost_Connectivity[Wifi]"->Cost_Connectivity
+"Cost_Connectivity[3G on Nexus I]"->Cost_Connectivity
+"Cost_Connectivity[3G on Droid]"->Cost_Connectivity
+"Cost_Connectivity[Bluetooth]"->Cost_Connectivity
+"ADD_66"->"ADD_65"
+Cost_Connectivity->"ADD_65"
+"Cost_DataBase[MySQL]"->Cost_DataBase
+"Cost_DataBase[sqLite]"->Cost_DataBase
+"ADD_65"->"ADD_64"
+Cost_DataBase->"ADD_64"
+"Cost_ArchitecturalPattern[Peer-to-peer]"->Cost_ArchitecturalPattern
+"Cost_ArchitecturalPattern[Client-Server]"->Cost_ArchitecturalPattern
+"Cost_ArchitecturalPattern[Push-based]"->Cost_ArchitecturalPattern
+"ADD_64"->"ADD_63"
+Cost_ArchitecturalPattern->"ADD_63"
+"Cost_DataExchangeFormat[XML]"->Cost_DataExchangeFormat
+"Cost_DataExchangeFormat[Compressed XML]"->Cost_DataExchangeFormat
+"Cost_DataExchangeFormat[Unformatted data]"->Cost_DataExchangeFormat
+"ADD_63"->"ADD_62"
+Cost_DataExchangeFormat->"ADD_62"
+"ADD_62"->Cost
+Cost->"SUB_61"
+Cost_worst->"SUB_61"
+Cost_best->"SUB_71"
+Cost_worst->"SUB_71"
+"SUB_61"->"DIV_60"
+"SUB_71"->"DIV_60"
+"DIV_60"->Cost_Preference
+Cost_weight->"MUL_59"
+Cost_Preference->"MUL_59"
+"ADD_4"->"ADD_3"
+"MUL_59"->"ADD_3"
+"DevelopmentTime_LocationFinding[GPS]"->DevelopmentTime_LocationFinding
+"DevelopmentTime_LocationFinding[radio triangulation]"->DevelopmentTime_LocationFinding
+"DevelopmentTime_FileSharing[OpenIntent]"->DevelopmentTime_FileSharing
+"DevelopmentTime_FileSharing[In house]"->DevelopmentTime_FileSharing
+DevelopmentTime_LocationFinding->"ADD_81"
+DevelopmentTime_FileSharing->"ADD_81"
+"DevelopmentTime_ReportSyncing[Explicit]"->DevelopmentTime_ReportSyncing
+"DevelopmentTime_ReportSyncing[Implicit]"->DevelopmentTime_ReportSyncing
+"ADD_81"->"ADD_80"
+DevelopmentTime_ReportSyncing->"ADD_80"
+"DevelopmentTime_ChatProtocol[XMPP (Open Fire)]"->DevelopmentTime_ChatProtocol
+"DevelopmentTime_ChatProtocol[In house]"->DevelopmentTime_ChatProtocol
+"ADD_80"->"ADD_79"
+DevelopmentTime_ChatProtocol->"ADD_79"
+"DevelopmentTime_MapAccess[On Demand (Google)]"->DevelopmentTime_MapAccess
+"DevelopmentTime_MapAccess[Cache on server]"->DevelopmentTime_MapAccess
+"DevelopmentTime_MapAccess[Preloaded (ESRI)]"->DevelopmentTime_MapAccess
+"ADD_79"->"ADD_78"
+DevelopmentTime_MapAccess->"ADD_78"
+"DevelopmentTime_DataBase[MySQL]"->DevelopmentTime_DataBase
+"DevelopmentTime_DataBase[sqLite]"->DevelopmentTime_DataBase
+"ADD_78"->"ADD_77"
+DevelopmentTime_DataBase->"ADD_77"
+"DevelopmentTime_ArchitecturalPattern[Peer-to-peer]"->DevelopmentTime_ArchitecturalPattern
+"DevelopmentTime_ArchitecturalPattern[Client-Server]"->DevelopmentTime_ArchitecturalPattern
+"DevelopmentTime_ArchitecturalPattern[Push-based]"->DevelopmentTime_ArchitecturalPattern
+"ADD_77"->"ADD_76"
+DevelopmentTime_ArchitecturalPattern->"ADD_76"
+"DevelopmentTime_DataExchangeFormat[XML]"->DevelopmentTime_DataExchangeFormat
+"DevelopmentTime_DataExchangeFormat[Compressed XML]"->DevelopmentTime_DataExchangeFormat
+"DevelopmentTime_DataExchangeFormat[Unformatted data]"->DevelopmentTime_DataExchangeFormat
+"ADD_76"->"ADD_75"
+DevelopmentTime_DataExchangeFormat->"ADD_75"
+"ADD_75"->DevelopmentTime
+DevelopmentTime->"SUB_74"
+DevelopmentTime_worst->"SUB_74"
+DevelopmentTime_best->"SUB_82"
+DevelopmentTime_worst->"SUB_82"
+"SUB_74"->"DIV_73"
+"SUB_82"->"DIV_73"
+"DIV_73"->DevelopmentTime_Preference
+DevelopmentTime_weight->"MUL_72"
+DevelopmentTime_Preference->"MUL_72"
+"ADD_3"->"ADD_2"
+"MUL_72"->"ADD_2"
+"DeploymentTime_LocationFinding[GPS]"->DeploymentTime_LocationFinding
+"DeploymentTime_LocationFinding[radio triangulation]"->DeploymentTime_LocationFinding
+"DeploymentTime_FileSharing[OpenIntent]"->DeploymentTime_FileSharing
+"DeploymentTime_FileSharing[In house]"->DeploymentTime_FileSharing
+DeploymentTime_LocationFinding->"ADD_92"
+DeploymentTime_FileSharing->"ADD_92"
+"DeploymentTime_ReportSyncing[Explicit]"->DeploymentTime_ReportSyncing
+"DeploymentTime_ReportSyncing[Implicit]"->DeploymentTime_ReportSyncing
+"ADD_92"->"ADD_91"
+DeploymentTime_ReportSyncing->"ADD_91"
+"DeploymentTime_ChatProtocol[XMPP (Open Fire)]"->DeploymentTime_ChatProtocol
+"DeploymentTime_ChatProtocol[In house]"->DeploymentTime_ChatProtocol
+"ADD_91"->"ADD_90"
+DeploymentTime_ChatProtocol->"ADD_90"
+"DeploymentTime_MapAccess[On Demand (Google)]"->DeploymentTime_MapAccess
+"DeploymentTime_MapAccess[Cache on server]"->DeploymentTime_MapAccess
+"DeploymentTime_MapAccess[Preloaded (ESRI)]"->DeploymentTime_MapAccess
+"ADD_90"->"ADD_89"
+DeploymentTime_MapAccess->"ADD_89"
+"DeploymentTime_Connectivity[Wifi]"->DeploymentTime_Connectivity
+"DeploymentTime_Connectivity[3G on Nexus I]"->DeploymentTime_Connectivity
+"DeploymentTime_Connectivity[3G on Droid]"->DeploymentTime_Connectivity
+"DeploymentTime_Connectivity[Bluetooth]"->DeploymentTime_Connectivity
+"ADD_89"->"ADD_88"
+DeploymentTime_Connectivity->"ADD_88"
+"DeploymentTime_DataBase[MySQL]"->DeploymentTime_DataBase
+"DeploymentTime_DataBase[sqLite]"->DeploymentTime_DataBase
+"ADD_88"->"ADD_87"
+DeploymentTime_DataBase->"ADD_87"
+"DeploymentTime_ArchitecturalPattern[Peer-to-peer]"->DeploymentTime_ArchitecturalPattern
+"DeploymentTime_ArchitecturalPattern[Client-Server]"->DeploymentTime_ArchitecturalPattern
+"DeploymentTime_ArchitecturalPattern[Push-based]"->DeploymentTime_ArchitecturalPattern
+"ADD_87"->"ADD_86"
+DeploymentTime_ArchitecturalPattern->"ADD_86"
+"ADD_86"->DeploymentTime
+DeploymentTime->"SUB_85"
+DeploymentTime_worst->"SUB_85"
+DeploymentTime_best->"SUB_93"
+DeploymentTime_worst->"SUB_93"
+"SUB_85"->"DIV_84"
+"SUB_93"->"DIV_84"
+"DIV_84"->DeploymentTime_Preference
+DeploymentTime_weight->"MUL_83"
+DeploymentTime_Preference->"MUL_83"
+"ADD_2"->"ADD_1"
+"MUL_83"->"ADD_1"
+"ADD_1"->NB
+NB->ENB
+BatteryUsage_LocationFinding->"ADD_109"
+BatteryUsage_FileSharing->"ADD_109"
+"ADD_109"->"ADD_108"
+BatteryUsage_ReportSyncing->"ADD_108"
+"ADD_108"->"ADD_107"
+BatteryUsage_ChatProtocol->"ADD_107"
+"ADD_107"->"ADD_106"
+BatteryUsage_MapAccess->"ADD_106"
+"ADD_106"->"ADD_105"
+BatteryUsage_HardwarePlatform->"ADD_105"
+"ADD_105"->"ADD_104"
+BatteryUsage_Connectivity->"ADD_104"
+"ADD_104"->"ADD_103"
+BatteryUsage_DataBase->"ADD_103"
+"ADD_103"->"ADD_102"
+BatteryUsage_ArchitecturalPattern->"ADD_102"
+"ADD_102"->"ADD_101"
+BatteryUsage_DataExchangeFormat->"ADD_101"
+"ADD_101"->BatteryUsage
+BatteryUsage->"LESS_100"
+BatteryUsage_must->"LESS_100"
+"LESS_100"->BatteryUsage_Failure
+ResponseTime_LocationFinding->"ADD_119"
+ResponseTime_FileSharing->"ADD_119"
+"ADD_119"->"ADD_118"
+ResponseTime_ReportSyncing->"ADD_118"
+"ADD_118"->"ADD_117"
+ResponseTime_ChatProtocol->"ADD_117"
+"ADD_117"->"ADD_116"
+ResponseTime_MapAccess->"ADD_116"
+"ADD_116"->"ADD_115"
+ResponseTime_HardwarePlatform->"ADD_115"
+"ADD_115"->"ADD_114"
+ResponseTime_Connectivity->"ADD_114"
+"ADD_114"->"ADD_113"
+ResponseTime_DataBase->"ADD_113"
+"ADD_113"->"ADD_112"
+ResponseTime_ArchitecturalPattern->"ADD_112"
+"ADD_112"->"ADD_111"
+ResponseTime_DataExchangeFormat->"ADD_111"
+"ADD_111"->ResponseTime
+ResponseTime->"LESS_110"
+ResponseTime_must->"LESS_110"
+"LESS_110"->ResponseTime_Failure
+BatteryUsage_Failure->"OR_99"
+ResponseTime_Failure->"OR_99"
+Reliability_LocationFinding->"ADD_129"
+Reliability_FileSharing->"ADD_129"
+"ADD_129"->"ADD_128"
+Reliability_ReportSyncing->"ADD_128"
+"ADD_128"->"ADD_127"
+Reliability_ChatProtocol->"ADD_127"
+"ADD_127"->"ADD_126"
+Reliability_MapAccess->"ADD_126"
+"ADD_126"->"ADD_125"
+Reliability_HardwarePlatform->"ADD_125"
+"ADD_125"->"ADD_124"
+Reliability_Connectivity->"ADD_124"
+"ADD_124"->"ADD_123"
+Reliability_DataBase->"ADD_123"
+"ADD_123"->"ADD_122"
+Reliability_ArchitecturalPattern->"ADD_122"
+"ADD_122"->"ADD_121"
+Reliability_DataExchangeFormat->"ADD_121"
+"ADD_121"->Reliability
+Reliability->"LESS_120"
+Reliability_must->"LESS_120"
+"LESS_120"->Reliability_Failure
+"OR_99"->"OR_98"
+Reliability_Failure->"OR_98"
+RampUpTime_LocationFinding->"ADD_139"
+RampUpTime_FileSharing->"ADD_139"
+"ADD_139"->"ADD_138"
+RampUpTime_ReportSyncing->"ADD_138"
+"ADD_138"->"ADD_137"
+RampUpTime_ChatProtocol->"ADD_137"
+"ADD_137"->"ADD_136"
+RampUpTime_MapAccess->"ADD_136"
+"ADD_136"->"ADD_135"
+RampUpTime_HardwarePlatform->"ADD_135"
+"ADD_135"->"ADD_134"
+RampUpTime_Connectivity->"ADD_134"
+"ADD_134"->"ADD_133"
+RampUpTime_DataBase->"ADD_133"
+"ADD_133"->"ADD_132"
+RampUpTime_ArchitecturalPattern->"ADD_132"
+"ADD_132"->"ADD_131"
+RampUpTime_DataExchangeFormat->"ADD_131"
+"ADD_131"->RampUpTime
+RampUpTime->"LESS_130"
+RampUpTime_must->"LESS_130"
+"LESS_130"->RampUpTime_Failure
+"OR_98"->"OR_97"
+RampUpTime_Failure->"OR_97"
+Cost_LocationFinding->"ADD_149"
+Cost_FileSharing->"ADD_149"
+"ADD_149"->"ADD_148"
+Cost_ReportSyncing->"ADD_148"
+"ADD_148"->"ADD_147"
+Cost_ChatProtocol->"ADD_147"
+"ADD_147"->"ADD_146"
+Cost_MapAccess->"ADD_146"
+"ADD_146"->"ADD_145"
+Cost_HardwarePlatform->"ADD_145"
+"ADD_145"->"ADD_144"
+Cost_Connectivity->"ADD_144"
+"ADD_144"->"ADD_143"
+Cost_DataBase->"ADD_143"
+"ADD_143"->"ADD_142"
+Cost_ArchitecturalPattern->"ADD_142"
+"ADD_142"->"ADD_141"
+Cost_DataExchangeFormat->"ADD_141"
+"ADD_141"->Cost
+Cost->"LESS_140"
+Cost_must->"LESS_140"
+"LESS_140"->Cost_Failure
+"OR_97"->"OR_96"
+Cost_Failure->"OR_96"
+DevelopmentTime_LocationFinding->"ADD_157"
+DevelopmentTime_FileSharing->"ADD_157"
+"ADD_157"->"ADD_156"
+DevelopmentTime_ReportSyncing->"ADD_156"
+"ADD_156"->"ADD_155"
+DevelopmentTime_ChatProtocol->"ADD_155"
+"ADD_155"->"ADD_154"
+DevelopmentTime_MapAccess->"ADD_154"
+"ADD_154"->"ADD_153"
+DevelopmentTime_DataBase->"ADD_153"
+"ADD_153"->"ADD_152"
+DevelopmentTime_ArchitecturalPattern->"ADD_152"
+"ADD_152"->"ADD_151"
+DevelopmentTime_DataExchangeFormat->"ADD_151"
+"ADD_151"->DevelopmentTime
+DevelopmentTime->"LESS_150"
+DevelopmentTime_must->"LESS_150"
+"LESS_150"->DevelopmentTime_Failure
+"OR_96"->"OR_95"
+DevelopmentTime_Failure->"OR_95"
+DeploymentTime_LocationFinding->"ADD_165"
+DeploymentTime_FileSharing->"ADD_165"
+"ADD_165"->"ADD_164"
+DeploymentTime_ReportSyncing->"ADD_164"
+"ADD_164"->"ADD_163"
+DeploymentTime_ChatProtocol->"ADD_163"
+"ADD_163"->"ADD_162"
+DeploymentTime_MapAccess->"ADD_162"
+"ADD_162"->"ADD_161"
+DeploymentTime_Connectivity->"ADD_161"
+"ADD_161"->"ADD_160"
+DeploymentTime_DataBase->"ADD_160"
+"ADD_160"->"ADD_159"
+DeploymentTime_ArchitecturalPattern->"ADD_159"
+"ADD_159"->DeploymentTime
+DeploymentTime->"LESS_158"
+DeploymentTime_must->"LESS_158"
+"LESS_158"->DeploymentTime_Failure
+"OR_95"->"OR_94"
+DeploymentTime_Failure->"OR_94"
+"OR_94"->GoalFailure
+GoalFailure->Risk
+}

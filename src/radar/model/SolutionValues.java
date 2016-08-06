@@ -6,14 +6,14 @@ import java.util.Map;
 public class SolutionValues {
 
 	Map<Objective, Double> objvalue_ ;
-	Alternative solution_;
+	Solution solution_;
 	public SolutionValues(){
 		objvalue_ = new LinkedHashMap<Objective, Double>();
 	}
-	public void setSolution (Alternative solution){
+	public void setSolution (Solution solution){
 		solution_ = solution;
 	}
-	public Alternative getSolution (){
+	public Solution getSolution (){
 		return solution_;
 	}
 	public void setObjectiveValue (Map<Objective, Double> value ){

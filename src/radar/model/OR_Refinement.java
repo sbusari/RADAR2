@@ -52,7 +52,7 @@ public class OR_Refinement extends Expression {
 		return result;
 	}
 	@Override
-	public double[] simulate(Alternative s) {
+	public double[] simulate(Solution s) {
 		String option = s.getOption(decision_);
 		Expression expr = definition_.get(option);
 		//check if expr is a distribution, set this boolean value to true i there.

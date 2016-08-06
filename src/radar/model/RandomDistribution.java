@@ -16,7 +16,7 @@ class RandomDistribution extends Distribution {
 		return  randomDistribution( N);
 	}
 	@Override
-	public double[] simulate(Alternative s) {
+	public double[] simulate(Solution s) {
 		isExpresionDistribution_ = true;
 		return  randomDistribution(N);
 	}

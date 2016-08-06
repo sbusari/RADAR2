@@ -21,12 +21,12 @@ NbrFraudPerAccountBeforeBlocked = decision("blocking policy"){
 
 NbrFraudBeforeDetection = decision("processing type"){
 	"continuous"    :    1 / ContinuousTrueAlertRate;
-	"batch"         :    NbrFraudsPerCompromisedAccountPerDay / 2 * BatchTrueAlertRate;
+	"batch"         :    NbrFraudPerCompromisedAccountPerDay / 2 * BatchTrueAlertRate;
 }
-    
-NbrFraudsPerCompromisedAccountPerDay = deterministic(3);
+  
+NbrFraudPerCompromisedAccountPerDay = deterministic(3);
 
-NbrFraudDuringInvestigation = NbrFraudsPerCompromisedAccountPerDay * InvestigationDelay;
+NbrFraudDuringInvestigation = NbrFraudPerCompromisedAccountPerDay * InvestigationDelay;
 
 InvestigationDelay = deterministic(1/3);
 

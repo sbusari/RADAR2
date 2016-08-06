@@ -34,12 +34,12 @@ public class ExperiementData {
 	String nonDominatedSolutionPlotPath_;
 	String dominatedSolutionPlotPath_;
 	String expBaseDirectory_;
-	List<String>  informationValueObjective_;
+	String  informationValueObjective_;
 	Model semanticModel_;
-	public void setInformationValueObjective( List<String> informationValueObjective ){
+	public void setInformationValueObjective( String informationValueObjective ){
 		informationValueObjective_ = informationValueObjective;
 	}
-	public  List<String>  getInformationValueObjective(){
+	public  String  getInformationValueObjective(){
 		return informationValueObjective_;
 	}
 	public void setSemanticModel(Model semanticModel ){

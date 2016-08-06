@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import radar.model.Alternative;
+import radar.model.Solution;
 import radar.model.Model;
 import radar.model.Objective;
 import radar.model.SolutionValues;
@@ -17,10 +17,10 @@ import radar.utilities.Statistics;
 public class Simulator {
 
 	private Map<Objective, Double> objectiveValues_;
-	Alternative selectedAlternative;
+	Solution selectedAlternative;
 	Model semanticModel;
 	boolean objectivesReferToSameQV_;
-	public Simulator (Alternative selectedAlternative, Model semanticModel){
+	public Simulator (Solution selectedAlternative, Model semanticModel){
 		this.selectedAlternative =selectedAlternative;
 		this.semanticModel = semanticModel;
 		this.objectivesReferToSameQV_ = objectiveReferToSameQV();
@@ -43,6 +43,19 @@ public class Simulator {
 		return objectiveValues_;
 	}
 	public SolutionValues computeObjectivesValues (){
+		SolutionValues results = new SolutionValues();
+		this.selectedAlternative.setSemanticModel(semanticModel);
+		List<Objective> objList = new ArrayList<Objective>(this.semanticModel.getObjectives().values());
+		for (int i =0; i < objList.size(); i ++){
+			Objective obj = objList.get(i);
+			double value = obj.evaluate(this.selectedAlternative);
+			value = obj.getIsMinimisation() == false ? value *-1 : value;
+			results.addObjectiveValue(obj, value);
+		}
+		results.setSolution(this.selectedAlternative);
+		return results;
+	}
+	public SolutionValues computeObjectivesValues2 (){
 		SolutionValues results = new SolutionValues();
 		this.selectedAlternative.setSemanticModel(semanticModel);
 		//this.selectedAlternative.setInfoValueObjectiveName(semanticModel.getInfoValueObjective().getQualityVariable().getLabel());

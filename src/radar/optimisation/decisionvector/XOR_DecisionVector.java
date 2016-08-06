@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import radar.jmetal.core.Variable;
-import radar.jmetal.encodings.variable.BitVector;
-import radar.jmetal.util.PseudoRandom;
-import radar.model.Alternative;
+import radar.model.Solution;
 import radar.model.Decision;
 import radar.model.Model;
+import radar.utilities.PseudoRandom;
 
 public class XOR_DecisionVector extends DecisionVector {
 

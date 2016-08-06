@@ -8,5 +8,5 @@ public abstract class Statistic {
 	public void setObjExpression(Expression expression){
 		expression_ = expression;
 	}
-	abstract double evaluate (Alternative s, QualityVariable var);
+	abstract double evaluate (Solution s, QualityVariable var);
 }

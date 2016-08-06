@@ -1,0 +1,22 @@
+,blocking policy,processing type,fraud detection method,threshold level,FinancialLoss,InvestigationCost,Optimal
+1,block first,continuous,classifier,high,15348.974361728135,2.730771823250333E7,Yes
+2,investigage first,continuous,classifier,high,29301.674227915697,2.7234728161084257E7,Yes
+4,block first,continuous,rule-based,medium,16966.443827615592,2.957803057607802E7,No
+5,block first,continuous,rule-based,low,16808.189474867777,3.0181294552956898E7,No
+6,block first,batch,classifier,high,19427.22530956448,2.940765576426062E7,No
+7,block first,batch,classifier,medium,17343.009244365836,2.995310026062745E7,No
+8,block first,batch,classifier,low,15722.629723473901,2.9777416109306816E7,No
+9,block first,batch,rule-based,high,16568.21545964996,2.9875023824642003E7,No
+10,block first,batch,rule-based,medium,16465.541807212212,2.990313546863381E7,No
+11,block first,batch,rule-based,low,16609.184750627504,2.9774703844687745E7,No
+12,investigage first,continuous,classifier,medium,30950.07974833181,2.9782278749293122E7,No
+13,investigage first,continuous,classifier,low,33516.8178454413,2.9864962335160423E7,No
+14,investigage first,continuous,rule-based,high,30772.48020451843,2.983463769999886E7,No
+15,investigage first,continuous,rule-based,medium,30360.414899515712,2.9487371339758582E7,No
+16,investigage first,continuous,rule-based,low,30836.25459018038,2.927485848416151E7,No
+17,investigage first,batch,classifier,high,32603.721141083104,2.962623985840552E7,No
+18,investigage first,batch,classifier,medium,31431.404811625267,3.0062297938729912E7,No
+19,investigage first,batch,classifier,low,29455.90318363626,2.9790749262094397E7,No
+20,investigage first,batch,rule-based,high,30025.028279431754,3.038147697152669E7,No
+21,investigage first,batch,rule-based,medium,30120.998066599263,2.977327855587697E7,No
+22,investigage first,batch,rule-based,low,29716.08145405026,2.9565906822683528E7,No

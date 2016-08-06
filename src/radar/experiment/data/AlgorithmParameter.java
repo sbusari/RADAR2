@@ -1,5 +1,5 @@
 package radar.experiment.data;
-import radar.model.AlternativeAnalyser;
+import radar.model.SolutionAnalyser;
 import radar.model.Parser;
 import radar.utilities.ConfigSetting;
 import radar.utilities.Helper;
