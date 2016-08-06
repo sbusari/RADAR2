@@ -67,36 +67,6 @@ public class Graph {
 		}
 		
 	}
-	public void createVariableGraphPerObjective(Objective obj){
-		Node obj_node = new Node ();
-		obj_node.setLabel(obj.getLabel());
-		obj_node.setShape("box");
-		obj_node.setStyle("");
-		this.nodeList_.put(obj.getLabel(), obj_node);
-		QualityVariable qvObjReferTo = obj.getQualityVariable();
-		if (!this.nodeList_.containsKey(qvObjReferTo.getLabel())){
-			List<Node> qv_nodes = qvObjReferTo.addDOTNodeToGraph(this, this.semanticModel_, qvObjReferTo.getLabel());
-			for (int j=0; j < qv_nodes.size(); j ++){
-				this.addEdge(qv_nodes.get(j).getLabel(), obj_node.getLabel());
-			}
-		}else{
-			Node qv_node = this.nodeList_.get(qvObjReferTo.getLabel());
-			this.addEdge(qv_node.getLabel(), obj_node.getLabel());
-		}
-	}
-	public void createDecisionsGraphPerObjective(Objective obj){
-		Node obj_node = new Node ();
-		obj_node.setLabel(this.semanticModel_.getModelName());
-		obj_node.setShape("box");
-		obj_node.setStyle("");
-		this.nodeList_.put(obj.getLabel(), obj_node);
-		QualityVariable qvObjReferTo = obj.getQualityVariable();
-		List<Node> decision_qv_nodes = qvObjReferTo.addDOTNodeToDecisionGraph(this, this.semanticModel_, qvObjReferTo.getLabel());	
-		for (int j=0; j < decision_qv_nodes.size(); j ++){
-			this.addEdge(decision_qv_nodes.get(j).getLabel(), obj_node.getLabel());
-		}
-		
-	}
 	public void createDecisionsGraph(){
 		List<Objective> objList = new ArrayList<Objective>(this.semanticModel_.getObjectives().values());
 		Node obj_node = new Node ();
