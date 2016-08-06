@@ -1,15 +1,13 @@
 package radar.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-
-import prefuse.data.Graph;
-import prefuse.data.Node;
+import radar.plot.goal.graph.Graph;
+import radar.plot.goal.graph.Node;
 
 public class QualityVariable extends ArithmeticExpression {
 
@@ -69,22 +67,26 @@ public class QualityVariable extends ArithmeticExpression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToGraph(Graph g, Model model, String qv_name, Map<String, Node> cache) {
-		if (label_.equals("ContinuousAlertThreshold")){
-			System.out.print("ContinuousAlertThreshold");
-		}
+	public List<Node> addDOTNodeToGraph(Graph g, Model model,
+			String qv_name) {
 		List<Node> results = new ArrayList<Node>();
-		Node qv_node = null;
-		qv_node =createNode (g, label_,"QualityVariable", label_ ,cache);
-		List<Node> children = definition_.addNodeToGraph(g,model,qv_name,cache);
+		Node qv_node =createDOTNode (g, label_,"box", "rounded");
+		List<Node> children = definition_.addDOTNodeToGraph(g,model,qv_name);
 		if (children != null &&  children.size() > 0){
 			for (int i =0 ; i <  children.size() ; i ++){
-				g.addEdge(qv_node, children.get(i));
+				g.addEdge( children.get(i).getLabel(), qv_node.getLabel());
 			}
 		}
 		results.add(qv_node);
 		return results;
 	}
+	@Override
+	public List<Node> addDOTNodeToDecisionGraph(Graph g, Model model,
+			String qv_name) {
+		List<Node> children = definition_.addDOTNodeToDecisionGraph(g,model,qv_name.replaceAll(" ", "_"));
+		return children;
+	}
+
 	public double [] simulate (Alternative s){
 		double [] simdata = null;
 		Alternative localSolution = new Alternative(s);
@@ -139,6 +141,9 @@ public class QualityVariable extends ArithmeticExpression {
 	public Map<Alternative, double[]> getParameterSimData(){
 		return simParameters_;
 	}
+
+
+
 
 
 

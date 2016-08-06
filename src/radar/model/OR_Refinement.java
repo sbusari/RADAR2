@@ -1,13 +1,11 @@
 package radar.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import prefuse.data.Graph;
-import prefuse.data.Node;
+import radar.plot.goal.graph.Graph;
+import radar.plot.goal.graph.Node;
 
 public class OR_Refinement extends Expression {
 	private Decision decision_;
@@ -15,17 +13,39 @@ public class OR_Refinement extends Expression {
 	
 	public OR_Refinement(){}
 	@Override
-	public List<Node> addNodeToGraph(Graph g, Model model, String qv_name,Map<String, Node> cache) {
+	public List<Node> addDOTNodeToDecisionGraph(Graph g, Model model,
+			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
+		Node decision = createDOTNode (g, "\"" +  decision_.getDecisionLabel().replaceAll(" ", "_") + "\"","polygon", "diagonals");
+		result.add(decision);
 		for (Map.Entry<String, Expression> entry: definition_.entrySet()){
-			String optionName = qv_name + "[" + entry.getKey() + "]";
-			Node option = createNode (g, optionName,"Option",optionName, cache);
-			result.add(option);
-			// add edge between option node and its own children
-			List<Node> optionChildren = entry.getValue().addNodeToGraph(g,model,qv_name,cache);
+			String optionName = "\"" + entry.getKey().replaceAll(" ", "_") + "\"" ;
+			Node option = createDOTNode (g, optionName,"box","");
+			//result.add(option);
+			List<Node> optionChildren = entry.getValue().addDOTNodeToDecisionGraph(g,model,qv_name);
 			if (optionChildren != null &&  optionChildren.size() > 0){
 				for (int i =0 ; i <  optionChildren.size() ; i ++){
-					g.addEdge(option, optionChildren.get(i));
+					g.addEdge( optionChildren.get(i).getLabel(),option.getLabel());
+				}
+			}
+			g.addEdge(option.getLabel(),decision.getLabel());
+		}
+		
+		return result;
+	}
+	@Override
+	public List<Node> addDOTNodeToGraph(Graph g, Model model,
+			String qv_name) {
+		List<Node> result = new ArrayList<Node>();
+		for (Map.Entry<String, Expression> entry: definition_.entrySet()){
+			String optionName = "\"" + qv_name + "[" + entry.getKey() + "]" +  "\"";
+			Node option = createDOTNode (g, optionName,"ellipse","");
+			result.add(option);
+			// add edge between option node and its own children
+			List<Node> optionChildren = entry.getValue().addDOTNodeToGraph(g,model,qv_name);
+			if (optionChildren != null &&  optionChildren.size() > 0){
+				for (int i =0 ; i <  optionChildren.size() ; i ++){
+					g.addEdge( optionChildren.get(i).getLabel(),option.getLabel());
 				}
 			}
 		}
@@ -63,6 +83,10 @@ public class OR_Refinement extends Expression {
 			definition_.put(option_name, def);
 		}
 	}
+
+
+
+
 	
 	
 }

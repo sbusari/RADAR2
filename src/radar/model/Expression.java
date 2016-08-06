@@ -1,10 +1,8 @@
 package radar.model;
 
 import java.util.List;
-import java.util.Map;
-
-import prefuse.data.Graph;
-import prefuse.data.Node;
+import radar.plot.goal.graph.Graph;
+import radar.plot.goal.graph.Node;
 
 
 public abstract class Expression {
@@ -22,21 +20,24 @@ public abstract class Expression {
 	protected String getparameterOption(){
 		return parameterOption_;
 	}
-	public abstract List<Node> addNodeToGraph (Graph g, Model model, String qv_name, Map<String, Node> cache);
 	
-	public Node createNode (Graph g, String node_name, String node_type, String node_value, Map<String, Node> cache){
-		Node n =null;;
-		if (!cache.containsKey(node_name)){
-			n = g.addNode();
-			n.set("id", node_name);
-			n.set("nodeType", node_type);
-			n.set("nodeValue", node_value);
-			cache.put(node_name, n);
+	
+	public abstract List<Node> addDOTNodeToDecisionGraph(Graph g, Model model, String qv_name);
+	public abstract List<Node> addDOTNodeToGraph(Graph g, Model model, String qv_name);
+	public Node createDOTNode (Graph g, String label, String shape, String style){
+		Node n =null;
+		if (!g.getNodeList().containsKey(label)){
+			n = new Node (); 
+			n.setLabel(label);
+			n.setShape(shape);
+			n.setStyle(style);
+			g.addDOTNodeToList(n);
 		}else{
-			n= cache.get(node_name);
+			n= g.getNodeList().get(label);
 		}
 		return n;
 	}
 	
+
 
 }

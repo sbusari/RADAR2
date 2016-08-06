@@ -2,10 +2,8 @@ package radar.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import prefuse.data.Graph;
-import prefuse.data.Node;
+import radar.plot.goal.graph.Graph;
+import radar.plot.goal.graph.Node;
 
 
 class BinaryExpression extends ArithmeticExpression {
@@ -30,7 +28,22 @@ class BinaryExpression extends ArithmeticExpression {
 		return rightExpr_;
 	}
 	@Override
-	public List<Node> addNodeToGraph(Graph g, Model model, String qv_name,Map<String, Node> cache) {
+	public List<Node> addDOTNodeToDecisionGraph(Graph g, Model model,String qv_name) {
+		List<Node> result = new ArrayList<Node>();
+		List<Node> leftChild = leftExpr_.addDOTNodeToDecisionGraph(g, model, qv_name);
+		List<Node> rightChild = rightExpr_.addDOTNodeToDecisionGraph(g, model, qv_name);
+		if (leftChild != null){
+			result.addAll(leftChild);
+		}
+		if (rightChild != null){
+			result.addAll(rightChild);
+		}
+
+		return result;
+	}
+	@Override
+	public List<Node> addDOTNodeToGraph(Graph g, Model model,
+			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		//String joinerNodeName = qv_name + System.currentTimeMillis();
 		Node Joiner = null;  
@@ -41,22 +54,22 @@ class BinaryExpression extends ArithmeticExpression {
 		// even when a no exits in a binary expr,we do not want a number o show in the graph, hence the check
 		// when there is no no in the expr, we create a joiner node fro the expr terms
 		if (isleftExprANumber == false && isrightExprANumber ==false){
-			Joiner = g.addNode(); //createNode (g, "","Joiner", "", cache);
-			Joiner.set("id", "");
-			Joiner.set("nodeType", "Joiner");
-			Joiner.set("nodeValue", "");
+			Joiner = g.addDOTNode(); //createNode (g, "","Joiner", "", cache);
+			Joiner.setLabel("\"" + bop_.toString()+ "_"+ g.getOperatorID() +"\"");
+			Joiner.setShape("doublecircle");
+			Joiner.setStyle("");
 		}
-		leftChild = leftExpr_.addNodeToGraph(g, model, qv_name, cache);
-		rightChild = rightExpr_.addNodeToGraph(g, model, qv_name, cache);
+		leftChild = leftExpr_.addDOTNodeToGraph(g, model, qv_name);
+		rightChild = rightExpr_.addDOTNodeToGraph(g, model, qv_name);
 		if (isleftExprANumber == false &&  isrightExprANumber == false){
 			if (leftChild != null && leftChild.size() > 0){
 				for (int i =0; i <leftChild.size(); i++ ){
-					g.addEdge(Joiner, leftChild.get(i));
+					g.addEdge(leftChild.get(i).getLabel(), Joiner.getLabel());
 				}
 			}
 			if (rightChild != null && rightChild.size() > 0){
 				for (int i =0; i <rightChild.size(); i++ ){
-					g.addEdge(Joiner, rightChild.get(i));
+					g.addEdge(rightChild.get(i).getLabel(), Joiner.getLabel());
 				}
 			}
 			result.add(Joiner);
@@ -68,8 +81,6 @@ class BinaryExpression extends ArithmeticExpression {
 				result.addAll(rightChild);
 			}
 		}
-		
-		
 		return result;
 	}
 	@Override
@@ -114,5 +125,8 @@ class BinaryExpression extends ArithmeticExpression {
 		}
 		return combinedSim;
 	}
+
+
+
 	
 }

@@ -8,7 +8,8 @@ import radar.enumeration.OptimisationType;
 import radar.information.analysis.InformationValueAnalysis;
 import radar.optimisation.algorithm.Algorithm;
 import radar.optimisation.algorithm.ExhaustiveSearch;
-import radar.plot.goal.graph.DynamicGraph;
+import radar.plot.goal.graph.Graph;
+import radar.plot.goal.graph.Node;
 
 
 public class ModelAnalysisResult {
@@ -17,6 +18,8 @@ public class ModelAnalysisResult {
 	List<SolutionValues> optimalSolutions_;
 	List<SolutionValues> allSolutions_;
 	List<String> shortlist_;
+	String variableDependencyGraph_;
+	String decisionDependencyGraph_;
 	Map<Objective, Double> evtpi_;
 	Map<Objective, Map<String, Double>> evppi_;
 	Model semanticModel_;
@@ -96,16 +99,52 @@ public class ModelAnalysisResult {
 			}
 		}
 		
-		// generate goal graphs 
+		// generate variable dependency graphs
+		variableDependencyGraph_ = generateVariableDependencyGraph();
 		
-		for (int i =0; i < obejctives_.size() ; i++){
-			DynamicGraph dg = new DynamicGraph (semanticModel_, outputDirectory_);
-			dg.plotVariableDependencyGraph("GoalGraph", obejctives_.get(i));
+		/*for (int i =0; i < obejctives_.size()-1 ; i++){
+			DOT_Graph de = new DOT_Graph(semanticModel_);
+			//de.createVariableGraphPerObjective(obejctives_.get(i));
+			de.createVariableGraph();
+			
+			Map<String, DOT_Node> allEntries = de.getNodeList();
+			for (Map.Entry<String, DOT_Node> entry: allEntries.entrySet()){
+				String shape = "shape="+ entry.getValue().getShape();
+				String style = (entry.getValue().getStyle() != "")?  ", style=" + entry.getValue().getStyle(): "";
+				System.out.println( entry.getKey() + "[" + shape + style+ "]");
+			}
+			
+			List<String> allEdgeEntries = de.getEdgeStatements();
+			for (String entry: allEdgeEntries){
+				String [] entryElement = entry.split("->");
+				if (!entryElement[0].equals(entryElement[1])){
+					System.out.println( entry);
+				}
+			}
+			System.out.print("===============DONE==============");
+		}*/
+	
+
+		// generate decision graph
+		decisionDependencyGraph_ = generateDecisionDependencyGraph();
+		
+		/*DOT_Graph de = new DOT_Graph(semanticModel_);
+		de.createDecisionsGraph();
+		
+		Map<String, DOT_Node> allEntries = de.getNodeList();
+		for (Map.Entry<String, DOT_Node> entry: allEntries.entrySet()){
+			String shape = "shape="+ entry.getValue().getShape();
+			String style = (entry.getValue().getStyle() != "")?  ", style=" + entry.getValue().getStyle(): "";
+			System.out.println( entry.getKey() + "[" + shape + style+ "]");
 		}
 		
-		
-		// generate decision graph
-		
+		List<String> allEdgeEntries = de.getEdgeStatements();
+		for (String entry: allEdgeEntries){
+			String [] entryElement = entry.split("->");
+			if (!entryElement[0].equals(entryElement[1])){
+				System.out.println( entry);
+			}
+		}*/
 		
 	}
 	
@@ -123,6 +162,12 @@ public class ModelAnalysisResult {
 	}
 	public Model getSemanticModel (){
 		return semanticModel_;
+	}
+	public String getVariableDependencyGraph(){
+		return variableDependencyGraph_;
+	}
+	public String getDecisionDependencyGraph(){
+		return decisionDependencyGraph_;
 	}
 	public String generateResultHeader (){
 		String result =",";
@@ -208,6 +253,60 @@ public class ModelAnalysisResult {
 				result += valueEntry.getKey() + ", " + valueEntry.getValue() + "\n";
 			}
 		}
+		return result;
+	}
+	public String generateDecisionDependencyGraph (){
+		String result ="digraph G { \n";
+		result += "rankdir = BT; \n";
+		result += "edge[dir=back]; \n";
+
+		Graph de = new Graph(semanticModel_);
+		de.createDecisionsGraph();
+		
+		Map<String, Node> allEntries = de.getNodeList();
+		for (Map.Entry<String, Node> entry: allEntries.entrySet()){
+			String shape = "shape="+ entry.getValue().getShape();
+			String style = (entry.getValue().getStyle() != "")?  ", style=" + entry.getValue().getStyle(): "";
+			System.out.println( entry.getKey() + "[" + shape + style+ "]");
+			result += entry.getKey() + "[" + shape + style+ "]" + "\n";
+		}
+		
+		List<String> allEdgeEntries = de.getEdgeStatements();
+		for (String entry: allEdgeEntries){
+			String [] entryElement = entry.split("->");
+			if (!entryElement[0].equals(entryElement[1])){
+				result += entry + "\n";
+				System.out.println( entry);
+			}
+		}
+		result += "}";
+		return result;
+	}
+	public String generateVariableDependencyGraph (){
+		String result ="digraph G { \n";
+		result += "rankdir = BT; \n";
+		result += "edge[dir=forward]; \n";
+		
+		Graph de = new Graph(semanticModel_);
+		de.createVariableGraph();
+		
+		Map<String, Node> allEntries = de.getNodeList();
+		for (Map.Entry<String, Node> entry: allEntries.entrySet()){
+			String shape = "shape="+ entry.getValue().getShape();
+			String style = (entry.getValue().getStyle() != "")?  ", style=" + entry.getValue().getStyle(): "";
+			System.out.println( entry.getKey() + "[" + shape + style+ "]");
+			result +=  entry.getKey() + "[" + shape + style+ "]" + "\n";
+		}
+		
+		List<String> allEdgeEntries = de.getEdgeStatements();
+		for (String entry: allEdgeEntries){
+			String [] entryElement = entry.split("->");
+			if (!entryElement[0].equals(entryElement[1])){
+				result += entry + "\n";
+				System.out.println( entry);
+			}
+		}
+		result += "}";
 		return result;
 	}
 	public String decisionsToCSV ( ){

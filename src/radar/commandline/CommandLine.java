@@ -2,12 +2,12 @@ package radar.commandline;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 import radar.enumeration.OptimisationType;
 import radar.experiment.data.ExperiementData;
 import radar.model.Model;
 import radar.model.ModelAnalysisResult;
 import radar.model.Parser;
-import radar.plot.goal.graph.DynamicGraph;
 import radar.utilities.ConfigSetting;
 import radar.utilities.Helper;
 
@@ -212,22 +212,12 @@ public class CommandLine {
 			Helper.printResults (dataInput.getOutputDirectory() + "/", evppiToCSV, dataInput.getProblemName()+ "_evppi.csv");
 			
 			
-			//5. when decision is specified, display the decision on console.
-    		if (decision == true ){
-    			InputValidator.validateModelPath(model);
-        		InputValidator.validateOutputPath(output);
-       			String decision =  result.decisionsToCSV();
-       			System.out.println(decision);
-    			Helper.printResults (dataInput.getExpBaseDirectory() + "/",decision,dataInput.getProblemName()+"_decisions.csv" );
-    		}
-    		
-    		//6. if goal graph and pareto is specified invoke that jframe to display
-    		if (goalmodel == true){
-    			
-    			DynamicGraph varibaleDependecyGraph = new DynamicGraph (result.getSemanticModel(), dataInput.getOutputDirectory());
-    			//varibaleDependecyGraph.plotVariableDependencyGraph("GoalGraph");
-    		}
-    		
+			String variableDependencyInDOT = result.getVariableDependencyGraph();
+			Helper.printResults (dataInput.getOutputDirectory() + "/", variableDependencyInDOT, dataInput.getProblemName()+ "_vgraph.txt");
+			
+			String decisionDependencyInDOT = result.getDecisionDependencyGraph();
+			Helper.printResults (dataInput.getOutputDirectory() + "/", decisionDependencyInDOT, dataInput.getProblemName()+ "_dgraph.txt");
+			
     		if (pareto == true){
     			// display and save the images.
     		}

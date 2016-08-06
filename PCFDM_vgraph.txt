@@ -1,0 +1,142 @@
+digraph G { 
+rankdir = BT; 
+edge[dir=forward]; 
+FinancialLoss[shape=box]
+FinLoss[shape=box, style=rounded]
+AverageFraudValue[shape=box, style=rounded]
+NbrCompromisedAccounts[shape=box, style=rounded]
+NbrAccounts[shape=box, style=rounded]
+CompromisedAccountRatio[shape=box, style=rounded]
+NbrFraudPerAccountBeforeBlocked[shape=box, style=rounded]
+"NbrFraudPerAccountBeforeBlocked[block first]"[shape=ellipse]
+NbrFraudBeforeDetection[shape=box, style=rounded]
+"NbrFraudBeforeDetection[continuous]"[shape=ellipse]
+ContinuousTrueAlertRate[shape=box, style=rounded]
+"ContinuousTrueAlertRate[classifier]"[shape=ellipse]
+ContinuousAlertThreshold[shape=box, style=rounded]
+"ContinuousAlertThreshold[high]"[shape=ellipse]
+"ContinuousAlertThreshold[medium]"[shape=ellipse]
+"ContinuousAlertThreshold[low]"[shape=ellipse]
+"ContinuousTrueAlertRate[rule-based]"[shape=ellipse]
+"NbrFraudBeforeDetection[batch]"[shape=ellipse]
+NbrFraudPerCompromisedAccountPerDay[shape=box, style=rounded]
+BatchTrueAlertRate[shape=box, style=rounded]
+"BatchTrueAlertRate[classifier]"[shape=ellipse]
+BatchAlertThreshold[shape=box, style=rounded]
+"BatchAlertThreshold[high]"[shape=ellipse]
+"BatchAlertThreshold[medium]"[shape=ellipse]
+"BatchAlertThreshold[low]"[shape=ellipse]
+"BatchTrueAlertRate[rule-based]"[shape=ellipse]
+"NbrFraudPerAccountBeforeBlocked[investigage first]"[shape=ellipse]
+NbrFraudDuringInvestigation[shape=box, style=rounded]
+InvestigationDelay[shape=box, style=rounded]
+InvestigationCost[shape=box]
+InvestCost[shape=box, style=rounded]
+NbrAlerts[shape=box, style=rounded]
+NbrTrueAlerts[shape=box, style=rounded]
+NbrFraud[shape=box, style=rounded]
+TrueAlertRate[shape=box, style=rounded]
+"TrueAlertRate[continuous]"[shape=ellipse]
+"TrueAlertRate[batch]"[shape=ellipse]
+NbrFalseAlerts[shape=box, style=rounded]
+NbrLegitTransactions[shape=box, style=rounded]
+NbrLegitTransactionsPerAccountPerDay[shape=box, style=rounded]
+TrueNegativeRate[shape=box, style=rounded]
+"TrueNegativeRate[continuous]"[shape=ellipse]
+ContinuousTrueNegativeRate[shape=box, style=rounded]
+"ContinuousTrueNegativeRate[classifier]"[shape=ellipse]
+ContinuousClassierTrueNegativeRate[shape=box, style=rounded]
+"ContinuousClassierTrueNegativeRate[high]"[shape=ellipse]
+"ContinuousClassierTrueNegativeRate[medium]"[shape=ellipse]
+"ContinuousClassierTrueNegativeRate[low]"[shape=ellipse]
+"ContinuousTrueNegativeRate[rule-based]"[shape=ellipse]
+"TrueNegativeRate[batch]"[shape=ellipse]
+BatchTrueNegativeRate[shape=box, style=rounded]
+"BatchTrueNegativeRate[classifier]"[shape=ellipse]
+BatchClassifierTrueNegativeRate[shape=box, style=rounded]
+"BatchClassifierTrueNegativeRate[high]"[shape=ellipse]
+"BatchClassifierTrueNegativeRate[medium]"[shape=ellipse]
+"BatchClassifierTrueNegativeRate[low]"[shape=ellipse]
+"BatchTrueNegativeRate[rule-based]"[shape=ellipse]
+CostPerAlert[shape=box, style=rounded]
+NbrAccounts->"MUL_2"
+CompromisedAccountRatio->"MUL_2"
+"MUL_2"->NbrCompromisedAccounts
+AverageFraudValue->"MUL_1"
+NbrCompromisedAccounts->"MUL_1"
+"ContinuousAlertThreshold[high]"->ContinuousAlertThreshold
+"ContinuousAlertThreshold[medium]"->ContinuousAlertThreshold
+"ContinuousAlertThreshold[low]"->ContinuousAlertThreshold
+ContinuousAlertThreshold->"ContinuousTrueAlertRate[classifier]"
+"ContinuousTrueAlertRate[classifier]"->ContinuousTrueAlertRate
+"ContinuousTrueAlertRate[rule-based]"->ContinuousTrueAlertRate
+ContinuousTrueAlertRate->"NbrFraudBeforeDetection[continuous]"
+"BatchAlertThreshold[high]"->BatchAlertThreshold
+"BatchAlertThreshold[medium]"->BatchAlertThreshold
+"BatchAlertThreshold[low]"->BatchAlertThreshold
+BatchAlertThreshold->"BatchTrueAlertRate[classifier]"
+"BatchTrueAlertRate[classifier]"->BatchTrueAlertRate
+"BatchTrueAlertRate[rule-based]"->BatchTrueAlertRate
+NbrFraudPerCompromisedAccountPerDay->"MUL_3"
+BatchTrueAlertRate->"MUL_3"
+"MUL_3"->"NbrFraudBeforeDetection[batch]"
+"NbrFraudBeforeDetection[continuous]"->NbrFraudBeforeDetection
+"NbrFraudBeforeDetection[batch]"->NbrFraudBeforeDetection
+NbrFraudBeforeDetection->"NbrFraudPerAccountBeforeBlocked[block first]"
+NbrFraudPerCompromisedAccountPerDay->"MUL_5"
+BatchTrueAlertRate->"MUL_5"
+"MUL_5"->"NbrFraudBeforeDetection[batch]"
+NbrFraudPerCompromisedAccountPerDay->"MUL_6"
+InvestigationDelay->"MUL_6"
+"MUL_6"->NbrFraudDuringInvestigation
+NbrFraudBeforeDetection->"ADD_4"
+NbrFraudDuringInvestigation->"ADD_4"
+"ADD_4"->"NbrFraudPerAccountBeforeBlocked[investigage first]"
+"NbrFraudPerAccountBeforeBlocked[block first]"->NbrFraudPerAccountBeforeBlocked
+"NbrFraudPerAccountBeforeBlocked[investigage first]"->NbrFraudPerAccountBeforeBlocked
+"MUL_1"->"MUL_0"
+NbrFraudPerAccountBeforeBlocked->"MUL_0"
+"MUL_0"->FinLoss
+FinLoss->FinancialLoss
+NbrAccounts->"MUL_11"
+CompromisedAccountRatio->"MUL_11"
+"MUL_11"->"MUL_10"
+NbrFraudPerCompromisedAccountPerDay->"MUL_10"
+"MUL_10"->NbrFraud
+ContinuousTrueAlertRate->"TrueAlertRate[continuous]"
+BatchTrueAlertRate->"TrueAlertRate[batch]"
+"TrueAlertRate[continuous]"->TrueAlertRate
+"TrueAlertRate[batch]"->TrueAlertRate
+NbrFraud->"MUL_9"
+TrueAlertRate->"MUL_9"
+"MUL_9"->NbrTrueAlerts
+NbrAccounts->"MUL_13"
+NbrLegitTransactionsPerAccountPerDay->"MUL_13"
+"MUL_13"->NbrLegitTransactions
+"ContinuousClassierTrueNegativeRate[high]"->ContinuousClassierTrueNegativeRate
+"ContinuousClassierTrueNegativeRate[medium]"->ContinuousClassierTrueNegativeRate
+"ContinuousClassierTrueNegativeRate[low]"->ContinuousClassierTrueNegativeRate
+ContinuousClassierTrueNegativeRate->"ContinuousTrueNegativeRate[classifier]"
+"ContinuousTrueNegativeRate[classifier]"->ContinuousTrueNegativeRate
+"ContinuousTrueNegativeRate[rule-based]"->ContinuousTrueNegativeRate
+ContinuousTrueNegativeRate->"TrueNegativeRate[continuous]"
+"BatchClassifierTrueNegativeRate[high]"->BatchClassifierTrueNegativeRate
+"BatchClassifierTrueNegativeRate[medium]"->BatchClassifierTrueNegativeRate
+"BatchClassifierTrueNegativeRate[low]"->BatchClassifierTrueNegativeRate
+BatchClassifierTrueNegativeRate->"BatchTrueNegativeRate[classifier]"
+"BatchTrueNegativeRate[classifier]"->BatchTrueNegativeRate
+"BatchTrueNegativeRate[rule-based]"->BatchTrueNegativeRate
+BatchTrueNegativeRate->"TrueNegativeRate[batch]"
+"TrueNegativeRate[continuous]"->TrueNegativeRate
+"TrueNegativeRate[batch]"->TrueNegativeRate
+NbrLegitTransactions->"MUL_12"
+TrueNegativeRate->"MUL_12"
+"MUL_12"->NbrFalseAlerts
+NbrTrueAlerts->"ADD_8"
+NbrFalseAlerts->"ADD_8"
+"ADD_8"->NbrAlerts
+NbrAlerts->"MUL_7"
+CostPerAlert->"MUL_7"
+"MUL_7"->InvestCost
+InvestCost->InvestigationCost
+}

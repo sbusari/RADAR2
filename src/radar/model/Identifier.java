@@ -3,9 +3,8 @@ package radar.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import prefuse.data.Graph;
-import prefuse.data.Node;
+import radar.plot.goal.graph.Graph;
+import radar.plot.goal.graph.Node;
 
 class Identifier extends Expression {
 	private String id_;
@@ -26,18 +25,33 @@ class Identifier extends Expression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToGraph(Graph g, Model model, String qv_name,Map<String, Node> cache) {
+	public List<Node> addDOTNodeToDecisionGraph(Graph g, Model model,String qv_name) {
+		Map<String, QualityVariable> qvList = model.getQualityVariables();
+		QualityVariable qv = qvList.get(id_);
+		List<Node> children = qv.addDOTNodeToDecisionGraph(g,model,id_.replaceAll(" ", "_"));
+		return children;
+	}
+
+
+	@Override
+	public List<Node> addDOTNodeToGraph(Graph g, Model model,
+			String qv_name) {
 		List<Node> results = new ArrayList<Node>();
-		Node id = createNode (g, id_,"Identifier", id_, cache);
+		Node id = createDOTNode (g, id_,  "box", "rounded");
 		results.add(id);
 		Map<String, QualityVariable> qvList = model.getQualityVariables();
 		QualityVariable qv = qvList.get(id_);
-		List<Node> children = qv.addNodeToGraph(g,model,id_, cache);
+		List<Node> children = qv.addDOTNodeToGraph(g,model,id_);
 		if (children != null &&  children.size() > 0){
 			for (int i =0 ; i <  children.size() ; i ++){
-				g.addEdge(id, children.get(i));
+				g.addEdge(children.get(i).getLabel(), id.getLabel());
 			}
 		}
 		return results;
 	}
+
+
+
+
+
 }

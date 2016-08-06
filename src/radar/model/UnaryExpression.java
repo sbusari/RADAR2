@@ -2,10 +2,8 @@ package radar.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import prefuse.data.Graph;
-import prefuse.data.Node;
+import radar.plot.goal.graph.Graph;
+import radar.plot.goal.graph.Node;
 
 
 class UnaryExpression extends Expression {
@@ -25,9 +23,18 @@ class UnaryExpression extends Expression {
 		return expr_;
 	}
 	@Override
-	public List<Node> addNodeToGraph(Graph g, Model model, String qv_name,Map<String, Node> cache) {
+	public List<Node> addDOTNodeToGraph(Graph g, Model model,
+			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
-		List<Node> expr = expr_.addNodeToGraph(g, model,qv_name,cache);
+		List<Node> expr = expr_.addDOTNodeToGraph(g, model,qv_name);
+		result.addAll(expr);
+		return result;
+	}
+	@Override
+	public List<Node> addDOTNodeToDecisionGraph(Graph g, Model model,
+			String qv_name) {
+		List<Node> result = new ArrayList<Node>();
+		List<Node> expr = expr_.addDOTNodeToDecisionGraph(g, model,qv_name);
 		result.addAll(expr);
 		return result;
 	}
@@ -52,4 +59,9 @@ class UnaryExpression extends Expression {
 		}
 		return expr;
 	}
+
+
+
+
+
 }

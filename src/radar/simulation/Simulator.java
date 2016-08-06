@@ -58,6 +58,7 @@ public class Simulator {
 			value = obj.getIsMinimisation() == false ? value *-1 : value;
 			results.addObjectiveValue(obj, value);
 		}
+		this.semanticModel.resetSimulationVariables();
 		results.setSolution(this.selectedAlternative);
 		return results;
 	}

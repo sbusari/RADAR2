@@ -1,0 +1,22 @@
+digraph G { 
+rankdir = BT; 
+edge[dir=forward]; 
+ENB[shape=box]
+NB[shape=box, style=rounded]
+Benefit[shape=box, style=rounded]
+"Benefit[New]"[shape=ellipse]
+"Benefit[Legacy]"[shape=ellipse]
+Cost[shape=box, style=rounded]
+"Cost[New]"[shape=ellipse]
+"Cost[Legacy]"[shape=ellipse]
+LP[shape=box]
+"Benefit[New]"->Benefit
+"Benefit[Legacy]"->Benefit
+"Cost[New]"->Cost
+"Cost[Legacy]"->Cost
+Benefit->"SUB_0"
+Cost->"SUB_0"
+"SUB_0"->NB
+NB->ENB
+NB->LP
+}
