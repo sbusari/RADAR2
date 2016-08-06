@@ -13,7 +13,7 @@ public class OR_Refinement extends Expression {
 	
 	public OR_Refinement(){}
 	@Override
-	public List<Node> addDOTNodeToDecisionGraph(Graph g, Model model,
+	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
 			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		Node decision = createDOTNode (g, "\"" +  decision_.getDecisionLabel().replaceAll(" ", "_") + "\"","polygon", "diagonals");
@@ -22,7 +22,7 @@ public class OR_Refinement extends Expression {
 			String optionName = "\"" + entry.getKey().replaceAll(" ", "_") + "\"" ;
 			Node option = createDOTNode (g, optionName,"box","");
 			//result.add(option);
-			List<Node> optionChildren = entry.getValue().addDOTNodeToDecisionGraph(g,model,qv_name);
+			List<Node> optionChildren = entry.getValue().addNodeToDecisionGraph(g,model,qv_name);
 			if (optionChildren != null &&  optionChildren.size() > 0){
 				for (int i =0 ; i <  optionChildren.size() ; i ++){
 					g.addEdge( optionChildren.get(i).getLabel(),option.getLabel());
@@ -34,7 +34,7 @@ public class OR_Refinement extends Expression {
 		return result;
 	}
 	@Override
-	public List<Node> addDOTNodeToGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		for (Map.Entry<String, Expression> entry: definition_.entrySet()){
@@ -42,7 +42,7 @@ public class OR_Refinement extends Expression {
 			Node option = createDOTNode (g, optionName,"ellipse","");
 			result.add(option);
 			// add edge between option node and its own children
-			List<Node> optionChildren = entry.getValue().addDOTNodeToGraph(g,model,qv_name);
+			List<Node> optionChildren = entry.getValue().addNodeToVariableGraph(g,model,qv_name);
 			if (optionChildren != null &&  optionChildren.size() > 0){
 				for (int i =0 ; i <  optionChildren.size() ; i ++){
 					g.addEdge( optionChildren.get(i).getLabel(),option.getLabel());

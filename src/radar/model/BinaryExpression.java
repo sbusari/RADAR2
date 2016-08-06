@@ -28,10 +28,10 @@ class BinaryExpression extends ArithmeticExpression {
 		return rightExpr_;
 	}
 	@Override
-	public List<Node> addDOTNodeToDecisionGraph(Graph g, Model model,String qv_name) {
+	public List<Node> addNodeToDecisionGraph(Graph g, Model model,String qv_name) {
 		List<Node> result = new ArrayList<Node>();
-		List<Node> leftChild = leftExpr_.addDOTNodeToDecisionGraph(g, model, qv_name);
-		List<Node> rightChild = rightExpr_.addDOTNodeToDecisionGraph(g, model, qv_name);
+		List<Node> leftChild = leftExpr_.addNodeToDecisionGraph(g, model, qv_name);
+		List<Node> rightChild = rightExpr_.addNodeToDecisionGraph(g, model, qv_name);
 		if (leftChild != null){
 			result.addAll(leftChild);
 		}
@@ -42,7 +42,7 @@ class BinaryExpression extends ArithmeticExpression {
 		return result;
 	}
 	@Override
-	public List<Node> addDOTNodeToGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		//String joinerNodeName = qv_name + System.currentTimeMillis();
@@ -59,8 +59,8 @@ class BinaryExpression extends ArithmeticExpression {
 			Joiner.setShape("doublecircle");
 			Joiner.setStyle("");
 		}
-		leftChild = leftExpr_.addDOTNodeToGraph(g, model, qv_name);
-		rightChild = rightExpr_.addDOTNodeToGraph(g, model, qv_name);
+		leftChild = leftExpr_.addNodeToVariableGraph(g, model, qv_name);
+		rightChild = rightExpr_.addNodeToVariableGraph(g, model, qv_name);
 		if (isleftExprANumber == false &&  isrightExprANumber == false){
 			if (leftChild != null && leftChild.size() > 0){
 				for (int i =0; i <leftChild.size(); i++ ){

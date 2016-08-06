@@ -24,12 +24,12 @@ class TriangularDistribution extends Distribution {
 		return  triangularDistribution(lower_,mode_, upper_, N);
 	}
 	@Override
-	public List<Node> addDOTNodeToGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
 		return null;
 	}
 	@Override
-	public List<Node> addDOTNodeToDecisionGraph(Graph g, Model model,
+	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
 			String qv_name) {
 		return null;
 	}

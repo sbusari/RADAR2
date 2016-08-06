@@ -67,11 +67,11 @@ public class QualityVariable extends ArithmeticExpression {
 		return result;
 	}
 	@Override
-	public List<Node> addDOTNodeToGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
 		List<Node> results = new ArrayList<Node>();
 		Node qv_node =createDOTNode (g, label_,"box", "rounded");
-		List<Node> children = definition_.addDOTNodeToGraph(g,model,qv_name);
+		List<Node> children = definition_.addNodeToVariableGraph(g,model,qv_name);
 		if (children != null &&  children.size() > 0){
 			for (int i =0 ; i <  children.size() ; i ++){
 				g.addEdge( children.get(i).getLabel(), qv_node.getLabel());
@@ -81,9 +81,9 @@ public class QualityVariable extends ArithmeticExpression {
 		return results;
 	}
 	@Override
-	public List<Node> addDOTNodeToDecisionGraph(Graph g, Model model,
+	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
 			String qv_name) {
-		List<Node> children = definition_.addDOTNodeToDecisionGraph(g,model,qv_name.replaceAll(" ", "_"));
+		List<Node> children = definition_.addNodeToDecisionGraph(g,model,qv_name.replaceAll(" ", "_"));
 		return children;
 	}
 

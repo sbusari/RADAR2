@@ -36,7 +36,6 @@ public class ModelAnalysisResult {
 		evppi_ = new LinkedHashMap<Objective, Map<String, Double>>();
 		evtpi_ = new LinkedHashMap<Objective, Double>();
 		shortlist_ = new ArrayList<String>();
-		 
 	}
 	Algorithm getAlgorithm (OptimisationType optimisationType){
 		Algorithm alg = null;
@@ -101,50 +100,9 @@ public class ModelAnalysisResult {
 		
 		// generate variable dependency graphs
 		variableDependencyGraph_ = generateVariableDependencyGraph();
-		
-		/*for (int i =0; i < obejctives_.size()-1 ; i++){
-			DOT_Graph de = new DOT_Graph(semanticModel_);
-			//de.createVariableGraphPerObjective(obejctives_.get(i));
-			de.createVariableGraph();
-			
-			Map<String, DOT_Node> allEntries = de.getNodeList();
-			for (Map.Entry<String, DOT_Node> entry: allEntries.entrySet()){
-				String shape = "shape="+ entry.getValue().getShape();
-				String style = (entry.getValue().getStyle() != "")?  ", style=" + entry.getValue().getStyle(): "";
-				System.out.println( entry.getKey() + "[" + shape + style+ "]");
-			}
-			
-			List<String> allEdgeEntries = de.getEdgeStatements();
-			for (String entry: allEdgeEntries){
-				String [] entryElement = entry.split("->");
-				if (!entryElement[0].equals(entryElement[1])){
-					System.out.println( entry);
-				}
-			}
-			System.out.print("===============DONE==============");
-		}*/
-	
 
 		// generate decision graph
 		decisionDependencyGraph_ = generateDecisionDependencyGraph();
-		
-		/*DOT_Graph de = new DOT_Graph(semanticModel_);
-		de.createDecisionsGraph();
-		
-		Map<String, DOT_Node> allEntries = de.getNodeList();
-		for (Map.Entry<String, DOT_Node> entry: allEntries.entrySet()){
-			String shape = "shape="+ entry.getValue().getShape();
-			String style = (entry.getValue().getStyle() != "")?  ", style=" + entry.getValue().getStyle(): "";
-			System.out.println( entry.getKey() + "[" + shape + style+ "]");
-		}
-		
-		List<String> allEdgeEntries = de.getEdgeStatements();
-		for (String entry: allEdgeEntries){
-			String [] entryElement = entry.split("->");
-			if (!entryElement[0].equals(entryElement[1])){
-				System.out.println( entry);
-			}
-		}*/
 		
 	}
 	

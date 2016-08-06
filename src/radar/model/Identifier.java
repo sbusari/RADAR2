@@ -25,23 +25,23 @@ class Identifier extends Expression {
 		return result;
 	}
 	@Override
-	public List<Node> addDOTNodeToDecisionGraph(Graph g, Model model,String qv_name) {
+	public List<Node> addNodeToDecisionGraph(Graph g, Model model,String qv_name) {
 		Map<String, QualityVariable> qvList = model.getQualityVariables();
 		QualityVariable qv = qvList.get(id_);
-		List<Node> children = qv.addDOTNodeToDecisionGraph(g,model,id_.replaceAll(" ", "_"));
+		List<Node> children = qv.addNodeToDecisionGraph(g,model,id_.replaceAll(" ", "_"));
 		return children;
 	}
 
 
 	@Override
-	public List<Node> addDOTNodeToGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
 		List<Node> results = new ArrayList<Node>();
 		Node id = createDOTNode (g, id_,  "box", "rounded");
 		results.add(id);
 		Map<String, QualityVariable> qvList = model.getQualityVariables();
 		QualityVariable qv = qvList.get(id_);
-		List<Node> children = qv.addDOTNodeToGraph(g,model,id_);
+		List<Node> children = qv.addNodeToVariableGraph(g,model,id_);
 		if (children != null &&  children.size() > 0){
 			for (int i =0 ; i <  children.size() ; i ++){
 				g.addEdge(children.get(i).getLabel(), id.getLabel());

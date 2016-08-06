@@ -1,0 +1,127 @@
+digraph G { 
+rankdir = BT; 
+edge[dir=forward]; 
+ExpectedCostOfDisclosures[shape=box]
+Cost_of_Disclosures[shape=box, style=rounded]
+Nbr_HighConfidentialityLeaks[shape=box, style=rounded]
+Nbr_LeakedDoc[shape=box, style=rounded]
+Nbr_DocsLeakedByInsiders[shape=box, style=rounded]
+Probability_InsidersLeak[shape=box, style=rounded]
+Nbr_DocsOnSharedDrive[shape=box, style=rounded]
+"Nbr_DocsOnSharedDrive[Neutral]"[shape=ellipse]
+"Nbr_DocsOnSharedDrive[Recommend Email]"[shape=ellipse]
+"Nbr_DocsOnSharedDrive[Recommend External Media]"[shape=ellipse]
+SharedDriveLeakRange[shape=box, style=rounded]
+Nbr_DocsStolenByOutsiders[shape=box, style=rounded]
+Nbr_OfficeIntrusions[shape=box, style=rounded]
+"Nbr_OfficeIntrusions[not guarded]"[shape=ellipse]
+"Nbr_OfficeIntrusions[guarded]"[shape=ellipse]
+Nbr_DocsStolenPerIntrusion[shape=box, style=rounded]
+Nbr_ExternalMediaStolenPerIntrusion[shape=box, style=rounded]
+Nbr_ExternalMediaInUse[shape=box, style=rounded]
+Nbr_DocsOnExternalMedia[shape=box, style=rounded]
+"Nbr_DocsOnExternalMedia[Neutral]"[shape=ellipse]
+"Nbr_DocsOnExternalMedia[Recommend Email]"[shape=ellipse]
+"Nbr_DocsOnExternalMedia[Recommend External Media]"[shape=ellipse]
+Nbr_DocsPerMedia[shape=box, style=rounded]
+Percentage_MediaStolenPerInstrusion[shape=box, style=rounded]
+Ratio_HighConfidentialityDocs[shape=box, style=rounded]
+Cost_HighConfidentialityLeak[shape=box, style=rounded]
+Nbr_MediumConfidentialityLeaks[shape=box, style=rounded]
+Ratio_MediumConfidentialityDocs[shape=box, style=rounded]
+Cost_MediumConfidentialityLeak[shape=box, style=rounded]
+Nbr_LowConfidentialityLeaks[shape=box, style=rounded]
+Ratio_LowConfidentialityDocs[shape=box, style=rounded]
+Cost_LowConfidentialityLeak[shape=box, style=rounded]
+RiskOfCatastrophicDisclosures[shape=box]
+"Nbr_DocsOnSharedDrive[Neutral]"->Nbr_DocsOnSharedDrive
+"Nbr_DocsOnSharedDrive[Recommend Email]"->Nbr_DocsOnSharedDrive
+"Nbr_DocsOnSharedDrive[Recommend External Media]"->Nbr_DocsOnSharedDrive
+Probability_InsidersLeak->"MUL_6"
+Nbr_DocsOnSharedDrive->"MUL_6"
+"MUL_6"->"MUL_5"
+SharedDriveLeakRange->"MUL_5"
+"MUL_5"->Nbr_DocsLeakedByInsiders
+"Nbr_OfficeIntrusions[not guarded]"->Nbr_OfficeIntrusions
+"Nbr_OfficeIntrusions[guarded]"->Nbr_OfficeIntrusions
+"Nbr_DocsOnExternalMedia[Neutral]"->Nbr_DocsOnExternalMedia
+"Nbr_DocsOnExternalMedia[Recommend Email]"->Nbr_DocsOnExternalMedia
+"Nbr_DocsOnExternalMedia[Recommend External Media]"->Nbr_DocsOnExternalMedia
+Nbr_DocsOnExternalMedia->"DIV_10"
+Nbr_DocsPerMedia->"DIV_10"
+"DIV_10"->Nbr_ExternalMediaInUse
+Nbr_ExternalMediaInUse->"MUL_9"
+Percentage_MediaStolenPerInstrusion->"MUL_9"
+"MUL_9"->Nbr_ExternalMediaStolenPerIntrusion
+Nbr_ExternalMediaStolenPerIntrusion->"MUL_8"
+Nbr_DocsOnExternalMedia->"MUL_8"
+"MUL_8"->Nbr_DocsStolenPerIntrusion
+Nbr_OfficeIntrusions->"MUL_7"
+Nbr_DocsStolenPerIntrusion->"MUL_7"
+"MUL_7"->Nbr_DocsStolenByOutsiders
+Nbr_DocsLeakedByInsiders->"ADD_4"
+Nbr_DocsStolenByOutsiders->"ADD_4"
+"ADD_4"->Nbr_LeakedDoc
+Nbr_LeakedDoc->"MUL_3"
+Ratio_HighConfidentialityDocs->"MUL_3"
+"MUL_3"->Nbr_HighConfidentialityLeaks
+Nbr_HighConfidentialityLeaks->"MUL_2"
+Cost_HighConfidentialityLeak->"MUL_2"
+Probability_InsidersLeak->"MUL_15"
+Nbr_DocsOnSharedDrive->"MUL_15"
+"MUL_15"->"MUL_14"
+SharedDriveLeakRange->"MUL_14"
+"MUL_14"->Nbr_DocsLeakedByInsiders
+Nbr_DocsOnExternalMedia->"DIV_19"
+Nbr_DocsPerMedia->"DIV_19"
+"DIV_19"->Nbr_ExternalMediaInUse
+Nbr_ExternalMediaInUse->"MUL_18"
+Percentage_MediaStolenPerInstrusion->"MUL_18"
+"MUL_18"->Nbr_ExternalMediaStolenPerIntrusion
+Nbr_ExternalMediaStolenPerIntrusion->"MUL_17"
+Nbr_DocsOnExternalMedia->"MUL_17"
+"MUL_17"->Nbr_DocsStolenPerIntrusion
+Nbr_OfficeIntrusions->"MUL_16"
+Nbr_DocsStolenPerIntrusion->"MUL_16"
+"MUL_16"->Nbr_DocsStolenByOutsiders
+Nbr_DocsLeakedByInsiders->"ADD_13"
+Nbr_DocsStolenByOutsiders->"ADD_13"
+"ADD_13"->Nbr_LeakedDoc
+Nbr_LeakedDoc->"MUL_12"
+Ratio_MediumConfidentialityDocs->"MUL_12"
+"MUL_12"->Nbr_MediumConfidentialityLeaks
+Nbr_MediumConfidentialityLeaks->"MUL_11"
+Cost_MediumConfidentialityLeak->"MUL_11"
+"MUL_2"->"ADD_1"
+"MUL_11"->"ADD_1"
+Probability_InsidersLeak->"MUL_24"
+Nbr_DocsOnSharedDrive->"MUL_24"
+"MUL_24"->"MUL_23"
+SharedDriveLeakRange->"MUL_23"
+"MUL_23"->Nbr_DocsLeakedByInsiders
+Nbr_DocsOnExternalMedia->"DIV_28"
+Nbr_DocsPerMedia->"DIV_28"
+"DIV_28"->Nbr_ExternalMediaInUse
+Nbr_ExternalMediaInUse->"MUL_27"
+Percentage_MediaStolenPerInstrusion->"MUL_27"
+"MUL_27"->Nbr_ExternalMediaStolenPerIntrusion
+Nbr_ExternalMediaStolenPerIntrusion->"MUL_26"
+Nbr_DocsOnExternalMedia->"MUL_26"
+"MUL_26"->Nbr_DocsStolenPerIntrusion
+Nbr_OfficeIntrusions->"MUL_25"
+Nbr_DocsStolenPerIntrusion->"MUL_25"
+"MUL_25"->Nbr_DocsStolenByOutsiders
+Nbr_DocsLeakedByInsiders->"ADD_22"
+Nbr_DocsStolenByOutsiders->"ADD_22"
+"ADD_22"->Nbr_LeakedDoc
+Nbr_LeakedDoc->"MUL_21"
+Ratio_LowConfidentialityDocs->"MUL_21"
+"MUL_21"->Nbr_LowConfidentialityLeaks
+Nbr_LowConfidentialityLeaks->"MUL_20"
+Cost_LowConfidentialityLeak->"MUL_20"
+"ADD_1"->"ADD_0"
+"MUL_20"->"ADD_0"
+"ADD_0"->Cost_of_Disclosures
+Cost_of_Disclosures->ExpectedCostOfDisclosures
+Cost_of_Disclosures->RiskOfCatastrophicDisclosures
+}
