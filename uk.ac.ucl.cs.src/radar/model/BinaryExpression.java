@@ -25,6 +25,49 @@ class BinaryExpression extends ArithmeticExpression {
 	public Expression getRightExpression (){
 		return rightExpr_;
 	}
+	@Override
+	public double[] simulate(Solution s) {
+		double [] leftSim = leftExpr_.simulate(s);
+		double [] rightSim = rightExpr_.simulate(s);
+		double [] combinedSim = new double [leftSim.length];
+		for (int i =0 ; i < leftSim.length; i ++){
+			switch (bop_.getBinaryOperatorValue()){
+				case "+" : {
+					combinedSim[i] = leftSim[i] + rightSim[i];
+				}; break;
+				case "-" : {
+					combinedSim[i] = leftSim[i] - rightSim[i];
+				};break;
+				case "*" : {
+					combinedSim[i] = leftSim[i] * rightSim[i];
+				};break;
+				case "/" : {
+					combinedSim[i] = leftSim[i] / rightSim[i];
+				};break;
+				case "||": {
+					combinedSim[i] = Math.max(leftSim[i] , rightSim[i]);
+				};break;
+				case "&&": {
+					combinedSim[i] = leftSim[i] * rightSim[i];
+				};break;
+				case "<": {
+					combinedSim[i] = leftSim[i] < rightSim[i] ? 1 : 0;
+				};break;
+				case ">": {
+					combinedSim[i] = leftSim[i] > rightSim[i] ? 1 : 0;
+				};break;
+				case "<=": {
+					combinedSim[i] = leftSim[i] <= rightSim[i] ? 1 : 0;
+				};break;
+				case ">=": {
+					combinedSim[i] = leftSim[i] <= rightSim[i] ? 1 : 0;
+				};break;
+				default : combinedSim[i] = leftSim[i] + rightSim[i];
+			}
+		}
+		return combinedSim;
+	}
+
 	
 	@Override
 	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,String qv_name) {
@@ -85,49 +128,7 @@ class BinaryExpression extends ArithmeticExpression {
 		return result;
 	}
 	
-	@Override
-	public double[] simulate(Solution s) {
-		double [] leftSim = leftExpr_.simulate(s);
-		double [] rightSim = rightExpr_.simulate(s);
-		double [] combinedSim = new double [leftSim.length];
-		for (int i =0 ; i < leftSim.length; i ++){
-			switch (bop_.getBinaryOperatorValue()){
-				case "+" : {
-					combinedSim[i] = leftSim[i] + rightSim[i];
-				}; break;
-				case "-" : {
-					combinedSim[i] = leftSim[i] - rightSim[i];
-				};break;
-				case "*" : {
-					combinedSim[i] = leftSim[i] * rightSim[i];
-				};break;
-				case "/" : {
-					combinedSim[i] = leftSim[i] / rightSim[i];
-				};break;
-				case "||": {
-					combinedSim[i] = Math.max(leftSim[i] , rightSim[i]);
-				};break;
-				case "&&": {
-					combinedSim[i] = leftSim[i] * rightSim[i];
-				};break;
-				case "<": {
-					combinedSim[i] = leftSim[i] < rightSim[i] ? 1 : 0;
-				};break;
-				case ">": {
-					combinedSim[i] = leftSim[i] > rightSim[i] ? 1 : 0;
-				};break;
-				case "<=": {
-					combinedSim[i] = leftSim[i] <= rightSim[i] ? 1 : 0;
-				};break;
-				case ">=": {
-					combinedSim[i] = leftSim[i] <= rightSim[i] ? 1 : 0;
-				};break;
-				default : combinedSim[i] = leftSim[i] + rightSim[i];
-			}
-		}
-		return combinedSim;
-	}
-
+	
 
 
 	

@@ -7,7 +7,6 @@ abstract class Algorithm {
 	long runTime_;
 	SolutionQuality solutionQuality_;
 	public abstract  List<SolutionValues> solve ();
-	//public abstract  SolutionValues solve (Solution s);
 	public DecisionVector getDecisionVector ( Model model){
 		DecisionVector result =new XOR_DecisionVector(model);
 		return result;

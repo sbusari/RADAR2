@@ -11,6 +11,12 @@ public class OR_Refinement extends Expression {
 	
 	public OR_Refinement(){}
 	@Override
+	public double[] simulate(Solution s) {
+		String option = s.getOption(decision_);
+		Expression expr = definition_.get(option);
+		return expr.simulate(s);
+	}
+	@Override
 	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
@@ -50,18 +56,7 @@ public class OR_Refinement extends Expression {
 		return result;
 	}
 	
-	@Override
-	public double[] simulate(Solution s) {
-		String option = s.getOption(decision_);
-		Expression expr = definition_.get(option);
-		//check if expr is a distribution, set this boolean value to true i there.
-		// set a field with option name and this name wil be used in QV that calls this
-		if (expr instanceof Distribution && !(expr instanceof DeterministicDistribution)){
-			isExpresionDistribution_ = true;
-			parameterOption_ = option;
-		}
-		return expr.simulate(s);
-	}
+	
 	public void setDecision (Decision decision){
 		decision_ = decision;
 	}

@@ -21,7 +21,6 @@ import java.util.Map;
 	public double[] getSimulationData (){
 		return simData;
 	}
-	
 	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		return null;

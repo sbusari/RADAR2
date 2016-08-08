@@ -19,7 +19,6 @@ class BinomialDistribution extends Distribution {
 	}
 	@Override
 	public double[] simulate(Solution s) {
-		isExpresionDistribution_ = true;
 		return  binomialDistribution(trials_, prob_, N);
 	}
 

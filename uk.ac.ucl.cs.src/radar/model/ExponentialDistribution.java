@@ -18,7 +18,6 @@ class ExponentialDistribution extends Distribution {
 	}
 	@Override
 	public double[] simulate(Solution s) {
-		isExpresionDistribution_ = true;
 		return  exponentialDistribution(mean_, N);
 	}
 	@Override

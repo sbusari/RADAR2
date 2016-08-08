@@ -59,7 +59,6 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		modelConstructor.addQualityVariablesToModel(semanticModel, qv_list );
 		modelConstructor.addDecisionsToModel(semanticModel,decision_list);
 		modelConstructor.addModelName(semanticModel,ctx.var_name().getText());
-		modelConstructor.updateDecisionsAfterAllQualityVariables(semanticModel, decision_list);
 		return new Value(null);
 	}
 	@Override 
@@ -122,12 +121,10 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	@Override 
 	public Value visitQuality_var_decl(ModelParser.Quality_var_declContext ctx) { 
 		QualityVariable qv = modelConstructor.createNewQualityVariable();
-		qv = modelConstructor.addDecisionsBeforeQualityVariable(qv, decision_list);
 		String qv_name = ctx.var_name().getText().trim();
 		Value qv_def = visit(ctx.quality_var_def());
 		qv = modelConstructor.addQualityVariableExpression(qv, qv_name,qv_def);
 		qv_list.put(qv_name.toString(), qv);
-		qv =modelConstructor.updateCurrentQVWhenItDependsOnDecision(qv);
 		modelConstructor.addInformationValueParameters(semanticModel,qv);
 		return new Value (qv);
 	}

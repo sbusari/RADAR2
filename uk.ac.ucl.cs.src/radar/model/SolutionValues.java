@@ -27,7 +27,7 @@ public class SolutionValues {
 	}
 	public String solutionValueToString (){
 		String result ="";
-		Map<Decision,String> selection = solution_.getGlobalSelection();
+		Map<Decision,String> selection = solution_.getSelection();
 		for(Map.Entry<Decision,String> entry: selection.entrySet()){
 			result +=entry.getValue() + ",";
 		}

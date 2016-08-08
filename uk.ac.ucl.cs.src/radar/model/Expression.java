@@ -5,22 +5,8 @@ import java.util.List;
 
  abstract class Expression {
 
-	// used in knowing which expr to use in computing evppi and populating simparameter
-	boolean isExpresionDistribution_;
-	String parameterOption_;
-	
 	public abstract double [] simulate (Solution s);
-	public Expression() {
-		
-	}
-	protected boolean getIsExpresionDistribution(){
-		return isExpresionDistribution_;
-	}
-	protected String getparameterOption(){
-		return parameterOption_;
-	}
-	
-	
+	public Expression() {}
 	public abstract List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model, String qv_name);
 	public abstract List<Node> addNodeToVariableGraph(GraphGenerator g, Model model, String qv_name);
 	public Node createDOTNode (GraphGenerator g, String label, String shape, String style){

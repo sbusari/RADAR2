@@ -18,7 +18,6 @@ class GeometricDistribution extends Distribution {
 	
 	@Override
 	public double[] simulate(Solution s) {
-		isExpresionDistribution_ = true;
 		return  geometricDistribution(prob_, N);
 	}
 	@Override

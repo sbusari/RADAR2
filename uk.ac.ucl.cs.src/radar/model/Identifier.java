@@ -30,8 +30,6 @@ class Identifier extends Expression {
 		List<Node> children = qv.addNodeToDecisionGraph(g,model,id_.replaceAll(" ", "_"));
 		return children;
 	}
-
-
 	@Override
 	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
 			String qv_name) {

@@ -47,25 +47,6 @@ import java.util.Map;
       }
       return result;
 	}
-	public List<Solution> egetAllSolutions (){
-		List<Solution> solutions = new ArrayList<Solution>();
-		List<Decision> allDecisions = new ArrayList<Decision>(semanticModel_.getDecisions().values());
-		List<Integer[]> selectedOptionIndices = generateSelectedOptionIndices (semanticModel_.getDecisions());
-		String print = "";
-		for (int i =0; i <selectedOptionIndices.size(); i++ ){
-			Integer [] aSelectedOptionIndex = selectedOptionIndices.get(i);
-			Solution s = new Solution();
-			for (int j =0 ; j < aSelectedOptionIndex.length; j ++){
-				Decision d = allDecisions.get(j);
-				String selectedOption = allDecisions.get(j).getOptions().get(aSelectedOptionIndex[j]);
-				s.addDecision(d, selectedOption);
-				print += selectedOption + ",";
-			}
-			print += "\n";
-			solutions.add(s);
-		}
-		return solutions;
-	}
 	protected  int [] getDecisionOptionsCount (Map<String, Decision> decisions){
 		int[] result = null;
         if(decisions != null){
@@ -79,21 +60,6 @@ import java.util.Map;
 			throw new RuntimeException ("Optimisation error: decision vector block cannot be empty, ensure you specify alternatives in the model.");
 		}
         return result;
-	}
-	public Solution encodingToAlternative(List<Integer[]> encodedSolution) {
-		Solution result = new Solution ();
-		Map<String, Decision> decisions = semanticModel_.getDecisions();
-		List<Decision> decisionList = new ArrayList<Decision>(decisions.values());
-		for (int i =0; i < encodedSolution.size(); i++ ){
-			 String selectedOption = "";
-			 for (int j =0; j < encodedSolution.get(i).length; j++ ){
-				 if (encodedSolution.get(i)[j].equals(1)){
-					 selectedOption = decisionList.get(i).getOptions().get(j);
-				 }
-			 }
-			 result.addDecision(decisionList.get(i), selectedOption);
-		}
-		return result;
 	}
 	//
 	protected List<Integer[]> rowtoColumn (List<Integer[]> rowArray){
@@ -134,34 +100,34 @@ import java.util.Map;
     			for(int j=0; j < n; j++){
     				repeatedColumnOption[j]= i;
     			}
-    			List<Integer[]> repeatedColumnOptionArray = new ArrayList<Integer[]>();    			
-    			repeatedColumnOptionArray.add(repeatedColumnOption);   
+    			List<Integer[]> repeatedColumnOptionList = new ArrayList<Integer[]>();    			
+    			repeatedColumnOptionList.add(repeatedColumnOption);   
     			
     			// this check ensures that the first head aligns with its inner tails that have been recursively obtained.
-    			if(tempAltenatives.size() != repeatedColumnOptionArray.size() && tempAltenatives.size() == repeatedColumnOption.length ){ 
-    				tempAltenatives = rowtoColumn(tempAltenatives); // this converts temp back to row so that we can combine it with innerrepeatedColumnOptionArray
+    			if(tempAltenatives.size() != repeatedColumnOptionList.size() && tempAltenatives.size() == repeatedColumnOption.length ){ 
+    				tempAltenatives = rowtoColumn(tempAltenatives); // this converts temp back to row so that we can combine it with innerrepeatedColumnOptionList
     				List<Integer[]> innerResults = new ArrayList<Integer[]>();
     				for(int k =0 ; k < head; k++){ 
-    					List<Integer[]> innercombinedRepeatedColumnOptionArray = new ArrayList<Integer[]>();
+    					List<Integer[]> innercombinedRepeatedColumnOptionList = new ArrayList<Integer[]>();
     	    			Integer[]innerRepeatedColumnOption =  new Integer[n];
     	    			for(int j=0; j < n; j++){
     	    				innerRepeatedColumnOption[j]= k;
     	    			}
-    	    			List<Integer[]> innerRepeatedColumnOptionArray = new ArrayList<Integer[]>();    			
-    	    			innerRepeatedColumnOptionArray.add(innerRepeatedColumnOption);
-    	    			innercombinedRepeatedColumnOptionArray.addAll(innerRepeatedColumnOptionArray);
-            			innercombinedRepeatedColumnOptionArray.addAll(tempAltenatives);
-            			List<Integer[]> innerconvertedcombinedRepeatedColumnOptionArray = rowtoColumn(innercombinedRepeatedColumnOptionArray);
+    	    			List<Integer[]> innerRepeatedColumnOptionList = new ArrayList<Integer[]>();    			
+    	    			innerRepeatedColumnOptionList.add(innerRepeatedColumnOption);
+    	    			innercombinedRepeatedColumnOptionList.addAll(innerRepeatedColumnOptionList);
+    	    			innercombinedRepeatedColumnOptionList.addAll(tempAltenatives);
+            			List<Integer[]> innerconvertedcombinedRepeatedColumnOptionArray = rowtoColumn(innercombinedRepeatedColumnOptionList);
             			innerResults.addAll(innerconvertedcombinedRepeatedColumnOptionArray);
     				}
     				return innerResults; // this is what is eventually returned after we consider the first head and the rest of the returned outcome for tail.
     				    				
     			}
-    			List<Integer[]> combinedRepeatedColumnOptionArray = new ArrayList<Integer[]>(); 
-    			combinedRepeatedColumnOptionArray.addAll(repeatedColumnOptionArray);
-    			combinedRepeatedColumnOptionArray.addAll(tempAltenatives);
-    			List<Integer[]> convertedcombinedRepeatedColumnOptionArray = rowtoColumn(combinedRepeatedColumnOptionArray);
-    			results.addAll(convertedcombinedRepeatedColumnOptionArray); 
+    			List<Integer[]> combinedRepeatedColumnOptionList = new ArrayList<Integer[]>(); 
+    			combinedRepeatedColumnOptionList.addAll(repeatedColumnOptionList);
+    			combinedRepeatedColumnOptionList.addAll(tempAltenatives);
+    			List<Integer[]> convertedcombinedRepeatedColumnOptionList = rowtoColumn(combinedRepeatedColumnOptionList);
+    			results.addAll(convertedcombinedRepeatedColumnOptionList); 
     			
     		}  		
     		return results;

@@ -45,33 +45,6 @@ public class ModelConstructor {
 		model.setModelName(modelName);
 		return model;
 	}
-	public  Model updateDecisionsAfterAllQualityVariables (Model model, Map<String, Decision> decisions){
-		Map<String, QualityVariable> qvList = model.getQualityVariables();
-		for (Map.Entry<String, QualityVariable> entry: qvList.entrySet()){
-			if (entry.getValue().getDecisionsBeforeVar() != null){
-				for (Map.Entry<String, Decision> decisionEntry: decisions.entrySet()){
-					boolean decisionBefore = false;
-					for (Map.Entry<String, Decision> qvdecisionEntry :entry.getValue().getDecisionsBeforeVar().entrySet()){
-						if (entry.getValue().getDecisionsBeforeVar().containsKey(decisionEntry.getKey())){
-							decisionBefore =true;
-						}
-					}
-					if (decisionBefore == false){
-						// add decision after to qv
-						entry.getValue().addDecisionsAfterVar(decisionEntry.getKey(), decisionEntry.getValue());
-					}
-				}
-				
-			}
-			if (entry.getValue().getDecisionsAfterVar() == null || entry.getValue().getDecisionsAfterVar().size() <= 0){
-				if (entry.getValue().getDefinition() instanceof OR_Refinement){
-					Decision d = ((OR_Refinement)entry.getValue().getDefinition()).getDecision();
-					entry.getValue().addDecisionsAfterVar(d.getDecisionLabel(), d);
-				}
-			}
-		}
-		return model;
-	}
 	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist){
 		for (Map.Entry<String, Objective> entry: obj_list.entrySet()){
 			Value obj = obj_definition.get(entry.getKey());
@@ -171,24 +144,6 @@ public class ModelConstructor {
 			result =ud.simulate();
 		}
 		return result;
-	}
-	public  QualityVariable addDecisionsBeforeQualityVariable (QualityVariable qv, Map<String, Decision> precedingDecision){
-		Map<String, Decision> decision = new HashMap<String, Decision>(precedingDecision);
-		qv.setDecisionsBeforeVar(decision);
-		return qv;
-	}
-	public  QualityVariable updateCurrentQVWhenItDependsOnDecision (QualityVariable qv){
-		if (qv.getDefinition() instanceof OR_Refinement){
-			Decision d = ((OR_Refinement)qv.getDefinition()).getDecision();
-			if (qv.getDecisionsBeforeVar() !=  null && qv.getDecisionsBeforeVar().containsKey(d.getDecisionLabel())){
-				qv.getDecisionsBeforeVar().remove(d.getDecisionLabel());
-			}
-		}
-		return qv;
-	}
-	public  QualityVariable addDecisionsAfterQualityVariable (QualityVariable qv, Map<String, Decision> suceedingDecision){
-		qv.setDecisionsAfterVar(suceedingDecision);
-		return qv;
 	}
 	
 	public  OR_Refinement createNewOr_Refinement (){

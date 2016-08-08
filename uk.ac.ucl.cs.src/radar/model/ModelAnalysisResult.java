@@ -130,7 +130,7 @@ public class ModelAnalysisResult {
 	}
 	private String optimalDecisionsToString (int index,String separator, List<SolutionValues> solutions){
 		String record ="";
-		for(Map.Entry<Decision, String> entry: solutions.get(index).getSolution().getGlobalSelection().entrySet()){
+		for(Map.Entry<Decision, String> entry: solutions.get(index).getSolution().getSelection().entrySet()){
         	record += entry.getValue() + separator;
         }
 		return record;

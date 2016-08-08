@@ -34,32 +34,16 @@ class Probability extends Statistic {
 		for (int i =0 ; i < simData.length; i ++){
 			switch (comparator_.getComparatorValue()){
 				case "<" : {
-					if (xIsAScaler == true){
-						simData[i] = (simData[i] < x_scaler)? 1:0;
-					}else{
-						simData[i] = (simData[i] < x_array[i])? 1:0;
-					}
+					simData[i] = (simData[i] < x_scaler)? 1:0;
 				}; break;
 				case ">" : {
-					if (xIsAScaler == true){
-						simData[i] = (simData[i] > x_scaler)? 1:0;
-					}else{
-						simData[i] = (simData[i] > x_array[i])? 1:0;
-					}
+					simData[i] = (simData[i] > x_scaler)? 1:0;
 				}; break;
 				case "<=" : {
-					if (xIsAScaler == true){
-						simData[i] = (simData[i] <= x_scaler)? 1:0;
-					}else{
-						simData[i] = (simData[i] <= x_array[i])? 1:0;
-					}
+					simData[i] = (simData[i] <= x_scaler)? 1:0;
 				}; break;
 				case ">=" : {
-					if (xIsAScaler == true){
-						simData[i] = (simData[i] >= x_scaler)? 1:0;
-					}else{
-						simData[i] = (simData[i] >= x_array[i])? 1:0;
-					}
+					simData[i] = (simData[i] >= x_scaler)? 1:0;
 				}; break;
 			}
 		}

@@ -37,13 +37,6 @@ import radar.utilities.PseudoRandom;
 			decisionVector.add(i, var);	
 			i++;
 		}
-		
-		/*int j =0;
-		for (Map.Entry<String, Decision> entry : decisions.entrySet()){
-			int indexToChange = PseudoRandom.randInt(0, entry.getValue().getOptions().size() - 1);
-			decisionVector.get(j)[indexToChange] =1;
-			j++;
-		}*/
 		return decisionVector;
 	}
 	
