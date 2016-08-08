@@ -1,4 +1,4 @@
-package radar.model;
+package uk.ac.ucl.cs.radar.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package radar.model;
+package uk.ac.ucl.cs.radar.model;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.InputMismatchException;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import radar.parser.engine.Visitor;
-import radar.parser.error.handler.ModelExceptionListener;
-import radar.parser.generated.ModelLexer;
-import radar.parser.generated.ModelParser;
+import uk.ac.ucl.cs.radar.parser.engine.Visitor;
+import uk.ac.ucl.cs.radar.parser.error.handler.ModelExceptionListener;
+import uk.ac.ucl.cs.radar.parser.generated.ModelLexer;
+import uk.ac.ucl.cs.radar.parser.generated.ModelParser;
 
 public class Parser {
 	Model semanticmodel_;

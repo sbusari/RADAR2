@@ -1,4 +1,4 @@
-package radar.parser.error.handler;
+package uk.ac.ucl.cs.radar.parser.error.handler;
 import org.antlr.v4.runtime.*;
 
 import java.awt.Color;

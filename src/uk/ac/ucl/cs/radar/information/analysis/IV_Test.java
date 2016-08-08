@@ -1,4 +1,4 @@
-package radar.information.analysis;
+package uk.ac.ucl.cs.radar.information.analysis;
 
 public class IV_Test {
 

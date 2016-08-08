@@ -1,8 +1,8 @@
-package radar.information.analysis;
+package uk.ac.ucl.cs.radar.information.analysis;
 
 import java.util.ArrayList;
 
-import radar.exception.StatsException;
+import uk.ac.ucl.cs.radar.exception.StatsException;
 
 /**
  * @author David Stefan

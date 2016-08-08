@@ -1,15 +1,15 @@
-package radar.commandline;
+package uk.ac.ucl.cs.radar.commandline;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import radar.model.ExperimentData;
-import radar.model.Model;
-import radar.model.ModelAnalysisResult;
-import radar.model.OptimisationType;
-import radar.model.Parser;
-import radar.utilities.ConfigSetting;
-import radar.utilities.Helper;
+import uk.ac.ucl.cs.radar.model.ExperimentData;
+import uk.ac.ucl.cs.radar.model.Model;
+import uk.ac.ucl.cs.radar.model.ModelAnalysisResult;
+import uk.ac.ucl.cs.radar.model.OptimisationType;
+import uk.ac.ucl.cs.radar.model.Parser;
+import uk.ac.ucl.cs.radar.utilities.ConfigSetting;
+import uk.ac.ucl.cs.radar.utilities.Helper;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;

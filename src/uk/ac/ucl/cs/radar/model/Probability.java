@@ -1,6 +1,6 @@
-package radar.model;
+package uk.ac.ucl.cs.radar.model;
 
-import radar.utilities.Statistics;
+import uk.ac.ucl.cs.radar.utilities.Statistics;
 
 class Probability extends Statistic {
 

@@ -1,10 +1,10 @@
-package radar.model;
+package uk.ac.ucl.cs.radar.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import radar.utilities.PseudoRandom;
+import uk.ac.ucl.cs.radar.utilities.PseudoRandom;
 
  class XOR_DecisionVector extends DecisionVector {
 

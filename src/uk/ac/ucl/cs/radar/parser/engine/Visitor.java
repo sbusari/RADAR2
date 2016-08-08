@@ -1,4 +1,4 @@
-package radar.parser.engine;
+package uk.ac.ucl.cs.radar.parser.engine;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -7,16 +7,17 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
-import radar.model.Decision;
-import radar.model.Model;
-import radar.model.ModelConstructor;
-import radar.model.OR_Refinement;
-import radar.model.Objective;
-import radar.model.QualityVariable;
-import radar.model.Value;
-import radar.parser.generated.ModelBaseVisitor;
-import radar.parser.generated.ModelParser;
-import radar.parser.generated.ModelParser.Model_elementContext;
+
+import uk.ac.ucl.cs.radar.model.Decision;
+import uk.ac.ucl.cs.radar.model.Model;
+import uk.ac.ucl.cs.radar.model.ModelConstructor;
+import uk.ac.ucl.cs.radar.model.OR_Refinement;
+import uk.ac.ucl.cs.radar.model.Objective;
+import uk.ac.ucl.cs.radar.model.QualityVariable;
+import uk.ac.ucl.cs.radar.model.Value;
+import uk.ac.ucl.cs.radar.parser.generated.ModelBaseVisitor;
+import uk.ac.ucl.cs.radar.parser.generated.ModelParser;
+import uk.ac.ucl.cs.radar.parser.generated.ModelParser.Model_elementContext;
 
 public class Visitor extends ModelBaseVisitor<Value> {
 	

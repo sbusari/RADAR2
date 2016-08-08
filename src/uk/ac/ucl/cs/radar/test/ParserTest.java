@@ -1,13 +1,13 @@
-package radar.test;
+package uk.ac.ucl.cs.radar.test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import radar.model.Decision;
-import radar.model.Model;
-import radar.model.Parser;
-import radar.utilities.Helper;
+import uk.ac.ucl.cs.radar.model.Decision;
+import uk.ac.ucl.cs.radar.model.Model;
+import uk.ac.ucl.cs.radar.model.Parser;
+import uk.ac.ucl.cs.radar.utilities.Helper;
 
 public class ParserTest {
 

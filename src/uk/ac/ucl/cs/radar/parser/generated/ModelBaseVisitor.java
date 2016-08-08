@@ -1,5 +1,5 @@
 // Generated from Model.g4 by ANTLR 4.5.1
-package radar.parser.generated;
+package uk.ac.ucl.cs.radar.parser.generated;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**

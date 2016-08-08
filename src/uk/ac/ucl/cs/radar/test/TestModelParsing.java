@@ -1,4 +1,4 @@
-package radar.test;
+package uk.ac.ucl.cs.radar.test;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -11,10 +11,10 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import radar.parser.error.handler.UnderlineModelExceptionListener;
-import radar.parser.generated.ModelLexer;
-import radar.parser.generated.ModelParser;
-import radar.utilities.Helper;
+import uk.ac.ucl.cs.radar.parser.error.handler.UnderlineModelExceptionListener;
+import uk.ac.ucl.cs.radar.parser.generated.ModelLexer;
+import uk.ac.ucl.cs.radar.parser.generated.ModelParser;
+import uk.ac.ucl.cs.radar.utilities.Helper;
 
 
 public class TestModelParsing {

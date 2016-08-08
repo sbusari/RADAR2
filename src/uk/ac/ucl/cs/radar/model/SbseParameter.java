@@ -1,8 +1,8 @@
-package radar.model;
+package uk.ac.ucl.cs.radar.model;
 import java.util.Map;
 
-import radar.utilities.ConfigSetting;
-import radar.utilities.Helper;
+import uk.ac.ucl.cs.radar.utilities.ConfigSetting;
+import uk.ac.ucl.cs.radar.utilities.Helper;
 
 
 public class SbseParameter {

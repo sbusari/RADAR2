@@ -1,4 +1,4 @@
-package radar.test;
+package uk.ac.ucl.cs.radar.test;
 
 import static org.junit.Assert.*;
 
@@ -22,13 +22,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import radar.model.Decision;
-import radar.model.Model;
-import radar.model.Parser;
-import radar.parser.error.handler.UnderlineModelExceptionListener;
-import radar.parser.generated.ModelLexer;
-import radar.parser.generated.ModelParser;
-import radar.utilities.Helper;
+import uk.ac.ucl.cs.radar.model.Decision;
+import uk.ac.ucl.cs.radar.model.Model;
+import uk.ac.ucl.cs.radar.model.Parser;
+import uk.ac.ucl.cs.radar.parser.error.handler.UnderlineModelExceptionListener;
+import uk.ac.ucl.cs.radar.parser.generated.ModelLexer;
+import uk.ac.ucl.cs.radar.parser.generated.ModelParser;
+import uk.ac.ucl.cs.radar.utilities.Helper;
 
 public class ModelParsing {
 

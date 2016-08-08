@@ -1,11 +1,11 @@
-package radar.model;
+package uk.ac.ucl.cs.radar.model;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import radar.information.analysis.InformationAnalysis;
+import uk.ac.ucl.cs.radar.information.analysis.InformationAnalysis;
 
 
 public class Model {

@@ -1,4 +1,4 @@
-package radar.exception;
+package uk.ac.ucl.cs.radar.exception;
 
 /**
  * @author David Stefan

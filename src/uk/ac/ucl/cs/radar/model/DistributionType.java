@@ -1,4 +1,4 @@
-package radar.model;
+package uk.ac.ucl.cs.radar.model;
 
  enum DistributionType {
 		NONE,

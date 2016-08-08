@@ -1,4 +1,4 @@
-package radar.model;
+package uk.ac.ucl.cs.radar.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import radar.utilities.Statistics;
+import uk.ac.ucl.cs.radar.utilities.Statistics;
 
  class Simulator {
 
