@@ -1,0 +1,26 @@
+,blocking policy,processing type,fraud detection method,threshold level,FinancialLoss,InvestigationCost,Optimal
+1,block first,continuous,classifier,high,15263.71947828224,2.7132642790043276E7,Yes
+2,block first,continuous,classifier,medium,17171.68441306743,2.984504799755315E7,No
+3,block first,continuous,classifier,low,19624.782186362718,3.011588158970193E7,No
+4,block first,continuous,rule-based,high,16842.59126059758,2.9845126218435407E7,No
+5,block first,continuous,rule-based,medium,16842.59126059758,2.9845126218435407E7,No
+6,block first,continuous,rule-based,low,16842.59126059758,2.9845126218435407E7,No
+7,block first,batch,classifier,high,19575.720230896994,2.9845726211890783E7,No
+8,block first,batch,classifier,medium,17515.1181013289,2.9995988366243675E7,No
+9,block first,batch,classifier,low,15454.515971760717,3.0116107661147546E7,No
+10,block first,batch,rule-based,high,16484.817036544748,2.9995762294797923E7,No
+11,block first,batch,rule-based,medium,16484.817036544748,2.9995762294797923E7,No
+12,block first,batch,rule-based,low,16484.817036544748,2.9995762294797923E7,No
+13,investigage first,continuous,classifier,high,29001.067008736176,2.7132642790043276E7,No
+14,investigage first,continuous,classifier,medium,30909.031943521433,2.984504799755315E7,No
+15,investigage first,continuous,classifier,low,33362.129716817035,3.011588158970193E7,No
+16,investigage first,continuous,rule-based,high,30579.938791051565,2.9845126218435407E7,No
+17,investigage first,continuous,rule-based,medium,30579.938791051565,2.9845126218435407E7,No
+18,investigage first,continuous,rule-based,low,30579.938791051565,2.9845126218435407E7,No
+19,investigage first,batch,classifier,high,33313.067761351085,2.9845726211890783E7,No
+20,investigage first,batch,classifier,medium,31252.465631782758,2.9995988366243675E7,No
+21,investigage first,batch,classifier,low,29191.86350221467,3.0116107661147546E7,No
+22,investigage first,batch,rule-based,high,30222.16456699882,2.9995762294797923E7,No
+23,investigage first,batch,rule-based,medium,30222.16456699882,2.9995762294797923E7,No
+24,investigage first,batch,rule-based,low,30222.16456699882,2.9995762294797923E7,No
+

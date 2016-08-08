@@ -2,8 +2,6 @@ package radar.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import radar.plot.goal.graph.Graph;
-import radar.plot.goal.graph.Node;
 
 
 class BinaryExpression extends ArithmeticExpression {
@@ -27,8 +25,9 @@ class BinaryExpression extends ArithmeticExpression {
 	public Expression getRightExpression (){
 		return rightExpr_;
 	}
+	
 	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,String qv_name) {
+	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		List<Node> leftChild = leftExpr_.addNodeToDecisionGraph(g, model, qv_name);
 		List<Node> rightChild = rightExpr_.addNodeToDecisionGraph(g, model, qv_name);
@@ -42,7 +41,7 @@ class BinaryExpression extends ArithmeticExpression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
 			String qv_name) {
 	
 		List<Node> result = new ArrayList<Node>();
@@ -85,6 +84,7 @@ class BinaryExpression extends ArithmeticExpression {
 		}
 		return result;
 	}
+	
 	@Override
 	public double[] simulate(Solution s) {
 		double [] leftSim = leftExpr_.simulate(s);

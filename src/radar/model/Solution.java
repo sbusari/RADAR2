@@ -2,7 +2,7 @@ package radar.model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-public class Solution {
+class Solution {
 
 	private Map<Decision, String> selection;
 	// since the selection sometimes is null and its been carried on from one quality variable to the children

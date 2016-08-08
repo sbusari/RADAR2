@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SolutionAnalyser {
+ class SolutionAnalyser {
 	
 	Model semanticModel_;
 	public SolutionAnalyser(Model semanticModel){

@@ -1,0 +1,14 @@
+EVTPI: 			 0.0
+Parameter 			 EVPPI 
+Ratio_HighConfidentialityDocs: 			 0.0
+Ratio_MediumConfidentialityDocs: 			 0.0
+Ratio_LowConfidentialityDocs: 			 0.0
+Cost_HighConfidentialityLeak: 			 0.0
+Cost_MediumConfidentialityLeak: 			 0.0
+Cost_LowConfidentialityLeak: 			 0.0
+SharedDriveLeakRange: 			 0.0
+Nbr_OfficeIntrusions[not guarded]: 			 0.0
+Nbr_OfficeIntrusions[guarded]: 			 0.0
+Percentage_MediaStolenPerInstrusion: 			 0.0
+Nbr_DocsPerMedia: 			 0.0
+

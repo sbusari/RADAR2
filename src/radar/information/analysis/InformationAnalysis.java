@@ -1,6 +1,7 @@
 package radar.information.analysis;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 
@@ -10,13 +11,28 @@ import radar.exception.StatsException;
 /**
  * @author David Stefan
  */
-class InformationAnalysis {
+public class InformationAnalysis {
 
+	
+	
     public static double evpi(double[][] nbs) {
         return VectorUtils.mean(VectorUtils.colMax(nbs)) - VectorUtils.max(VectorUtils.rowMeans(nbs));
     }
-
     public static double evppi(double[] param, double[][] nbs) {
+    	if (param == null){
+    		//During parsing, we populate the list of parameter varibles, but when a paramter (e.g. Cost_OrderChunking[Order Chunking]) is not part of the selected optimal solutions, 
+    		//its simData will be null during the simulation done for computing evtp and evppi. Thus added this check
+    		return 0;
+    	}
+    	double [][] nbs_copy = new double [nbs.length][nbs[0].length];
+    	for (int i =0; i <nbs.length;i ++ ){
+			for (int j = 0 ; j < nbs[0].length; j ++){
+				nbs_copy[i][j] = nbs[i][j];
+			}
+		}
+    	return evppi_changes_nbs(param, nbs_copy);
+    }
+    private static double evppi_changes_nbs(double[] param, double[][] nbs) {
 
         // Check if param has at least 100 samples
         if (param.length < 100) {

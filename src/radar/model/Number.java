@@ -1,8 +1,6 @@
 package radar.model;
 
 import java.util.List;
-import radar.plot.goal.graph.Graph;
-import radar.plot.goal.graph.Node;
 
 class Number extends ArithmeticExpression {
 
@@ -13,6 +11,7 @@ class Number extends ArithmeticExpression {
 	public double  getValue (){
 		return value_;
 	}
+	
 	@Override
 	public double[] simulate(Solution s) {
 		// in the case where a deterministic has expr as argument, we have already handled that during parsing
@@ -25,12 +24,12 @@ class Number extends ArithmeticExpression {
 		return sim;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		return null;
 	}
 	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
+	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		return null;
 	}

@@ -1,0 +1,8 @@
+,Building entry security,Document Sharing Policy,ExpectedCostOfDisclosures,RiskOfCatastrophicDisclosures,Optimal
+1,not guarded,Recommend Email,917.392219165441,0.0,Yes
+2,guarded,Recommend Email,917.392219165441,0.0,Yes
+3,not guarded,Neutral,2981.5247122876804,0.0,No
+4,not guarded,Recommend External Media,3191466.7952655596,0.6499,No
+5,guarded,Neutral,2981.5247122876804,0.0,No
+6,guarded,Recommend External Media,1061232.1945103253,0.301,No
+

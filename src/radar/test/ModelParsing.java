@@ -24,9 +24,7 @@ import org.junit.Test;
 
 import radar.model.Decision;
 import radar.model.Model;
-import radar.model.SolutionAnalyser;
 import radar.model.Parser;
-import radar.model.Solution;
 import radar.parser.error.handler.UnderlineModelExceptionListener;
 import radar.parser.generated.ModelLexer;
 import radar.parser.generated.ModelParser;
@@ -76,8 +74,8 @@ public class ModelParsing {
 		Parser model_parser = new Parser (modelString,10000);
 		semantic_model = model_parser.getSemanticModel();
 		Map<String , Decision> decisions = semantic_model.getDecisions();
-		List<Solution> allSolutions =  new SolutionAnalyser(semantic_model).getAllSolutions() ;
-		Assert.assertNotSame(0, allSolutions.size());
+		//List<Solution> allSolutions =  new SolutionAnalyser(semantic_model).getAllSolutions() ;
+		//Assert.assertNotSame(0, allSolutions.size());
 	}
 	
 	public void display() throws Exception {

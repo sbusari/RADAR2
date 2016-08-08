@@ -1,6 +1,5 @@
 package radar.model;
-
-public abstract class Statistic {
+ abstract class Statistic {
 	Expression expression_;
 	public Expression getObjExpression(){
 		return expression_;

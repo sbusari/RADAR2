@@ -1,8 +1,6 @@
 package radar.model;
 
 import java.util.List;
-import radar.plot.goal.graph.Graph;
-import radar.plot.goal.graph.Node;
 
 class TriangularDistribution extends Distribution {
 
@@ -24,12 +22,12 @@ class TriangularDistribution extends Distribution {
 		return  triangularDistribution(lower_,mode_, upper_, N);
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		return null;
 	}
 	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
+	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		return null;
 	}

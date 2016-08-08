@@ -7,8 +7,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
-
-import prefuse.data.Node;
 import radar.model.Decision;
 import radar.model.Model;
 import radar.model.ModelConstructor;
@@ -129,7 +127,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		qv = modelConstructor.addQualityVariableExpression(qv, qv_name,qv_def);
 		qv_list.put(qv_name.toString(), qv);
 		qv =modelConstructor.updateCurrentQVWhenItDependsOnDecision(qv);
-		modelConstructor.addInformationValueParameters(semanticModel,qv_name,qv_def);
+		modelConstructor.addInformationValueParameters(semanticModel,qv);
 		return new Value (qv);
 	}
 	@Override 

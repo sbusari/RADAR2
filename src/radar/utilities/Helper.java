@@ -3,47 +3,33 @@ package radar.utilities;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
-import radar.model.Solution;
-import radar.model.Decision;
-import radar.model.Model;
-import radar.model.Objective;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class Helper {
 
-	public static int getTotalOptions (Model semanticModel){
-		Map<String, Decision> decisions  = semanticModel.getDecisions();
-		int counter =0;
-	    if(decisions != null){
-	    	for (Map.Entry<String, Decision> entry : decisions.entrySet() ){
-	    		counter= entry.getValue().getOptions().size();
-        	}
-	    }
-	    return counter;
-	}
-	public static void printResults (String directory, String expResult, String fileName) throws IOException{
+	public static void printResults (String directory, String expResult, String fileName, boolean append) throws IOException{
 		File resultFile;
 		resultFile = new File(directory);
 		if (!resultFile.exists()) {
 			new File(directory).mkdirs();
 			System.out.println("Creating " + directory);
 		}
-	      FileOutputStream fos   = new FileOutputStream(directory + fileName ) ;
+	      FileOutputStream fos   = new FileOutputStream(directory + fileName, append ) ;
 	      OutputStreamWriter osw = new OutputStreamWriter(fos)    ;
 	      BufferedWriter bw      = new BufferedWriter(osw)        ;
 	      bw.write(expResult);
+	      bw.write("\n");
 	      bw.close();
+	      
+	      /*FileWriter fileWritter = new FileWriter(directory + fileName,append);
+	      fileWritter.write(expResult);
+	      fileWritter.write("\n");
+	      fileWritter.close();*/
 	}
 	@SuppressWarnings("resource")
 	public static String readFile(String fileName) {
@@ -62,6 +48,19 @@ public class Helper {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	public static boolean deletePreviousResults (String outputdirectory, String folderToDelete){
+		String path = outputdirectory + folderToDelete ;
+		File previousResults = new File(path);
+		boolean deleted = false;
+		if (previousResults.exists()) {
+			deleted = previousResults.delete();
+			System.out.println("deleted " + path);
+		}else{
+			return false;
+		}
+		return deleted;
+	     
 	}
 
 }

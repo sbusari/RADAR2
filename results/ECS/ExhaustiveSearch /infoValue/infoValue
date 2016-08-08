@@ -1,0 +1,14 @@
+EVTPI: 			 0.0
+Parameter 			 EVPPI 
+LostRequestsRatio: 			 0.0
+Cost_OrderReassignment[Allow Order Reassignment]: 			 0.0
+Cost_ForcedOrderCompletion[Allow Forced Order Completion]: 			 0.0
+Cost_OrderPersistenceStrategy[Store as soon as received]: 			 0.0
+Cost_OrderSegmentation[Orders are segmented]: 			 0.0
+Cost_HungOrderRecovery[Allow Order Retry]: 			 0.0
+Cost_FailedOrderNotification[User notified of failed order]: 			 0.0
+Cost_OrderTracking[Granule-level order tracking]: 			 0.0
+Cost_AvailableUserInformation[Link to user information]: 			 0.0
+Cost_OrderChunking[Order Chunking]: 			 0.0
+Cost_OrderBundling[Order Bundling]: 			 0.0
+

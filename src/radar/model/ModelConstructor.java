@@ -1,6 +1,4 @@
 package radar.model;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,19 +12,16 @@ public class ModelConstructor {
 		simulation =simulationRun;
 	}
 	public  Model createNewModel (){
-		return Model.getInstance();
+		return new Model().getInstance();
 	}
-	void addModelInfoValueObjective (Model model, String obj_name, Objective objective, List<String> infoValueObj){
-		
-		List<Objective> infoValueObjectiveList = new ArrayList<Objective>();
-		for (int i =0; i < infoValueObj.size(); i ++){
-			for (Map.Entry<String, Objective> entry : model.getObjectives().entrySet()){
-				if (entry.getValue().getLabel().equals(infoValueObj.get(i).trim())){
-					infoValueObjectiveList.add(entry.getValue());
-				}
+	void addModelInfoValueObjective (Model model, String obj_name, String infoValueObj){
+		Objective infoValueObjective = new Objective();
+		for (Map.Entry<String, Objective> entry : model.getObjectives().entrySet()){
+			if (entry.getValue().getLabel().equals(infoValueObj.trim())){
+				infoValueObjective= entry.getValue();
 			}
 		}
-		model.setInfoValueObjective(infoValueObjectiveList);
+		model.setInfoValueObjective(infoValueObjective);
 		
 	}
 	void addModelObjective (Model model, String obj_name, Objective objective){
@@ -117,6 +112,36 @@ public class ModelConstructor {
 		qv.setLabel(qv_name.toString());
 		qv.setDefinition(qv_def.getExpression());
 		return qv;
+	}
+	public void addInformationValueParameters (Model m, QualityVariable qv){
+		if (qv.getDefinition() instanceof Parameter &&  !(((Parameter)qv.getDefinition()).getDistribution() instanceof DeterministicDistribution) ){
+			m.addParameters(qv.getLabel());
+		}else if (qv.getDefinition() instanceof OR_Refinement){
+			Map<String, Expression> optionsExpr = ((OR_Refinement)qv.getDefinition()).getDefinition();
+			for (Map.Entry<String, Expression> entry: optionsExpr.entrySet()){
+				if (entry.getValue() instanceof Parameter && !(((Parameter)entry.getValue()).getDistribution() instanceof DeterministicDistribution)){
+					m.addParameters(qv.getLabel());
+				}
+			}
+		}
+	}
+	public void addInformationValueParameters2 (Model m, QualityVariable qv){
+		if (qv.getDefinition() instanceof Distribution &&  !(qv.getDefinition() instanceof DeterministicDistribution) ){
+			Parameter param =new Parameter ();
+			param.setLabel(qv.getLabel());
+			param.setDistribution((Distribution)qv.getDefinition());
+			//m.addParameterToList(param);
+		}else if (qv.getDefinition() instanceof OR_Refinement){
+			Map<String, Expression> optionsExpr = ((OR_Refinement)qv.getDefinition()).getDefinition();
+			for (Map.Entry<String, Expression> entry: optionsExpr.entrySet()){
+				if (entry.getValue() instanceof Distribution && !(entry.getValue() instanceof DeterministicDistribution)){
+					Parameter param =new Parameter ();
+					param.setLabel(qv.getLabel() + "[" +entry.getKey() + "]" );
+					param.setDistribution((Distribution)entry.getValue());
+					//m.addParameterToList(param);
+				}
+			}
+		}
 	}
 	public void addInformationValueParameters (Model m, String qv_name, Value qv_def){
 		if (qv_def.getExpression() instanceof Distribution &&  !(qv_def.getExpression() instanceof DeterministicDistribution) ){
@@ -261,6 +286,56 @@ public class ModelConstructor {
 		}
 	}
 	public  Value addDistribution (Value distribution, List<Value> distributionArguments){
+		Parameter param =new Parameter ();
+		validateDistributionArgumentCount(distribution,distributionArguments);
+		checkDistributionArgumentIsNumber(distribution,distributionArguments);
+		if (distribution.toString().equals(ParameterDistribution.NORMAL.toString())){
+			double mean = distributionArguments.get(0).convertToDouble();
+			double sd = distributionArguments.get(1).convertToDouble();
+			NormalDistribution nd = new NormalDistribution(mean,sd,simulation);
+			param.setDistribution(nd);
+		}else if (distribution.toString().equals(ParameterDistribution.TRIANGULAR.toString())){
+			double lower = distributionArguments.get(0).convertToDouble();
+			double mode = distributionArguments.get(1).convertToDouble();
+			double upper = distributionArguments.get(2).convertToDouble();
+			TriangularDistribution tr = new TriangularDistribution(lower, mode, upper,simulation);
+			param.setDistribution(tr);
+		}else if (distribution.toString().equals(ParameterDistribution.NORMAL_CI.toString())){
+			double a = distributionArguments.get(0).convertToDouble();
+			double b = distributionArguments.get(1).convertToDouble();
+			NormalCIDistribution ncid = new NormalCIDistribution(a,b,simulation);
+			param.setDistribution(ncid);
+		}else if (distribution.toString().equals(ParameterDistribution.UNIFORM.toString())){
+			double lower = distributionArguments.get(0).convertToDouble();
+			double upper = distributionArguments.get(1).convertToDouble();
+			UniformDistribution und = new UniformDistribution(lower,upper,simulation);
+			param.setDistribution(und);
+		}else if (distribution.toString().equals(ParameterDistribution.DETERMINISTIC.toString())){
+			double value = distributionArguments.get(0).convertToDouble();
+			DeterministicDistribution dt = new DeterministicDistribution(value,simulation);
+			param.setDistribution(dt);
+		}
+		else if (distribution.toString().equals(ParameterDistribution.EXPONENTIAL.toString())){
+			double mean = distributionArguments.get(0).convertToDouble();
+			ExponentialDistribution expd = new ExponentialDistribution(mean,simulation);
+			param.setDistribution(expd);
+		}else if (distribution.toString().equals(ParameterDistribution.GEOMETRIC.toString())){
+			double prob = distributionArguments.get(0).convertToDouble();
+			GeometricDistribution geod = new GeometricDistribution(prob,simulation);
+			param.setDistribution(geod);
+		}
+		else if (distribution.toString().equals(ParameterDistribution.BINOMIAL.toString())){
+			double trial = distributionArguments.get(0).convertToDouble();
+			double prob = distributionArguments.get(1).convertToDouble();
+			BinomialDistribution bid = new BinomialDistribution((int)trial,prob, simulation);
+			param.setDistribution(bid);
+		}else if (distribution.toString().equals(ParameterDistribution.RANDOM.toString())){;
+			RandomDistribution rd = new RandomDistribution(simulation);
+			param.setDistribution(rd);
+		}
+		return new Value(param);
+	}
+	public  Value addDistribution2 (Value distribution, List<Value> distributionArguments){
 		Expression baseExpr =null;
 		validateDistributionArgumentCount(distribution,distributionArguments);
 		checkDistributionArgumentIsNumber(distribution,distributionArguments);

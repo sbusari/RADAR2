@@ -2,8 +2,6 @@ package radar.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import radar.plot.goal.graph.Graph;
-import radar.plot.goal.graph.Node;
 
 
 class UnaryExpression extends Expression {
@@ -23,7 +21,7 @@ class UnaryExpression extends Expression {
 		return expr_;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		List<Node> expr = expr_.addNodeToVariableGraph(g, model,qv_name);
@@ -31,7 +29,7 @@ class UnaryExpression extends Expression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
+	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		List<Node> expr = expr_.addNodeToDecisionGraph(g, model,qv_name);

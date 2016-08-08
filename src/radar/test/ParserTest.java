@@ -6,9 +6,7 @@ import java.util.Map;
 
 import radar.model.Decision;
 import radar.model.Model;
-import radar.model.SolutionAnalyser;
 import radar.model.Parser;
-import radar.model.Solution;
 import radar.utilities.Helper;
 
 public class ParserTest {
@@ -25,7 +23,7 @@ public class ParserTest {
 		Parser testParser = new Parser (modelString,10000); 
 		Model semantic_model = testParser.getSemanticModel();
 		Map<String , Decision> decisions = semantic_model.getDecisions();
-		List<Solution> allSolutions = new SolutionAnalyser(semantic_model).getAllSolutions();
+		//List<Solution> allSolutions = new SolutionAnalyser(semantic_model).getAllSolutions();
 		System.out.print("Done");
 
 	}

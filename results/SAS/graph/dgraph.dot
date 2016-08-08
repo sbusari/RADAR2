@@ -1,0 +1,74 @@
+digraph G { 
+rankdir = BT; 
+edge[dir=back]; 
+SAS[shape=circle]
+"Location_Finding"[shape=polygon, style=diagonals]
+"GPS"[shape=box]
+"radio_triangulation"[shape=box]
+"File_Sharing"[shape=polygon, style=diagonals]
+"OpenIntent"[shape=box]
+"In_house"[shape=box]
+"Report_Syncing"[shape=polygon, style=diagonals]
+"Explicit"[shape=box]
+"Implicit"[shape=box]
+"Chat_Protocol"[shape=polygon, style=diagonals]
+"XMPP_(Open_Fire)"[shape=box]
+"Map_Access"[shape=polygon, style=diagonals]
+"On_Demand_(Google)"[shape=box]
+"Cache_on_server"[shape=box]
+"Preloaded_(ESRI)"[shape=box]
+"Hardware_Platform"[shape=polygon, style=diagonals]
+"Nexus_I_(HTC)"[shape=box]
+"Droid_(Motorola)"[shape=box]
+"Connectivity"[shape=polygon, style=diagonals]
+"Wifi"[shape=box]
+"3G_on_Nexus_I"[shape=box]
+"3G_on_Droid"[shape=box]
+"Bluetooth"[shape=box]
+"Database"[shape=polygon, style=diagonals]
+"MySQL"[shape=box]
+"sqLite"[shape=box]
+"Architectural_Pattern"[shape=polygon, style=diagonals]
+"Peer-to-peer"[shape=box]
+"Client-Server"[shape=box]
+"Push-based"[shape=box]
+"Data_Exchange_Format"[shape=polygon, style=diagonals]
+"XML"[shape=box]
+"Compressed_XML"[shape=box]
+"Unformatted_data"[shape=box]
+"GPS"->"Location_Finding"
+"radio_triangulation"->"Location_Finding"
+"OpenIntent"->"File_Sharing"
+"In_house"->"File_Sharing"
+"Explicit"->"Report_Syncing"
+"Implicit"->"Report_Syncing"
+"XMPP_(Open_Fire)"->"Chat_Protocol"
+"In_house"->"Chat_Protocol"
+"On_Demand_(Google)"->"Map_Access"
+"Cache_on_server"->"Map_Access"
+"Preloaded_(ESRI)"->"Map_Access"
+"Nexus_I_(HTC)"->"Hardware_Platform"
+"Droid_(Motorola)"->"Hardware_Platform"
+"Wifi"->"Connectivity"
+"3G_on_Nexus_I"->"Connectivity"
+"3G_on_Droid"->"Connectivity"
+"Bluetooth"->"Connectivity"
+"MySQL"->"Database"
+"sqLite"->"Database"
+"Peer-to-peer"->"Architectural_Pattern"
+"Client-Server"->"Architectural_Pattern"
+"Push-based"->"Architectural_Pattern"
+"XML"->"Data_Exchange_Format"
+"Compressed_XML"->"Data_Exchange_Format"
+"Unformatted_data"->"Data_Exchange_Format"
+"Location_Finding"->SAS
+"File_Sharing"->SAS
+"Report_Syncing"->SAS
+"Chat_Protocol"->SAS
+"Map_Access"->SAS
+"Hardware_Platform"->SAS
+"Connectivity"->SAS
+"Database"->SAS
+"Architectural_Pattern"->SAS
+"Data_Exchange_Format"->SAS
+}

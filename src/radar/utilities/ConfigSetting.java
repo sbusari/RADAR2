@@ -21,7 +21,7 @@ public class ConfigSetting {
 	public static String Emergency_Response_System="ERAM";
 	public static long SEED= 20140604; //
 	public static String PCFDM_3OBJ= "/subjectmodels/PCFDM_FULL.gm";
-	public static int MAX_EVALUATIONS=1000;
+	public static int MAX_EVALUATIONS=4;
 	//public static int MAX_EVALUATIONS=100;
 	public static String Fraud_Detection_System= "PCFDM";
 	public static String MARKET_SYSTEM= "MKT";
@@ -34,10 +34,10 @@ public class ConfigSetting {
 	public static String OPTIMISATION_TYPE ="BOTH";
 	public static String SUBJECT_SYSTEMS= "--Select--,Emergency Response System,Fraud Detection System,NASA System,Building Policy System";
 	public static String XCSM="/subjectmodels/PCFDM_FULL.gm";
-	public static int ALGORITHM_RUNS=30;
+	public static int ALGORITHM_RUNS=3;
 	//public static int ALGORITHM_RUNS=3;
 	public static String DEFAULT_APRROX_ALGORITHM= "NSGAII";
-	public static int POPULATION_SIZE=100;
+	public static int POPULATION_SIZE=4;
 	public static double  CROSSOVER=0.8;
 	
 	public static String OUTPUT_DIRECTORY= "/Users/INTEGRALSABIOLA/Downloads/Thesis/";

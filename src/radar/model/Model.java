@@ -5,14 +5,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import radar.information.analysis.InformationAnalysis;
+
 
 public class Model {
 	
 	private static Model instance = null;
-	public static Model getInstance() {
+	public  Model getInstance() {
 		if(instance == null) {
 			instance = new Model();
 		}
+		
 		return instance;
 	}
 	private String modelName_;
@@ -23,7 +26,7 @@ public class Model {
 	private List<String> params_;
 	private Map<String, Decision> decisions_;
 	private List<Solution> alternative_;
-	private List<Objective> infoValueObjective_;
+	private Objective infoValueObjective_;
 	private String infoValueObjectiveName_;
 	private int noOfSimulation_;
 	private String solutionType_;
@@ -98,10 +101,10 @@ public class Model {
 	public void setInfoValueObjectiveName (String infoValueObjectiveName){
 		infoValueObjectiveName_ = infoValueObjectiveName;
 	}
-	public void setInfoValueObjective (List<Objective> objective){
+	public void setInfoValueObjective (Objective objective){
 			infoValueObjective_ = objective;
 	}
-	public List<Objective> getInfoValueObjective (){
+	public Objective getInfoValueObjective (){
 		return infoValueObjective_ ;
 	}
 	public void setSimulationNumber(int noOfSimulation) {
@@ -132,6 +135,45 @@ public class Model {
 		solutionType_ =solutionType ;
 	}
 	
-	
-	
+	InfoValueAnalysisResult computeInformationValue(Objective objective, List<Solution> solutions, List<Parameter> params){
+		InfoValueAnalysisResult result = new InfoValueAnalysisResult(objective.getLabel(), objective.getIsMinimisation());
+		double[][] objSim = objective.getQualityVariable().simulate(solutions);
+		// compute evtpi
+		double evtpi = InformationAnalysis.evpi(objSim);
+		//System.out.println("evtpi for  objective "+  objective.getLabel() +" is "+ evtpi );
+		result.setEVTPI(evtpi);
+		// compute evppi for each quality variable in params
+		for (int i=0; i <params.size(); i++){
+			Parameter param = params.get(i) ;
+	        double[] paramSim = param.getSimulationData();
+	        //System.out.println("evppi  paramters  "+paramSim [0] + ", " + paramSim[1]);
+	        //System.out.println("objective sim  "+ objSim [0][0] + ", " + objSim[0][1]);
+	        double evppi = InformationAnalysis.evppi(paramSim, objSim);
+	        //System.out.println("evppi for  objective "+  objective.getLabel()+ " and parameter " + param.getLabel() +" is "+ evppi );
+	        result.addEVPPI(param.getLabel(), evppi);
+		}
+		return result;
+	}
+	public static List<Parameter> getParameterList (List<String> paramNames, Model m){
+		List<Parameter> parameters = new ArrayList<Parameter>();
+		for (int i =0; i < paramNames.size(); i ++){
+			QualityVariable qv = m.getQualityVariables().get(paramNames.get(i));
+			if (qv.getDefinition() instanceof Parameter &&  !(((Parameter)qv.getDefinition()).getDistribution() instanceof DeterministicDistribution) ){
+				Parameter value = (Parameter)qv.getDefinition();
+				value.setLabel(qv.getLabel());
+				parameters.add(value);
+			}else if (qv.getDefinition() instanceof OR_Refinement){
+				Map<String, Expression> optionsExpr = ((OR_Refinement)qv.getDefinition()).getDefinition();
+				for (Map.Entry<String, Expression> entry: optionsExpr.entrySet()){
+					if (entry.getValue() instanceof Parameter && !(((Parameter)entry.getValue()).getDistribution() instanceof DeterministicDistribution)){
+						Parameter value = (Parameter)entry.getValue();
+						value.setLabel(qv.getLabel() + "[" +entry.getKey() + "]");
+						parameters.add(value);
+					}
+				}
+			}
+		}
+		return parameters;
+	}
+
 }

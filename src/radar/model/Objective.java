@@ -3,8 +3,7 @@ import java.util.LinkedHashMap;
 
 import java.util.Map;
 
-
-public class Objective {
+public  class Objective {
 	private double margin_;
 	private boolean isMinimisation_;
 	private String label_;

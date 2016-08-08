@@ -3,8 +3,6 @@ package radar.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import radar.plot.goal.graph.Graph;
-import radar.plot.goal.graph.Node;
 
 class Identifier extends Expression {
 	private String id_;
@@ -14,6 +12,7 @@ class Identifier extends Expression {
 	public String  getID (){
 		return id_;
 	}
+	
 	@Override
 	public double[] simulate(Solution s) {
 		Map<String, QualityVariable> qvList = s.getSemanticModel().getQualityVariables();
@@ -25,7 +24,7 @@ class Identifier extends Expression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,String qv_name) {
+	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,String qv_name) {
 		Map<String, QualityVariable> qvList = model.getQualityVariables();
 		QualityVariable qv = qvList.get(id_);
 		List<Node> children = qv.addNodeToDecisionGraph(g,model,id_.replaceAll(" ", "_"));
@@ -34,7 +33,7 @@ class Identifier extends Expression {
 
 
 	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		List<Node> results = new ArrayList<Node>();
 		Node id = createDOTNode (g, id_,  "box", "rounded");

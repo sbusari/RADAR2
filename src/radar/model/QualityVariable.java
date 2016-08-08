@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import radar.plot.goal.graph.Graph;
-import radar.plot.goal.graph.Node;
 
 public class QualityVariable extends ArithmeticExpression {
 
@@ -67,7 +65,7 @@ public class QualityVariable extends ArithmeticExpression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		//g.incrementOperatorID();
 		List<Node> results = new ArrayList<Node>();
@@ -82,13 +80,21 @@ public class QualityVariable extends ArithmeticExpression {
 		return results;
 	}
 	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
+	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		List<Node> children = definition_.addNodeToDecisionGraph(g,model,qv_name.replaceAll(" ", "_"));
 		return children;
 	}
+	double[][] simulate(List<Solution> s) {
+		double [][] result = new double [s.size()][];
+		for (int i =0 ; i < s.size(); i ++){
+			result[i] = simulate(s.get(i));
+		}
+		return result;
+	}
 
 	public double [] simulate (Solution s){
+		//System.out.println(s.selectionToString() + " and " + label_ );
 		return definition_.simulate(s);
 	}
 	

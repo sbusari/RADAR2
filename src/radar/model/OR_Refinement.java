@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import radar.plot.goal.graph.Graph;
-import radar.plot.goal.graph.Node;
 
 public class OR_Refinement extends Expression {
 	private Decision decision_;
@@ -13,7 +11,7 @@ public class OR_Refinement extends Expression {
 	
 	public OR_Refinement(){}
 	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
+	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		Node decision = createDOTNode (g, "\"" +  decision_.getDecisionLabel().replaceAll(" ", "_") + "\"","polygon", "diagonals");
@@ -34,7 +32,7 @@ public class OR_Refinement extends Expression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
+	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
 			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		for (Map.Entry<String, Expression> entry: definition_.entrySet()){
@@ -51,6 +49,7 @@ public class OR_Refinement extends Expression {
 		}
 		return result;
 	}
+	
 	@Override
 	public double[] simulate(Solution s) {
 		String option = s.getOption(decision_);
