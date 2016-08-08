@@ -1,12 +1,12 @@
-package uk.ac.ucl.cs.radar.commandline;
+package radar.commandline;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.ucl.cs.radar.model.Model;
-import uk.ac.ucl.cs.radar.model.Objective;
+import radar.model.Model;
+import radar.model.Objective;
 
 public class InputValidator {
 	

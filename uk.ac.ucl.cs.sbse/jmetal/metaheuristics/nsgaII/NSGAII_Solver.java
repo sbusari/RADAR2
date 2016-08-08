@@ -21,8 +21,8 @@ import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-import uk.ac.ucl.cs.radar.model.SbseData;
-import uk.ac.ucl.cs.radar.model.SolutionQuality;
+import radar.model.SbseData;
+import radar.model.SolutionQuality;
 	
 	public class NSGAII_Solver {
 	public static Logger      logger_ ;      // Logger object

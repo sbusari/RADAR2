@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import radar.model.Decision;
 import jmetal.core.Problem;
 import jmetal.core.SolutionType;
 import jmetal.core.Variable;
 import jmetal.encodings.variable.BitVector;
 import jmetal.util.PseudoRandom;
-import uk.ac.ucl.cs.radar.model.Decision;
 
 
 public class ArrayBitVectorSolutionType extends SolutionType{

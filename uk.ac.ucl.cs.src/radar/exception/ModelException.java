@@ -1,4 +1,4 @@
-package uk.ac.ucl.cs.radar.exception;
+package radar.exception;
 
 import java.io.Serializable;
 

@@ -27,8 +27,8 @@ import jmetal.util.JMException;
 import java.io.*;
 import java.util.*;
 
-import uk.ac.ucl.cs.radar.model.SbseAlgorithm;
-import uk.ac.ucl.cs.radar.model.SolutionQuality;
+import radar.model.SbseAlgorithm;
+import radar.model.SolutionQuality;
 
 /** 
  * Class representing a SolutionSet (a set of solutions)

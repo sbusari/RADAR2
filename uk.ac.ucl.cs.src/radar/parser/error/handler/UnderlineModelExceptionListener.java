@@ -1,4 +1,4 @@
-package uk.ac.ucl.cs.radar.parser.error.handler;
+package radar.parser.error.handler;
 import org.antlr.v4.runtime.*;
 
 import java.util.*;

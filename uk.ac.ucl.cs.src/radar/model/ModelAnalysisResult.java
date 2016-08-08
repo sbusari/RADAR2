@@ -1,10 +1,10 @@
-package uk.ac.ucl.cs.radar.model;
+package radar.model;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.ucl.cs.radar.utilities.Helper;
+import radar.utilities.Helper;
 
 
 public class ModelAnalysisResult {

@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import uk.ac.ucl.cs.radar.model.ExperimentData;
-import uk.ac.ucl.cs.radar.model.SbseAlgorithm;
-import uk.ac.ucl.cs.radar.model.SbseData;
+import radar.model.ExperimentData;
+import radar.model.SbseAlgorithm;
+import radar.model.SbseData;
 import jmetal.core.Problem;
 import jmetal.core.Solution;
 import jmetal.encodings.solutionType.ArrayBitVectorSolutionType;

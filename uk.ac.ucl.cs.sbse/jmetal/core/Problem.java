@@ -26,7 +26,7 @@ import jmetal.util.JMException;
 import java.io.Serializable;
 import java.util.List;
 
-import uk.ac.ucl.cs.radar.model.SbseData;
+import radar.model.SbseData;
 
 /**
  * Abstract class representing a multiobjective optimization problem

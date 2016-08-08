@@ -1,4 +1,4 @@
-package uk.ac.ucl.cs.radar.model;
+package radar.model;
  abstract class Statistic {
 	Expression expression_;
 	public Expression getObjExpression(){

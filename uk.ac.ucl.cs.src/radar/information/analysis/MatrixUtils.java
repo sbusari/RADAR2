@@ -1,6 +1,6 @@
-package uk.ac.ucl.cs.radar.information.analysis;
+package radar.information.analysis;
 
-import uk.ac.ucl.cs.radar.exception.StatsException;
+import radar.exception.StatsException;
 
 /**
  * @author David Stefan

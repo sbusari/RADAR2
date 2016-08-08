@@ -1,6 +1,6 @@
-package uk.ac.ucl.cs.radar.model;
+package radar.model;
 
-import uk.ac.ucl.cs.radar.utilities.Statistics;
+import radar.utilities.Statistics;
 
 class Expectation extends Statistic {
 	public Expectation() {

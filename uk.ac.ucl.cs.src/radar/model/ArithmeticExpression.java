@@ -1,4 +1,4 @@
-package uk.ac.ucl.cs.radar.model;
+package radar.model;
 
 
 abstract class ArithmeticExpression extends Expression {

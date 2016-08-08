@@ -1,4 +1,4 @@
-package uk.ac.ucl.cs.radar.utilities;
+package radar.utilities;
 
 /**
  * @author INTEGRALSABIOLA
