@@ -20,20 +20,20 @@ public class ConfigSetting {
 	public static int THREADS=1;
 	public static String Emergency_Response_System="ERAM";
 	public static long SEED= 20140604; //
-	public static String PCFDM_3OBJ= "/subjectmodels/PCFDM_FULL.gm";
+	public static String PCFDM_3OBJ= "/uk.ac.ucl.cs.subjectmodels/PCFDM_FULL.gm";
 	public static int MAX_EVALUATIONS=4;
 	//public static int MAX_EVALUATIONS=100;
 	public static String Fraud_Detection_System= "PCFDM";
 	public static String MARKET_SYSTEM= "MKT";
 	public static String NASA_System= "NASAM";
 	public static boolean RUN_ALL_APPROX_ALG= true;
-	public static String PCFDM_DECISIONSUBSET= "/subjectmodels/PCFDM_FULL.gm";
+	public static String PCFDM_DECISIONSUBSET= "/uk.ac.ucl.cs.subjectmodels/PCFDM_FULL.gm";
 	public static String X_Ray_Cargo_System= "XCSM";
 	public static String Building_Security_Policy_System ="BSPDM";
-	public static String DECISION_MODEL_PATH= "/subjectmodels/PCFDM_FULL.gm";
+	public static String DECISION_MODEL_PATH= "/uk.ac.ucl.cs.subjectmodels/PCFDM_FULL.gm";
 	public static String OPTIMISATION_TYPE ="BOTH";
 	public static String SUBJECT_SYSTEMS= "--Select--,Emergency Response System,Fraud Detection System,NASA System,Building Policy System";
-	public static String XCSM="/subjectmodels/PCFDM_FULL.gm";
+	public static String XCSM="/uk.ac.ucl.cs.subjectmodels/PCFDM_FULL.gm";
 	public static int ALGORITHM_RUNS=3;
 	//public static int ALGORITHM_RUNS=3;
 	public static String DEFAULT_APRROX_ALGORITHM= "NSGAII";
@@ -42,11 +42,11 @@ public class ConfigSetting {
 	
 	public static String OUTPUT_DIRECTORY= "/Users/INTEGRALSABIOLA/Downloads/Thesis/";
 	public static String ROOTDIRECTORY= "/Users/INTEGRALSABIOLA/Documents/JavaProject/RADAR";
-	public static String NASAM ="/subjectmodels/ECS.gm";
-	public static String ERAM ="/subjectmodels/SAS.gm";
-	public static String BSPDM ="/subjectmodels/BSPDM.gm";
-	public static String PCFDM= "/subjectmodels/PCFDM_FULL.gm";
-	public static String CBA= "/subjectmodels/CBA.gm";
+	public static String NASAM ="/uk.ac.ucl.cs.subjectmodels/ECS.gm";
+	public static String ERAM ="/uk.ac.ucl.cs.subjectmodels/SAS.gm";
+	public static String BSPDM ="/uk.ac.ucl.cs.subjectmodels/BSPDM.gm";
+	public static String PCFDM= "/uk.ac.ucl.cs.subjectmodels/PCFDM_FULL.gm";
+	public static String CBA= "/uk.ac.ucl.cs.subjectmodels/CBA.gm";
 	
 	/*public static String OUTPUT_DIRECTORY = "/home/sbusari/Thesis/";
 	public static String ROOTDIRECTORY = "/home/sbusari/Thesis";
