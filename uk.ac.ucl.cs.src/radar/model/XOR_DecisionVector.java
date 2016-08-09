@@ -6,16 +6,12 @@ import java.util.Map;
 
 import radar.utilities.PseudoRandom;
 
- class XOR_DecisionVector extends DecisionVector {
+ class XOR_DecisionVector {
 
 	Model semanticModel_;
-	public XOR_DecisionVector ( Model semanticModel ){
-		semanticModel_ = semanticModel;
-	}
-	
-	public List<Integer[]> encodeExactDecisionVector(Integer[] selectedOptionIndex){
+	public static List<Integer[]> encodeExactDecisionVector(Model model, Integer[] selectedOptionIndex){
 		List<Integer[]> decisionVector = new ArrayList<Integer[]>();
-		Map<String, Decision> decisions = semanticModel_.getDecisions();
+		List<Decision> decisions = model.getDecisions();
 		for (int j =0 ; j < selectedOptionIndex.length; j ++){
 			Decision d = decisions.get(j);
 			Integer[] var = new Integer[d.getOptions().size()];
@@ -25,12 +21,11 @@ import radar.utilities.PseudoRandom;
 		}
 		return decisionVector;
 	}
-	public List<Integer[]> encodeSBSEDecisionVector(){
+	public static List<Integer[]> encodeSBSEDecisionVector(Model model){
 		List<Integer[]> decisionVector = new ArrayList<Integer[]>();
-		Map<String, Decision> decisions = semanticModel_.getDecisions();
-		int i =0;
-		for (Map.Entry<String, Decision> entry : decisions.entrySet()){
-			Integer[] var = new Integer[entry.getValue().getOptions().size()];
+		List<Decision> decisions = model.getDecisions();
+		for (int i =0; i < decisions.size(); i ++){
+			Integer[] var = new Integer[decisions.get(i).getOptions().size()];
 			for (int j = 0; j < var.length; j++){
 				var[j] = 0;
 			}

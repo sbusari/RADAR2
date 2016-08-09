@@ -19,27 +19,30 @@ public class SbseAlgorithm  extends Algorithm{
 	List<SolutionValues> evaluatedSolutions_;
 	ExperimentData expData_;
 	String algorithm_;
+	SolutionQuality solutionQuality_;
 	public SbseAlgorithm(){}
-	public SbseAlgorithm (String algorithm, ExperimentData expData){
-		semanticModel_ = expData.getSemanticModel();
-		decisionVector_ = getDecisionVector(semanticModel_);
-		evaluatedSolutions_ = new ArrayList<SolutionValues>();
-		expData_ = expData;
-		algorithm_ = algorithm;
+	public long getRunTime (){
+		return runTime_;
 	}
-	@Override
-	public List<SolutionValues> solve() {
+	public SolutionQuality getSolutionQuality (){
+		return solutionQuality_;
+	}
+	private List<Integer[]> getDecisionVectorBlock (Model m){
+		return XOR_DecisionVector.encodeSBSEDecisionVector(m);
+		
+	}
+	public Map<Solution, double []> solve(String algorithm, Model semanticModel,  ExperimentData expData, SbseParameter param, List<Integer[]> decisionVectorBlock ) {
 		List<SolutionValues> results = new ArrayList<SolutionValues>();
 		try {
 			// solutions for each run
-			SolutionSet approximateSolutions = getApproximateSolution ();
+			SolutionSet approximateSolutions = getApproximateSolution ( algorithm, semanticModel ,  expData,  param, getDecisionVectorBlock (semanticModel));
 			for (int i = 0; i <approximateSolutions.size(); i ++ ){
-				SolutionValues solutionvalues = convertSbseSolutionToRadarSolution(approximateSolutions.get(i));
+				SolutionValues solutionvalues = convertSbseSolutionToRadarSolution(approximateSolutions.get(i),semanticModel);
 				results.add(solutionvalues);
 			}
 			SolutionSet evaluatedSolutions = approximateSolutions.getEvaluatedSolutions();
 			for (int i = 0; i <evaluatedSolutions.size(); i ++ ){
-				SolutionValues evaluatedSolution = convertSbseSolutionToRadarSolution(evaluatedSolutions.get(i));
+				SolutionValues evaluatedSolution = convertSbseSolutionToRadarSolution(evaluatedSolutions.get(i),semanticModel);
 				evaluatedSolutions_.add(evaluatedSolution);
 			}
 			runTime_ = evaluatedSolutions.getExecutionTime();
@@ -48,28 +51,26 @@ public class SbseAlgorithm  extends Algorithm{
 				| IOException e) {
 			e.printStackTrace();
 		}
-		return results;
+		return null;
 	}
-	SolutionValues convertSbseSolutionToRadarSolution (jmetal.core.Solution solution) throws JMException{
+	SolutionValues convertSbseSolutionToRadarSolution (jmetal.core.Solution solution, Model semanticModel ) throws JMException{
 		SolutionValues result = new SolutionValues();
-		List<Objective> objectives = new ArrayList<Objective>(semanticModel_.getObjectives().values());
+		List<Objective> objectives = semanticModel.getObjectives();
 		Map<Objective, Double> objValue = new LinkedHashMap<Objective, Double>();
 		for (int i =0 ; i < objectives.size(); i ++){
 			objValue.put(objectives.get(i), solution.getObjective(i));
 		}
 		result.setObjectiveValue(objValue);
-		Solution selectedSolution = convertDecisionVectorToSolution(solution.getArrayBitVectorVariables(), solution.getProblem().getSbseData());	
-		selectedSolution.setSemanticModel(semanticModel_);
+		Solution selectedSolution = convertDecisionVectorToSolution(solution.getArrayBitVectorVariables(), semanticModel);	
+		selectedSolution.setSemanticModel(semanticModel);
 		result.setSolution(selectedSolution);
 		return result;
 	}
-	public SolutionSet getApproximateSolution() throws SecurityException, ClassNotFoundException, JMException, IOException {
-		List<Integer []> decisionVectorBlock = decisionVector_.encodeSBSEDecisionVector();
-		SbseData sbsedata =  new SbseData (this.expData_, this.semanticModel_.getObjectives().size(),decisionVectorBlock );
+	public SolutionSet getApproximateSolution(String algorithm,  Model m , ExperimentData data, SbseParameter param, List<Integer[]> decisionVectorBlock) throws SecurityException, ClassNotFoundException, JMException, IOException {
 		SolutionSet optimalSolutions = new SolutionSet();
-		switch (algorithm_) {
+		switch (algorithm) {
 			case "NSGAII": {
-				optimalSolutions = new NSGAII_Solver().solve(sbsedata);
+				optimalSolutions = new NSGAII_Solver().solve( m , data, param, decisionVectorBlock);
 				break;
 			}
 			default:
@@ -82,7 +83,7 @@ public class SbseAlgorithm  extends Algorithm{
 	}
 	
 	public String decisionVectorToString  (jmetal.core.Solution solution) throws JMException{
-		Solution s = convertDecisionVectorToSolution(solution.getArrayBitVectorVariables(), solution.getProblem().getSbseData());
+		Solution s = convertDecisionVectorToSolution(solution.getArrayBitVectorVariables(), solution.getProblem().getSemanticModel());
 		String result ="";
 		for (Map.Entry<Decision, String> entry : s.getSelection().entrySet()){
 			result +=  entry.getValue() + ",";
@@ -90,10 +91,10 @@ public class SbseAlgorithm  extends Algorithm{
 		result= result.substring(0, result.length()-1);
 		return result;
 	}
-	public jmetal.core.Solution evaluate (jmetal.core.Solution solution) throws JMException{
+	public jmetal.core.Solution evaluate (jmetal.core.Solution solution, Model semanticModel) throws JMException{
 		List<Variable[]> variable  = solution.getArrayBitVectorVariables(); 
-		Solution s = convertDecisionVectorToSolution(variable, solution.getProblem().getSbseData());
-		Simulator simulator = new Simulator(s, solution.getProblem().getSbseData().getExperimentData().getSemanticModel());
+		Solution s = convertDecisionVectorToSolution(variable,semanticModel);
+		Simulator simulator = new Simulator(s, semanticModel);
 		Map<Objective, Double> fitness =  simulator.computeFitnessValues();
 		int i =0;
 		for (Map.Entry<Objective, Double> entry: fitness.entrySet()){
@@ -107,10 +108,9 @@ public class SbseAlgorithm  extends Algorithm{
 		}
 		return solution;
 	}
-	Solution convertDecisionVectorToSolution (List<Variable[]> decisionVector, SbseData data ) throws JMException{
+	Solution convertDecisionVectorToSolution (List<Variable[]> decisionVector, Model semanticModel) throws JMException{
 		Solution result = new Solution ();
-		Map<String, Decision> decisions = data.getExperimentData().getSemanticModel().getDecisions();
-		List<Decision> decisionList = new ArrayList<Decision>(decisions.values());
+		List<Decision> decisionList = semanticModel.getDecisions();
 		for (int i =0; i < decisionVector.size(); i++ ){
 			 String selectedOption = "";
 			 for (int j =0; j < decisionVector.get(i).length; j++ ){

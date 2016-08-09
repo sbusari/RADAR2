@@ -8,6 +8,7 @@ public class ConfigSetting {
 
 	public static String MODEL_BEGIN_SYMBOL = "```";
 	public static String MODEL_END_SYMBOL = "```";
+	public static int NUMBER_OF_ALGORITHMS =6;
 	public static String KIND_OF_PROBLEM="DesignOptimisation";
 	public static String MKT= "/subjectmodels/MKT.gm";
 	public static String EXPERIMENT_NAME= "NEW EXPERIMENT";
@@ -15,11 +16,11 @@ public class ConfigSetting {
 	public static String DEFAULT_EXACT_ALGORITHM= "ExhaustiveSearch";
 	public static boolean USE_DEFAULT_PARAMETER_SETTINGS= true;
 	public static String APROXIMATE_ALGORITHM_LIST= "NSGAII,SPEA2,IBEA";
-	public static int NUMBER_OF_SIMULATION=1000000;
+	public static int NUMBER_OF_SIMULATION=10000;
 	public static double MUTATION= 0.05;
 	public static int THREADS=1;
 	public static String Emergency_Response_System="ERAM";
-	public static long SEED= 20140604; //
+	public static long SEED= 0; // 20140604; //
 	public static String PCFDM_3OBJ= "/uk.ac.ucl.cs.subjectmodels/PCFDM_FULL.gm";
 	//public static int MAX_EVALUATIONS=4;
 	public static int MAX_EVALUATIONS=1000;

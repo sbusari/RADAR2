@@ -17,11 +17,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
+import radar.model.ExperimentData;
+import radar.model.Model;
 import radar.model.SbseData;
+import radar.model.SbseParameter;
 import radar.model.SolutionQuality;
 	
 	public class NSGAII_Solver {
@@ -39,7 +43,7 @@ import radar.model.SolutionQuality;
 	*      - jmetal.metaheuristics.nsgaII.NSGAII_main problemName paretoFrontFile
 	*/
 	@SuppressWarnings("unchecked")
-	public SolutionSet solve(SbseData data) throws 
+	public SolutionSet solve(Model m , ExperimentData data, SbseParameter param, List<Integer[]> decisionVectorBlock ) throws 
 	                              JMException, 
 	                              SecurityException, 
 	                              IOException, 
@@ -62,22 +66,22 @@ import radar.model.SolutionQuality;
 	//logger_.addHandler(fileHandler_) ;
 	    
 	indicators = null;
-	problem = new DecisionProblem(data);
+	problem = new DecisionProblem(m, decisionVectorBlock);
 
 	algorithm = new NSGAII(problem);
 	
 	// Algorithm parameters
-	algorithm.setInputParameter("populationSize",data.getExperimentData().getPopulationSize());
-	algorithm.setInputParameter("maxEvaluations",data.getExperimentData().getMaxEvaluation());
+	algorithm.setInputParameter("populationSize",param.getPopulationSize());
+	algorithm.setInputParameter("maxEvaluations",param.getMaxEvaluation());
 	
 	// Mutation and Crossover for Real codification 
 	parameters = new HashMap() ;
-	parameters.put("probability", data.getExperimentData().getCrossoverProbability()) ;
+	parameters.put("probability", param.getCrossoverProbability()) ;
 	parameters.put("distributionIndex", 20.0) ;
 	crossover = CrossoverFactory.getCrossoverOperator("RadarSinglePointCrossover", parameters);                   
 	
 	parameters = new HashMap() ;
-	parameters.put("probability", data.getExperimentData().getMutationProbability()) ;
+	parameters.put("probability", param.getMutationProbability()) ;
 	parameters.put("distributionIndex", 20.0) ;
 	mutation = MutationFactory.getMutationOperator("RadarBitFlipMutation", parameters);                    
 	
@@ -104,12 +108,12 @@ import radar.model.SolutionQuality;
 	
 	// Result messages 
 	//logger_.info("Variables values have been writen to file VAR");
-	population.printArrayBitVectorVariablesToFile(data.getExperimentData().getOutputDirectory() + "VAR");    
+	//population.printArrayBitVectorVariablesToFile(data.getExperimentData().getOutputDirectory() + "VAR");    
 	//logger_.info("Objectives values have been writen to file FUN");
-	population.printObjectivesToFile(data.getExperimentData().getOutputDirectory() +"FUN");
+	//population.printObjectivesToFile(data.getExperimentData().getOutputDirectory() +"FUN");
 	
 	
-	String referenceFrontPath = data.getExperimentData().getOutputDirectory() + data.getExperimentData().getProblemName() + "/referenceFronts";
+	String referenceFrontPath = data.getOutputDirectory() + data.getProblemName() + "/referenceFronts";
 	
 	File f = new File (referenceFrontPath); 
 	if (f.exists()){

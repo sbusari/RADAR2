@@ -1,91 +1,70 @@
 package radar.model;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-class GraphGenerator {
-	Model semanticModel_;
-	static int operatorId_;
-	Map<String, Node> nodeList_;
-	List<String> edgeStatements_;
-	public GraphGenerator (){
-		nodeList_ = new LinkedHashMap<String, Node>();
-		edgeStatements_ = new ArrayList<String>();
+public class GraphGenerator {
+	
+	public String generateVariableGraph (Model m){
+		// generate variable dependency graphs
+		return generateVariableDependencyGraph(m);
 	}
-	public GraphGenerator (Model semanticModel){
-		semanticModel_ =semanticModel;
-		nodeList_ = new LinkedHashMap<String, Node>();
-		edgeStatements_ = new ArrayList<String>();
+	public String generateDecisionGraph (Model m){
+		// generate decision graph
+		return generateDecisionDependencyGraph(m);
 	}
-	public Node addDOTNode (){
-		return new Node();
-	}
-	public void addEdge (String child, String parent){
-		//String edge = parent+ "->" +  child;
-		String edge  = child+ "->" +  parent;
-		if ( !edgeStatements_.contains(edge)){
-			edgeStatements_.add(edge);
-		}
-	}
-	public void addDOTNodeToList (Node node){
-		nodeList_.put(node.getLabel(), node);
-	}
-	public Map<String, Node> getNodeList (){
-		return nodeList_;
-	}
-	public List<String> getEdgeStatements (){
-		return edgeStatements_;
-	}
-	public void incrementOperatorID (){
-		operatorId_ = operatorId_ + 1;
-	}
-	public int getOperatorID (){
-		return operatorId_;
-	}
-	public void createVariableGraph(){
-		List<Objective> objList = new ArrayList<Objective>(this.semanticModel_.getObjectives().values());
+	private String generateDecisionDependencyGraph (Model m){
+		String result ="digraph G { \n";
+		result += "rankdir = BT; \n";
+		result += "edge[dir=back]; \n";
+
+		Graph de = new Graph(m);
+		de.createDecisionsGraph();
 		
-		for (int i =0; i < objList.size(); i ++){
-			Objective obj = objList.get(i);
-			Node obj_node = new Node ();
-			obj_node.setLabel(obj.getLabel());
-			obj_node.setShape("box");
-			obj_node.setStyle("");
-			this.nodeList_.put(obj.getLabel(), obj_node);
-			QualityVariable qvObjReferTo = obj.getQualityVariable();
-			if (!this.nodeList_.containsKey(qvObjReferTo.getLabel())){
-				List<Node> qv_nodes = qvObjReferTo.addNodeToVariableGraph(this , this.semanticModel_, qvObjReferTo.getLabel());
-				for (int j=0; j < qv_nodes.size(); j ++){
-					this.addEdge(qv_nodes.get(j).getLabel(), obj_node.getLabel());
-				}
-			}else{
-				Node qv_node = this.nodeList_.get(qvObjReferTo.getLabel());
-				this.addEdge(qv_node.getLabel(), obj_node.getLabel());
+		Map<String, Node> allEntries = de.getNodeList();
+		for (Map.Entry<String, Node> entry: allEntries.entrySet()){
+			String shape = "shape="+ entry.getValue().getShape();
+			String style = (entry.getValue().getStyle() != "")?  ", style=" + entry.getValue().getStyle(): "";
+			System.out.println( entry.getKey() + "[" + shape + style+ "]");
+			result += entry.getKey() + "[" + shape + style+ "]" + "\n";
+		}
+		
+		List<String> allEdgeEntries = de.getEdgeStatements();
+		for (String entry: allEdgeEntries){
+			String [] entryElement = entry.split("->");
+			if (!entryElement[0].equals(entryElement[1])){
+				result += entry + "\n";
+				System.out.println( entry);
 			}
 		}
-		
+		result += "}";
+		return result;
 	}
-	public void createDecisionsGraph(){
-		List<Objective> objList = new ArrayList<Objective>(this.semanticModel_.getObjectives().values());
-		Node obj_node = new Node ();
-		obj_node.setLabel(this.semanticModel_.getModelName() );
-		obj_node.setShape("circle");
-		obj_node.setStyle("");
-		this.nodeList_.put(obj_node.getLabel(), obj_node);
-		for (int i =0; i < objList.size(); i ++){
-			QualityVariable qvObjReferTo =objList.get(i).getQualityVariable();
-			if (!this.nodeList_.containsKey(qvObjReferTo.getLabel())){
-				List<Node> qv_nodes = qvObjReferTo.addNodeToDecisionGraph(this , this.semanticModel_, qvObjReferTo.getLabel());
-				for (int j=0; j < qv_nodes.size(); j ++){
-					this.addEdge(qv_nodes.get(j).getLabel(), obj_node.getLabel());
-				}
-			}else{
-				Node qv_node = this.nodeList_.get(qvObjReferTo.getLabel());
-				this.addEdge(qv_node.getLabel(), obj_node.getLabel());
-			}
+	private String generateVariableDependencyGraph (Model m){
+		String result ="digraph G { \n";
+		result += "rankdir = BT; \n";
+		result += "edge[dir=forward]; \n";
+		
+		Graph de = new Graph(m);
+		de.createVariableGraph();
+		
+		Map<String, Node> allEntries = de.getNodeList();
+		for (Map.Entry<String, Node> entry: allEntries.entrySet()){
+			String shape = "shape="+ entry.getValue().getShape();
+			String style = (entry.getValue().getStyle() != "")?  ", style=" + entry.getValue().getStyle(): "";
+			System.out.println( entry.getKey() + "[" + shape + style+ "]");
+			result +=  entry.getKey() + "[" + shape + style+ "]" + "\n";
 		}
 		
+		List<String> allEdgeEntries = de.getEdgeStatements();
+		for (String entry: allEdgeEntries){
+			String [] entryElement = entry.split("->");
+			if (!entryElement[0].equals(entryElement[1])){
+				result += entry + "\n";
+				System.out.println( entry);
+			}
+		}
+		result += "}";
+		return result;
 	}
 }

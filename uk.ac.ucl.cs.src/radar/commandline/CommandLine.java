@@ -3,11 +3,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import radar.model.AnalysisResult;
 import radar.model.ExperimentData;
+import radar.model.GraphGenerator;
 import radar.model.Model;
-import radar.model.ModelAnalysisResult;
+import radar.model.ModelSolver;
 import radar.model.OptimisationType;
 import radar.model.Parser;
+import radar.model.SbseParameter;
 import radar.utilities.ConfigSetting;
 import radar.utilities.Helper;
 
@@ -39,7 +42,7 @@ public class CommandLine {
 	public boolean decision = false;
 	
 	@Parameter(names = "--nbr_simulation", description = "Number of simulation run. Input <sample size> .")
-	public Integer nbr_Simulation = 1000000;
+	public Integer nbr_Simulation = 10000;
 	
 	@Parameter(names = "--threads", description = "Specifies the number of threads to run. Input <number of threads>. "  )
 	public Integer threads = 1;
@@ -93,75 +96,56 @@ public class CommandLine {
 		return result;
 	}
 	
-	void addAlgorithmParameterToExperiementData (ExperimentData dataInput,  List<String> algorithmParameter){
+	void setSpecifiedSbseParameter (SbseParameter param,  List<String> algorithmParameter){
 		// one has to specify 5 paramters
-		if (algorithmParameter  != null && algorithmParameter.size() == 5) {
-			dataInput.setCrossoverProbability(Double.parseDouble(algorithmParameter.get(1).trim()));
-			dataInput.setMutationProbability(Double.parseDouble(algorithmParameter.get(2).trim()));
+		if (algorithmParameter  != null && algorithmParameter.size() == ConfigSetting.NUMBER_OF_ALGORITHMS -1) {
+			param.setCrossoverProbability(Double.parseDouble(algorithmParameter.get(1).trim()));
+			param.setMutationProbability(Double.parseDouble(algorithmParameter.get(2).trim()));
 			if (Integer.parseInt(algorithmParameter.get(0).trim()) % 2 != 0){
-				dataInput.setPopulationSize(Integer.parseInt(algorithmParameter.get(0).trim()) +1);
+				param.setPopulationSize(Integer.parseInt(algorithmParameter.get(0).trim()) +1);
 			}else{
-				dataInput.setPopulationSize(Integer.parseInt(algorithmParameter.get(0).trim().trim()));
+				param.setPopulationSize(Integer.parseInt(algorithmParameter.get(0).trim().trim()));
 			}
-			dataInput.setAlgorithmRuns(Integer.parseInt(algorithmParameter.get(4).trim()));
-			dataInput.setMaxEvaluation(Integer.parseInt(algorithmParameter.get(3).trim()));
+			param.setNbr_Runs(Integer.parseInt(algorithmParameter.get(4).trim()));
+			param.setMaxEvaluation(Integer.parseInt(algorithmParameter.get(3).trim()));
 		}else{
 			throw new RuntimeException ("Algorithm parameters must be 5 or specify the use default algorithm.");
 		}
 		
 	}
-    void setAlgorithmDefaultParameters (ExperimentData dataInput){
-    	dataInput.setCrossoverProbability(ConfigSetting.CROSSOVER);
-		dataInput.setMutationProbability(ConfigSetting.MUTATION);
+    void setSbseParameters (SbseParameter param){
+    	param.setCrossoverProbability(ConfigSetting.CROSSOVER);
+    	param.setMutationProbability(ConfigSetting.MUTATION);
 		if (ConfigSetting.POPULATION_SIZE % 2 != 0){
-			dataInput.setPopulationSize(ConfigSetting.POPULATION_SIZE +1);
+			param.setPopulationSize(ConfigSetting.POPULATION_SIZE +1);
 		}else{
-			dataInput.setPopulationSize(ConfigSetting.POPULATION_SIZE);
+			param.setPopulationSize(ConfigSetting.POPULATION_SIZE);
 		}
-		dataInput.setAlgorithmRuns(ConfigSetting.ALGORITHM_RUNS);
-		dataInput.setMaxEvaluation(ConfigSetting.MAX_EVALUATIONS);
+		param.setNbr_Runs(ConfigSetting.ALGORITHM_RUNS);
+		param.setMaxEvaluation(ConfigSetting.MAX_EVALUATIONS);
 
+    }
+    SbseParameter validateSbseParameter () throws Exception{
+    	SbseParameter sbse_param = new SbseParameter();
+    	// validate inputs
+    	InputValidator.validateSbseParameters(defaultAlgorithmParameter, solve, algorithmParameter);    	
+    	InputValidator.validateSbseParameterValues(algorithmParameter); 
+    	
+    	return sbse_param;
     }
 	ExperimentData populateExperimentData () throws Exception{
 		ExperimentData result = new ExperimentData();
-		// validate inputs
-		InputValidator.validateAlgorithmParameters(algorithmParameter); 
 		InputValidator.validateSolveNotNull(solve);
-		InputValidator.validateSbseParameters(defaultAlgorithmParameter, solve, algorithmParameter);    	
 		InputValidator.validateModelPath(model);
 		InputValidator.validateOutputPath(output);
 		// populate data
-		
 		result.setUseDefaultParameterSettings(defaultAlgorithmParameter);
-		result.setRunAllApproxAlgorithms(solve != null && solve.size() == 6? true:false);
+		result.setRunAllApproxAlgorithms(solve != null && solve.size() == ConfigSetting.NUMBER_OF_ALGORITHMS? true:false);
 		result.setSimulationNumber(nbr_Simulation);
-		result.setDefaultApproximateAlg("NSGAII");
-		result.setExactAlgorithm("ExhaustiveSearch");
 		result.setThreads(threads);
 		result.setExperimentName(expName != null?expName:"NewExperiemnt");
 		if (output.trim().charAt(output.length()-1) != '/'){
 			result.setOutputDirectory(output.trim() +"/");
-		}
-		
-		String typeOfOptimisation = "EXACT";
-		OptimisationType optimisationType = null;
-		
-		
-		if (runSbseAlgorithm()){
-			typeOfOptimisation = "APPROXIMATE";
-			if (defaultAlgorithmParameter == true){
-				setAlgorithmDefaultParameters(result);
-			}else{
-				addAlgorithmParameterToExperiementData (result, algorithmParameter);
-			}
-			 optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
-			result.setTypeOfOptimisation(optimisationType);
-			result.setApproxAlgorithmList(solve.toArray(new String[solve.size()]));
-		}else{
-			typeOfOptimisation = "EXACT";
-			optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
-			result.setTypeOfOptimisation(optimisationType);
-			result.setAlgorithmRuns(1);
 		}
 		return result;
 		
@@ -189,36 +173,57 @@ public class CommandLine {
     	try {
     		// populate model and algorithm data
     		ExperimentData dataInput = populateExperimentData();
+    		String typeOfOptimisation = "EXACT";
+    		OptimisationType optimisationType = null;
+    		SbseParameter sbse_param = new SbseParameter();
+    		if (runSbseAlgorithm()){
+    			validateSbseParameter();
+    			typeOfOptimisation = "APPROXIMATE";
+    			if (defaultAlgorithmParameter == true){
+    				setSbseParameters(sbse_param);
+    			}else{
+    				setSpecifiedSbseParameter (sbse_param, algorithmParameter);
+    			}
+    			optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
+    			sbse_param.setApproxAlgorithmList(solve.toArray(new String[solve.size()]));
+    		}else{
+    			typeOfOptimisation = "EXACT";
+    			optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
+    		}
+    		dataInput.setTypeOfOptimisation(optimisationType);
+    		
     		// get sematic model from model file
     		Model semanticModel = loadModel ();
     		semanticModel.setNbr_Simulation(nbr_Simulation);
     		
     		// update experiemnt data with semantic model and information value objective.
-    		dataInput.setSemanticModel(semanticModel);
     		dataInput.setProblemName(semanticModel.getModelName());
     		InputValidator.objectiveExist(semanticModel, infoValueObjective);
-    		dataInput.setInformationValueObjective(infoValueObjective);
 
     		// analyse model
-    		ModelAnalysisResult result = null; 
+    		AnalysisResult result = null; 
 			if (dataInput.getTypeOfOptimisation().equals(OptimisationType.EXACT)){
-				result = new ModelAnalysisResult("ExhaustiveSearch", dataInput);
-				result.analyse();
-				result.resultsToOutputFolder(0);
-				result.printReferenceFronts();
-				// save into the reference front folder to be used for solution quality evaluation
+				result = ModelSolver.solve(semanticModel);
+				String analysisResult = result.analysisToString();
+				Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/" , analysisResult, dataInput.getProblemName() +".out", false);
+				Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/referenceFronts/" , result.getReferenceObjectives(), "objectives", true);
+				Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/referenceFronts/" , result.getReferenceDecisions(), "decisions", true);
 			}else{
-				for (int  i=0 ; i < dataInput.getApproxAlgorithmList().length; i ++){
-					// delete previous result  for this algorithm
-					for (int j =0;  j <dataInput.getAlgorithmRuns(); j++){
-						String algorithm = dataInput.getApproxAlgorithmList()[i];
+				/*for (int  i=0 ; i < sbse_param.getApproxAlgorithmList().length; i ++){
+					for (int j =0;  j <sbse_param.getNbr_Runs(); j++){
+						String algorithm = sbse_param.getApproxAlgorithmList()[i];
 						result = new ModelAnalysisResult(algorithm, dataInput);
 						result.analyse();
 						result.resultsToOutputFolder(j);
 					}
-				}
+				}*/
 			}
-			result.graphsToOutputFolder();
+			
+			// generate graphs
+			String variableGraph = new GraphGenerator().generateVariableGraph(semanticModel);
+			String decisionGraph = new GraphGenerator().generateDecisionGraph(semanticModel);
+			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", variableGraph, "vgraph.dot", false);
+			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", decisionGraph, "dgraph.dot", false);
 			
     		if (pareto == true){
     			// display and save the images.

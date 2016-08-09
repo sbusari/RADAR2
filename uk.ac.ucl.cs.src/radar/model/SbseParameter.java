@@ -1,4 +1,5 @@
 package radar.model;
+import java.util.List;
 import java.util.Map;
 
 import radar.utilities.ConfigSetting;
@@ -11,18 +12,11 @@ public class SbseParameter {
 	private double mutationProbability_;
 	private double crossoverProbability_;
 	private String selection_;
+	private int nbr_runs_;
 	private int maxEvaluation_;
+	String[] approxAlgorithmList_;
+	String defaultApproximateAlg_;
 	public SbseParameter(){}
-	public SbseParameter(Parser parserEngine, ExperimentData expData){
-		this.populationSize_ = expData.getUseDefaultParameterSettings() == true? ConfigSetting.POPULATION_SIZE: expData.getPopulationSize() ;	
-		if (this.populationSize_ % 2 != 0){
-			this.populationSize_ = this.populationSize_ +1;
-		}
-		this.crossoverProbability_ = expData.getUseDefaultParameterSettings() == true? ConfigSetting.CROSSOVER: expData.getCrossoverProbability() ;
-		this.mutationProbability_ = expData.getUseDefaultParameterSettings() == true? (double)1/getTotalOptions(parserEngine.getSemanticModel()):expData.getMutationProbability() ;
-		this.maxEvaluation_ = expData.getUseDefaultParameterSettings() == true? ConfigSetting.MAX_EVALUATIONS:expData.getMaxEvaluation();
-
-	}
 
 	public SbseParameter getParameterSettings (Parser parserEngine){
 		
@@ -38,11 +32,11 @@ public class SbseParameter {
 		return param;
 	}
 	private int getTotalOptions (Model semanticModel){
-		Map<String, Decision> decisions  = semanticModel.getDecisions();
+		List <Decision> decisions  = semanticModel.getDecisions();
 		int counter =0;
 	    if(decisions != null){
-	    	for (Map.Entry<String, Decision> entry : decisions.entrySet() ){
-	    		counter= entry.getValue().getOptions().size();
+	    	for (int i=0; i <decisions.size(); i++ ){
+	    		counter= decisions.get(i).getOptions().size();
         	}
 	    }
 	    return counter;
@@ -55,6 +49,12 @@ public class SbseParameter {
 	}
 	public void setMaxEvaluation(int maxEvaluation){
 		maxEvaluation_=maxEvaluation;
+	}
+	public int getNbr_Runs(){
+		return nbr_runs_;
+	}
+	public void setNbr_Runs(int nbr_runs){
+		nbr_runs_=nbr_runs;
 	}
 	public int getMaxEvaluation(){
 		return maxEvaluation_;
@@ -76,5 +76,17 @@ public class SbseParameter {
 	}
 	public String getSelection(){
 		return selection_;
+	}
+	public void setApproxAlgorithmList (String[] approxAlgorithmList ){
+		approxAlgorithmList_ = approxAlgorithmList;
+	}
+	public String[] getApproxAlgorithmList (){
+		return approxAlgorithmList_;
+	}
+	public void setDefaultApproximateAlg(String defaultApproximateAlg ){
+		defaultApproximateAlg_ = defaultApproximateAlg;
+	}
+	public String getDefaultApproximateAlg(){
+		return defaultApproximateAlg_;
 	}
 }

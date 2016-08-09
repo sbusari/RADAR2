@@ -24,14 +24,14 @@ class Identifier extends Expression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,String qv_name) {
+	public List<Node> addNodeToDecisionGraph(Graph g, Model model,String qv_name) {
 		Map<String, QualityVariable> qvList = model.getQualityVariables();
 		QualityVariable qv = qvList.get(id_);
 		List<Node> children = qv.addNodeToDecisionGraph(g,model,id_.replaceAll(" ", "_"));
 		return children;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
+	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
 		List<Node> results = new ArrayList<Node>();
 		Node id = createDOTNode (g, id_,  "box", "rounded");

@@ -12,8 +12,8 @@ import java.util.List;
 	List<Solution> alternatives_;
 	public ExhaustiveSearch (Model model){
 		semanticModel_ = model;
-		decisionVector_ = getDecisionVector(model);
-		alternatives_ = new SolutionAnalyser(semanticModel_).getAllSolutions();
+		//decisionVector_ = getDecisionVector(model);
+		alternatives_ =semanticModel_.getAllSolutions();
 		solutionValues_ = new ArrayList<SolutionValues>();
 	}
 	public SolutionValues solve(Solution s) {

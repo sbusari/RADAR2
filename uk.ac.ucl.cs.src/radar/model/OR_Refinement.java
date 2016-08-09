@@ -17,7 +17,7 @@ public class OR_Refinement extends Expression {
 		return expr.simulate(s);
 	}
 	@Override
-	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,
+	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
 			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		Node decision = createDOTNode (g, "\"" +  decision_.getDecisionLabel().replaceAll(" ", "_") + "\"","polygon", "diagonals");
@@ -38,7 +38,7 @@ public class OR_Refinement extends Expression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
+	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		for (Map.Entry<String, Expression> entry: definition_.entrySet()){

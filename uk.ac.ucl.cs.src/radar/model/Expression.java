@@ -7,9 +7,9 @@ import java.util.List;
 
 	public abstract double [] simulate (Solution s);
 	public Expression() {}
-	public abstract List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model, String qv_name);
-	public abstract List<Node> addNodeToVariableGraph(GraphGenerator g, Model model, String qv_name);
-	public Node createDOTNode (GraphGenerator g, String label, String shape, String style){
+	public abstract List<Node> addNodeToDecisionGraph(Graph g, Model model, String qv_name);
+	public abstract List<Node> addNodeToVariableGraph(Graph g, Model model, String qv_name);
+	public Node createDOTNode (Graph g, String label, String shape, String style){
 		Node n =null;
 		if (!g.getNodeList().containsKey(label)){
 			n = new Node (); 

@@ -73,7 +73,7 @@ public class ModelParsing {
 	public void generateSolutions() throws Exception {
 		Parser model_parser = new Parser (modelString,10000, "");
 		semantic_model = model_parser.getSemanticModel();
-		Map<String , Decision> decisions = semantic_model.getDecisions();
+		List<Decision> decisions = semantic_model.getDecisions();
 		//List<Solution> allSolutions =  new SolutionAnalyser(semantic_model).getAllSolutions() ;
 		//Assert.assertNotSame(0, allSolutions.size());
 	}

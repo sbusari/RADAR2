@@ -70,7 +70,7 @@ class BinaryExpression extends ArithmeticExpression {
 
 	
 	@Override
-	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,String qv_name) {
+	public List<Node> addNodeToDecisionGraph(Graph g, Model model,String qv_name) {
 		List<Node> result = new ArrayList<Node>();
 		List<Node> leftChild = leftExpr_.addNodeToDecisionGraph(g, model, qv_name);
 		List<Node> rightChild = rightExpr_.addNodeToDecisionGraph(g, model, qv_name);
@@ -84,7 +84,7 @@ class BinaryExpression extends ArithmeticExpression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
+	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
 	
 		List<Node> result = new ArrayList<Node>();

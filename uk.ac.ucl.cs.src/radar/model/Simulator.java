@@ -22,7 +22,7 @@ import radar.utilities.Statistics;
 	public Map<Objective, Double> computeFitnessValues (){
 		fitnessValues_ = new LinkedHashMap<Objective, Double>();
 		this.selectedAlternative.setSemanticModel(semanticModel);
-		List<Objective> objList = new ArrayList<Objective>(this.semanticModel.getObjectives().values());
+		List<Objective> objList = this.semanticModel.getObjectives();
 		for (int i =0; i < objList.size(); i ++){
 			Objective obj = objList.get(i);
 			double value = obj.evaluate(this.selectedAlternative);
@@ -33,7 +33,7 @@ import radar.utilities.Statistics;
 	public SolutionValues computeObjectivesValues (){
 		SolutionValues results = new SolutionValues();
 		this.selectedAlternative.setSemanticModel(semanticModel);
-		List<Objective> objList = new ArrayList<Objective>(this.semanticModel.getObjectives().values());
+		List<Objective> objList = this.semanticModel.getObjectives();
 		for (int i =0; i < objList.size(); i ++){
 			Objective obj = objList.get(i);
 			double value = obj.evaluate(this.selectedAlternative);

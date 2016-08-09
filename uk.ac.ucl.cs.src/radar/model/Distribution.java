@@ -12,11 +12,16 @@ import org.apache.commons.math3.random.GaussianRandomGenerator;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
 
+import radar.utilities.ConfigSetting;
+
 abstract class Distribution extends Expression {
 	List<Expression> distributionParamter_;
 	RandomGenerator rg_; 
 	public Distribution(){
 		rg_ = new JDKRandomGenerator();
+		if (ConfigSetting.SEED != 0){
+			rg_.setSeed(ConfigSetting.SEED);
+		}
 	}
 	protected double [] deterministicDistribution (double value, int sampleSize){
 		double[] sample = new double[sampleSize];

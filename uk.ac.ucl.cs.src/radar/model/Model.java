@@ -49,14 +49,14 @@ public class Model {
 	public void addObjective(String obj_name, Objective objective){
 		objectives_.put(obj_name, objective);
 	}
-	public Map<String, Objective> getObjectives (){
-		return objectives_;
+	public List<Objective> getObjectives (){
+		return new ArrayList<Objective>(objectives_.values());
 	}
 	public void setDecisions(Map<String, Decision> decision){
 		decisions_ = decision;
 	}
-	public Map<String, Decision> getDecisions (){
-		return decisions_;
+	public List<Decision> getDecisions (){
+		return new ArrayList<Decision>(decisions_.values());
 	}
 	public void setAlternative(List<Solution>  solutions){
 		alternative_ =solutions;
@@ -79,8 +79,39 @@ public class Model {
 	public int getNbr_Simulation() {
 		return noOfSimulation_;
 	}
-	
+	public int getSolutionSpace (){
+		int result =1;
+		for (Map.Entry<String , Decision> entry: this.decisions_.entrySet()){
+			result *= entry.getValue().getOptions().size();
+		}
+		return result;
+	}
+	public double[] evaluate (List<Objective> objectives, Solution s){
+		s.setSemanticModel(this);
+		double [] objectiveValues = new double [objectives.size()];
+		for (int i =0; i < objectives.size(); i ++){
+			Objective obj = objectives.get(i);
+			double value = obj.evaluate(s);
+			objectiveValues[i] = value;
+		}
+		return objectiveValues;
+	}
+	void computeInformationValue(AnalysisResult result, Objective objective, List<Solution> solutions, List<Parameter> params){
+		result.addEviObjective (objective);
+		double[][] objSim = objective.getQualityVariable().simulate(solutions);
+		// compute evtpi
+		double evtpi = InformationAnalysis.evpi(objSim);
+		result.addEVTPI(evtpi);
+		// compute evppi for each quality variable in params
+		for (int i=0; i <params.size(); i++){
+			Parameter param = params.get(i) ;
+	        double[] paramSim = param.getSimulationData();
+	        double evppi = InformationAnalysis.evppi(paramSim, objSim);
+	        result.addEVPPI(param.getLabel(), evppi);
+		}
+	}
 	InfoValueAnalysisResult computeInformationValue(Objective objective, List<Solution> solutions, List<Parameter> params){
+		
 		InfoValueAnalysisResult result = new InfoValueAnalysisResult(objective.getLabel(), objective.getIsMinimisation());
 		double[][] objSim = objective.getQualityVariable().simulate(solutions);
 		// compute evtpi
@@ -116,5 +147,23 @@ public class Model {
 		}
 		return parameters;
 	}
+	public  List<Solution> getAllSolutions(){
+		List<Solution> solutions = new ArrayList<Solution>();
+		List<Decision> allDecisions = this.getDecisions();
+		List<Integer[]> selectedOptionIndices = SolutionAnalyser.generateSelectedOptionIndices (this.getDecisions());
+		for (int i =0; i <selectedOptionIndices.size(); i++ ){
+			Integer [] aSelectedOptionIndex = selectedOptionIndices.get(i);
+			Solution s = new Solution();
+			for (int j =0 ; j < aSelectedOptionIndex.length; j ++){
+				Decision d = allDecisions.get(j);
+				String selectedOption = allDecisions.get(j).getOptions().get(aSelectedOptionIndex[j]);
+				s.addDecision(d, selectedOption);
+			}
+			solutions.add(s);
+		}
+		return solutions;
+	}
+	
+
 
 }

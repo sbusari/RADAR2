@@ -22,7 +22,7 @@ public class ParserTest {
         String modelString = Helper.readFile(inputFile);
 		Parser testParser = new Parser (modelString,10000, ""); 
 		Model semantic_model = testParser.getSemanticModel();
-		Map<String , Decision> decisions = semantic_model.getDecisions();
+		List<Decision> decisions = semantic_model.getDecisions();
 		//List<Solution> allSolutions = new SolutionAnalyser(semantic_model).getAllSolutions();
 		System.out.print("Done");
 

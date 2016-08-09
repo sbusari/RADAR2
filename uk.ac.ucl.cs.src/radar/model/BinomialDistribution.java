@@ -23,12 +23,12 @@ class BinomialDistribution extends Distribution {
 	}
 
 	@Override
-	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
+	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
 		return null;
 	}
 	@Override
-	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,
+	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
 			String qv_name) {
 		return null;
 	}

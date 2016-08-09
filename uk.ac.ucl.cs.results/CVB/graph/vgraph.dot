@@ -14,9 +14,9 @@ LP[shape=box]
 "Benefit[Legacy]"->Benefit
 "Cost[New]"->Cost
 "Cost[Legacy]"->Cost
-Benefit->"SUB_3"
-Cost->"SUB_3"
-"SUB_3"->NB
+Benefit->"SUB_1"
+Cost->"SUB_1"
+"SUB_1"->NB
 NB->ENB
 NB->LP
 }

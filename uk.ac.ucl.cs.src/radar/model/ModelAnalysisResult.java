@@ -26,8 +26,8 @@ public class ModelAnalysisResult {
 	public ModelAnalysisResult( String algorithmName, ExperimentData expData){
 		algorithmName_ = algorithmName;
 		expData_ = expData;
-		obejctives_ = new ArrayList<Objective>(expData.getSemanticModel().getObjectives().values());
-		semanticModel_ = expData_.getSemanticModel();
+		//obejctives_ = expData.getSemanticModel().getObjectives();
+		//semanticModel_ = expData_.getSemanticModel();
 		optimisationType_ =expData_.getTypeOfOptimisation();;
 		alg_ = getAlgorithm(optimisationType_);
 		optimalSolutions_ = new ArrayList<SolutionValues>();
@@ -40,15 +40,15 @@ public class ModelAnalysisResult {
 		if (optimisationType.equals(OptimisationType.EXACT)){
 			alg = new ExhaustiveSearch (semanticModel_);
 		}else{
-			alg = new SbseAlgorithm (algorithmName_, expData_);
+			//alg = new SbseAlgorithm (algorithmName_, expData_);
 		}
 		return alg;
 	}
 	
-	public void analyse(){	
+	public void solveByExhaustiveSearch(Model m){	
 		// stochastic simulation and  multi-objective optimisation
 		long start = System.currentTimeMillis();
-		optimalSolutions_ =  alg_.solve();
+		optimalSolutions_ =  null;//alg_.solve();
 		long end = System.currentTimeMillis();
 		long runTime = (end - start) / 1000;
 		System.err.println(" execution time used is " + runTime);
@@ -62,7 +62,7 @@ public class ModelAnalysisResult {
 		allSolutions_ =  allSimulatedSolution ();
 		
 		// perform information value analysis
-		Objective infoValueObjective = semanticModel_.getObjectives().get(expData_.getInformationValueObjective());
+		Objective infoValueObjective = semanticModel_.getInfoValueObjective();
 		if (infoValueObjective != null){
 			List<String> paramNames = semanticModel_.getParameters();
 			List<Parameter> parameters = Model.getParameterList(paramNames, semanticModel_);
@@ -75,7 +75,38 @@ public class ModelAnalysisResult {
 		decisionDependencyGraph_ = generateDecisionDependencyGraph();
 		
 	}
-	
+	public void solveBySbse(String algorithm, Model semanticModel,  ExperimentData expData, SbseParameter param){	
+		
+		
+		// stochastic simulation and  multi-objective optimisation
+		long start = System.currentTimeMillis();
+		optimalSolutions_ =  null;//alg_.solve();
+		long end = System.currentTimeMillis();
+		long runTime = (end - start) / 1000;
+		System.err.println(" execution time used is " + runTime);
+		
+		List<Solution> optimalSolutions = new ArrayList<Solution>();
+		for (int i =0; i < optimalSolutions_.size(); i ++){
+			Solution s = optimalSolutions_.get(i).getSolution();
+			optimalSolutions.add(s);
+		}
+		// get all simulated solutions
+		allSolutions_ =  allSimulatedSolution ();
+		
+		// perform information value analysis
+		Objective infoValueObjective = semanticModel_.getInfoValueObjective();
+		if (infoValueObjective != null){
+			List<String> paramNames = semanticModel_.getParameters();
+			List<Parameter> parameters = Model.getParameterList(paramNames, semanticModel_);
+			infoValueResult = semanticModel_.computeInformationValue(infoValueObjective, optimalSolutions, parameters);
+		}
+		// generate variable dependency graphs
+		variableDependencyGraph_ = generateVariableDependencyGraph();
+
+		// generate decision graph
+		decisionDependencyGraph_ = generateDecisionDependencyGraph();
+		
+	}
 	
 	public List<String> getShortList (){
 		return shortlist_;
@@ -110,12 +141,12 @@ public class ModelAnalysisResult {
 	
 	public String generateResultHeader (){
 		String result =",";
-		for(Map.Entry<String ,Decision> entry: semanticModel_.getDecisions().entrySet()){
+		/*for(Map.Entry<String ,Decision> entry: semanticModel_.getDecisions().entrySet()){
 			result +=entry.getValue().getDecisionLabel() + ",";
-		}
-		for(Map.Entry<String, Objective> entry: semanticModel_.getObjectives().entrySet()){
+		}*/
+		/*for(Map.Entry<String, Objective> entry: semanticModel_.getObjectives().entrySet()){
 			result +=entry.getValue().getLabel() + ",";
-		}
+		}*/
 		result += "Optimal";
 		return result;
 	}
@@ -189,7 +220,7 @@ public class ModelAnalysisResult {
 		result += "rankdir = BT; \n";
 		result += "edge[dir=back]; \n";
 
-		GraphGenerator de = new GraphGenerator(semanticModel_);
+		Graph de = new Graph(semanticModel_);
 		de.createDecisionsGraph();
 		
 		Map<String, Node> allEntries = de.getNodeList();
@@ -216,7 +247,7 @@ public class ModelAnalysisResult {
 		result += "rankdir = BT; \n";
 		result += "edge[dir=forward]; \n";
 		
-		GraphGenerator de = new GraphGenerator(semanticModel_);
+		Graph de = new Graph(semanticModel_);
 		de.createVariableGraph();
 		
 		Map<String, Node> allEntries = de.getNodeList();
@@ -243,7 +274,7 @@ public class ModelAnalysisResult {
 		if (semanticModel_ != null){
 			int count =1;
 			decision.append("ID , Decision , Options\n");
-			for (Map.Entry<String, Decision> entry: semanticModel_.getDecisions().entrySet()){
+		/*	for (Map.Entry<String, Decision> entry: semanticModel_.getDecisions().entrySet()){
 				StringBuilder row = new StringBuilder();
 				row.append(count + ",");
 				row.append(entry.getKey() + ",");
@@ -259,7 +290,7 @@ public class ModelAnalysisResult {
 				row.append(options + "\n");
 				decision.append(row.toString());
 				count++;
-			}
+			}*/
 		}
 		return decision.toString();
 	}

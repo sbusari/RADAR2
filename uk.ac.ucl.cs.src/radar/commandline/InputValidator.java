@@ -12,12 +12,16 @@ public class InputValidator {
 	
 	public static void objectiveExist (Model model, String infoValueObjective) throws Exception{
 		if (infoValueObjective != null){
-			Map<String, Objective>  objs = model.getObjectives();
-			List<String> objNames = new ArrayList<String>(objs.keySet());
-			if (!objNames.contains(infoValueObjective.trim())){
+			List<Objective>  objs = model.getObjectives();
+			boolean exist = false;
+			for (int i =0; i <objs.size(); i ++ ){
+				if (objs.get(i).getLabel().equals(infoValueObjective.trim())){
+					exist =true;
+				}
+			}
+			if (exist == false){
 				throw new Exception ("Error: "+ "information value objective name "+ infoValueObjective+ " does not exist in the model."); 
 			}
-			
 		}
 	}
 	public static void validateModelPath (String modelPath) throws Exception{
@@ -54,7 +58,7 @@ public class InputValidator {
 			throw new Exception ("Warning: "+ "RADAR only implements the following algorithms: " + "ExhaustiveSearch, NSGAII, SPEA2, IBEA, MoCell, RandomSearch and PAES " );
 		}
 	}
-	public static void validateAlgorithmParameters (List<String> algorithmParameter) throws Exception{
+	public static void validateSbseParameterValues (List<String> algorithmParameter) throws Exception{
 		String errorMessage = "";
 		if (algorithmParameter.size() > 0){
 			errorMessage = InputValidator.verifyFieldDataType(algorithmParameter.get(0).trim(), "population size", "Integer");

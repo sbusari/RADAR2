@@ -16,9 +16,10 @@ public class ModelConstructor {
 	}
 	void addModelInfoValueObjective (Model model, String obj_name, String infoValueObj){
 		Objective infoValueObjective = new Objective();
-		for (Map.Entry<String, Objective> entry : model.getObjectives().entrySet()){
-			if (entry.getValue().getLabel().equals(infoValueObj.trim())){
-				infoValueObjective= entry.getValue();
+		List<Objective> objectives = model.getObjectives();
+		for (int i=0; i < objectives.size(); i ++){
+			if (objectives.get(i).getLabel().equals(infoValueObj.trim())){
+				infoValueObjective= objectives.get(i);
 			}
 		}
 		model.setInfoValueObjective(infoValueObjective);

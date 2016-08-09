@@ -38,7 +38,7 @@ public class QualityVariable extends ArithmeticExpression {
 		return result;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(GraphGenerator g, Model model,
+	public List<Node> addNodeToVariableGraph(Graph g, Model model,
 			String qv_name) {
 		//g.incrementOperatorID();
 		List<Node> results = new ArrayList<Node>();
@@ -53,7 +53,7 @@ public class QualityVariable extends ArithmeticExpression {
 		return results;
 	}
 	@Override
-	public List<Node> addNodeToDecisionGraph(GraphGenerator g, Model model,
+	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
 			String qv_name) {
 		List<Node> children = definition_.addNodeToDecisionGraph(g,model,qv_name.replaceAll(" ", "_"));
 		return children;

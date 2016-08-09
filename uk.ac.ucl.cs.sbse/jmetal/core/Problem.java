@@ -26,6 +26,7 @@ import jmetal.util.JMException;
 import java.io.Serializable;
 import java.util.List;
 
+import radar.model.Model;
 import radar.model.SbseData;
 
 /**
@@ -92,7 +93,12 @@ public abstract class Problem implements Serializable {
   /**
    * Stores the decision vector ranges for Radar.
    */
-  protected SbseData sbseData;
+  protected List<Integer []> decisionVectorBlock_;
+  
+  /**
+   * Stores the parsed Model for Radar.
+   */
+  protected Model semanticModel_;
   
   /** 
    * Constructor. 
@@ -244,8 +250,15 @@ public abstract class Problem implements Serializable {
     }
     return result;
   } // getNumberOfBits();
-  public SbseData getSbseData (){
-	  return  sbseData;
+  
+  public List<Integer[]> getDecisionVectorBlock (){
+	  return  decisionVectorBlock_;
+  }
+  public Model getSemanticModel (){
+	  return  semanticModel_;
+  }
+  public void setSemanticModel (Model semanticModel){
+	  semanticModel_ = semanticModel;
   }
   
 } // Problem

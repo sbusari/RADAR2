@@ -32,7 +32,7 @@ GoalFailure = (BatteryUsage_Failure
 BatteryUsage_Preference = (BatteryUsage - BatteryUsage_best)
 							/(BatteryUsage_worst - BatteryUsage_best);
 							
-BatteryUsage_Failure = BatteryUsage < BatteryUsage_must;
+BatteryUsage_Failure = BatteryUsage > BatteryUsage_must;
 
 BatteryUsage_best = deterministic(24);
 BatteryUsage_worst = deterministic(111);
@@ -109,7 +109,7 @@ BatteryUsage_DataExchangeFormat = decision("Data Exchange Format"){
 ResponseTime_Preference = (ResponseTime - ResponseTime_worst)
 							/(ResponseTime_best - ResponseTime_worst);
 
-ResponseTime_Failure = 	ResponseTime < ResponseTime_must;
+ResponseTime_Failure = 	ResponseTime > ResponseTime_must;
 
 ResponseTime_best = deterministic(203);
 ResponseTime_worst = deterministic(2850);
@@ -264,7 +264,7 @@ Reliability_DataExchangeFormat = decision("Data Exchange Format"){
 RampUpTime_Preference = (RampUpTime - RampUpTime_worst)
 							/(RampUpTime_best - RampUpTime_worst);
 
-RampUpTime_Failure = 	RampUpTime < RampUpTime_must;
+RampUpTime_Failure = 	RampUpTime > RampUpTime_must;
 
 RampUpTime_best = deterministic(31);
 RampUpTime_worst = deterministic(83);
@@ -341,7 +341,7 @@ RampUpTime_DataExchangeFormat = decision("Data Exchange Format"){
 
 Cost_Preference = (Cost - Cost_worst)
 							/(Cost_best - Cost_worst);
-Cost_Failure = 	Cost < Cost_must;
+Cost_Failure = 	Cost > Cost_must;
 
 Cost_best = deterministic(550);
 Cost_worst = deterministic(2250);
@@ -418,7 +418,7 @@ Cost_DataExchangeFormat = decision("Data Exchange Format"){
 DevelopmentTime_Preference = (DevelopmentTime - DevelopmentTime_worst)
 							/(DevelopmentTime_best - DevelopmentTime_worst);
 
-DevelopmentTime_Failure = 	DevelopmentTime < DevelopmentTime_must;
+DevelopmentTime_Failure = 	DevelopmentTime > DevelopmentTime_must;
 
 DevelopmentTime_best = deterministic(61) ;
 DevelopmentTime_worst = deterministic(149);
@@ -483,7 +483,7 @@ DeploymentTime_Preference = (DeploymentTime - DeploymentTime_worst)
 							/(DeploymentTime_best - DeploymentTime_worst);
 
 
-DeploymentTime_Failure = 	DeploymentTime < DeploymentTime_must;
+DeploymentTime_Failure = 	DeploymentTime > DeploymentTime_must;
 
 DeploymentTime_best = deterministic(21) ;
 DeploymentTime_worst = deterministic(72) ;
