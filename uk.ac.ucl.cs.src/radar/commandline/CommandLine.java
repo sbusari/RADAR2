@@ -39,7 +39,7 @@ public class CommandLine {
 	public boolean decision = false;
 	
 	@Parameter(names = "--nbr_simulation", description = "Number of simulation run. Input <sample size> .")
-	public Integer nbr_Simulation = 10000;
+	public Integer nbr_Simulation = 1000000;
 	
 	@Parameter(names = "--threads", description = "Specifies the number of threads to run. Input <number of threads>. "  )
 	public Integer threads = 1;
