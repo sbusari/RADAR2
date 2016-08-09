@@ -5,16 +5,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-class GraphGenerator {
+class Graph {
 	Model semanticModel_;
 	static int operatorId_;
 	Map<String, Node> nodeList_;
 	List<String> edgeStatements_;
-	public GraphGenerator (){
+	public Graph (){
 		nodeList_ = new LinkedHashMap<String, Node>();
 		edgeStatements_ = new ArrayList<String>();
 	}
-	public GraphGenerator (Model semanticModel){
+	public Graph (Model semanticModel){
 		semanticModel_ =semanticModel;
 		nodeList_ = new LinkedHashMap<String, Node>();
 		edgeStatements_ = new ArrayList<String>();
@@ -45,7 +45,7 @@ class GraphGenerator {
 		return operatorId_;
 	}
 	public void createVariableGraph(){
-		List<Objective> objList = new ArrayList<Objective>(this.semanticModel_.getObjectives().values());
+		List<Objective> objList = this.semanticModel_.getObjectives();
 		
 		for (int i =0; i < objList.size(); i ++){
 			Objective obj = objList.get(i);
@@ -68,7 +68,7 @@ class GraphGenerator {
 		
 	}
 	public void createDecisionsGraph(){
-		List<Objective> objList = new ArrayList<Objective>(this.semanticModel_.getObjectives().values());
+		List<Objective> objList = this.semanticModel_.getObjectives();
 		Node obj_node = new Node ();
 		obj_node.setLabel(this.semanticModel_.getModelName() );
 		obj_node.setShape("circle");
