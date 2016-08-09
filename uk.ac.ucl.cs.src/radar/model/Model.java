@@ -10,26 +10,22 @@ import radar.information.analysis.InformationAnalysis;
 
 public class Model {
 	
-	private static Model instance = null;
-	public  Model getInstance() {
-		if(instance == null) {
-			instance = new Model();
-		}
+	public Model (){
+		objectives_ = new LinkedHashMap<String, Objective>();
+		qualityVariables_ = new LinkedHashMap<String, QualityVariable>();
+		parameters_ =  new ArrayList<String>();
+		decisions_ = new LinkedHashMap<String, Decision>();
+		alternative_ = new ArrayList<Solution> ();
 		
-		return instance;
 	}
 	private String modelName_;
 	private Map<String, Objective> objectives_;
 	private Map<String, QualityVariable> qualityVariables_;
 	private List<String> parameters_;
-	// list param variables to be used in finding evppi.
-	private List<String> params_;
 	private Map<String, Decision> decisions_;
 	private List<Solution> alternative_;
 	private Objective infoValueObjective_;
-	private String infoValueObjectiveName_;
 	private int noOfSimulation_;
-	private String solutionType_;
 	public void setModelName(String modelName ){
 		modelName_ =modelName;
 	}
@@ -37,40 +33,21 @@ public class Model {
 		return modelName_;
 	}
 	public void addQualityVariables(String qv_name, QualityVariable qualityVariable){
-		if (qualityVariables_ == null){
-			qualityVariables_ = new LinkedHashMap<String,QualityVariable >();
-			qualityVariables_.put(qv_name, qualityVariable);
-			
-		}else{
-			qualityVariables_.put(qv_name, qualityVariable);
-		}
+		qualityVariables_.put(qv_name, qualityVariable);
 	}
 	public Map<String, QualityVariable> getQualityVariables(){
 		return qualityVariables_;
 	}
 	public void addParameters(String param_name){
-		if (parameters_ == null){
-			parameters_ = new ArrayList<String>();
-			if (!parameters_.contains(param_name)){
-				parameters_.add(param_name);
-			}
-			
-		}else{
-			if (!parameters_.contains(param_name)){
-				parameters_.add(param_name);
-			}
+		if (!parameters_.contains(param_name)){
+			parameters_.add(param_name);
 		}
 	}
 	public List<String> getParameters(){
 		return parameters_;
 	}
 	public void addObjective(String obj_name, Objective objective){
-		if (objectives_ == null){
-			objectives_ = new LinkedHashMap<String,Objective >();
-			objectives_.put(obj_name, objective);
-		}else{
-			objectives_.put(obj_name, objective);
-		}
+		objectives_.put(obj_name, objective);
 	}
 	public Map<String, Objective> getObjectives (){
 		return objectives_;
@@ -88,18 +65,7 @@ public class Model {
 		return alternative_;
 	}
 	public void addAlternative(Solution a){
-		if (alternative_ == null){
-			alternative_ = new ArrayList<Solution>();
-			alternative_.add(a);
-		}else{
-			alternative_.add(a);
-		}
-	}
-	public String getInfoValueObjectiveName (){
-		return infoValueObjectiveName_ ;
-	}
-	public void setInfoValueObjectiveName (String infoValueObjectiveName){
-		infoValueObjectiveName_ = infoValueObjectiveName;
+		alternative_.add(a);
 	}
 	public void setInfoValueObjective (Objective objective){
 			infoValueObjective_ = objective;
@@ -107,32 +73,11 @@ public class Model {
 	public Objective getInfoValueObjective (){
 		return infoValueObjective_ ;
 	}
-	public void setSimulationNumber(int noOfSimulation) {
+	public void setNbr_Simulation(int noOfSimulation) {
 		noOfSimulation_ = noOfSimulation;
 	}
-	public int getSimulationNumber() {
+	public int getNbr_Simulation() {
 		return noOfSimulation_;
-	}
-	public void setParams(List<String> param) {
-		params_ = param;
-	}
-	public List<String> getParams() {
-		return params_;
-	}
-	// since we were getting out memory error
-	public  void resetSimulationVariables(){
-		 Map<String, QualityVariable> qvList = this.getQualityVariables();
-		 for (Map.Entry<String, QualityVariable> entry: qvList.entrySet()){
-			 if(this.getInfoValueObjectiveName() != null && !this.getInfoValueObjectiveName().equals(entry.getValue().getLabel()) ){
-				entry.getValue().setSimData(new LinkedHashMap<Solution, double[]>());
-			 }
-		 }
-	}
-	public String getSolutionType (){
-		return solutionType_;
-	}
-	public void setSolutionType (String solutionType){
-		solutionType_ =solutionType ;
 	}
 	
 	InfoValueAnalysisResult computeInformationValue(Objective objective, List<Solution> solutions, List<Parameter> params){
@@ -140,16 +85,12 @@ public class Model {
 		double[][] objSim = objective.getQualityVariable().simulate(solutions);
 		// compute evtpi
 		double evtpi = InformationAnalysis.evpi(objSim);
-		//System.out.println("evtpi for  objective "+  objective.getLabel() +" is "+ evtpi );
 		result.setEVTPI(evtpi);
 		// compute evppi for each quality variable in params
 		for (int i=0; i <params.size(); i++){
 			Parameter param = params.get(i) ;
 	        double[] paramSim = param.getSimulationData();
-	        //System.out.println("evppi  paramters  "+paramSim [0] + ", " + paramSim[1]);
-	        //System.out.println("objective sim  "+ objSim [0][0] + ", " + objSim[0][1]);
 	        double evppi = InformationAnalysis.evppi(paramSim, objSim);
-	        //System.out.println("evppi for  objective "+  objective.getLabel()+ " and parameter " + param.getLabel() +" is "+ evppi );
 	        result.addEVPPI(param.getLabel(), evppi);
 		}
 		return result;

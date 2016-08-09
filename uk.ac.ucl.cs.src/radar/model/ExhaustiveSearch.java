@@ -21,7 +21,6 @@ import java.util.List;
 		Simulator simulator = new Simulator(s, semanticModel_);
 		value =  simulator.computeObjectivesValues();	
 		semanticModel_.addAlternative(s);
-		semanticModel_.resetSimulationVariables();
 		return value;
 	}
 	public List<SolutionValues> solve() {
@@ -32,7 +31,6 @@ import java.util.List;
 			Simulator simulator = new Simulator(alternatives_.get(i), semanticModel_);
 			value =  simulator.computeObjectivesValues();	
 			semanticModel_.addAlternative(alternatives_.get(i));
-			//semanticModel_.resetSimulationVariables();
 			solutionValues_.add(value);
 			System.out.print("Solution number "+ i + "\n");
 		}

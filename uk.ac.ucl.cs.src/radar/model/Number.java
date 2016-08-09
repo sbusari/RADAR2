@@ -16,7 +16,7 @@ class Number extends ArithmeticExpression {
 	public double[] simulate(Solution s) {
 		// in the case where a deterministic has expr as argument, we have already handled that during parsing
 		// this is just for a binary expression that has a number.
-		int simulationNo = s.getSemanticModel().getSimulationNumber();
+		int simulationNo = s.getSemanticModel().getNbr_Simulation();
 		double [] sim = new double [simulationNo];
 		for (int i = 0; i < sim.length; ++i) {
 			sim[i] =value_;

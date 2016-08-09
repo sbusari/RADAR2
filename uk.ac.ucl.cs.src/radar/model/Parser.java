@@ -14,7 +14,7 @@ import radar.parser.generated.ModelParser;
 
 public class Parser {
 	Model semanticmodel_;
-	int simulation_;
+	int nbr_simulation_;
 	public void setSemanticModel (Model model){
 		semanticmodel_ =model;
 	}
@@ -22,16 +22,16 @@ public class Parser {
 		return semanticmodel_;
 	}
 	public void setSimulationRun (int simulation){
-		simulation_ =simulation;
+		nbr_simulation_ =simulation;
 	}
 	public int getSimulationRun(){
-		return simulation_;
+		return nbr_simulation_;
 	}
-	public Parser(String modelString, int nbr_simulation){
-		parseModel(modelString,nbr_simulation);
+	public Parser(String modelString, int nbr_simulation, String infoValueObjective){
+		parseModel(modelString,nbr_simulation, infoValueObjective);
 	}
-	public Visitor runVisitor (String inputString, int nbr_simulation) {
-		Visitor visitor = new Visitor(nbr_simulation);
+	public Visitor runVisitor (String inputString, int nbr_simulation,  String infoValueObjective) {
+		Visitor visitor = new Visitor(nbr_simulation, infoValueObjective);
 		String model = inputString + "\n\n\n";
 		ModelExceptionListener errorListener = null;
 		try{
@@ -57,8 +57,8 @@ public class Parser {
 		}
 		return visitor;
 	}
-	void parseModel(String inputString, int nbr_simulation)  {
-		Visitor visitor = runVisitor (inputString,nbr_simulation);	
+	void parseModel(String inputString, int nbr_simulation,  String infoValueObjective)  {
+		Visitor visitor = runVisitor (inputString,nbr_simulation, infoValueObjective);	
 		Model semanticModel = visitor.getSemanticModel();
 		setSemanticModel(semanticModel);
 	}

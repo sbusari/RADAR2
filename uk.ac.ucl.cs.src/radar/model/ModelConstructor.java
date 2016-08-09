@@ -12,7 +12,7 @@ public class ModelConstructor {
 		simulation =simulationRun;
 	}
 	public  Model createNewModel (){
-		return new Model().getInstance();
+		return new Model();
 	}
 	void addModelInfoValueObjective (Model model, String obj_name, String infoValueObj){
 		Objective infoValueObjective = new Objective();
@@ -22,7 +22,6 @@ public class ModelConstructor {
 			}
 		}
 		model.setInfoValueObjective(infoValueObjective);
-		
 	}
 	void addModelObjective (Model model, String obj_name, Objective objective){
 		model.addObjective(obj_name, objective);
@@ -45,7 +44,7 @@ public class ModelConstructor {
 		model.setModelName(modelName);
 		return model;
 	}
-	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist){
+	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist,String infoValueObjective){
 		for (Map.Entry<String, Objective> entry: obj_list.entrySet()){
 			Value obj = obj_definition.get(entry.getKey());
 			Objective modelObj = entry.getValue();
@@ -73,6 +72,7 @@ public class ModelConstructor {
 				}
 			}
 			addModelObjective(model,modelObj.getLabel(),modelObj );
+			addModelInfoValueObjective ( model, modelObj.getLabel(), infoValueObjective);
 
 		}
 		return model;

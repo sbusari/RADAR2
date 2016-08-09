@@ -72,11 +72,11 @@ public class CommandLine {
         cmd.run(cmd);
     }
 	
-	private Model parseModel (String modelPath,int simulation){
+	private Model parseModel (String modelPath,int nbr_simulation, String infoValueObjective){
 		Model semanticModel = null;
 		try {
 			String model = Helper.readFile(modelPath);
-			Parser parser  = new Parser(model,simulation );
+			Parser parser  = new Parser(model,nbr_simulation,infoValueObjective );
 			semanticModel = parser.getSemanticModel();
 		}
 		catch (RuntimeException re){
@@ -172,11 +172,11 @@ public class CommandLine {
 		if (parse == true || decision == true){
 			InputValidator.validateModelPath(model);
     		InputValidator.validateOutputPath(output);
-    		semanticModel = parseModel(model.trim(), nbr_Simulation);
+    		semanticModel = parseModel(model.trim(), nbr_Simulation, infoValueObjective);
 		}
 		// if only exhaustive seach is specified, we can still parse the model and solve.
 		if (semanticModel == null && solve.size() > 0){
-			semanticModel = parseModel(model.trim(), nbr_Simulation);
+			semanticModel = parseModel(model.trim(), nbr_Simulation, infoValueObjective);
 		}
 		if (model != null && output != null && semanticModel == null){
 			throw new RuntimeException ("Specify a command to solve the model. Use the --help command for more information.");
@@ -191,7 +191,7 @@ public class CommandLine {
     		ExperimentData dataInput = populateExperimentData();
     		// get sematic model from model file
     		Model semanticModel = loadModel ();
-    		semanticModel.setSimulationNumber(nbr_Simulation);
+    		semanticModel.setNbr_Simulation(nbr_Simulation);
     		
     		// update experiemnt data with semantic model and information value objective.
     		dataInput.setSemanticModel(semanticModel);

@@ -15,7 +15,7 @@ public class ConfigSetting {
 	public static String DEFAULT_EXACT_ALGORITHM= "ExhaustiveSearch";
 	public static boolean USE_DEFAULT_PARAMETER_SETTINGS= true;
 	public static String APROXIMATE_ALGORITHM_LIST= "NSGAII,SPEA2,IBEA";
-	public static int NUMBER_OF_SIMULATION=100000;
+	public static int NUMBER_OF_SIMULATION=1000000;
 	public static double MUTATION= 0.05;
 	public static int THREADS=1;
 	public static String Emergency_Response_System="ERAM";
