@@ -43,11 +43,11 @@ public class ConfigSetting {
 	
 	public static String OUTPUT_DIRECTORY= "/Users/INTEGRALSABIOLA/Downloads/Thesis/";
 	public static String ROOTDIRECTORY= "/Users/INTEGRALSABIOLA/Documents/JavaProject/RADAR";
-	public static String NASAM ="/uk.ac.ucl.cs.subjectmodels/ECS.gm";
-	public static String ERAM ="/uk.ac.ucl.cs.subjectmodels/SAS.gm";
-	public static String BSPDM ="/uk.ac.ucl.cs.subjectmodels/BSPDM.gm";
-	public static String PCFDM= "/uk.ac.ucl.cs.subjectmodels/PCFDM_FULL.gm";
-	public static String CBA= "/uk.ac.ucl.cs.subjectmodels/CBA.gm";
+	public static String NASAM ="/uk.ac.ucl.cs.examples/ECS.rdr";
+	public static String ERAM ="/uk.ac.ucl.cs.examples/SAS.rdr";
+	public static String BSPDM ="/uk.ac.ucl.cs.examples/BSPDM.rdr";
+	public static String PCFDM= "/uk.ac.ucl.cs.examples/PCFDM_FULL.rdr";
+	public static String CBA= "/uk.ac.ucl.cs.examples/CBA.rdr";
 	
 	/*public static String OUTPUT_DIRECTORY = "/home/sbusari/Thesis/";
 	public static String ROOTDIRECTORY = "/home/sbusari/Thesis";

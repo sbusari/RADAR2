@@ -1,12 +1,9 @@
 package radar.model;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import radar.utilities.Helper;
 
 public class AnalysisResult {
 	// the optimisation objectives. 
@@ -50,8 +47,14 @@ public class AnalysisResult {
 	public void addShortlist (Map<Solution, double[]> optimalSolns){
 		shortlist= optimalSolns;
 	}
-	public List<Solution> getShortList (){
+	public List<Solution> getShortListSolutions (){
 		return new ArrayList<Solution>(shortlist.keySet());
+	}
+	public List<double[]> getShortListObjectives (){
+		return new ArrayList<double[]>(shortlist.values());
+	}
+	public List<double[]> getEvaluatedObjectives (){
+		return new ArrayList<double[]>(value.values());
 	}
 	public void addEVTPI (double evtpi_value){
 		evtpi = evtpi_value;
@@ -69,6 +72,9 @@ public class AnalysisResult {
 	}
 	void addRunTime (long time){
 		runtime = time;
+	}
+	public List<Objective> getObjectives (){
+		return objectives;
 	}
 	public String generateSolutionHeader (){
 		String result ="ID \t";

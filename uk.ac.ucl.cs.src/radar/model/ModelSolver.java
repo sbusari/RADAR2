@@ -42,45 +42,7 @@ public class ModelSolver {
 		if (infoValueObjective != null){
 			List<String> paramNames = m.getParameters();
 			List<Parameter> parameters = Model.getParameterList(paramNames, m);
-			m.computeInformationValue(result,infoValueObjective, result.getShortList(), parameters);
-		}
-		return result;
-	}
-	public static AnalysisResult solve(Model m, SbseParameter sbse_param,  ExperimentData inputData){
-
-		List<Objective> objectives = m.getObjectives();
-		List<Solution> allSolutions = m.getAllSolutions(); 
-		List<Decision> decisions = m.getDecisions();
-		
-		AnalysisResult result = new AnalysisResult(objectives,decisions);
-		// solution space
-		result.addSolutionSpace(m.getSolutionSpace());
-
-		long start = System.currentTimeMillis();
-
-		// Evaluate objectives for all solutions
-		SbseAlgorithm sbse_alg = new SbseAlgorithm();
-		
-		for (Solution s: allSolutions){
-			result.addEvaluation(s, m.evaluate(objectives, s));	
-		}
-		
-		// add -ve sign for maximisaiton
-		Map<Solution, double[]> evaluatedSolutions = addMaximisationSign(result.getEvaluatedSolutions(), objectives);
-			
-		// Shortlists Pareto-optimal solutions
-		result.addShortlist(new Pareto().getParetoSet(evaluatedSolutions));
-		
-		long end = System.currentTimeMillis();
-		long runTime = (end - start) / 1000;
-		result.addRunTime(runTime);
-		
-		// Computes Value of Information
-		Objective infoValueObjective = m.getInfoValueObjective();
-		if (infoValueObjective != null){
-			List<String> paramNames = m.getParameters();
-			List<Parameter> parameters = Model.getParameterList(paramNames, m);
-			m.computeInformationValue(result,infoValueObjective, result.getShortList(), parameters);
+			m.computeInformationValue(result,infoValueObjective, result.getShortListSolutions(), parameters);
 		}
 		return result;
 	}
