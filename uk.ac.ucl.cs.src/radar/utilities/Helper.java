@@ -1,12 +1,13 @@
 package radar.utilities;
 
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.io.FileReader;
-
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
@@ -61,6 +62,19 @@ public class Helper {
 		}
 		return deleted;
 	     
+	}
+	public static BufferedImage getImage(Component c) {
+	    BufferedImage bi = null;
+	    try {
+	        bi = new BufferedImage(c.getWidth(),c.getHeight(), BufferedImage.TYPE_INT_RGB);
+	        Graphics2D g2d =bi.createGraphics();
+	        c.print(g2d);
+	        g2d.dispose();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	    return bi;
 	}
 
 }

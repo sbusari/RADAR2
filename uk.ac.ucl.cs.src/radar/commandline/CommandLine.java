@@ -139,13 +139,15 @@ public class CommandLine {
 			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", variableGraph, "vgraph.dot", false);
 			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", decisionGraph, "dgraph.dot", false);
 			
+			
     		if (pareto == true){
+    			String imageOutput = dataInput.getOutputDirectory() + dataInput.getProblemName() + "/";
     			if (result.getShortListObjectives().get(0).length == 2){
 					TwoDPlotter twoDPlot = new TwoDPlotter();
-					twoDPlot.plotAll(semanticModel, result);
+					twoDPlot.plotAll(semanticModel,imageOutput, result);
 				}else if (result.getShortListObjectives().get(0).length == 3){
 					ScatterPlot3D sc3D2= new ScatterPlot3D( );
-					sc3D2.plot(semanticModel, result);;
+					sc3D2.plot(semanticModel, imageOutput, result);;
 ;				}
     		}
     		System.out.println("Finished!");

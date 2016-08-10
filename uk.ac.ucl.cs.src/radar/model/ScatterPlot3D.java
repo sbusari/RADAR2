@@ -39,15 +39,20 @@ package radar.model;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+
+import radar.utilities.Helper;
 
 import com.orsoncharts.Chart3D;
 import com.orsoncharts.Chart3DFactory;
@@ -148,7 +153,7 @@ public class ScatterPlot3D extends JFrame {
 		}
         return s;
     }
-    public void plot (Model semanticModel, AnalysisResult analysis_result){
+    public void plot (Model semanticModel, String outputpath, AnalysisResult analysis_result) throws IOException{
 
 		Chart3D chart =createChart(semanticModel, createDataset(analysis_result));
 		
@@ -160,6 +165,9 @@ public class ScatterPlot3D extends JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+
+        ImageIO.write(Helper.getImage(this), "PNG", new File(outputpath + semanticModel.getModelName() + ".png"));
+
     }
     
 }

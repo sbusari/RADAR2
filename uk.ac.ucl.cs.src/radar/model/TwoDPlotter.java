@@ -2,10 +2,15 @@ package radar.model;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import org.jfree.chart.ChartFactory;
@@ -20,10 +25,12 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import radar.utilities.Helper;
+
 
 public class TwoDPlotter extends JFrame {
 	public TwoDPlotter(){} 
-	public void plot (Model semanticModel, AnalysisResult results){
+	public void plot (Model semanticModel, String outputpath, AnalysisResult results){
 		float[][] dataset =  new float[2][];
 		XYSeriesCollection result= new XYSeriesCollection();
 	    
@@ -45,7 +52,7 @@ public class TwoDPlotter extends JFrame {
         frame.pack();
         frame.setVisible(true);
 	}
-	public void plotAll (Model semanticModel, AnalysisResult results){
+	public void plotAll (Model semanticModel,String outputpath, AnalysisResult results){
 		try{
 			String chartTitle = "Pareto front for the " + semanticModel.getModelName();
 			String Xlabel =  semanticModel.getObjectives().get(0).getLabel();
@@ -58,6 +65,8 @@ public class TwoDPlotter extends JFrame {
 	        this.pack();
 	        this.setLocationRelativeTo(null);
 	        this.setVisible(true);
+	        
+	        ImageIO.write(Helper.getImage(this), "PNG", new File(outputpath + semanticModel.getModelName() + ".png"));
 			
 		}catch (IllegalArgumentException e){
 			throw new IllegalArgumentException (e.getMessage());
@@ -65,6 +74,7 @@ public class TwoDPlotter extends JFrame {
 			throw new RuntimeException (e.getMessage());
 		} 
 	}
+
 	 private void adjustAxis(NumberAxis axis, boolean vertical) {
 	        
 		 Font font = new Font("Dialog",Font.PLAIN, 25); 
