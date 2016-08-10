@@ -3,7 +3,7 @@ import java.util.LinkedHashMap;
 
 import java.util.Map;
 
-public  class Objective {
+public  class Objective implements ModelVisitorElement {
 	private double margin_;
 	private boolean isMinimisation_;
 	private String label_;
@@ -66,10 +66,16 @@ public  class Objective {
 		}
 	}
 	@Override
+	public void accept(ModelVisitor visitor) {
+		definition_.accept(visitor);
+		this.accept(visitor);
+	}
+	@Override
 	public int hashCode (){
 		if (qualityVariable_ == null){
 			return 0;
 		}
 		return qualityVariable_.hashCode();
 	}
+
 }

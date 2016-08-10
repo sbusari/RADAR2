@@ -1,5 +1,4 @@
 package radar.model;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -7,53 +6,16 @@ import java.util.Map;
 
 public class OR_Refinement extends Expression {
 	private Decision decision_;
-	private Map<String, Expression> definition_;
-	
-	public OR_Refinement(){}
+	private Map<String, AND_Refinement> definition_;
+	QualityVariable parent_;
+	public OR_Refinement(){
+		definition_ = new LinkedHashMap<String, AND_Refinement>();
+	}
 	@Override
 	public double[] simulate(Solution s) {
 		String option = s.getOption(decision_);
-		Expression expr = definition_.get(option);
-		return expr.simulate(s);
-	}
-	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
-			String qv_name) {
-		List<Node> result = new ArrayList<Node>();
-		Node decision = createDOTNode (g, "\"" +  decision_.getDecisionLabel().replaceAll(" ", "_") + "\"","polygon", "diagonals");
-		result.add(decision);
-		for (Map.Entry<String, Expression> entry: definition_.entrySet()){
-			String optionName = "\"" + entry.getKey().replaceAll(" ", "_") + "\"" ;
-			Node option = createDOTNode (g, optionName,"box","");
-			//result.add(option);
-			List<Node> optionChildren = entry.getValue().addNodeToDecisionGraph(g,model,qv_name);
-			if (optionChildren != null &&  optionChildren.size() > 0){
-				for (int i =0 ; i <  optionChildren.size() ; i ++){
-					g.addEdge( optionChildren.get(i).getLabel(),option.getLabel());
-				}
-			}
-			g.addEdge(option.getLabel(),decision.getLabel());
-		}
-		
-		return result;
-	}
-	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
-			String qv_name) {
-		List<Node> result = new ArrayList<Node>();
-		for (Map.Entry<String, Expression> entry: definition_.entrySet()){
-			String optionName = "\"" + qv_name + "[" + entry.getKey() + "]" +  "\"";
-			Node option = createDOTNode (g, optionName,"ellipse","");
-			result.add(option);
-			// add edge between option node and its own children
-			List<Node> optionChildren = entry.getValue().addNodeToVariableGraph(g,model,qv_name);
-			if (optionChildren != null &&  optionChildren.size() > 0){
-				for (int i =0 ; i <  optionChildren.size() ; i ++){
-					g.addEdge( optionChildren.get(i).getLabel(),option.getLabel());
-				}
-			}
-		}
-		return result;
+		AND_Refinement and_ref = definition_.get(option);
+		return and_ref.simulate(s);
 	}
 	
 	
@@ -63,19 +25,32 @@ public class OR_Refinement extends Expression {
 	public Decision getDecision (){
 		return decision_;
 	}
-	public void setDefinition (Map<String, Expression>  definition){
+	public void setDefinition (Map<String, AND_Refinement>  definition){
 		definition_ = definition;
 	}
-	public Map<String, Expression>  getDefinition (){
+	public Map<String, AND_Refinement>  getDefinition (){
 		return definition_;
 	}
-	public void addDefinition (String option_name, Expression def){
-		if (definition_ == null){
-			definition_ = new LinkedHashMap<String, Expression>();
-			definition_.put(option_name, def);
-		}else{
-			definition_.put(option_name, def);
+	public void addDefinition (String option_name, AND_Refinement def){
+		definition_.put(option_name, def);
+	}
+	@Override
+	public QualityVariable getParent() {
+		return parent_;
+	}
+	public void setParent(QualityVariable parent) {
+		parent_ = parent;
+	}
+	@Override
+	public void accept(ModelVisitor visitor) {
+		for (AND_Refinement andRef : getAndrefinements()){
+			andRef.accept(visitor);
 		}
+		this.accept(visitor);
+		
+	}
+	List<AND_Refinement> getAndrefinements(){
+		return new ArrayList<AND_Refinement>(definition_.values());
 	}
 
 

@@ -1,40 +1,22 @@
 package radar.model;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
-class UnaryExpression extends Expression {
+class UnaryExpression extends ArithmeticExpression {
 
 	private UnaryOperator uop_;
-	private Expression expr_;
+	private ArithmeticExpression expr_;
 	public void setUnaryOperator (UnaryOperator uop){
 		uop_ = uop;
 	}
 	public UnaryOperator getUnaryOperator (){
 		return uop_;
 	}
-	public void setExpression (Expression expr){
+	public void setExpression (ArithmeticExpression expr){
 		expr_ = expr;
 	}
-	public Expression getExpression (){
+	public ArithmeticExpression getExpression (){
 		return expr_;
-	}
-	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
-			String qv_name) {
-		List<Node> result = new ArrayList<Node>();
-		List<Node> expr = expr_.addNodeToVariableGraph(g, model,qv_name);
-		result.addAll(expr);
-		return result;
-	}
-	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
-			String qv_name) {
-		List<Node> result = new ArrayList<Node>();
-		List<Node> expr = expr_.addNodeToDecisionGraph(g, model,qv_name);
-		result.addAll(expr);
-		return result;
 	}
 	@Override
 	public double[] simulate(Solution s) {
@@ -56,6 +38,20 @@ class UnaryExpression extends Expression {
 			}
 		}
 		return expr;
+	}
+	@Override
+	List<QualityVariable> getQualityVariable() {
+		return expr_.getQualityVariable();
+	}
+	@Override
+	public QualityVariable getParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void accept(ModelVisitor visitor) {
+		this.accept(visitor);
+		
 	}
 
 

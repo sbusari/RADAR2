@@ -1,13 +1,10 @@
 package radar.model;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
-public class QualityVariable extends ArithmeticExpression {
+public class QualityVariable extends ArithmeticExpression implements ModelVisitorElement {
 
 	private String label_;
 	private Expression definition_;
@@ -37,27 +34,6 @@ public class QualityVariable extends ArithmeticExpression {
 		}
 		return result;
 	}
-	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
-			String qv_name) {
-		//g.incrementOperatorID();
-		List<Node> results = new ArrayList<Node>();
-		Node qv_node =createDOTNode (g, label_,"box", "rounded");
-		List<Node> children = definition_.addNodeToVariableGraph(g,model,qv_name);
-		if (children != null &&  children.size() > 0){
-			for (int i =0 ; i <  children.size() ; i ++){
-				g.addEdge( children.get(i).getLabel(), qv_node.getLabel());
-			}
-		}
-		results.add(qv_node);
-		return results;
-	}
-	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
-			String qv_name) {
-		List<Node> children = definition_.addNodeToDecisionGraph(g,model,qv_name.replaceAll(" ", "_"));
-		return children;
-	}
 	double[][] simulate(List<Solution> s) {
 		double [][] result = new double [s.size()][];
 		for (int i =0 ; i < s.size(); i ++){
@@ -73,6 +49,25 @@ public class QualityVariable extends ArithmeticExpression {
 	}
 	public void setSimData(Map<Solution, double[]> simdata){
 		simData_ =simdata;
+	}
+	@Override
+	List<QualityVariable> getQualityVariable() {
+		List<QualityVariable> result = new ArrayList<QualityVariable>();
+		result.add(this);
+		return result;
+	}
+	
+	public int hashCode(){
+		return this.getLabel().hashCode();
+	}
+	@Override
+	public void accept(ModelVisitor visitor) {
+		definition_.accept(visitor);
+		this.accept(visitor);
+	}
+	@Override
+	public QualityVariable getParent() {
+		return null;
 	}
 
 

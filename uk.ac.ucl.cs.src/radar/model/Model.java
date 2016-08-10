@@ -8,7 +8,7 @@ import java.util.Map;
 import radar.information.analysis.InformationAnalysis;
 
 
-public class Model {
+public class Model implements ModelVisitorElement {
 	
 	public Model (){
 		objectives_ = new LinkedHashMap<String, Objective>();
@@ -79,6 +79,7 @@ public class Model {
 	public int getNbr_Simulation() {
 		return noOfSimulation_;
 	}
+
 	public int getSolutionSpace (){
 		int result =1;
 		for (Map.Entry<String , Decision> entry: this.decisions_.entrySet()){
@@ -135,10 +136,10 @@ public class Model {
 				value.setLabel(qv.getLabel());
 				parameters.add(value);
 			}else if (qv.getDefinition() instanceof OR_Refinement){
-				Map<String, Expression> optionsExpr = ((OR_Refinement)qv.getDefinition()).getDefinition();
-				for (Map.Entry<String, Expression> entry: optionsExpr.entrySet()){
-					if (entry.getValue() instanceof Parameter && !(((Parameter)entry.getValue()).getDistribution() instanceof DeterministicDistribution)){
-						Parameter value = (Parameter)entry.getValue();
+				Map<String, AND_Refinement> optionsExpr = ((OR_Refinement)qv.getDefinition()).getDefinition();
+				for (Map.Entry<String, AND_Refinement> entry: optionsExpr.entrySet()){
+					if (entry.getValue().getDefinition() instanceof Parameter && !(((Parameter)entry.getValue().getDefinition()).getDistribution() instanceof DeterministicDistribution)){
+						Parameter value = (Parameter)entry.getValue().getDefinition();
 						value.setLabel(qv.getLabel() + "[" +entry.getKey() + "]");
 						parameters.add(value);
 					}
@@ -162,7 +163,25 @@ public class Model {
 			solutions.add(s);
 		}
 		return solutions;
+	}	@Override
+	public void accept(ModelVisitor visitor) {
+		for (Objective obj: this.getObjectives()){
+			obj.accept(visitor);
+		}
+		this.accept(visitor);
 	}
+	// Generates the subgraph for any model element
+	public String generateDOTRefinementGraph(ModelVisitorElement e){
+		RefinementGraphGenerator graphGenerator = new RefinementGraphGenerator();
+		e.accept(graphGenerator);
+		return graphGenerator.getDotString();
+	}
+
+	// Generates the refinement graph for the whole model
+	public String generateDOTRefinementGraph(){
+		return generateDOTRefinementGraph(this);
+	}
+	
 	
 
 

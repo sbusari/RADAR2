@@ -1,5 +1,4 @@
 package radar.model;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -84,76 +83,30 @@ public class ModelConstructor {
 	}
 	public  QualityVariable addQualityVariableExpression (QualityVariable qv, String qv_name, Value qv_def){
 		qv.setLabel(qv_name.toString());
-		qv.setDefinition(qv_def.getExpression());
+		Expression qv_expr = (Expression)qv_def.getExpression();
+		qv.setDefinition(qv_expr);
 		return qv;
 	}
 	public void addInformationValueParameters (Model m, QualityVariable qv){
 		if (qv.getDefinition() instanceof Parameter &&  !(((Parameter)qv.getDefinition()).getDistribution() instanceof DeterministicDistribution) ){
 			m.addParameters(qv.getLabel());
 		}else if (qv.getDefinition() instanceof OR_Refinement){
-			Map<String, Expression> optionsExpr = ((OR_Refinement)qv.getDefinition()).getDefinition();
-			for (Map.Entry<String, Expression> entry: optionsExpr.entrySet()){
-				if (entry.getValue() instanceof Parameter && !(((Parameter)entry.getValue()).getDistribution() instanceof DeterministicDistribution)){
+			Map<String, AND_Refinement> optionsExpr = ((OR_Refinement)qv.getDefinition()).getDefinition();
+			for (Map.Entry<String, AND_Refinement> entry: optionsExpr.entrySet()){
+				if (entry.getValue().getDefinition() instanceof Parameter && !(((Parameter)entry.getValue().getDefinition()).getDistribution() instanceof DeterministicDistribution)){
 					m.addParameters(qv.getLabel());
 				}
 			}
 		}
 	}
-	public void addInformationValueParameters2 (Model m, QualityVariable qv){
-		if (qv.getDefinition() instanceof Distribution &&  !(qv.getDefinition() instanceof DeterministicDistribution) ){
-			Parameter param =new Parameter ();
-			param.setLabel(qv.getLabel());
-			param.setDistribution((Distribution)qv.getDefinition());
-			//m.addParameterToList(param);
-		}else if (qv.getDefinition() instanceof OR_Refinement){
-			Map<String, Expression> optionsExpr = ((OR_Refinement)qv.getDefinition()).getDefinition();
-			for (Map.Entry<String, Expression> entry: optionsExpr.entrySet()){
-				if (entry.getValue() instanceof Distribution && !(entry.getValue() instanceof DeterministicDistribution)){
-					Parameter param =new Parameter ();
-					param.setLabel(qv.getLabel() + "[" +entry.getKey() + "]" );
-					param.setDistribution((Distribution)entry.getValue());
-					//m.addParameterToList(param);
-				}
-			}
-		}
-	}
-	public void addInformationValueParameters (Model m, String qv_name, Value qv_def){
-		if (qv_def.getExpression() instanceof Distribution &&  !(qv_def.getExpression() instanceof DeterministicDistribution) ){
-				m.addParameters(qv_name);
-		}else if (qv_def.getExpression() instanceof OR_Refinement){
-			Map<String, Expression> optionsExpr = ((OR_Refinement)qv_def.getExpression()).getDefinition();
-			for (Map.Entry<String, Expression> entry: optionsExpr.entrySet()){
-				if (entry.getValue() instanceof Distribution && !(entry.getValue() instanceof DeterministicDistribution)){
-					m.addParameters(qv_name);
-				}
-			}
-		}
-	}
-	private double [] getExpressionDistribution (Expression expr){
-		double [] result = new double [simulation];
-		if (expr instanceof NormalDistribution){
-			NormalDistribution nd = (NormalDistribution)expr;
-			result = nd.simulate();
-		}else if (expr instanceof NormalCIDistribution){
-			NormalCIDistribution ncid = (NormalCIDistribution)expr;
-			result =ncid.simulate();
-		}else if (expr instanceof TriangularDistribution){
-			TriangularDistribution trd = (TriangularDistribution)expr;
-			result =trd.simulate();
-		}else if (expr instanceof UniformDistribution){
-			UniformDistribution ud = (UniformDistribution)expr;
-			result =ud.simulate();
-		}
-		return result;
-	}
-	
 	public  OR_Refinement createNewOr_Refinement (){
 		OR_Refinement or_refinement = new OR_Refinement ();
 		return or_refinement;
 	}
-
 	public  Value addOR_RefinementDefinition (OR_Refinement or_ref, String option_name, Value option_def){
-		or_ref.addDefinition(option_name, option_def.getExpression());
+		AND_Refinement and_ref = new AND_Refinement();
+		and_ref.addDefinition(option_def.getArithmeticExpression());
+		or_ref.addDefinition(option_name, and_ref);
 		return new Value(or_ref);
 	}
 	public  Decision createNewDecision(){
@@ -193,8 +146,8 @@ public class ModelConstructor {
 	public  Value addObjectiveProbablity (Value referredQV){
 		Probability p = new Probability();
 		// get the comparison expression from Value referredQV
-		p.setObjExpression(referredQV.getExpression());
-		BinaryExpression binexpr = (BinaryExpression)referredQV.getExpression();
+		p.setObjExpression(referredQV.getArithmeticExpression());
+		BinaryExpression binexpr = (BinaryExpression)referredQV.getArithmeticExpression();
 		String comparator = binexpr.getBinaryOperator().getBinaryOperatorValue();
 		p.setComparator(comparator);
 		if(binexpr.getRightExpression() instanceof Number){
@@ -364,33 +317,33 @@ public class ModelConstructor {
 	}
 	public  Value addComparatorExpression (Value left, Value right, String op){
 		BinaryExpression bexpr = new BinaryExpression();
-		if (!(left.getExpression() instanceof Identifier)){
+		if (!(left.getArithmeticExpression() instanceof Identifier)){
 			throw new RuntimeException ("Left operand of a comparison expression must be a quality variable");
 		}
-		bexpr.setLeftExpression(left.getExpression());
-		bexpr.setRightExpression(right.getExpression());
+		bexpr.setLeftExpression(left.getArithmeticExpression());
+		bexpr.setRightExpression(right.getArithmeticExpression());
 		BinaryOperator bop = getBinaryOperator(op);
 		bexpr.setBinaryOperator(bop);
 		return new Value (bexpr);
 	}
 	public  Value addBinaryExpression (Value left, Value right, String op){
 		BinaryExpression bexpr = new BinaryExpression();
-		bexpr.setLeftExpression(left.getExpression());
-		bexpr.setRightExpression(right.getExpression());
+		bexpr.setLeftExpression(left.getArithmeticExpression());
+		bexpr.setRightExpression(right.getArithmeticExpression());
 		BinaryOperator bop = getBinaryOperator(op);
 		bexpr.setBinaryOperator(bop);
 		return new Value (bexpr);
 	}
 	public  Value addUnaryExpression (Value expr, String op){
 		UnaryExpression uexpr = new UnaryExpression();
-		uexpr.setExpression(expr.getExpression());
+		uexpr.setExpression(expr.getArithmeticExpression());
 		UnaryOperator uop = getUnaryOperator(op);
 		uexpr.setUnaryOperator(uop);
 		return new Value (uexpr);
 	}
 	public  boolean doesDistributionArgumentHasExpr2(Value arguement){
 		boolean distributionArgumentHasExpr = false;
-		if (arguement.getExpression().getClass().equals(BinaryExpression.class)){
+		if (arguement.getArithmeticExpression().getClass().equals(BinaryExpression.class)){
 			distributionArgumentHasExpr = true;
 		}
 		return distributionArgumentHasExpr;
@@ -421,9 +374,9 @@ public class ModelConstructor {
 		Double exprPower =null; 
 		try{
 			// check if it is a unary expression and get the number ffrom it.
-			if (base.getExpression() instanceof UnaryExpression){
-				Number base_no =  (Number)((UnaryExpression) base.getExpression()).getExpression();
-				UnaryOperator op = ((UnaryExpression) base.getExpression()).getUnaryOperator();
+			if (base.getArithmeticExpression() instanceof UnaryExpression){
+				Number base_no =  (Number)((UnaryExpression) base.getArithmeticExpression()).getExpression();
+				UnaryOperator op = ((UnaryExpression) base.getArithmeticExpression()).getUnaryOperator();
 				if ( op.equals(UnaryOperator.NOT)){
 					exprBase = 1 - base_no.getValue();
 				}else if (op.equals(UnaryOperator.NEG)){
@@ -434,9 +387,9 @@ public class ModelConstructor {
 			}else{
 				exprBase = Double.parseDouble( base.toString());
 			}
-			if (power.getExpression() instanceof UnaryExpression){
-				Number power_no = (Number)((UnaryExpression) power.getExpression()).getExpression();
-				UnaryOperator op = ((UnaryExpression) power.getExpression()).getUnaryOperator();
+			if (power.getArithmeticExpression() instanceof UnaryExpression){
+				Number power_no = (Number)((UnaryExpression) power.getArithmeticExpression()).getExpression();
+				UnaryOperator op = ((UnaryExpression) power.getArithmeticExpression()).getUnaryOperator();
 				if ( op.equals(UnaryOperator.NOT)){
 					exprPower = 1 - power_no.getValue();
 				}else if (op.equals(UnaryOperator.NEG)){

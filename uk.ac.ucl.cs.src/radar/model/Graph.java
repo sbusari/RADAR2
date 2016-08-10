@@ -56,7 +56,7 @@ class Graph {
 			this.nodeList_.put(obj.getLabel(), obj_node);
 			QualityVariable qvObjReferTo = obj.getQualityVariable();
 			if (!this.nodeList_.containsKey(qvObjReferTo.getLabel())){
-				List<Node> qv_nodes = qvObjReferTo.addNodeToVariableGraph(this , this.semanticModel_, qvObjReferTo.getLabel());
+				List<Node> qv_nodes = null; //qvObjReferTo.addNodeToVariableGraph(this , this.semanticModel_, qvObjReferTo.getLabel());
 				for (int j=0; j < qv_nodes.size(); j ++){
 					this.addEdge(qv_nodes.get(j).getLabel(), obj_node.getLabel());
 				}
@@ -77,7 +77,7 @@ class Graph {
 		for (int i =0; i < objList.size(); i ++){
 			QualityVariable qvObjReferTo =objList.get(i).getQualityVariable();
 			if (!this.nodeList_.containsKey(qvObjReferTo.getLabel())){
-				List<Node> qv_nodes = qvObjReferTo.addNodeToDecisionGraph(this , this.semanticModel_, qvObjReferTo.getLabel());
+				List<Node> qv_nodes = null;//qvObjReferTo.addNodeToDecisionGraph(this , this.semanticModel_, qvObjReferTo.getLabel());
 				for (int j=0; j < qv_nodes.size(); j ++){
 					this.addEdge(qv_nodes.get(j).getLabel(), obj_node.getLabel());
 				}

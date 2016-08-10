@@ -1,11 +1,10 @@
 package radar.model;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-class Identifier extends Expression {
+class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 	private String id_;
+	QualityVariable parent_;
 	public void setID (String id){
 		id_ = id;
 	}
@@ -23,32 +22,18 @@ class Identifier extends Expression {
 		double [] result = qv.simulate(s);
 		return result;
 	}
-	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,String qv_name) {
-		Map<String, QualityVariable> qvList = model.getQualityVariables();
-		QualityVariable qv = qvList.get(id_);
-		List<Node> children = qv.addNodeToDecisionGraph(g,model,id_.replaceAll(" ", "_"));
-		return children;
+	public QualityVariable getParent() {
+		return parent_;
+	}
+	public void setParent(QualityVariable parent) {
+		parent_ = parent;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
-			String qv_name) {
-		List<Node> results = new ArrayList<Node>();
-		Node id = createDOTNode (g, id_,  "box", "rounded");
-		results.add(id);
-		Map<String, QualityVariable> qvList = model.getQualityVariables();
-		QualityVariable qv = qvList.get(id_);
-		List<Node> children = qv.addNodeToVariableGraph(g,model,id_);
-		if (children != null &&  children.size() > 0){
-			for (int i =0 ; i <  children.size() ; i ++){
-				g.addEdge(children.get(i).getLabel(), id.getLabel());
-			}
-		}
-		return results;
+	public void accept(ModelVisitor visitor) {
+		this.accept(visitor);
 	}
-
-
-
-
-
+	@Override
+	List<QualityVariable> getQualityVariable() {
+		return null;
+	}
 }

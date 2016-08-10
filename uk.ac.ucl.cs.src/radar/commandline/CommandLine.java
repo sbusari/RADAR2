@@ -134,11 +134,11 @@ public class CommandLine {
 			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/" , analysisResult, dataInput.getProblemName() +".out", false);
 			
 			// generate graphs
-			String variableGraph = new GraphGenerator().generateVariableGraph(semanticModel);
+			/*String variableGraph = new GraphGenerator().generateVariableGraph(semanticModel);
 			String decisionGraph = new GraphGenerator().generateDecisionGraph(semanticModel);
 			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", variableGraph, "vgraph.dot", false);
 			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", decisionGraph, "dgraph.dot", false);
-			
+*/			
 			
     		if (pareto == true){
     			String imageOutput = dataInput.getOutputDirectory() + dataInput.getProblemName() + "/";

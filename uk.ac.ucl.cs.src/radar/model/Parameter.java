@@ -9,7 +9,6 @@ import java.util.Map;
     private double[] simData;
     public double[] simulate(Solution s){
     	if (simData == null) simData = distribution.simulate(s);
-    	//System.out.println(simData[0] + ", " + simData[1] );
         return simData;
     }
     public void setDistribution (Distribution distr){

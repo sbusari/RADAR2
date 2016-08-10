@@ -24,13 +24,16 @@ class Number extends ArithmeticExpression {
 		return sim;
 	}
 	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
-			String qv_name) {
+	List<QualityVariable> getQualityVariable() {
 		return null;
 	}
 	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
-			String qv_name) {
+	public QualityVariable getParent() {
+		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void accept(ModelVisitor visitor) {
+		this.accept(visitor);
 	}
 }

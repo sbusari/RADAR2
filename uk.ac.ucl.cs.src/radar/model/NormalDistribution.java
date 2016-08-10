@@ -25,14 +25,4 @@ class NormalDistribution extends Distribution{
 	public double[] simulate(Solution s) {
 		return  normalCIDistribution(mean_,sd_, N);
 	}
-	@Override
-	public List<Node> addNodeToVariableGraph(Graph g, Model model,
-			String qv_name) {
-		return null;
-	}
-	@Override
-	public List<Node> addNodeToDecisionGraph(Graph g, Model model,
-			String qv_name) {
-		return null;
-	}
 }

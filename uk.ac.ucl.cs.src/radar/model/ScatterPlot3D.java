@@ -156,7 +156,6 @@ public class ScatterPlot3D extends JFrame {
     public void plot (Model semanticModel, String outputpath, AnalysisResult analysis_result) throws IOException{
 
 		Chart3D chart =createChart(semanticModel, createDataset(analysis_result));
-		
 		Chart3DPanel chartPanel = new Chart3DPanel(chart) ;// createDemoPanel(chartTitle, populateDataSeries(), Xlabel,Ylabel);
         chartPanel.setPreferredSize(new Dimension(700, 500));
         this.add(chartPanel, BorderLayout.CENTER);

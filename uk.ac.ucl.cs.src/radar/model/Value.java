@@ -11,8 +11,24 @@ public class Value {
     public Distribution getDistribution(){
     	return (Distribution)value;
     }
-    public Expression getExpression(){
-    	return (Expression)value;
+    public Expression getExpression (){
+    	Expression result = null;
+    	if (value instanceof ArithmeticExpression){
+    		result = (ArithmeticExpression)value;
+    	}
+    	if (value instanceof OR_Refinement){
+    		result = (OR_Refinement)value;
+    	}
+    	if (value instanceof AND_Refinement){
+    		result = (AND_Refinement)value;
+    	}
+    	if (value instanceof Parameter){
+    		result = (Parameter)value;
+    	}
+    	return result;
+    }
+    public ArithmeticExpression getArithmeticExpression(){
+    	return (ArithmeticExpression)value;
     }
     public OR_Refinement getOR_Refinement(){
     	return (OR_Refinement)value;

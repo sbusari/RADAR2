@@ -17,11 +17,21 @@ import radar.utilities.ConfigSetting;
 abstract class Distribution extends Expression {
 	List<Expression> distributionParamter_;
 	RandomGenerator rg_; 
+	QualityVariable parent_;
 	public Distribution(){
 		rg_ = new JDKRandomGenerator();
 		if (ConfigSetting.SEED != 0){
 			rg_.setSeed(ConfigSetting.SEED);
 		}
+	}
+	public QualityVariable getParent() {
+		return parent_;
+	}
+	public void setParent(QualityVariable parent) {
+		parent_ = parent;
+	}
+	public void accept(ModelVisitor visitor) {
+		this.accept(visitor);
 	}
 	protected double [] deterministicDistribution (double value, int sampleSize){
 		double[] sample = new double[sampleSize];
