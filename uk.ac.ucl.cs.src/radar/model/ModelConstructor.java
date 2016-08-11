@@ -323,19 +323,21 @@ public class ModelConstructor {
 		bexpr.setBinaryOperator(bop);
 		return new Value (bexpr);
 	}
-	public  Value addBinaryExpression (Value left, Value right, String op){
+	public  Value addBinaryExpression (Value left, Value right, String op, QualityVariable parent){
 		BinaryExpression bexpr = new BinaryExpression();
 		bexpr.setLeftExpression(left.getArithmeticExpression());
 		bexpr.setRightExpression(right.getArithmeticExpression());
 		BinaryOperator bop = getBinaryOperator(op);
 		bexpr.setBinaryOperator(bop);
+		bexpr.setParent(parent);
 		return new Value (bexpr);
 	}
-	public  Value addUnaryExpression (Value expr, String op){
+	public  Value addUnaryExpression (Value expr, String op, QualityVariable parent){
 		UnaryExpression uexpr = new UnaryExpression();
 		uexpr.setExpression(expr.getArithmeticExpression());
 		UnaryOperator uop = getUnaryOperator(op);
 		uexpr.setUnaryOperator(uop);
+		uexpr.setParent(parent);
 		return new Value (uexpr);
 	}
 	public  boolean doesDistributionArgumentHasExpr2(Value arguement){

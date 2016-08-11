@@ -49,8 +49,23 @@ class RefinementGraphGenerator implements ModelVisitor {
 			String varDotString =  "\""+ var.getLabel() +  "\"" + " [shape = oval] \n";
 			dotString +=  varDotString;
 			
-			
-			
+			if (var.getDefinition() != null && var.getDefinition().getParent() != null && var.getDefinition() instanceof BinaryExpression ){ // we do not want a qv whose parent is objective to be added here
+				String refID = "AndRef" + refCounter;
+				refCounter++;
+				dotString += refID + "[shape = point] \n";
+				String parentLabel = ((BinaryExpression)var.getDefinition()).getParent().getLabel();
+				String andDotString = refID + "->" +  "\""+  parentLabel +  "\"" + "\n";
+				for (QualityVariable child : ((BinaryExpression)var.getDefinition()).getQualityVariable()){
+					String childLabel = child.getLabel();
+					String childDotString =  "\""+ childLabel + "\"" + "->" + refID + " [dir = none] \n";
+					if (!edges.contains(childDotString)){
+						andDotString += childDotString;
+						edges.add(childDotString);
+					}
+				}
+				dotString +=  andDotString;
+				visited.add(((BinaryExpression)var.getDefinition()));
+			}
 			visited.add(var);
 		}
 	}
@@ -65,7 +80,12 @@ class RefinementGraphGenerator implements ModelVisitor {
 			String andDotString = refID + "->" +  "\""+  parentLabel +  "\"" + "\n";
 			for (QualityVariable child : andRef.getChildren()){
 				String childLabel = child.getLabel();
-				andDotString += "\""+ childLabel + "\"" + "->" + refID + " [dir = none] \n";
+				String childDotString =  "\""+ childLabel + "\"" + "->" + refID + " [dir = none] \n";
+				if (!edges.contains(childDotString)){
+					andDotString += childDotString;
+					edges.add(childDotString);
+				}
+				
 			}
 			dotString +=  andDotString;
 			visited.add(andRef);
@@ -82,7 +102,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 	}
 	@Override
 	public void visit(Identifier id) {
-		if (!visited.contains(id)){
+		/*if (!visited.contains(id)){
 			if ( id.getParent() != null){
 				String idDotString = "\""+ id.getID() + "\"" + "->" + id.getParent().getLabel()+ " \n";
 				// prevent variable referencing itself
@@ -92,13 +112,35 @@ class RefinementGraphGenerator implements ModelVisitor {
 				}
 			}
 			visited.add(id);
-		}
+		}*/
 	}
 	
 
+	// uncomment identifier and remove added parent in the addbinaryexpr method
+	
 	@Override
 	public void visit(BinaryExpression bin_expr) {
-		// do nothing.
+		/*if (!visited.contains(bin_expr) ){
+			if (bin_expr.getParent() != null){ // we do not want a qv whose parent is objective to be added here
+				String refID = "AndRef" + refCounter;
+				refCounter++;
+				dotString += refID + "[shape = point] \n";
+				String parentLabel = bin_expr.getParent().getLabel();
+				String andDotString = refID + "->" +  "\""+  parentLabel +  "\"" + "\n";
+				for (QualityVariable child : bin_expr.getQualityVariable()){
+					String childLabel = child.getLabel();
+					andDotString += "\""+ childLabel + "\"" + "->" + refID + " [dir = none] \n";
+					// pevent arithemtic expre with more than two operands ...
+					//if (!edges.contains(andDotString)){
+						//dotString += andDotString;
+						//edges.add(andDotString);
+					//}
+				}
+				dotString +=  andDotString;
+				visited.add(bin_expr);
+			}
+			
+		}*/
 	}
 
 }

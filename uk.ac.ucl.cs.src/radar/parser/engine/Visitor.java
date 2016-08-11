@@ -262,7 +262,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		Value leftOperand = visit (ctx.arithmetic_expr(0));
 		Value rightOperand =visit (ctx.arithmetic_expr(1));
 		String op = ctx.OR().getText();
-		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, op);
+		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, op,arith_expr_Parent);
 		return expValue;
 	}
 
@@ -270,13 +270,13 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		Value leftOperand = visit (ctx.arithmetic_expr(0));
 		Value rightOperand =  visit (ctx.arithmetic_expr(1));
 		String op = ctx.AND().getText();
-		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, op);
+		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, op,arith_expr_Parent);
 		return expValue;
 	}
 
 	@Override public Value visitExprNot(ModelParser.ExprNotContext ctx) {
 		Value expr = visit (ctx.arithmetic_expr());
-		Value expValue = modelConstructor.addUnaryExpression(expr, "!");
+		Value expValue = modelConstructor.addUnaryExpression(expr, "!",arith_expr_Parent);
 		return expValue;
 	}
 
@@ -289,14 +289,14 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		
 		String op = ctx.op.getText();
 		Value expr = visit (ctx.arithmetic_expr());
-		Value expValue = modelConstructor.addUnaryExpression(expr, op);
+		Value expValue = modelConstructor.addUnaryExpression(expr, op,arith_expr_Parent);
 
 		return expValue;
 	}
 	@Override public Value visitExprDiv(ModelParser.ExprDivContext ctx) { 
 		Value leftOperand = visit (ctx.arithmetic_expr(0));
 		Value rightOperand =  visit (ctx.arithmetic_expr(1));
-		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "/");
+		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "/",arith_expr_Parent);
 		if (argumentHasExpr == true){
 			computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() / rightOperand.convertToDouble());
 		}
@@ -305,7 +305,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	@Override public Value visitExprMult(ModelParser.ExprMultContext ctx) {
 		Value leftOperand = visit (ctx.arithmetic_expr(0));
 		Value rightOperand =  visit (ctx.arithmetic_expr(1));
-		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "*");
+		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "*",arith_expr_Parent);
 		if (argumentHasExpr == true){
 			computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() * rightOperand.convertToDouble());
 		}
@@ -314,7 +314,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	@Override public Value visitExprAdd(ModelParser.ExprAddContext ctx) {
 		Value leftOperand = visit (ctx.arithmetic_expr(0));
 		Value rightOperand =  visit (ctx.arithmetic_expr(1));
-		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "+");
+		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "+",arith_expr_Parent);
 		if (argumentHasExpr == true){
 			computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() + rightOperand.convertToDouble());
 		}
@@ -323,7 +323,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	@Override public Value visitExprSub(ModelParser.ExprSubContext ctx) {
 		Value leftOperand = visit (ctx.arithmetic_expr(0));
 		Value rightOperand =  visit (ctx.arithmetic_expr(1));
-		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "-");
+		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "-",arith_expr_Parent);
 		if (argumentHasExpr == true){
 			computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() - rightOperand.convertToDouble());
 		}

@@ -1,145 +1,159 @@
 digraph G { 
 rankdir = BT 
 "AverageFraudValue" [shape = oval] 
-"AverageFraudValue"->FinLoss 
 "NbrAccounts" [shape = oval] 
-"NbrAccounts"->NbrCompromisedAccounts 
 "CompromisedAccountRatio" [shape = oval] 
-"CompromisedAccountRatio"->NbrCompromisedAccounts 
 "NbrCompromisedAccounts" [shape = oval] 
-"NbrCompromisedAccounts"->FinLoss 
 AndRef0[shape = point] 
-AndRef0->"ContinuousAlertThreshold"
-"ContinuousAlertThreshold[high]"->AndRef0 [dir = none] 
+AndRef0->"NbrCompromisedAccounts"
+"NbrAccounts"->AndRef0 [dir = none] 
+"CompromisedAccountRatio"->AndRef0 [dir = none] 
 AndRef1[shape = point] 
 AndRef1->"ContinuousAlertThreshold"
-"ContinuousAlertThreshold[medium]"->AndRef1 [dir = none] 
+"ContinuousAlertThreshold[high]"->AndRef1 [dir = none] 
 AndRef2[shape = point] 
 AndRef2->"ContinuousAlertThreshold"
-"ContinuousAlertThreshold[low]"->AndRef2 [dir = none] 
-"ContinuousAlertThreshold" [shape = oval] 
+"ContinuousAlertThreshold[medium]"->AndRef2 [dir = none] 
 AndRef3[shape = point] 
-AndRef3->"ContinuousTrueAlertRate"
-"ContinuousAlertThreshold"->AndRef3 [dir = none] 
+AndRef3->"ContinuousAlertThreshold"
+"ContinuousAlertThreshold[low]"->AndRef3 [dir = none] 
+"ContinuousAlertThreshold" [shape = oval] 
 AndRef4[shape = point] 
 AndRef4->"ContinuousTrueAlertRate"
-"ContinuousTrueAlertRate[rule-based]"->AndRef4 [dir = none] 
-"ContinuousTrueAlertRate" [shape = oval] 
+"ContinuousAlertThreshold"->AndRef4 [dir = none] 
 AndRef5[shape = point] 
-AndRef5->"NbrFraudBeforeDetection"
-"ContinuousTrueAlertRate"->AndRef5 [dir = none] 
-"NbrFraudPerCompromisedAccountPerDay" [shape = oval] 
+AndRef5->"ContinuousTrueAlertRate"
+"ContinuousTrueAlertRate[rule-based]"->AndRef5 [dir = none] 
+"ContinuousTrueAlertRate" [shape = oval] 
 AndRef6[shape = point] 
-AndRef6->"BatchAlertThreshold"
-"BatchAlertThreshold[high]"->AndRef6 [dir = none] 
+AndRef6->"NbrFraudBeforeDetection"
+"ContinuousTrueAlertRate"->AndRef6 [dir = none] 
+"NbrFraudPerCompromisedAccountPerDay" [shape = oval] 
 AndRef7[shape = point] 
 AndRef7->"BatchAlertThreshold"
-"BatchAlertThreshold[medium]"->AndRef7 [dir = none] 
+"BatchAlertThreshold[high]"->AndRef7 [dir = none] 
 AndRef8[shape = point] 
 AndRef8->"BatchAlertThreshold"
-"BatchAlertThreshold[low]"->AndRef8 [dir = none] 
-"BatchAlertThreshold" [shape = oval] 
+"BatchAlertThreshold[medium]"->AndRef8 [dir = none] 
 AndRef9[shape = point] 
-AndRef9->"BatchTrueAlertRate"
-"BatchAlertThreshold"->AndRef9 [dir = none] 
+AndRef9->"BatchAlertThreshold"
+"BatchAlertThreshold[low]"->AndRef9 [dir = none] 
+"BatchAlertThreshold" [shape = oval] 
 AndRef10[shape = point] 
 AndRef10->"BatchTrueAlertRate"
-"BatchTrueAlertRate[rule-based]"->AndRef10 [dir = none] 
-"BatchTrueAlertRate" [shape = oval] 
+"BatchAlertThreshold"->AndRef10 [dir = none] 
 AndRef11[shape = point] 
-AndRef11->"NbrFraudBeforeDetection"
-"NbrFraudPerCompromisedAccountPerDay"->AndRef11 [dir = none] 
-"BatchTrueAlertRate"->AndRef11 [dir = none] 
-"NbrFraudBeforeDetection" [shape = oval] 
+AndRef11->"BatchTrueAlertRate"
+"BatchTrueAlertRate[rule-based]"->AndRef11 [dir = none] 
+"BatchTrueAlertRate" [shape = oval] 
 AndRef12[shape = point] 
-AndRef12->"NbrFraudPerAccountBeforeBlocked"
-"NbrFraudBeforeDetection"->AndRef12 [dir = none] 
+AndRef12->"NbrFraudBeforeDetection"
+"NbrFraudPerCompromisedAccountPerDay"->AndRef12 [dir = none] 
+"BatchTrueAlertRate"->AndRef12 [dir = none] 
 "NbrFraudBeforeDetection" [shape = oval] 
-"NbrFraudPerCompromisedAccountPerDay" [shape = oval] 
-"NbrFraudPerCompromisedAccountPerDay"->NbrFraudDuringInvestigation 
-"InvestigationDelay" [shape = oval] 
-"InvestigationDelay"->NbrFraudDuringInvestigation 
-"NbrFraudDuringInvestigation" [shape = oval] 
 AndRef13[shape = point] 
 AndRef13->"NbrFraudPerAccountBeforeBlocked"
 "NbrFraudBeforeDetection"->AndRef13 [dir = none] 
-"NbrFraudDuringInvestigation"->AndRef13 [dir = none] 
+"NbrFraudBeforeDetection" [shape = oval] 
+"NbrFraudPerCompromisedAccountPerDay" [shape = oval] 
+"InvestigationDelay" [shape = oval] 
+"NbrFraudDuringInvestigation" [shape = oval] 
+AndRef14[shape = point] 
+AndRef14->"NbrFraudPerAccountBeforeBlocked"
+"NbrFraudBeforeDetection"->AndRef14 [dir = none] 
+"NbrFraudDuringInvestigation"->AndRef14 [dir = none] 
 "NbrFraudPerAccountBeforeBlocked" [shape = oval] 
-"NbrFraudPerAccountBeforeBlocked"->FinLoss 
 "FinLoss" [shape = oval] 
+AndRef15[shape = point] 
+AndRef15->"FinLoss"
+"AverageFraudValue"->AndRef15 [dir = none] 
+"NbrCompromisedAccounts"->AndRef15 [dir = none] 
+"NbrFraudPerAccountBeforeBlocked"->AndRef15 [dir = none] 
 FinancialLoss [shape = box] 
 FinLoss->"FinancialLoss"
-"NbrAccounts"->NbrFraud 
-"CompromisedAccountRatio"->NbrFraud 
-"NbrFraudPerCompromisedAccountPerDay"->NbrFraud 
 "NbrFraud" [shape = oval] 
-"NbrFraud"->NbrTrueAlerts 
-"ContinuousTrueAlertRate" [shape = oval] 
-AndRef14[shape = point] 
-AndRef14->"TrueAlertRate"
-"ContinuousTrueAlertRate"->AndRef14 [dir = none] 
-"BatchTrueAlertRate" [shape = oval] 
-AndRef15[shape = point] 
-AndRef15->"TrueAlertRate"
-"BatchTrueAlertRate"->AndRef15 [dir = none] 
-"TrueAlertRate" [shape = oval] 
-"TrueAlertRate"->NbrTrueAlerts 
-"NbrTrueAlerts" [shape = oval] 
-"NbrTrueAlerts"->NbrAlerts 
-"NbrAccounts"->NbrLegitTransactions 
-"NbrLegitTransactionsPerAccountPerDay" [shape = oval] 
-"NbrLegitTransactionsPerAccountPerDay"->NbrLegitTransactions 
-"NbrLegitTransactions" [shape = oval] 
-"NbrLegitTransactions"->NbrFalseAlerts 
 AndRef16[shape = point] 
-AndRef16->"ContinuousClassierTrueNegativeRate"
-"ContinuousClassierTrueNegativeRate[high]"->AndRef16 [dir = none] 
+AndRef16->"NbrFraud"
+"NbrAccounts"->AndRef16 [dir = none] 
+"CompromisedAccountRatio"->AndRef16 [dir = none] 
+"NbrFraudPerCompromisedAccountPerDay"->AndRef16 [dir = none] 
+"ContinuousTrueAlertRate" [shape = oval] 
 AndRef17[shape = point] 
-AndRef17->"ContinuousClassierTrueNegativeRate"
-"ContinuousClassierTrueNegativeRate[medium]"->AndRef17 [dir = none] 
+AndRef17->"TrueAlertRate"
+"ContinuousTrueAlertRate"->AndRef17 [dir = none] 
+"BatchTrueAlertRate" [shape = oval] 
 AndRef18[shape = point] 
-AndRef18->"ContinuousClassierTrueNegativeRate"
-"ContinuousClassierTrueNegativeRate[low]"->AndRef18 [dir = none] 
-"ContinuousClassierTrueNegativeRate" [shape = oval] 
+AndRef18->"TrueAlertRate"
+"BatchTrueAlertRate"->AndRef18 [dir = none] 
+"TrueAlertRate" [shape = oval] 
+"NbrTrueAlerts" [shape = oval] 
 AndRef19[shape = point] 
-AndRef19->"ContinuousTrueNegativeRate"
-"ContinuousClassierTrueNegativeRate"->AndRef19 [dir = none] 
+AndRef19->"NbrTrueAlerts"
+"NbrFraud"->AndRef19 [dir = none] 
+"TrueAlertRate"->AndRef19 [dir = none] 
+"NbrLegitTransactionsPerAccountPerDay" [shape = oval] 
+"NbrLegitTransactions" [shape = oval] 
 AndRef20[shape = point] 
-AndRef20->"ContinuousTrueNegativeRate"
-"ContinuousTrueNegativeRate[rule-based]"->AndRef20 [dir = none] 
-"ContinuousTrueNegativeRate" [shape = oval] 
+AndRef20->"NbrLegitTransactions"
+"NbrAccounts"->AndRef20 [dir = none] 
+"NbrLegitTransactionsPerAccountPerDay"->AndRef20 [dir = none] 
 AndRef21[shape = point] 
-AndRef21->"TrueNegativeRate"
-"ContinuousTrueNegativeRate"->AndRef21 [dir = none] 
+AndRef21->"ContinuousClassierTrueNegativeRate"
+"ContinuousClassierTrueNegativeRate[high]"->AndRef21 [dir = none] 
 AndRef22[shape = point] 
-AndRef22->"BatchClassifierTrueNegativeRate"
-"BatchClassifierTrueNegativeRate[high]"->AndRef22 [dir = none] 
+AndRef22->"ContinuousClassierTrueNegativeRate"
+"ContinuousClassierTrueNegativeRate[medium]"->AndRef22 [dir = none] 
 AndRef23[shape = point] 
-AndRef23->"BatchClassifierTrueNegativeRate"
-"BatchClassifierTrueNegativeRate[medium]"->AndRef23 [dir = none] 
+AndRef23->"ContinuousClassierTrueNegativeRate"
+"ContinuousClassierTrueNegativeRate[low]"->AndRef23 [dir = none] 
+"ContinuousClassierTrueNegativeRate" [shape = oval] 
 AndRef24[shape = point] 
-AndRef24->"BatchClassifierTrueNegativeRate"
-"BatchClassifierTrueNegativeRate[low]"->AndRef24 [dir = none] 
-"BatchClassifierTrueNegativeRate" [shape = oval] 
+AndRef24->"ContinuousTrueNegativeRate"
+"ContinuousClassierTrueNegativeRate"->AndRef24 [dir = none] 
 AndRef25[shape = point] 
-AndRef25->"BatchTrueNegativeRate"
-"BatchClassifierTrueNegativeRate"->AndRef25 [dir = none] 
+AndRef25->"ContinuousTrueNegativeRate"
+"ContinuousTrueNegativeRate[rule-based]"->AndRef25 [dir = none] 
+"ContinuousTrueNegativeRate" [shape = oval] 
 AndRef26[shape = point] 
-AndRef26->"BatchTrueNegativeRate"
-"BatchTrueNegativeRate[rule-based]"->AndRef26 [dir = none] 
-"BatchTrueNegativeRate" [shape = oval] 
+AndRef26->"TrueNegativeRate"
+"ContinuousTrueNegativeRate"->AndRef26 [dir = none] 
 AndRef27[shape = point] 
-AndRef27->"TrueNegativeRate"
-"BatchTrueNegativeRate"->AndRef27 [dir = none] 
+AndRef27->"BatchClassifierTrueNegativeRate"
+"BatchClassifierTrueNegativeRate[high]"->AndRef27 [dir = none] 
+AndRef28[shape = point] 
+AndRef28->"BatchClassifierTrueNegativeRate"
+"BatchClassifierTrueNegativeRate[medium]"->AndRef28 [dir = none] 
+AndRef29[shape = point] 
+AndRef29->"BatchClassifierTrueNegativeRate"
+"BatchClassifierTrueNegativeRate[low]"->AndRef29 [dir = none] 
+"BatchClassifierTrueNegativeRate" [shape = oval] 
+AndRef30[shape = point] 
+AndRef30->"BatchTrueNegativeRate"
+"BatchClassifierTrueNegativeRate"->AndRef30 [dir = none] 
+AndRef31[shape = point] 
+AndRef31->"BatchTrueNegativeRate"
+"BatchTrueNegativeRate[rule-based]"->AndRef31 [dir = none] 
+"BatchTrueNegativeRate" [shape = oval] 
+AndRef32[shape = point] 
+AndRef32->"TrueNegativeRate"
+"BatchTrueNegativeRate"->AndRef32 [dir = none] 
 "TrueNegativeRate" [shape = oval] 
-"TrueNegativeRate"->NbrFalseAlerts 
 "NbrFalseAlerts" [shape = oval] 
-"NbrFalseAlerts"->NbrAlerts 
+AndRef33[shape = point] 
+AndRef33->"NbrFalseAlerts"
+"NbrLegitTransactions"->AndRef33 [dir = none] 
+"TrueNegativeRate"->AndRef33 [dir = none] 
 "NbrAlerts" [shape = oval] 
-"NbrAlerts"->InvestCost 
+AndRef34[shape = point] 
+AndRef34->"NbrAlerts"
+"NbrTrueAlerts"->AndRef34 [dir = none] 
+"NbrFalseAlerts"->AndRef34 [dir = none] 
 "CostPerAlert" [shape = oval] 
-"CostPerAlert"->InvestCost 
 "InvestCost" [shape = oval] 
+AndRef35[shape = point] 
+AndRef35->"InvestCost"
+"NbrAlerts"->AndRef35 [dir = none] 
+"CostPerAlert"->AndRef35 [dir = none] 
 InvestigationCost [shape = box] 
 InvestCost->"InvestigationCost"
 }
