@@ -41,6 +41,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 
 	@Override
 	public void visit(Statistic stat) {
+		
 	}
 
 	@Override
@@ -48,8 +49,9 @@ class RefinementGraphGenerator implements ModelVisitor {
 		if (!visited.contains(var)){
 			String varDotString =  "\""+ var.getLabel() +  "\"" + " [shape = oval] \n";
 			dotString +=  varDotString;
-			
-			if (var.getDefinition() != null && var.getDefinition().getParent() != null && var.getDefinition() instanceof BinaryExpression ){ // we do not want a qv whose parent is objective to be added here
+			// we do not want a qv whose parent is objective to be added here
+			// implement the same for unary
+			if (var.getDefinition() != null && var.getDefinition().getParent() != null && var.getDefinition() instanceof BinaryExpression ){ 
 				String refID = "AndRef" + refCounter;
 				refCounter++;
 				dotString += refID + "[shape = point] \n";
@@ -102,45 +104,11 @@ class RefinementGraphGenerator implements ModelVisitor {
 	}
 	@Override
 	public void visit(Identifier id) {
-		/*if (!visited.contains(id)){
-			if ( id.getParent() != null){
-				String idDotString = "\""+ id.getID() + "\"" + "->" + id.getParent().getLabel()+ " \n";
-				// prevent variable referencing itself
-				if (!edges.contains(idDotString)){
-					dotString +=  idDotString;
-					edges.add(idDotString);
-				}
-			}
-			visited.add(id);
-		}*/
-	}
-	
 
-	// uncomment identifier and remove added parent in the addbinaryexpr method
-	
+	}
 	@Override
 	public void visit(BinaryExpression bin_expr) {
-		/*if (!visited.contains(bin_expr) ){
-			if (bin_expr.getParent() != null){ // we do not want a qv whose parent is objective to be added here
-				String refID = "AndRef" + refCounter;
-				refCounter++;
-				dotString += refID + "[shape = point] \n";
-				String parentLabel = bin_expr.getParent().getLabel();
-				String andDotString = refID + "->" +  "\""+  parentLabel +  "\"" + "\n";
-				for (QualityVariable child : bin_expr.getQualityVariable()){
-					String childLabel = child.getLabel();
-					andDotString += "\""+ childLabel + "\"" + "->" + refID + " [dir = none] \n";
-					// pevent arithemtic expre with more than two operands ...
-					//if (!edges.contains(andDotString)){
-						//dotString += andDotString;
-						//edges.add(andDotString);
-					//}
-				}
-				dotString +=  andDotString;
-				visited.add(bin_expr);
-			}
-			
-		}*/
+
 	}
 
 }
