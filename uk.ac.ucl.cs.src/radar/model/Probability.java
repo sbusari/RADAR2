@@ -3,12 +3,17 @@ package radar.model;
 import radar.utilities.Statistics;
 
 class Probability extends Statistic {
-
+	Identifier leftVarName_;
 	private double x_scaler;
-	private double[]  x_array;
 	boolean xIsAScaler;
 	Comparator comparator_;
 	public Probability(){}
+	public void setLeftVarName (Identifier varName){
+		leftVarName_ =varName;
+	}
+	public Identifier getLeftVarName (){
+		return leftVarName_;
+	}
 	public void xIsAScaler(boolean isXScalerValue){
 		xIsAScaler = isXScalerValue;
 	}

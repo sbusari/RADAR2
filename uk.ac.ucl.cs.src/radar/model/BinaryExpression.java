@@ -7,6 +7,7 @@ import java.util.List;
 class BinaryExpression extends ArithmeticExpression {
 	private BinaryOperator bop_;
 	private ArithmeticExpression leftExpr_, rightExpr_;
+
 	public void setBinaryOperator (BinaryOperator bop){
 		bop_ = bop;
 	}
@@ -78,11 +79,13 @@ class BinaryExpression extends ArithmeticExpression {
 	}
 	@Override
 	public QualityVariable getParent() {
-		return null;
+		return parent_;
 	}
 	@Override
-	public void accept(ModelVisitor visitor) {
-		this.accept(visitor);
+	public void accept(ModelVisitor visitor, Model m) {
+		leftExpr_.accept(visitor, m);
+		rightExpr_.accept(visitor, m);
+		visitor.visit(this);
 	}
 	
 }

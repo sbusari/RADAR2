@@ -1,22 +1,24 @@
 digraph G { 
-rankdir = BT; 
-edge[dir=forward]; 
-ENB[shape=box]
-NB[shape=box, style=rounded]
-Benefit[shape=box, style=rounded]
-"Benefit[New]"[shape=ellipse]
-"Benefit[Legacy]"[shape=ellipse]
-Cost[shape=box, style=rounded]
-"Cost[New]"[shape=ellipse]
-"Cost[Legacy]"[shape=ellipse]
-LP[shape=box]
-"Benefit[New]"->Benefit
-"Benefit[Legacy]"->Benefit
-"Cost[New]"->Cost
-"Cost[Legacy]"->Cost
-Benefit->"SUB_1"
-Cost->"SUB_1"
-"SUB_1"->NB
-NB->ENB
-NB->LP
+rankdir = BT 
+AndRef0[shape = point] 
+AndRef0->"Benefit"
+"Benefit[New]"->AndRef0 [dir = none] 
+AndRef1[shape = point] 
+AndRef1->"Benefit"
+"Benefit[Legacy]"->AndRef1 [dir = none] 
+"Benefit" [shape = oval] 
+"Benefit"->NB 
+AndRef2[shape = point] 
+AndRef2->"Cost"
+"Cost[New]"->AndRef2 [dir = none] 
+AndRef3[shape = point] 
+AndRef3->"Cost"
+"Cost[Legacy]"->AndRef3 [dir = none] 
+"Cost" [shape = oval] 
+"Cost"->NB 
+"NB" [shape = oval] 
+ENB [shape = box] 
+NB->"ENB"
+LP [shape = box] 
+NB->"LP"
 }

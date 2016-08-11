@@ -130,7 +130,7 @@ public class Model implements ModelVisitorElement {
 	public static List<Parameter> getParameterList (List<String> paramNames, Model m){
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		for (int i =0; i < paramNames.size(); i ++){
-			QualityVariable qv = m.getQualityVariables().get(paramNames.get(i));
+			QualityVariable qv = m.getQualityVariables().get(paramNames.get(i));			
 			if (qv.getDefinition() instanceof Parameter &&  !(((Parameter)qv.getDefinition()).getDistribution() instanceof DeterministicDistribution) ){
 				Parameter value = (Parameter)qv.getDefinition();
 				value.setLabel(qv.getLabel());
@@ -164,22 +164,22 @@ public class Model implements ModelVisitorElement {
 		}
 		return solutions;
 	}	@Override
-	public void accept(ModelVisitor visitor) {
+	public void accept(ModelVisitor visitor, Model m) {
 		for (Objective obj: this.getObjectives()){
-			obj.accept(visitor);
+			obj.accept(visitor, m);
 		}
-		this.accept(visitor);
+		visitor.visit(this);
 	}
 	// Generates the subgraph for any model element
-	public String generateDOTRefinementGraph(ModelVisitorElement e){
+	public String generateDOTRefinementGraph(ModelVisitorElement e, Model m){
 		RefinementGraphGenerator graphGenerator = new RefinementGraphGenerator();
-		e.accept(graphGenerator);
+		e.accept(graphGenerator,m);
 		return graphGenerator.getDotString();
 	}
 
 	// Generates the refinement graph for the whole model
-	public String generateDOTRefinementGraph(){
-		return generateDOTRefinementGraph(this);
+	public String generateDOTRefinementGraph(Model m){
+		return generateDOTRefinementGraph(this,m);
 	}
 	
 	

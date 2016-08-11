@@ -29,11 +29,13 @@ class AND_Refinement extends Expression {
 	}
 
 	@Override
-	public void accept(ModelVisitor visitor) {
+	public void accept(ModelVisitor visitor, Model m ) {
 		for (QualityVariable var : this.getChildren()){
-			var.accept(visitor);
+			var.accept(visitor, m);
 		}
-		this.accept(visitor);
+		visitor.visit(this);
+
 	}
+
 
 }

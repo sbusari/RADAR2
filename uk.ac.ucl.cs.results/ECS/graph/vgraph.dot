@@ -1,259 +1,283 @@
 digraph G { 
-rankdir = BT; 
-edge[dir=forward]; 
-ExpectedUtility[shape=box]
-Utility[shape=box, style=rounded]
-HungRequestsRatio_weight[shape=box, style=rounded]
-HungRequestsRatio_Utility[shape=box, style=rounded]
-HungRequestRatio[shape=box, style=rounded]
-HungRequestRatio_current[shape=box, style=rounded]
-ReassignedHungRequestRatio[shape=box, style=rounded]
-"ReassignedHungRequestRatio[Current: not possible to reassign order]"[shape=ellipse]
-"ReassignedHungRequestRatio[Allow Order Reassignment]"[shape=ellipse]
-ForcedHungRequestRatio[shape=box, style=rounded]
-"ForcedHungRequestRatio[Current: not possible to force order completion]"[shape=ellipse]
-"ForcedHungRequestRatio[Allow Forced Order Completion]"[shape=ellipse]
-HungRequestRatio_worst[shape=box, style=rounded]
-HungRequestRatio_best[shape=box, style=rounded]
-LostRequestsRatio_weight[shape=box, style=rounded]
-LostRequestsRatio_Utility[shape=box, style=rounded]
-LostRequestsRatio[shape=box, style=rounded]
-LostRequestsRatio_worst[shape=box, style=rounded]
-LostRequestsRatio_best[shape=box, style=rounded]
-FailedOrderRatio_weight[shape=box, style=rounded]
-FailedOrderRatio_Utility[shape=box, style=rounded]
-FailedOrderRatio[shape=box, style=rounded]
-"FailedOrderRatio[Current: store when processed]"[shape=ellipse]
-"FailedOrderRatio[Store as soon as received]"[shape=ellipse]
-FailedOrderRatio_worst[shape=box, style=rounded]
-FailedOrderRatio_best[shape=box, style=rounded]
-HungOrdersRatio_weight[shape=box, style=rounded]
-HungOrdersRatio_Utility[shape=box, style=rounded]
-HungOrdersRatio[shape=box, style=rounded]
-HungOrdersRatio_current[shape=box, style=rounded]
-SkippedHungOrderRatio[shape=box, style=rounded]
-"SkippedHungOrderRatio[Current: no order segmentation]"[shape=ellipse]
-"SkippedHungOrderRatio[Orders are segmented]"[shape=ellipse]
-RetriedHungOrderRatio[shape=box, style=rounded]
-"RetriedHungOrderRatio[Current: no order retry]"[shape=ellipse]
-"RetriedHungOrderRatio[Allow Order Retry]"[shape=ellipse]
-HungOrdersRatio_worst[shape=box, style=rounded]
-HungOrdersRatio_best[shape=box, style=rounded]
-LostOrdersRatio_weight[shape=box, style=rounded]
-LostOrdersRatio_Utility[shape=box, style=rounded]
-LostOrdersRatio[shape=box, style=rounded]
-"LostOrdersRatio[Current: store when processed]"[shape=ellipse]
-"LostOrdersRatio[Store as soon as received]"[shape=ellipse]
-LostOrdersRatio_worst[shape=box, style=rounded]
-LostOrdersRatio_best[shape=box, style=rounded]
-HelpNeededByUsers_weight[shape=box, style=rounded]
-HelpNeededByUsers_Utility[shape=box, style=rounded]
-HelpNeededByUsers[shape=box, style=rounded]
-HelpNeededPerLostOrder[shape=box, style=rounded]
-"HelpNeededPerLostOrder[Current: no notification]"[shape=ellipse]
-"HelpNeededPerLostOrder[User notified of failed order]"[shape=ellipse]
-HelpNeededForTrackingGranularity[shape=box, style=rounded]
-"HelpNeededForTrackingGranularity[Current: order level]"[shape=ellipse]
-"HelpNeededForTrackingGranularity[Granule-level order tracking]"[shape=ellipse]
-HelpNeededByUsers_worst[shape=box, style=rounded]
-HelpNeededByUsers_best[shape=box, style=rounded]
-FailureInfoGivenToUsers_weight[shape=box, style=rounded]
-FailureInfoGivenToUsers_Utility[shape=box, style=rounded]
-FailureInfoGivenToUsers[shape=box, style=rounded]
-RatioUsersNotGettingInfo[shape=box, style=rounded]
-RatioUsersNotGettingInfo_current[shape=box, style=rounded]
-NotificationOrderEffect[shape=box, style=rounded]
-"NotificationOrderEffect[Current: no notification]"[shape=ellipse]
-"NotificationOrderEffect[User notified of failed order]"[shape=ellipse]
-OrderTrackingGranularityEffect[shape=box, style=rounded]
-"OrderTrackingGranularityEffect[Current: order level]"[shape=ellipse]
-"OrderTrackingGranularityEffect[Granule-level order tracking]"[shape=ellipse]
-UserInformationEffect[shape=box, style=rounded]
-"UserInformationEffect[Current: no link to user info]"[shape=ellipse]
-"UserInformationEffect[Link to user information]"[shape=ellipse]
-FailureInfoGivenToUsers_worst[shape=box, style=rounded]
-FailureInfoGivenToUsers_best[shape=box, style=rounded]
-LimitOnOrders_weight[shape=box, style=rounded]
-LimitOnOrders_Utility[shape=box, style=rounded]
-LimitOnOrders[shape=box, style=rounded]
-"LimitOnOrders[Current: no oder chunking]"[shape=ellipse]
-"LimitOnOrders[Order Chunking]"[shape=ellipse]
-LimitOnOrders_worst[shape=box, style=rounded]
-LimitOnOrders_best[shape=box, style=rounded]
-NotificationsFrequency_weight[shape=box, style=rounded]
-NotificationsFrequency_Utility[shape=box, style=rounded]
-NotificationsFrequency[shape=box, style=rounded]
-"NotificationsFrequency[No Order Bundling]"[shape=ellipse]
-"NotificationsFrequency[Order Bundling]"[shape=ellipse]
-NotificationsFrequency_worst[shape=box, style=rounded]
-NotificationsFrequency_best[shape=box, style=rounded]
-Performance_weight[shape=box, style=rounded]
-Performance_Utility[shape=box, style=rounded]
-Performance[shape=box, style=rounded]
-"Performance[No Order Bundling]"[shape=ellipse]
-"Performance[Order Bundling]"[shape=ellipse]
-Performance_worst[shape=box, style=rounded]
-Performance_best[shape=box, style=rounded]
-Cost[shape=box]
-"ReassignedHungRequestRatio[Current: not possible to reassign order]"->ReassignedHungRequestRatio
-"ReassignedHungRequestRatio[Allow Order Reassignment]"->ReassignedHungRequestRatio
-HungRequestRatio_current->"MUL_14"
-ReassignedHungRequestRatio->"MUL_14"
-"ForcedHungRequestRatio[Current: not possible to force order completion]"->ForcedHungRequestRatio
-"ForcedHungRequestRatio[Allow Forced Order Completion]"->ForcedHungRequestRatio
-"MUL_14"->"MUL_13"
-ForcedHungRequestRatio->"MUL_13"
-"MUL_13"->HungRequestRatio
-HungRequestRatio->"SUB_12"
-HungRequestRatio_worst->"SUB_12"
-HungRequestRatio_best->"SUB_17"
-HungRequestRatio_worst->"SUB_17"
-"SUB_12"->"DIV_11"
-"SUB_17"->"DIV_11"
-"DIV_11"->HungRequestsRatio_Utility
-HungRequestsRatio_weight->"MUL_10"
-HungRequestsRatio_Utility->"MUL_10"
-LostRequestsRatio->"SUB_20"
-LostRequestsRatio_worst->"SUB_20"
-LostRequestsRatio_best->"SUB_21"
-LostRequestsRatio_worst->"SUB_21"
-"SUB_20"->"DIV_19"
-"SUB_21"->"DIV_19"
-"DIV_19"->LostRequestsRatio_Utility
-LostRequestsRatio_weight->"MUL_18"
-LostRequestsRatio_Utility->"MUL_18"
-"MUL_10"->"ADD_9"
-"MUL_18"->"ADD_9"
-"FailedOrderRatio[Current: store when processed]"->FailedOrderRatio
-"FailedOrderRatio[Store as soon as received]"->FailedOrderRatio
-FailedOrderRatio->"SUB_24"
-FailedOrderRatio_worst->"SUB_24"
-FailedOrderRatio_best->"SUB_25"
-FailedOrderRatio_worst->"SUB_25"
-"SUB_24"->"DIV_23"
-"SUB_25"->"DIV_23"
-"DIV_23"->FailedOrderRatio_Utility
-FailedOrderRatio_weight->"MUL_22"
-FailedOrderRatio_Utility->"MUL_22"
-"ADD_9"->"ADD_8"
-"MUL_22"->"ADD_8"
-"SkippedHungOrderRatio[Current: no order segmentation]"->SkippedHungOrderRatio
-"SkippedHungOrderRatio[Orders are segmented]"->SkippedHungOrderRatio
-HungOrdersRatio_current->"MUL_30"
-SkippedHungOrderRatio->"MUL_30"
-"RetriedHungOrderRatio[Current: no order retry]"->RetriedHungOrderRatio
-"RetriedHungOrderRatio[Allow Order Retry]"->RetriedHungOrderRatio
-"MUL_30"->"MUL_29"
-RetriedHungOrderRatio->"MUL_29"
-"MUL_29"->HungOrdersRatio
-HungOrdersRatio->"SUB_28"
-HungOrdersRatio_worst->"SUB_28"
-HungOrdersRatio_best->"SUB_33"
-HungOrdersRatio_worst->"SUB_33"
-"SUB_28"->"DIV_27"
-"SUB_33"->"DIV_27"
-"DIV_27"->HungOrdersRatio_Utility
-HungOrdersRatio_weight->"MUL_26"
-HungOrdersRatio_Utility->"MUL_26"
-"ADD_8"->"ADD_7"
-"MUL_26"->"ADD_7"
-"LostOrdersRatio[Current: store when processed]"->LostOrdersRatio
-"LostOrdersRatio[Store as soon as received]"->LostOrdersRatio
-LostOrdersRatio->"SUB_36"
-LostOrdersRatio_worst->"SUB_36"
-LostOrdersRatio_best->"SUB_37"
-LostOrdersRatio_worst->"SUB_37"
-"SUB_36"->"DIV_35"
-"SUB_37"->"DIV_35"
-"DIV_35"->LostOrdersRatio_Utility
-LostOrdersRatio_weight->"MUL_34"
-LostOrdersRatio_Utility->"MUL_34"
-"ADD_7"->"ADD_6"
-"MUL_34"->"ADD_6"
-"HelpNeededPerLostOrder[Current: no notification]"->HelpNeededPerLostOrder
-"HelpNeededPerLostOrder[User notified of failed order]"->HelpNeededPerLostOrder
-LostOrdersRatio->"MUL_42"
-HelpNeededPerLostOrder->"MUL_42"
-"HelpNeededForTrackingGranularity[Current: order level]"->HelpNeededForTrackingGranularity
-"HelpNeededForTrackingGranularity[Granule-level order tracking]"->HelpNeededForTrackingGranularity
-"MUL_42"->"MUL_41"
-HelpNeededForTrackingGranularity->"MUL_41"
-"MUL_41"->HelpNeededByUsers
-HelpNeededByUsers->"SUB_40"
-HelpNeededByUsers_worst->"SUB_40"
-HelpNeededByUsers_best->"SUB_43"
-HelpNeededByUsers_worst->"SUB_43"
-"SUB_40"->"DIV_39"
-"SUB_43"->"DIV_39"
-"DIV_39"->HelpNeededByUsers_Utility
-HelpNeededByUsers_weight->"MUL_38"
-HelpNeededByUsers_Utility->"MUL_38"
-"ADD_6"->"ADD_5"
-"MUL_38"->"ADD_5"
-"NotificationOrderEffect[Current: no notification]"->NotificationOrderEffect
-"NotificationOrderEffect[User notified of failed order]"->NotificationOrderEffect
-RatioUsersNotGettingInfo_current->"MUL_50"
-NotificationOrderEffect->"MUL_50"
-"OrderTrackingGranularityEffect[Current: order level]"->OrderTrackingGranularityEffect
-"OrderTrackingGranularityEffect[Granule-level order tracking]"->OrderTrackingGranularityEffect
-"MUL_50"->"MUL_49"
-OrderTrackingGranularityEffect->"MUL_49"
-"UserInformationEffect[Current: no link to user info]"->UserInformationEffect
-"UserInformationEffect[Link to user information]"->UserInformationEffect
-"MUL_49"->"MUL_48"
-UserInformationEffect->"MUL_48"
-"MUL_48"->RatioUsersNotGettingInfo
-RatioUsersNotGettingInfo->FailureInfoGivenToUsers
-FailureInfoGivenToUsers->"SUB_46"
-FailureInfoGivenToUsers_worst->"SUB_46"
-FailureInfoGivenToUsers_best->"SUB_54"
-FailureInfoGivenToUsers_worst->"SUB_54"
-"SUB_46"->"DIV_45"
-"SUB_54"->"DIV_45"
-"DIV_45"->FailureInfoGivenToUsers_Utility
-FailureInfoGivenToUsers_weight->"MUL_44"
-FailureInfoGivenToUsers_Utility->"MUL_44"
-"ADD_5"->"ADD_4"
-"MUL_44"->"ADD_4"
-"LimitOnOrders[Current: no oder chunking]"->LimitOnOrders
-"LimitOnOrders[Order Chunking]"->LimitOnOrders
-LimitOnOrders->"SUB_57"
-LimitOnOrders_worst->"SUB_57"
-LimitOnOrders_best->"SUB_58"
-LimitOnOrders_worst->"SUB_58"
-"SUB_57"->"DIV_56"
-"SUB_58"->"DIV_56"
-"DIV_56"->LimitOnOrders_Utility
-LimitOnOrders_weight->"MUL_55"
-LimitOnOrders_Utility->"MUL_55"
-"ADD_4"->"ADD_3"
-"MUL_55"->"ADD_3"
-"NotificationsFrequency[No Order Bundling]"->NotificationsFrequency
-"NotificationsFrequency[Order Bundling]"->NotificationsFrequency
-NotificationsFrequency->"SUB_61"
-NotificationsFrequency_worst->"SUB_61"
-NotificationsFrequency_best->"SUB_62"
-NotificationsFrequency_worst->"SUB_62"
-"SUB_61"->"DIV_60"
-"SUB_62"->"DIV_60"
-"DIV_60"->NotificationsFrequency_Utility
-NotificationsFrequency_weight->"MUL_59"
-NotificationsFrequency_Utility->"MUL_59"
-"ADD_3"->"ADD_2"
-"MUL_59"->"ADD_2"
-"Performance[No Order Bundling]"->Performance
-"Performance[Order Bundling]"->Performance
-Performance->"SUB_65"
-Performance_worst->"SUB_65"
-Performance_best->"SUB_66"
-Performance_worst->"SUB_66"
-"SUB_65"->"DIV_64"
-"SUB_66"->"DIV_64"
-"DIV_64"->Performance_Utility
-Performance_weight->"MUL_63"
-Performance_Utility->"MUL_63"
-"ADD_2"->"ADD_1"
-"MUL_63"->"ADD_1"
-"ADD_1"->Utility
-Utility->ExpectedUtility
+rankdir = BT 
+"HungRequestsRatio_weight" [shape = oval] 
+"HungRequestsRatio_weight"->Utility 
+"HungRequestRatio_current" [shape = oval] 
+"HungRequestRatio_current"->HungRequestRatio 
+AndRef0[shape = point] 
+AndRef0->"ReassignedHungRequestRatio"
+"ReassignedHungRequestRatio[Current: not possible to reassign order]"->AndRef0 [dir = none] 
+AndRef1[shape = point] 
+AndRef1->"ReassignedHungRequestRatio"
+"ReassignedHungRequestRatio[Allow Order Reassignment]"->AndRef1 [dir = none] 
+"ReassignedHungRequestRatio" [shape = oval] 
+"ReassignedHungRequestRatio"->HungRequestRatio 
+AndRef2[shape = point] 
+AndRef2->"ForcedHungRequestRatio"
+"ForcedHungRequestRatio[Current: not possible to force order completion]"->AndRef2 [dir = none] 
+AndRef3[shape = point] 
+AndRef3->"ForcedHungRequestRatio"
+"ForcedHungRequestRatio[Allow Forced Order Completion]"->AndRef3 [dir = none] 
+"ForcedHungRequestRatio" [shape = oval] 
+"ForcedHungRequestRatio"->HungRequestRatio 
+"HungRequestRatio" [shape = oval] 
+"HungRequestRatio"->HungRequestsRatio_Utility 
+"HungRequestRatio_worst" [shape = oval] 
+"HungRequestRatio_worst"->HungRequestsRatio_Utility 
+"HungRequestRatio_best" [shape = oval] 
+"HungRequestRatio_best"->HungRequestsRatio_Utility 
+"HungRequestsRatio_Utility" [shape = oval] 
+"HungRequestsRatio_Utility"->Utility 
+"LostRequestsRatio_weight" [shape = oval] 
+"LostRequestsRatio_weight"->Utility 
+"LostRequestsRatio" [shape = oval] 
+"LostRequestsRatio"->LostRequestsRatio_Utility 
+"LostRequestsRatio_worst" [shape = oval] 
+"LostRequestsRatio_worst"->LostRequestsRatio_Utility 
+"LostRequestsRatio_best" [shape = oval] 
+"LostRequestsRatio_best"->LostRequestsRatio_Utility 
+"LostRequestsRatio_Utility" [shape = oval] 
+"LostRequestsRatio_Utility"->Utility 
+"FailedOrderRatio_weight" [shape = oval] 
+"FailedOrderRatio_weight"->Utility 
+AndRef4[shape = point] 
+AndRef4->"FailedOrderRatio"
+"FailedOrderRatio[Current: store when processed]"->AndRef4 [dir = none] 
+AndRef5[shape = point] 
+AndRef5->"FailedOrderRatio"
+"FailedOrderRatio[Store as soon as received]"->AndRef5 [dir = none] 
+"FailedOrderRatio" [shape = oval] 
+"FailedOrderRatio"->FailedOrderRatio_Utility 
+"FailedOrderRatio_worst" [shape = oval] 
+"FailedOrderRatio_worst"->FailedOrderRatio_Utility 
+"FailedOrderRatio_best" [shape = oval] 
+"FailedOrderRatio_best"->FailedOrderRatio_Utility 
+"FailedOrderRatio_Utility" [shape = oval] 
+"FailedOrderRatio_Utility"->Utility 
+"HungOrdersRatio_weight" [shape = oval] 
+"HungOrdersRatio_weight"->Utility 
+"HungOrdersRatio_current" [shape = oval] 
+"HungOrdersRatio_current"->HungOrdersRatio 
+AndRef6[shape = point] 
+AndRef6->"SkippedHungOrderRatio"
+"SkippedHungOrderRatio[Current: no order segmentation]"->AndRef6 [dir = none] 
+AndRef7[shape = point] 
+AndRef7->"SkippedHungOrderRatio"
+"SkippedHungOrderRatio[Orders are segmented]"->AndRef7 [dir = none] 
+"SkippedHungOrderRatio" [shape = oval] 
+"SkippedHungOrderRatio"->HungOrdersRatio 
+AndRef8[shape = point] 
+AndRef8->"RetriedHungOrderRatio"
+"RetriedHungOrderRatio[Current: no order retry]"->AndRef8 [dir = none] 
+AndRef9[shape = point] 
+AndRef9->"RetriedHungOrderRatio"
+"RetriedHungOrderRatio[Allow Order Retry]"->AndRef9 [dir = none] 
+"RetriedHungOrderRatio" [shape = oval] 
+"RetriedHungOrderRatio"->HungOrdersRatio 
+"HungOrdersRatio" [shape = oval] 
+"HungOrdersRatio"->HungOrdersRatio_Utility 
+"HungOrdersRatio_worst" [shape = oval] 
+"HungOrdersRatio_worst"->HungOrdersRatio_Utility 
+"HungOrdersRatio_best" [shape = oval] 
+"HungOrdersRatio_best"->HungOrdersRatio_Utility 
+"HungOrdersRatio_Utility" [shape = oval] 
+"HungOrdersRatio_Utility"->Utility 
+"LostOrdersRatio_weight" [shape = oval] 
+"LostOrdersRatio_weight"->Utility 
+AndRef10[shape = point] 
+AndRef10->"LostOrdersRatio"
+"LostOrdersRatio[Current: store when processed]"->AndRef10 [dir = none] 
+AndRef11[shape = point] 
+AndRef11->"LostOrdersRatio"
+"LostOrdersRatio[Store as soon as received]"->AndRef11 [dir = none] 
+"LostOrdersRatio" [shape = oval] 
+"LostOrdersRatio"->LostOrdersRatio_Utility 
+"LostOrdersRatio_worst" [shape = oval] 
+"LostOrdersRatio_worst"->LostOrdersRatio_Utility 
+"LostOrdersRatio_best" [shape = oval] 
+"LostOrdersRatio_best"->LostOrdersRatio_Utility 
+"LostOrdersRatio_Utility" [shape = oval] 
+"LostOrdersRatio_Utility"->Utility 
+"HelpNeededByUsers_weight" [shape = oval] 
+"HelpNeededByUsers_weight"->Utility 
+"LostOrdersRatio"->HelpNeededByUsers 
+AndRef12[shape = point] 
+AndRef12->"HelpNeededPerLostOrder"
+"HelpNeededPerLostOrder[Current: no notification]"->AndRef12 [dir = none] 
+AndRef13[shape = point] 
+AndRef13->"HelpNeededPerLostOrder"
+"HelpNeededPerLostOrder[User notified of failed order]"->AndRef13 [dir = none] 
+"HelpNeededPerLostOrder" [shape = oval] 
+"HelpNeededPerLostOrder"->HelpNeededByUsers 
+AndRef14[shape = point] 
+AndRef14->"HelpNeededForTrackingGranularity"
+"HelpNeededForTrackingGranularity[Current: order level]"->AndRef14 [dir = none] 
+AndRef15[shape = point] 
+AndRef15->"HelpNeededForTrackingGranularity"
+"HelpNeededForTrackingGranularity[Granule-level order tracking]"->AndRef15 [dir = none] 
+"HelpNeededForTrackingGranularity" [shape = oval] 
+"HelpNeededForTrackingGranularity"->HelpNeededByUsers 
+"HelpNeededByUsers" [shape = oval] 
+"HelpNeededByUsers"->HelpNeededByUsers_Utility 
+"HelpNeededByUsers_worst" [shape = oval] 
+"HelpNeededByUsers_worst"->HelpNeededByUsers_Utility 
+"HelpNeededByUsers_best" [shape = oval] 
+"HelpNeededByUsers_best"->HelpNeededByUsers_Utility 
+"HelpNeededByUsers_Utility" [shape = oval] 
+"HelpNeededByUsers_Utility"->Utility 
+"FailureInfoGivenToUsers_weight" [shape = oval] 
+"FailureInfoGivenToUsers_weight"->Utility 
+"RatioUsersNotGettingInfo_current" [shape = oval] 
+"RatioUsersNotGettingInfo_current"->RatioUsersNotGettingInfo 
+AndRef16[shape = point] 
+AndRef16->"NotificationOrderEffect"
+"NotificationOrderEffect[Current: no notification]"->AndRef16 [dir = none] 
+AndRef17[shape = point] 
+AndRef17->"NotificationOrderEffect"
+"NotificationOrderEffect[User notified of failed order]"->AndRef17 [dir = none] 
+"NotificationOrderEffect" [shape = oval] 
+"NotificationOrderEffect"->RatioUsersNotGettingInfo 
+AndRef18[shape = point] 
+AndRef18->"OrderTrackingGranularityEffect"
+"OrderTrackingGranularityEffect[Current: order level]"->AndRef18 [dir = none] 
+AndRef19[shape = point] 
+AndRef19->"OrderTrackingGranularityEffect"
+"OrderTrackingGranularityEffect[Granule-level order tracking]"->AndRef19 [dir = none] 
+"OrderTrackingGranularityEffect" [shape = oval] 
+"OrderTrackingGranularityEffect"->RatioUsersNotGettingInfo 
+AndRef20[shape = point] 
+AndRef20->"UserInformationEffect"
+"UserInformationEffect[Current: no link to user info]"->AndRef20 [dir = none] 
+AndRef21[shape = point] 
+AndRef21->"UserInformationEffect"
+"UserInformationEffect[Link to user information]"->AndRef21 [dir = none] 
+"UserInformationEffect" [shape = oval] 
+"UserInformationEffect"->RatioUsersNotGettingInfo 
+"RatioUsersNotGettingInfo" [shape = oval] 
+"RatioUsersNotGettingInfo"->FailureInfoGivenToUsers 
+"FailureInfoGivenToUsers" [shape = oval] 
+"FailureInfoGivenToUsers"->FailureInfoGivenToUsers_Utility 
+"FailureInfoGivenToUsers_worst" [shape = oval] 
+"FailureInfoGivenToUsers_worst"->FailureInfoGivenToUsers_Utility 
+"FailureInfoGivenToUsers_best" [shape = oval] 
+"FailureInfoGivenToUsers_best"->FailureInfoGivenToUsers_Utility 
+"FailureInfoGivenToUsers_Utility" [shape = oval] 
+"FailureInfoGivenToUsers_Utility"->Utility 
+"LimitOnOrders_weight" [shape = oval] 
+"LimitOnOrders_weight"->Utility 
+AndRef22[shape = point] 
+AndRef22->"LimitOnOrders"
+"LimitOnOrders[Current: no oder chunking]"->AndRef22 [dir = none] 
+AndRef23[shape = point] 
+AndRef23->"LimitOnOrders"
+"LimitOnOrders[Order Chunking]"->AndRef23 [dir = none] 
+"LimitOnOrders" [shape = oval] 
+"LimitOnOrders"->LimitOnOrders_Utility 
+"LimitOnOrders_worst" [shape = oval] 
+"LimitOnOrders_worst"->LimitOnOrders_Utility 
+"LimitOnOrders_best" [shape = oval] 
+"LimitOnOrders_best"->LimitOnOrders_Utility 
+"LimitOnOrders_Utility" [shape = oval] 
+"LimitOnOrders_Utility"->Utility 
+"NotificationsFrequency_weight" [shape = oval] 
+"NotificationsFrequency_weight"->Utility 
+AndRef24[shape = point] 
+AndRef24->"NotificationsFrequency"
+"NotificationsFrequency[No Order Bundling]"->AndRef24 [dir = none] 
+AndRef25[shape = point] 
+AndRef25->"NotificationsFrequency"
+"NotificationsFrequency[Order Bundling]"->AndRef25 [dir = none] 
+"NotificationsFrequency" [shape = oval] 
+"NotificationsFrequency"->NotificationsFrequency_Utility 
+"NotificationsFrequency_worst" [shape = oval] 
+"NotificationsFrequency_worst"->NotificationsFrequency_Utility 
+"NotificationsFrequency_best" [shape = oval] 
+"NotificationsFrequency_best"->NotificationsFrequency_Utility 
+"NotificationsFrequency_Utility" [shape = oval] 
+"NotificationsFrequency_Utility"->Utility 
+"Performance_weight" [shape = oval] 
+"Performance_weight"->Utility 
+AndRef26[shape = point] 
+AndRef26->"Performance"
+"Performance[No Order Bundling]"->AndRef26 [dir = none] 
+AndRef27[shape = point] 
+AndRef27->"Performance"
+"Performance[Order Bundling]"->AndRef27 [dir = none] 
+"Performance" [shape = oval] 
+"Performance"->Performance_Utility 
+"Performance_worst" [shape = oval] 
+"Performance_worst"->Performance_Utility 
+"Performance_best" [shape = oval] 
+"Performance_best"->Performance_Utility 
+"Performance_Utility" [shape = oval] 
+"Performance_Utility"->Utility 
+"Utility" [shape = oval] 
+ExpectedUtility [shape = box] 
+Utility->"ExpectedUtility"
+AndRef28[shape = point] 
+AndRef28->"Cost_OrderReassignment"
+"Cost_OrderReassignment[Current: not possible to reassign order]"->AndRef28 [dir = none] 
+AndRef29[shape = point] 
+AndRef29->"Cost_OrderReassignment"
+"Cost_OrderReassignment[Allow Order Reassignment]"->AndRef29 [dir = none] 
+"Cost_OrderReassignment" [shape = oval] 
+"Cost_OrderReassignment"->Cost 
+AndRef30[shape = point] 
+AndRef30->"Cost_ForcedOrderCompletion"
+"Cost_ForcedOrderCompletion[Current: not possible to force order completion]"->AndRef30 [dir = none] 
+AndRef31[shape = point] 
+AndRef31->"Cost_ForcedOrderCompletion"
+"Cost_ForcedOrderCompletion[Allow Forced Order Completion]"->AndRef31 [dir = none] 
+"Cost_ForcedOrderCompletion" [shape = oval] 
+"Cost_ForcedOrderCompletion"->Cost 
+AndRef32[shape = point] 
+AndRef32->"Cost_OrderPersistenceStrategy"
+"Cost_OrderPersistenceStrategy[Current: store when processed]"->AndRef32 [dir = none] 
+AndRef33[shape = point] 
+AndRef33->"Cost_OrderPersistenceStrategy"
+"Cost_OrderPersistenceStrategy[Store as soon as received]"->AndRef33 [dir = none] 
+"Cost_OrderPersistenceStrategy" [shape = oval] 
+"Cost_OrderPersistenceStrategy"->Cost 
+AndRef34[shape = point] 
+AndRef34->"Cost_OrderSegmentation"
+"Cost_OrderSegmentation[Current: no order segmentation]"->AndRef34 [dir = none] 
+AndRef35[shape = point] 
+AndRef35->"Cost_OrderSegmentation"
+"Cost_OrderSegmentation[Orders are segmented]"->AndRef35 [dir = none] 
+"Cost_OrderSegmentation" [shape = oval] 
+"Cost_OrderSegmentation"->Cost 
+AndRef36[shape = point] 
+AndRef36->"Cost_HungOrderRecovery"
+"Cost_HungOrderRecovery[Current: no order retry]"->AndRef36 [dir = none] 
+AndRef37[shape = point] 
+AndRef37->"Cost_HungOrderRecovery"
+"Cost_HungOrderRecovery[Allow Order Retry]"->AndRef37 [dir = none] 
+"Cost_HungOrderRecovery" [shape = oval] 
+"Cost_HungOrderRecovery"->Cost 
+AndRef38[shape = point] 
+AndRef38->"Cost_FailedOrderNotification"
+"Cost_FailedOrderNotification[Current: no notification]"->AndRef38 [dir = none] 
+AndRef39[shape = point] 
+AndRef39->"Cost_FailedOrderNotification"
+"Cost_FailedOrderNotification[User notified of failed order]"->AndRef39 [dir = none] 
+"Cost_FailedOrderNotification" [shape = oval] 
+"Cost_FailedOrderNotification"->Cost 
+AndRef40[shape = point] 
+AndRef40->"Cost_OrderTracking"
+"Cost_OrderTracking[Current: order level]"->AndRef40 [dir = none] 
+AndRef41[shape = point] 
+AndRef41->"Cost_OrderTracking"
+"Cost_OrderTracking[Granule-level order tracking]"->AndRef41 [dir = none] 
+"Cost_OrderTracking" [shape = oval] 
+"Cost_OrderTracking"->Cost 
+AndRef42[shape = point] 
+AndRef42->"Cost_AvailableUserInformation"
+"Cost_AvailableUserInformation[Current: no link to user info]"->AndRef42 [dir = none] 
+AndRef43[shape = point] 
+AndRef43->"Cost_AvailableUserInformation"
+"Cost_AvailableUserInformation[Link to user information]"->AndRef43 [dir = none] 
+"Cost_AvailableUserInformation" [shape = oval] 
+"Cost_AvailableUserInformation"->Cost 
+"Cost" [shape = oval] 
+Cost [shape = box] 
 }

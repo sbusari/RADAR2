@@ -1,0 +1,61 @@
+Optimisation Analysis 
+============================ 
+
+Objective: 		MaxExpectedUtility
+Objective: 		MinCost
+SolutionSpace: 			1024
+Evaluated: 			1024
+Shortlisted: 			30
+Runtime(s): 			4
+
+ID 	Order Reassignment	Forced Order Completion	Order Persistence Strategy	Order Segmentation	Hung Order Recovery	Failed Order Notification	Order Tracking	Available User Information	Order Chunking	Order Bundling	ExpectedUtility	Cost	Optimal
+1	Current: not possible to reassign order	Current: not possible to force order completion	Current: store when processed	Current: no order segmentation	Current: no order retry	Current: no notification	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-82.0032213981301	0.0	Yes
+2	Current: not possible to reassign order	Current: not possible to force order completion	Current: store when processed	Orders are segmented	Current: no order retry	Current: no notification	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-76.00322139813025	199.9058725217228	Yes
+3	Current: not possible to reassign order	Current: not possible to force order completion	Current: store when processed	Orders are segmented	Current: no order retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-73.77099917590822	499.84546739995005	Yes
+4	Current: not possible to reassign order	Current: not possible to force order completion	Current: store when processed	Orders are segmented	Allow Order Retry	Current: no notification	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-74.40322139812974	399.88505365558564	Yes
+5	Current: not possible to reassign order	Current: not possible to force order completion	Current: store when processed	Orders are segmented	Allow Order Retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-72.170999175908	699.8246485338121	Yes
+6	Current: not possible to reassign order	Current: not possible to force order completion	Store as soon as received	Orders are segmented	Current: no order retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-67.73099917590739	3691.8281313266575	Yes
+7	Current: not possible to reassign order	Current: not possible to force order completion	Store as soon as received	Orders are segmented	Allow Order Retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-66.13099917590779	3891.807312460551	Yes
+8	Current: not possible to reassign order	Allow Forced Order Completion	Current: store when processed	Orders are segmented	Current: no order retry	Current: no notification	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-74.00322139813021	399.931865253703	Yes
+9	Current: not possible to reassign order	Allow Forced Order Completion	Current: store when processed	Orders are segmented	Current: no order retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-71.7709991759081	699.8714601319274	Yes
+10	Current: not possible to reassign order	Allow Forced Order Completion	Current: store when processed	Orders are segmented	Allow Order Retry	Current: no notification	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-72.40322139812989	599.9110463875655	Yes
+11	Current: not possible to reassign order	Allow Forced Order Completion	Current: store when processed	Orders are segmented	Allow Order Retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-70.17099917590791	899.8506412657948	Yes
+12	Current: not possible to reassign order	Allow Forced Order Completion	Store as soon as received	Orders are segmented	Current: no order retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-65.73099917590744	3891.8541240586565	Yes
+13	Current: not possible to reassign order	Allow Forced Order Completion	Store as soon as received	Orders are segmented	Allow Order Retry	Current: no notification	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-66.35322139813036	3791.893710314296	Yes
+14	Current: not possible to reassign order	Allow Forced Order Completion	Store as soon as received	Orders are segmented	Allow Order Retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-64.13099917590776	4091.8333051925338	Yes
+15	Allow Order Reassignment	Current: not possible to force order completion	Current: store when processed	Orders are segmented	Allow Order Retry	Current: no notification	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-71.40322139812993	800.1939743576498	Yes
+16	Allow Order Reassignment	Current: not possible to force order completion	Current: store when processed	Orders are segmented	Allow Order Retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-69.17099917590795	1100.133569235873	Yes
+17	Allow Order Reassignment	Current: not possible to force order completion	Store as soon as received	Orders are segmented	Allow Order Retry	Current: no notification	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-65.35322139813029	3992.176638284384	Yes
+18	Allow Order Reassignment	Current: not possible to force order completion	Store as soon as received	Orders are segmented	Allow Order Retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-63.13099917590774	4292.1162331626165	Yes
+19	Allow Order Reassignment	Allow Forced Order Completion	Current: store when processed	Orders are segmented	Allow Order Retry	Current: no notification	Granule-level order tracking	Current: no link to user info	Order Chunking	No Order Bundling	-68.07322139813016	2183.193957117191	Yes
+20	Allow Order Reassignment	Allow Forced Order Completion	Current: store when processed	Orders are segmented	Allow Order Retry	Current: no notification	Granule-level order tracking	Link to user information	Order Chunking	No Order Bundling	-68.01766584257459	2393.9182916049276	Yes
+21	Allow Order Reassignment	Allow Forced Order Completion	Current: store when processed	Orders are segmented	Allow Order Retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-68.37099917590774	1300.1595619678558	Yes
+22	Allow Order Reassignment	Allow Forced Order Completion	Current: store when processed	Orders are segmented	Allow Order Retry	User notified of failed order	Current: order level	Link to user information	Order Chunking	No Order Bundling	-68.25988806479637	1510.8838964555925	Yes
+23	Allow Order Reassignment	Allow Forced Order Completion	Current: store when processed	Orders are segmented	Allow Order Retry	User notified of failed order	Granule-level order tracking	Current: no link to user info	Order Chunking	No Order Bundling	-67.846999175908	2483.1335519954036	Yes
+24	Allow Order Reassignment	Allow Forced Order Completion	Current: store when processed	Orders are segmented	Allow Order Retry	User notified of failed order	Granule-level order tracking	Link to user information	Order Chunking	No Order Bundling	-67.83588806479644	2693.857886483152	Yes
+25	Allow Order Reassignment	Allow Forced Order Completion	Store as soon as received	Orders are segmented	Allow Order Retry	Current: no notification	Granule-level order tracking	Current: no link to user info	Order Chunking	No Order Bundling	-62.053221398129736	5375.176621043923	Yes
+26	Allow Order Reassignment	Allow Forced Order Completion	Store as soon as received	Orders are segmented	Allow Order Retry	Current: no notification	Granule-level order tracking	Link to user information	Order Chunking	No Order Bundling	-61.99766584257486	5585.900955531644	Yes
+27	Allow Order Reassignment	Allow Forced Order Completion	Store as soon as received	Orders are segmented	Allow Order Retry	User notified of failed order	Current: order level	Current: no link to user info	Order Chunking	No Order Bundling	-62.330999175907856	4492.142225894585	Yes
+28	Allow Order Reassignment	Allow Forced Order Completion	Store as soon as received	Orders are segmented	Allow Order Retry	User notified of failed order	Current: order level	Link to user information	Order Chunking	No Order Bundling	-62.21988806479681	4702.866560382305	Yes
+29	Allow Order Reassignment	Allow Forced Order Completion	Store as soon as received	Orders are segmented	Allow Order Retry	User notified of failed order	Granule-level order tracking	Current: no link to user info	Order Chunking	No Order Bundling	-61.83099917590782	5675.1162159221285	Yes
+30	Allow Order Reassignment	Allow Forced Order Completion	Store as soon as received	Orders are segmented	Allow Order Retry	User notified of failed order	Granule-level order tracking	Link to user information	Order Chunking	No Order Bundling	-61.81988806479696	5885.840550409903	Yes
+
+Information Value Analysis 
+===============================
+
+Objective: 			ExpectedUtility
+EVTPI: 			 0.0
+
+Parameter 			 EVPPI 
+LostRequestsRatio: 			 0.0
+Cost_OrderReassignment[Allow Order Reassignment]: 			 0.0
+Cost_ForcedOrderCompletion[Allow Forced Order Completion]: 			 0.0
+Cost_OrderPersistenceStrategy[Store as soon as received]: 			 0.0
+Cost_OrderSegmentation[Orders are segmented]: 			 0.0
+Cost_HungOrderRecovery[Allow Order Retry]: 			 0.0
+Cost_FailedOrderNotification[User notified of failed order]: 			 0.0
+Cost_OrderTracking[Granule-level order tracking]: 			 0.0
+Cost_AvailableUserInformation[Link to user information]: 			 0.0
+Cost_OrderChunking[Order Chunking]: 			 0.0
+Cost_OrderBundling[Order Bundling]: 			 0.0
+

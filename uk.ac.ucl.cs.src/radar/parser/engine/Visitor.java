@@ -30,6 +30,10 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	Map<String, Value> obj_definitions;
 	Map<String, Objective> obj_list;
 	Map<String, Decision> decision_list;
+	QualityVariable and_Ref_Parent; // only has name
+	QualityVariable arith_expr_Parent;
+	QualityVariable idParent;
+	//List<QualityVariable> arith_expr_children;
 	int nbr_simulation;
 	String infoValueObjective;
 	ModelConstructor modelConstructor;
@@ -61,6 +65,9 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		modelConstructor.addQualityVariablesToModel(semanticModel, qv_list );
 		modelConstructor.addDecisionsToModel(semanticModel,decision_list);
 		modelConstructor.addModelName(semanticModel,ctx.var_name().getText());
+		
+		
+		modelConstructor.setModelParameterLabels(semanticModel);
 		return new Value(null);
 	}
 	@Override 
@@ -124,10 +131,17 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	public Value visitQuality_var_decl(ModelParser.Quality_var_declContext ctx) { 
 		QualityVariable qv = modelConstructor.createNewQualityVariable();
 		String qv_name = ctx.var_name().getText().trim();
+		and_Ref_Parent = qv;
+		arith_expr_Parent = qv;
+		idParent = qv;
 		Value qv_def = visit(ctx.quality_var_def());
-		qv = modelConstructor.addQualityVariableExpression(qv, qv_name,qv_def);
+		qv = modelConstructor.addQualityVariableExpression(qv, qv_name,qv_def,arith_expr_Parent);
 		qv_list.put(qv_name.toString(), qv);
-		modelConstructor.addInformationValueParameters(semanticModel,qv);
+		modelConstructor.addQualityVariableParameter(semanticModel,qv);
+		
+		and_Ref_Parent = null;
+		idParent = null;
+		arith_expr_Parent = null;
 		return new Value (qv);
 	}
 	@Override 
@@ -158,7 +172,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		for (ModelParser.Option_defContext optionDefContext : ctx.option_def()){
 			// could be a unary, binary expr or a parameter.
 			Value definition =visit(optionDefContext);
-			modelConstructor.addOR_RefinementDefinition(or_ref,optionNames.get(i),definition);
+			modelConstructor.addOR_RefinementDefinition(or_ref,optionNames.get(i),definition,and_Ref_Parent);
 			i++;
 		}
 		
@@ -212,7 +226,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	@Override 
 	public Value visitVar_name(ModelParser.Var_nameContext ctx) {
 		String idValue = ctx.Identifier().getText();
-		Value varname = modelConstructor.addIdentifierExpression(idValue);
+		Value varname = modelConstructor.addIdentifierExpression(idValue,idParent);
 		return varname;
 		
 	}
@@ -276,6 +290,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		String op = ctx.op.getText();
 		Value expr = visit (ctx.arithmetic_expr());
 		Value expValue = modelConstructor.addUnaryExpression(expr, op);
+
 		return expValue;
 	}
 	@Override public Value visitExprDiv(ModelParser.ExprDivContext ctx) { 
@@ -312,6 +327,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		if (argumentHasExpr == true){
 			computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() - rightOperand.convertToDouble());
 		}
+		
 		return expValue;
 	}
 	@Override public Value visitExprPower(ModelParser.ExprPowerContext ctx) {
@@ -323,6 +339,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		if (argumentHasExpr == true){
 			computedArgumentExpression = arithmetic_expr.toString();
 		}
+		// power cannot have an ID
 		return value;
 	}
 	@Override 

@@ -7,9 +7,12 @@ package radar.model;
 	public void setObjExpression(ArithmeticExpression expression){
 		expression_ = expression;
 	}
-	public void accept(ModelVisitor visitor) {
-		expression_.accept(visitor);
-		this.accept(visitor);
+	public void accept(ModelVisitor visitor, Model m) {
+		
+		expression_.accept(visitor,m);
+		//visitor.visit(expression_);
+		visitor.visit(this);
+		//this.accept(visitor,m);
 	}
 	abstract double evaluate (Solution s, QualityVariable var);
 }

@@ -42,11 +42,11 @@ public class OR_Refinement extends Expression {
 		parent_ = parent;
 	}
 	@Override
-	public void accept(ModelVisitor visitor) {
+	public void accept(ModelVisitor visitor, Model m) {
 		for (AND_Refinement andRef : getAndrefinements()){
-			andRef.accept(visitor);
+			andRef.accept(visitor,m);
 		}
-		this.accept(visitor);
+		visitor.visit(this);
 		
 	}
 	List<AND_Refinement> getAndrefinements(){

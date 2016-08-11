@@ -3,7 +3,6 @@ import java.util.Locale;
 
 import radar.model.AnalysisResult;
 import radar.model.ExperimentData;
-import radar.model.GraphGenerator;
 import radar.model.Model;
 import radar.model.ModelSolver;
 import radar.model.OptimisationType;
@@ -134,11 +133,11 @@ public class CommandLine {
 			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/" , analysisResult, dataInput.getProblemName() +".out", false);
 			
 			// generate graphs
-			/*String variableGraph = new GraphGenerator().generateVariableGraph(semanticModel);
-			String decisionGraph = new GraphGenerator().generateDecisionGraph(semanticModel);
+			String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel);
+			//String decisionGraph = new GraphGenerator().generateDecisionGraph(semanticModel);
 			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", variableGraph, "vgraph.dot", false);
-			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", decisionGraph, "dgraph.dot", false);
-*/			
+			//Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", decisionGraph, "dgraph.dot", false);
+			
 			
     		if (pareto == true){
     			String imageOutput = dataInput.getOutputDirectory() + dataInput.getProblemName() + "/";

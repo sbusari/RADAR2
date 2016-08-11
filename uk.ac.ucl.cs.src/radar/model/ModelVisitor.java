@@ -10,4 +10,5 @@ interface ModelVisitor {
 	void visit(OR_Refinement orRef);
 	void visit(Distribution andRef);
 	void visit (Identifier id);
+	void visit (BinaryExpression bin_expr);
 }

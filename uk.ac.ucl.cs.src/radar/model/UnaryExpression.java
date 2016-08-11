@@ -45,12 +45,11 @@ class UnaryExpression extends ArithmeticExpression {
 	}
 	@Override
 	public QualityVariable getParent() {
-		// TODO Auto-generated method stub
-		return null;
+		return parent_;
 	}
 	@Override
-	public void accept(ModelVisitor visitor) {
-		this.accept(visitor);
+	public void accept(ModelVisitor visitor, Model m) {
+		expr_.accept(visitor, m);
 		
 	}
 

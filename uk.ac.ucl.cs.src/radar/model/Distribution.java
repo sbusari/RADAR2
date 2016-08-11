@@ -30,8 +30,8 @@ abstract class Distribution extends Expression {
 	public void setParent(QualityVariable parent) {
 		parent_ = parent;
 	}
-	public void accept(ModelVisitor visitor) {
-		this.accept(visitor);
+	public void accept(ModelVisitor visitor, Model m) {
+		//this.accept(visitor,m);
 	}
 	protected double [] deterministicDistribution (double value, int sampleSize){
 		double[] sample = new double[sampleSize];

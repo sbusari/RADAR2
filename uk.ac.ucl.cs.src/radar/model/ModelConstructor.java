@@ -1,4 +1,5 @@
 package radar.model;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -81,13 +82,46 @@ public class ModelConstructor {
 		QualityVariable qv = new QualityVariable ();
 		return qv;
 	}
-	public  QualityVariable addQualityVariableExpression (QualityVariable qv, String qv_name, Value qv_def){
+	public  QualityVariable addQualityVariableExpression (QualityVariable qv, String qv_name, Value qv_def, QualityVariable parent){
 		qv.setLabel(qv_name.toString());
 		Expression qv_expr = (Expression)qv_def.getExpression();
+		qv_expr.setParent(parent);
 		qv.setDefinition(qv_expr);
 		return qv;
 	}
-	public void addInformationValueParameters (Model m, QualityVariable qv){
+	
+	// helpsm to display options even for deterministic options of the and/or grapg e.g cost[new]
+	public void setModelParameterLabels (Model m){
+		List<String> paramNames = m.getParameters();
+		for (int i =0 ; i < m.getParameters().size(); i++){
+			QualityVariable qv = m.getQualityVariables().get(paramNames.get(i));			
+			if (qv.getDefinition() instanceof Parameter  ){
+				Parameter value = (Parameter)qv.getDefinition();
+				value.setLabel(qv.getLabel());
+			}else if (qv.getDefinition() instanceof OR_Refinement){
+				Map<String, AND_Refinement> optionsExpr = ((OR_Refinement)qv.getDefinition()).getDefinition();
+				for (Map.Entry<String, AND_Refinement> entry: optionsExpr.entrySet()){
+					if (entry.getValue().getDefinition() instanceof Parameter){
+						Parameter value = (Parameter)entry.getValue().getDefinition();
+						value.setLabel(qv.getLabel() + "[" +entry.getKey() + "]");
+					}
+				}
+			}
+		}
+	}
+	public void addQualityVariableParameter (Model m, QualityVariable qv){
+		if (qv.getDefinition() instanceof Parameter  ){
+			m.addParameters(qv.getLabel());
+		}else if (qv.getDefinition() instanceof OR_Refinement){
+			Map<String, AND_Refinement> optionsExpr = ((OR_Refinement)qv.getDefinition()).getDefinition();
+			for (Map.Entry<String, AND_Refinement> entry: optionsExpr.entrySet()){
+				if (entry.getValue().getDefinition() instanceof Parameter ){
+					m.addParameters(qv.getLabel());
+				}
+			}
+		}
+	}
+	public void addInformationValueParameters1 (Model m, QualityVariable qv){
 		if (qv.getDefinition() instanceof Parameter &&  !(((Parameter)qv.getDefinition()).getDistribution() instanceof DeterministicDistribution) ){
 			m.addParameters(qv.getLabel());
 		}else if (qv.getDefinition() instanceof OR_Refinement){
@@ -103,8 +137,11 @@ public class ModelConstructor {
 		OR_Refinement or_refinement = new OR_Refinement ();
 		return or_refinement;
 	}
-	public  Value addOR_RefinementDefinition (OR_Refinement or_ref, String option_name, Value option_def){
+	public  Value addOR_RefinementDefinition (OR_Refinement or_ref, String option_name, Value option_def, QualityVariable and_Ref_Parent){
 		AND_Refinement and_ref = new AND_Refinement();
+		if (and_Ref_Parent != null){
+			and_ref.setParent(and_Ref_Parent);
+		}
 		and_ref.addDefinition(option_def.getArithmeticExpression());
 		or_ref.addDefinition(option_name, and_ref);
 		return new Value(or_ref);
@@ -125,9 +162,6 @@ public class ModelConstructor {
 			obj.setIsMinimisation(true);
 		}
 		return obj;
-	}
-	public void setModelInfoValueObjective (String infoValueObjective, Model model, Objective Objective){
-		
 	}
 	public  Value addObjectiveExpectation (String referredQV){
 		Expectation exp = new Expectation();
@@ -244,49 +278,12 @@ public class ModelConstructor {
 		}
 		return new Value(param);
 	}
-	public  Value addDistribution2 (Value distribution, List<Value> distributionArguments){
-		Expression baseExpr =null;
-		validateDistributionArgumentCount(distribution,distributionArguments);
-		checkDistributionArgumentIsNumber(distribution,distributionArguments);
-		if (distribution.toString().equals(ParameterDistribution.NORMAL.toString())){
-			double mean = distributionArguments.get(0).convertToDouble();
-			double sd = distributionArguments.get(1).convertToDouble();
-			baseExpr = new NormalDistribution(mean,sd,simulation);
-		}else if (distribution.toString().equals(ParameterDistribution.TRIANGULAR.toString())){
-			double lower = distributionArguments.get(0).convertToDouble();
-			double mode = distributionArguments.get(1).convertToDouble();
-			double upper = distributionArguments.get(2).convertToDouble();
-			baseExpr = new TriangularDistribution(lower, mode, upper,simulation);
-		}else if (distribution.toString().equals(ParameterDistribution.NORMAL_CI.toString())){
-			double a = distributionArguments.get(0).convertToDouble();
-			double b = distributionArguments.get(1).convertToDouble();
-			baseExpr = new NormalCIDistribution(a,b,simulation);
-		}else if (distribution.toString().equals(ParameterDistribution.UNIFORM.toString())){
-			double lower = distributionArguments.get(0).convertToDouble();
-			double upper = distributionArguments.get(1).convertToDouble();
-			baseExpr = new UniformDistribution(lower,upper,simulation);
-		}else if (distribution.toString().equals(ParameterDistribution.DETERMINISTIC.toString())){
-			double value = distributionArguments.get(0).convertToDouble();
-			baseExpr = new DeterministicDistribution(value,simulation);
-		}
-		else if (distribution.toString().equals(ParameterDistribution.EXPONENTIAL.toString())){
-			double mean = distributionArguments.get(0).convertToDouble();
-			baseExpr = new ExponentialDistribution(mean,simulation);
-		}else if (distribution.toString().equals(ParameterDistribution.GEOMETRIC.toString())){
-			double prob = distributionArguments.get(0).convertToDouble();
-			baseExpr = new GeometricDistribution(prob,simulation);
-		}
-		else if (distribution.toString().equals(ParameterDistribution.BINOMIAL.toString())){
-			double trial = distributionArguments.get(0).convertToDouble();
-			double prob = distributionArguments.get(1).convertToDouble();
-			baseExpr = new BinomialDistribution((int)trial,prob, simulation);
-		}else if (distribution.toString().equals(ParameterDistribution.RANDOM.toString())){;
-			baseExpr = new RandomDistribution(simulation);
-		}
-		return new Value(baseExpr);
-	}
-	public  Value addIdentifierExpression (String id){
+	public  Value addIdentifierExpression (String id, QualityVariable parent){
 		Identifier var_id = new Identifier();
+		QualityVariable linkedQualityVariable = new QualityVariable();
+		linkedQualityVariable.setLabel(id);
+		var_id.setLinkedQualityVariable(linkedQualityVariable);
+		var_id.setParent(parent);
 		var_id.setID(id);
 		return new Value(var_id);
 	}
@@ -343,7 +340,7 @@ public class ModelConstructor {
 	}
 	public  boolean doesDistributionArgumentHasExpr2(Value arguement){
 		boolean distributionArgumentHasExpr = false;
-		if (arguement.getArithmeticExpression().getClass().equals(BinaryExpression.class)){
+		if (arguement.getExpression().getClass().equals(BinaryExpression.class)){
 			distributionArgumentHasExpr = true;
 		}
 		return distributionArgumentHasExpr;
@@ -374,9 +371,9 @@ public class ModelConstructor {
 		Double exprPower =null; 
 		try{
 			// check if it is a unary expression and get the number ffrom it.
-			if (base.getArithmeticExpression() instanceof UnaryExpression){
+			if (base.getExpression() instanceof UnaryExpression){
 				Number base_no =  (Number)((UnaryExpression) base.getArithmeticExpression()).getExpression();
-				UnaryOperator op = ((UnaryExpression) base.getArithmeticExpression()).getUnaryOperator();
+				UnaryOperator op = ((UnaryExpression) base.getExpression()).getUnaryOperator();
 				if ( op.equals(UnaryOperator.NOT)){
 					exprBase = 1 - base_no.getValue();
 				}else if (op.equals(UnaryOperator.NEG)){

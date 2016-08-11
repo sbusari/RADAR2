@@ -11,6 +11,13 @@ import java.util.Map;
     	if (simData == null) simData = distribution.simulate(s);
         return simData;
     }
+	public void accept(ModelVisitor visitor, Model m) {
+		
+		distribution.accept(visitor,m);
+		//visitor.visit(distribution);
+		//visit(this);
+		//this.accept(visitor,m);
+	}
     public void setDistribution (Distribution distr){
     	distribution = distr;
 	}

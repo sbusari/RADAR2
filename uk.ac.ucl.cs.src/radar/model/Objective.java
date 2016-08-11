@@ -66,9 +66,11 @@ public  class Objective implements ModelVisitorElement {
 		}
 	}
 	@Override
-	public void accept(ModelVisitor visitor) {
-		definition_.accept(visitor);
-		this.accept(visitor);
+	public void accept(ModelVisitor visitor, Model m) {
+		definition_.accept(visitor, m);
+		//visitor.visit(definition_);
+		visitor.visit(this);
+		//this.accept(visitor, m);
 	}
 	@Override
 	public int hashCode (){

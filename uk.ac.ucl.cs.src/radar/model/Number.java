@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Number extends ArithmeticExpression {
@@ -25,7 +26,7 @@ class Number extends ArithmeticExpression {
 	}
 	@Override
 	List<QualityVariable> getQualityVariable() {
-		return null;
+		return new ArrayList<QualityVariable>();
 	}
 	@Override
 	public QualityVariable getParent() {
@@ -33,7 +34,7 @@ class Number extends ArithmeticExpression {
 		return null;
 	}
 	@Override
-	public void accept(ModelVisitor visitor) {
-		this.accept(visitor);
+	public void accept(ModelVisitor visitor, Model m) {
+		//this.accept(visitor,m);
 	}
 }

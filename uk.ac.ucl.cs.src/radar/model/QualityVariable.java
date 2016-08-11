@@ -53,7 +53,9 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 	@Override
 	List<QualityVariable> getQualityVariable() {
 		List<QualityVariable> result = new ArrayList<QualityVariable>();
-		result.add(this);
+		//if (! (this instanceof Parameter)){ // we do not want to show links to the option names
+			result.add(this);
+		//}
 		return result;
 	}
 	
@@ -61,9 +63,15 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 		return this.getLabel().hashCode();
 	}
 	@Override
-	public void accept(ModelVisitor visitor) {
-		definition_.accept(visitor);
-		this.accept(visitor);
+	public void accept(ModelVisitor visitor, Model m) {
+		// definition for the option may be null
+		if (definition_ == null){ // can only be null if it was populated partially for an arithmtetic expr 
+			QualityVariable qv = m.getQualityVariables().get(label_);
+			qv.getDefinition().accept(visitor,m);
+		}else{
+			definition_.accept(visitor,m);
+		}
+		visitor.visit(this);
 	}
 	@Override
 	public QualityVariable getParent() {
