@@ -2,6 +2,7 @@ package radar.model;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public  class Objective implements ModelVisitorElement {
 	private double margin_;
@@ -66,9 +67,9 @@ public  class Objective implements ModelVisitorElement {
 		}
 	}
 	
-	public List<Solution> getAllSolutions(){
+	public Set<Solution> getAllSolutions(Model m){
 		QualityVariable var = this.getQualityVariable();
-		return var.getAllSolutions();
+		return var.getAllSolutions(m);
 	}
 	@Override
 	public void accept(ModelVisitor visitor, Model m) {

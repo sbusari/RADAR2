@@ -1,7 +1,9 @@
 package radar.model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 class AND_Refinement extends Expression {
 
@@ -28,10 +30,22 @@ class AND_Refinement extends Expression {
 	public void setParent(QualityVariable parent) {
 		parent_ = parent;
 	}
-	public List<Solution> getAllSolutions(){
-		List<Solution> result = new ArrayList<Solution>();
+	public Set<Solution> getAllSolutions(Model m){
+		Set<Solution> result = new LinkedHashSet<Solution>();
+	
 		for (QualityVariable var: this.getChildren()){
-			result.addAll(var.getAllSolutions());
+			// variable could be a binary operand in which case its definition is null cos it was partially populated during parsing
+			if (var.getDefinition() == null){ 
+				QualityVariable qv = m.getQualityVariables().get(var.getLabel());
+				if (qv != null){
+					result.addAll(qv.getAllSolutions(m));
+				}else{ // if it is a paramter within an expr it  will return null cos its labe does not exist
+					Solution s = new Solution();
+					result.add(s);
+				}
+			}else{
+				result.addAll(var.getAllSolutions(m));
+			}
 		}
 		return result;
 	}

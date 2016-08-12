@@ -1,8 +1,10 @@
 package radar.model;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class OR_Refinement extends Expression {
 	private Decision decision_;
@@ -42,11 +44,11 @@ public class OR_Refinement extends Expression {
 		parent_ = parent;
 	}
 	@Override
-	public List<Solution> getAllSolutions(){
-		List<Solution> result = new ArrayList<Solution>();
+	public Set<Solution> getAllSolutions(Model m){
+		Set<Solution> result = new LinkedHashSet<Solution>();
 		for (String option: this.decision_.getOptions()){
 			AND_Refinement ref = definition_.get(option);
-			List<Solution> solutions = ref.getAllSolutions();
+			Set<Solution> solutions = ref.getAllSolutions(m);
 			for(Solution s: solutions){
 				s.addDecision(this.decision_, option);
 			}

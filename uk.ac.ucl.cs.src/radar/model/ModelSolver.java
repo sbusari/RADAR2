@@ -22,6 +22,10 @@ public class ModelSolver {
 		
 		long start = System.currentTimeMillis();
 
+		for (int i =0; i < allSolutions.size(); i++){
+			System.out.println("Solution "+ i+ ": "+ allSolutions.get(i).selectionToString() );
+		}
+		
 		// Evaluate objectives for all solutions
 		int i =0;
 		for (Solution s: allSolutions){

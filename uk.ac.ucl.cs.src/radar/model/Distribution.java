@@ -1,7 +1,9 @@
 package radar.model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.math3.distribution.BinomialDistribution;
 import org.apache.commons.math3.distribution.ExponentialDistribution;
@@ -35,8 +37,8 @@ abstract class Distribution extends Expression {
 
 	}
 	@Override
-	public List<Solution> getAllSolutions(){
-		return new ArrayList<Solution>();
+	public Set<Solution> getAllSolutions(Model m){
+		return new LinkedHashSet<Solution>();
 	}
 	protected double [] deterministicDistribution (double value, int sampleSize){
 		double[] sample = new double[sampleSize];

@@ -128,14 +128,14 @@ public class Model implements ModelVisitorElement {
 		}
 		return parameters;
 	}
-	public  List<Solution> getAllSolutionss(){
+	public  List<Solution> getAllSolutions(){
 		List<Solution> result = new ArrayList<Solution>();
 		for (Objective obj: this.getObjectives()){
-			result.addAll(obj.getAllSolutions());
+			result.addAll(obj.getAllSolutions(this));
 		}
 		return result;
 	}
-	public  List<Solution> getAllSolutions(){
+	public  List<Solution> getAllSolutionss(){
 		List<Solution> solutions = new ArrayList<Solution>();
 		List<Decision> allDecisions = this.getDecisions();
 		List<Integer[]> selectedOptionIndices = SolutionAnalyser.generateSelectedOptionIndices (this.getDecisions());

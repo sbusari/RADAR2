@@ -1,8 +1,10 @@
 package radar.model;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class QualityVariable extends ArithmeticExpression implements ModelVisitorElement {
 
@@ -52,7 +54,6 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 	}
 	@Override
 	List<QualityVariable> getQualityVariable() {
-		
 		List<QualityVariable> result = new ArrayList<QualityVariable>();
 		result.add(this);
 		return result;
@@ -62,9 +63,13 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 		return this.getLabel().hashCode();
 	}
 	@Override
-	public List<Solution> getAllSolutions(){
+	public Set<Solution> getAllSolutions(Model m){
 		Expression expr = this.definition_;
-		return expr.getAllSolutions();
+		// variable could be a parameter or a binary operand in which case its definition is null cos it was partially populated during parsing
+		if (expr == null){ 
+			return new LinkedHashSet<Solution>();
+		}
+		return expr.getAllSolutions(m);
 	}
 	@Override
 	public void accept(ModelVisitor visitor, Model m) {

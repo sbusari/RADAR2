@@ -1,7 +1,9 @@
 package radar.model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 
 class BinaryExpression extends ArithmeticExpression {
@@ -85,6 +87,15 @@ class BinaryExpression extends ArithmeticExpression {
 	public void accept(ModelVisitor visitor, Model m) {
 		leftExpr_.accept(visitor, m);
 		rightExpr_.accept(visitor, m);
+	}
+	@Override
+	public Set<Solution> getAllSolutions(Model m) {
+		Set<Solution> results = new LinkedHashSet<Solution>();
+		Set<Solution> leftSolution= leftExpr_.getAllSolutions(m);
+		Set<Solution> rightSolution= rightExpr_.getAllSolutions(m);
+		results.addAll(leftSolution);
+		results.addAll (rightSolution);
+		return results;
 	}
 	
 }

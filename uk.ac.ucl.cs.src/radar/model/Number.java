@@ -1,7 +1,9 @@
 package radar.model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 class Number extends ArithmeticExpression {
 
@@ -30,11 +32,14 @@ class Number extends ArithmeticExpression {
 	}
 	@Override
 	public QualityVariable getParent() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public void accept(ModelVisitor visitor, Model m) {
-		//this.accept(visitor,m);
+
+	}
+	@Override
+	public Set<Solution> getAllSolutions(Model m) {
+		return new LinkedHashSet<Solution>();
 	}
 }

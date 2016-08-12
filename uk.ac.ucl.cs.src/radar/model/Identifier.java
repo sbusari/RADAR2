@@ -1,7 +1,9 @@
 package radar.model;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 	private String id_;
@@ -43,5 +45,11 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 		List<QualityVariable> result = new ArrayList<QualityVariable>();
 		result.add(linkedQv_);
 		return result;
+	}
+	@Override
+	public Set<Solution> getAllSolutions(Model m) {
+		QualityVariable qv = m.getQualityVariables().get(id_);
+		Set<Solution> solutions = qv.getDefinition().getAllSolutions(m);
+		return solutions;
 	}
 }
