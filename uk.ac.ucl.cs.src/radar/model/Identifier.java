@@ -34,10 +34,9 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 	}
 	@Override
 	public void accept(ModelVisitor visitor, Model m) {
+		
 		QualityVariable qv = m.getQualityVariables().get(id_);
 		qv.accept(visitor, m);
-	
-		visitor.visit(this);
 	}
 	@Override
 	List<QualityVariable> getQualityVariable() {

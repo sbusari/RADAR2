@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.distribution.BinomialDistribution;
@@ -31,7 +32,11 @@ abstract class Distribution extends Expression {
 		parent_ = parent;
 	}
 	public void accept(ModelVisitor visitor, Model m) {
-		//this.accept(visitor,m);
+
+	}
+	@Override
+	public List<Solution> getAllSolutions(){
+		return new ArrayList<Solution>();
 	}
 	protected double [] deterministicDistribution (double value, int sampleSize){
 		double[] sample = new double[sampleSize];

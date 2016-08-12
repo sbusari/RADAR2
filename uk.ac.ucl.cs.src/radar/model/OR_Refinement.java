@@ -42,6 +42,19 @@ public class OR_Refinement extends Expression {
 		parent_ = parent;
 	}
 	@Override
+	public List<Solution> getAllSolutions(){
+		List<Solution> result = new ArrayList<Solution>();
+		for (String option: this.decision_.getOptions()){
+			AND_Refinement ref = definition_.get(option);
+			List<Solution> solutions = ref.getAllSolutions();
+			for(Solution s: solutions){
+				s.addDecision(this.decision_, option);
+			}
+			result.addAll(solutions);
+		}
+		return result;
+	}
+	@Override
 	public void accept(ModelVisitor visitor, Model m) {
 		for (AND_Refinement andRef : getAndrefinements()){
 			andRef.accept(visitor,m);

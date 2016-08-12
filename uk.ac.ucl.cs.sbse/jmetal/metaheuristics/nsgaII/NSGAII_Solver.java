@@ -1,4 +1,4 @@
-	package jmetal.metaheuristics.nsgaII;
+/*	package jmetal.metaheuristics.nsgaII;
 	
 	import jmetal.core.Algorithm;
 import jmetal.core.Operator;
@@ -32,7 +32,7 @@ import radar.model.SolutionQuality;
 	public static Logger      logger_ ;      // Logger object
 	public static FileHandler fileHandler_ ;// FileHandler object
 	
-	/**
+	*//**
 	* @param args Command line arguments.
 	* @throws JMException 
 	* @throws IOException 
@@ -41,7 +41,7 @@ import radar.model.SolutionQuality;
 	*      - jmetal.metaheuristics.nsgaII.NSGAII_main
 	*      - jmetal.metaheuristics.nsgaII.NSGAII_main problemName
 	*      - jmetal.metaheuristics.nsgaII.NSGAII_main problemName paretoFrontFile
-	*/
+	*//*
 	@SuppressWarnings("unchecked")
 	public SolutionSet solve(Model m , ExperimentData data, SbseParameter param, List<Integer[]> decisionVectorBlock ) throws 
 	                              JMException, 
@@ -141,3 +141,4 @@ import radar.model.SolutionQuality;
 	} //main
 	} // NSGAII_main
 	
+*/

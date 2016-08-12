@@ -17,6 +17,9 @@ public class ModelSolver {
 		// solution space
 		result.addSolutionSpace(m.getSolutionSpace());
 
+		// add subgraph obejective
+		result.addSubGraphObejctive(m.getSubGraphObjective());
+		
 		long start = System.currentTimeMillis();
 
 		// Evaluate objectives for all solutions

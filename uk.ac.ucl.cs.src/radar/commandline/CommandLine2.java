@@ -1,4 +1,4 @@
-package radar.commandline;
+/*package radar.commandline;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -209,14 +209,14 @@ public class CommandLine2 {
 				Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/referenceFronts/" , result.getReferenceObjectives(), "objectives", true);
 				Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/referenceFronts/" , result.getReferenceDecisions(), "decisions", true);
 			}else{
-				/*for (int  i=0 ; i < sbse_param.getApproxAlgorithmList().length; i ++){
+				for (int  i=0 ; i < sbse_param.getApproxAlgorithmList().length; i ++){
 					for (int j =0;  j <sbse_param.getNbr_Runs(); j++){
 						String algorithm = sbse_param.getApproxAlgorithmList()[i];
 						result = new ModelAnalysisResult(algorithm, dataInput);
 						result.analyse();
 						result.resultsToOutputFolder(j);
 					}
-				}*/
+				}
 			}
 			
 			// generate graphs
@@ -241,3 +241,4 @@ public class CommandLine2 {
 
 	
 }
+*/

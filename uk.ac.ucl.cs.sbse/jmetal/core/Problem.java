@@ -27,7 +27,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import radar.model.Model;
-import radar.model.SbseData;
 
 /**
  * Abstract class representing a multiobjective optimization problem

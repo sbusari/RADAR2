@@ -9,6 +9,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 	private int refCounter ; // a counter used to give unique label to each refinement
 	private List<ModelVisitorElement> visited;
 	private List<String> edges; 
+
 	public RefinementGraphGenerator(){
 		visited = new ArrayList<ModelVisitorElement>();
 		edges = new ArrayList<String>();
@@ -26,6 +27,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 
 	@Override
 	public void visit(Objective obj) {
+		
 		if (!visited.contains(obj)){
 			String objDotString = obj.getLabel() + " [shape = box] \n";
 			dotString +=  objDotString;
@@ -43,8 +45,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 	public void visit(Statistic stat) {
 		
 	}
-
-	@Override
+/*	@Override
 	public void visit(QualityVariable var) {
 		if (!visited.contains(var)){
 			String varDotString =  "\""+ var.getLabel() +  "\"" + " [shape = oval] \n";
@@ -67,6 +68,49 @@ class RefinementGraphGenerator implements ModelVisitor {
 				}
 				dotString +=  andDotString;
 				visited.add(((BinaryExpression)var.getDefinition()));
+			}
+			visited.add(var);
+		}
+	}*/
+	
+	@Override
+	public void visit(QualityVariable var) {
+		if (!visited.contains(var)){
+			String varDotString =  "\""+ var.getLabel() +  "\"" + " [shape = oval] \n";
+			dotString +=  varDotString;
+			// we do not want a qv whose parent is objective to be added here
+			// implement the same for unary
+			if (var.getDefinition() != null && var.getDefinition().getParent() != null && (var.getDefinition() instanceof BinaryExpression || var.getDefinition() instanceof UnaryExpression) ){ 
+				String refID = "AndRef" + refCounter;
+				refCounter++;
+				dotString += refID + "[shape = point] \n";
+				if (var.getDefinition() instanceof BinaryExpression){
+					String parentLabel = ((BinaryExpression)var.getDefinition()).getParent().getLabel();
+					String andDotString = refID + "->" +  "\""+  parentLabel +  "\"" + "\n";
+					for (QualityVariable child : ((BinaryExpression)var.getDefinition()).getQualityVariable()){
+						String childLabel = child.getLabel();
+						String childDotString =  "\""+ childLabel + "\"" + "->" + refID + " [dir = none] \n";
+						if (!edges.contains(childDotString)){
+							andDotString += childDotString;
+							edges.add(childDotString);
+						}
+					}
+					dotString +=  andDotString;
+					visited.add(((BinaryExpression)var.getDefinition()));
+				}else{// unary expr
+					String parentLabel = ((UnaryExpression)var.getDefinition()).getParent().getLabel();
+					String andDotString = refID + "->" +  "\""+  parentLabel +  "\"" + "\n";
+					for (QualityVariable child : ((UnaryExpression)var.getDefinition()).getQualityVariable()){
+						String childLabel = child.getLabel();
+						String childDotString =  "\""+ childLabel + "\"" + "->" + refID + " [dir = none] \n";
+						if (!edges.contains(childDotString)){
+							andDotString += childDotString;
+							edges.add(childDotString);
+						}
+					}
+					dotString +=  andDotString;
+					visited.add(((UnaryExpression)var.getDefinition()));
+				}
 			}
 			visited.add(var);
 		}
@@ -98,17 +142,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 	public void visit(OR_Refinement orRef) {
 		
 	}
-	@Override
-	public void visit(Distribution andRef) {
 
-	}
-	@Override
-	public void visit(Identifier id) {
 
-	}
-	@Override
-	public void visit(BinaryExpression bin_expr) {
-
-	}
 
 }

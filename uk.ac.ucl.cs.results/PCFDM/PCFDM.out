@@ -9,7 +9,7 @@ Shortlisted: 			1
 Runtime(s): 			0
 
 ID 	blocking policy	processing type	fraud detection method	threshold level	FinancialLoss	InvestigationCost	Optimal
-1	block first	continuous	classifier	high	15331.872774544976	2.6977931533396427E7	Yes
+1	block first	continuous	classifier	high	15316.48473194114	2.710964708942053E7	Yes
 
 Information Value Analysis 
 ===============================

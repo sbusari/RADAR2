@@ -15,7 +15,6 @@ public class Model implements ModelVisitorElement {
 		qualityVariables_ = new LinkedHashMap<String, QualityVariable>();
 		parameters_ =  new ArrayList<String>();
 		decisions_ = new LinkedHashMap<String, Decision>();
-		alternative_ = new ArrayList<Solution> ();
 		
 	}
 	private String modelName_;
@@ -23,8 +22,8 @@ public class Model implements ModelVisitorElement {
 	private Map<String, QualityVariable> qualityVariables_;
 	private List<String> parameters_;
 	private Map<String, Decision> decisions_;
-	private List<Solution> alternative_;
 	private Objective infoValueObjective_;
+	private Objective subgraphObjective;
 	private int noOfSimulation_;
 	public void setModelName(String modelName ){
 		modelName_ =modelName;
@@ -58,20 +57,17 @@ public class Model implements ModelVisitorElement {
 	public List<Decision> getDecisions (){
 		return new ArrayList<Decision>(decisions_.values());
 	}
-	public void setAlternative(List<Solution>  solutions){
-		alternative_ =solutions;
-	}
-	public List<Solution>  getAlternative (){
-		return alternative_;
-	}
-	public void addAlternative(Solution a){
-		alternative_.add(a);
-	}
 	public void setInfoValueObjective (Objective objective){
 			infoValueObjective_ = objective;
 	}
 	public Objective getInfoValueObjective (){
 		return infoValueObjective_ ;
+	}
+	public void setSubGraphObjective (Objective subGraphObj){
+		subgraphObjective = subGraphObj;
+	}
+	public Objective getSubGraphObjective (){
+		return subgraphObjective ;
 	}
 	public void setNbr_Simulation(int noOfSimulation) {
 		noOfSimulation_ = noOfSimulation;
@@ -111,22 +107,6 @@ public class Model implements ModelVisitorElement {
 	        result.addEVPPI(param.getLabel(), evppi);
 		}
 	}
-	InfoValueAnalysisResult computeInformationValue(Objective objective, List<Solution> solutions, List<Parameter> params){
-		
-		InfoValueAnalysisResult result = new InfoValueAnalysisResult(objective.getLabel(), objective.getIsMinimisation());
-		double[][] objSim = objective.getQualityVariable().simulate(solutions);
-		// compute evtpi
-		double evtpi = InformationAnalysis.evpi(objSim);
-		result.setEVTPI(evtpi);
-		// compute evppi for each quality variable in params
-		for (int i=0; i <params.size(); i++){
-			Parameter param = params.get(i) ;
-	        double[] paramSim = param.getSimulationData();
-	        double evppi = InformationAnalysis.evppi(paramSim, objSim);
-	        result.addEVPPI(param.getLabel(), evppi);
-		}
-		return result;
-	}
 	public static List<Parameter> getParameterList (List<String> paramNames, Model m){
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		for (int i =0; i < paramNames.size(); i ++){
@@ -148,6 +128,13 @@ public class Model implements ModelVisitorElement {
 		}
 		return parameters;
 	}
+	public  List<Solution> getAllSolutionss(){
+		List<Solution> result = new ArrayList<Solution>();
+		for (Objective obj: this.getObjectives()){
+			result.addAll(obj.getAllSolutions());
+		}
+		return result;
+	}
 	public  List<Solution> getAllSolutions(){
 		List<Solution> solutions = new ArrayList<Solution>();
 		List<Decision> allDecisions = this.getDecisions();
@@ -165,9 +152,14 @@ public class Model implements ModelVisitorElement {
 		return solutions;
 	}	@Override
 	public void accept(ModelVisitor visitor, Model m) {
-		for (Objective obj: this.getObjectives()){
-			obj.accept(visitor, m);
+		if (m.getSubGraphObjective() == null){
+			for (Objective obj: this.getObjectives()){
+				obj.accept(visitor, m);
+			}
+		}else{
+			m.getSubGraphObjective().accept(visitor, m);
 		}
+		
 		visitor.visit(this);
 	}
 	// Generates the subgraph for any model element
@@ -179,7 +171,7 @@ public class Model implements ModelVisitorElement {
 
 	// Generates the refinement graph for the whole model
 	public String generateDOTRefinementGraph(Model m){
-		return generateDOTRefinementGraph(this,m);
+		return generateDOTRefinementGraph(this, m);
 	}
 	
 	

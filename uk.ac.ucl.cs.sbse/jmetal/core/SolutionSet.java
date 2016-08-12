@@ -27,8 +27,7 @@ import jmetal.util.JMException;
 import java.io.*;
 import java.util.*;
 
-import radar.model.SbseAlgorithm;
-import radar.model.SolutionQuality;
+//import radar.model.SolutionQuality;
 
 /** 
  * Class representing a SolutionSet (a set of solutions)
@@ -41,7 +40,7 @@ public class SolutionSet implements Serializable {
   protected final List<Solution> solutionsList_;
   
   protected SolutionSet evaluatedSolutions_;
-  protected SolutionQuality  solutionQuality_;
+  //protected SolutionQuality  solutionQuality_;
   
   protected long runTime_;
 
@@ -295,7 +294,7 @@ public class SolutionSet implements Serializable {
 	      BufferedWriter bw      = new BufferedWriter(osw)        ;            
 	      if (size()>0) {
 	        for (Solution aSolution : solutionsList_) {
-	        	String  entryRecord = new SbseAlgorithm().decisionVectorToString(aSolution);
+	        	String  entryRecord = null; //new SbseAlgorithm().decisionVectorToString(aSolution);
 	        	bw.write(entryRecord);
 	        	bw.newLine();
 	        }
@@ -465,11 +464,11 @@ public class SolutionSet implements Serializable {
   public long getExecutionTime (){
 	  return runTime_;
   }
-  public void setSolutionQuality (SolutionQuality solutionQuality){
+/*  public void setSolutionQuality (SolutionQuality solutionQuality){
 	  solutionQuality_ = solutionQuality;
   }
   public SolutionQuality getSolutionQuality(){
 	  return solutionQuality_;
-  }
+  }*/
 } // SolutionSet
 

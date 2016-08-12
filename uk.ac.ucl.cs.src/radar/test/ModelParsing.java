@@ -64,14 +64,14 @@ public class ModelParsing {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testSemanicModel() throws Exception {
-		Parser model_parser = new Parser (modelString, 10000, "");
+		Parser model_parser = new Parser (modelString, 10000, "", "");
 		semantic_model = model_parser.getSemanticModel();
 		Assert.assertNotNull(semantic_model);
 	}
 	@SuppressWarnings("deprecation")
 	@Test
 	public void generateSolutions() throws Exception {
-		Parser model_parser = new Parser (modelString,10000, "");
+		Parser model_parser = new Parser (modelString,10000, "", "");
 		semantic_model = model_parser.getSemanticModel();
 		List<Decision> decisions = semantic_model.getDecisions();
 		//List<Solution> allSolutions =  new SolutionAnalyser(semantic_model).getAllSolutions() ;

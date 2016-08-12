@@ -85,7 +85,6 @@ class BinaryExpression extends ArithmeticExpression {
 	public void accept(ModelVisitor visitor, Model m) {
 		leftExpr_.accept(visitor, m);
 		rightExpr_.accept(visitor, m);
-		visitor.visit(this);
 	}
 	
 }

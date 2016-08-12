@@ -20,6 +20,8 @@ public class AnalysisResult {
 
 	// objective with respect to which information value is measured
 	private Objective eviObjective;
+	
+	private Objective subGraphObjective;
 
 	private double evtpi;
 	
@@ -73,8 +75,14 @@ public class AnalysisResult {
 	void addRunTime (long time){
 		runtime = time;
 	}
+	void addSubGraphObejctive (Objective subGraphObj){
+		subGraphObjective =subGraphObj;
+	}
 	public List<Objective> getObjectives (){
 		return objectives;
+	}
+	public Objective getSubGraphObjective (){
+		return subGraphObjective;
 	}
 	public String generateSolutionHeader (){
 		String result ="ID \t";

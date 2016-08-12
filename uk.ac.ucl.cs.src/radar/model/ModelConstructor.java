@@ -14,6 +14,16 @@ public class ModelConstructor {
 	public  Model createNewModel (){
 		return new Model();
 	}
+	void addModelSubGraphObjective (Model model, String obj_name, String subGraphObj){
+		Objective subGraphObjective = new Objective();
+		List<Objective> objectives = model.getObjectives();
+		for (int i=0; i < objectives.size(); i ++){
+			if (objectives.get(i).getLabel().equals(subGraphObj.trim())){
+				subGraphObjective= objectives.get(i);
+			}
+		}
+		model.setSubGraphObjective(subGraphObjective);
+	} 
 	void addModelInfoValueObjective (Model model, String obj_name, String infoValueObj){
 		Objective infoValueObjective = new Objective();
 		List<Objective> objectives = model.getObjectives();
@@ -45,7 +55,7 @@ public class ModelConstructor {
 		model.setModelName(modelName);
 		return model;
 	}
-	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist,String infoValueObjective){
+	public  Model addObjectivesToModel (Model model, Map<String, Value> obj_definition,Map<String, Objective> obj_list, Map<String, QualityVariable> qvlist,String infoValueObjective, String subGraphObjective){
 		for (Map.Entry<String, Objective> entry: obj_list.entrySet()){
 			Value obj = obj_definition.get(entry.getKey());
 			Objective modelObj = entry.getValue();
@@ -74,7 +84,7 @@ public class ModelConstructor {
 			}
 			addModelObjective(model,modelObj.getLabel(),modelObj );
 			addModelInfoValueObjective ( model, modelObj.getLabel(), infoValueObjective);
-
+			addModelSubGraphObjective (model, modelObj.getLabel(), subGraphObjective);
 		}
 		return model;
 	}

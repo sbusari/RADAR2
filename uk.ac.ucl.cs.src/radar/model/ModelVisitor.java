@@ -8,7 +8,4 @@ interface ModelVisitor {
 	void visit(QualityVariable var);
 	void visit(AND_Refinement andRef);
 	void visit(OR_Refinement orRef);
-	void visit(Distribution andRef);
-	void visit (Identifier id);
-	void visit (BinaryExpression bin_expr);
 }

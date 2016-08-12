@@ -50,6 +50,10 @@ public class CommandLine {
 	@Parameter(names ="--infoValueObjective", description = "Computes evtpi and evppi. Input is an objective name. An example usage of this command is: --infoValueObjective 'FinancialLoss' ")
 	private String infoValueObjective = null;
 	
+	@Parameter(names ="--subGraphObjective", description = "Generates AND/OR subgraph for the specified objective only. Input is an objective name. An example usage of this command is: --subGraphObjective 'InvestigationCost' ")
+	private String subGraphObjective = null;
+	
+	
 	@Parameter(names ="--pareto", description = "Displays the pareto plots.")
 	public boolean pareto = false;
 	
@@ -65,11 +69,11 @@ public class CommandLine {
         cmd.run(cmd);
     }
 	
-	private Model parseModel (String modelPath,int nbr_simulation, String infoValueObjective){
+	private Model parseModel (String modelPath,int nbr_simulation, String infoValueObjective, String subGraphObjective){
 		Model semanticModel = null;
 		try {
 			String model = Helper.readFile(modelPath);
-			Parser parser  = new Parser(model,nbr_simulation,infoValueObjective );
+			Parser parser  = new Parser(model,nbr_simulation,infoValueObjective,subGraphObjective );
 			semanticModel = parser.getSemanticModel();
 		}
 		catch (RuntimeException re){
@@ -98,11 +102,11 @@ public class CommandLine {
 		if (parse == true || decision == true){
 			InputValidator.validateModelPath(model);
     		InputValidator.validateOutputPath(output);
-    		semanticModel = parseModel(model.trim(), nbr_Simulation, infoValueObjective);
+    		semanticModel = parseModel(model.trim(), nbr_Simulation, infoValueObjective,subGraphObjective);
 		}
 		// if solve is specified, we  parse the model and solve.
 		if (semanticModel == null && solve == true){
-			semanticModel = parseModel(model.trim(), nbr_Simulation, infoValueObjective);
+			semanticModel = parseModel(model.trim(), nbr_Simulation, infoValueObjective,subGraphObjective);
 		}
 		if (model != null && output != null && semanticModel == null){
 			throw new RuntimeException ("Specify a command to solve the model. Use the --help command for more information.");
@@ -126,6 +130,7 @@ public class CommandLine {
     		// update experiemnt data with semantic model and information value objective.
     		dataInput.setProblemName(semanticModel.getModelName());
     		InputValidator.objectiveExist(semanticModel, infoValueObjective);
+    		InputValidator.objectiveExist(semanticModel, subGraphObjective);
 
     		// analyse model
     		AnalysisResult result = ModelSolver.solve(semanticModel);

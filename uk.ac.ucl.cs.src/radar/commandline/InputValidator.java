@@ -10,17 +10,17 @@ import radar.model.Objective;
 
 public class InputValidator {
 	
-	public static void objectiveExist (Model model, String infoValueObjective) throws Exception{
-		if (infoValueObjective != null){
+	public static void objectiveExist (Model model, String objective) throws Exception{
+		if (objective != null){
 			List<Objective>  objs = model.getObjectives();
 			boolean exist = false;
 			for (int i =0; i <objs.size(); i ++ ){
-				if (objs.get(i).getLabel().equals(infoValueObjective.trim())){
+				if (objs.get(i).getLabel().equals(objective.trim())){
 					exist =true;
 				}
 			}
 			if (exist == false){
-				throw new Exception ("Error: "+ "information value objective name "+ infoValueObjective+ " does not exist in the model."); 
+				throw new Exception ("Error: "+ "specified objective name "+ objective+ " does not exist in the model."); 
 			}
 		}
 	}

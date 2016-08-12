@@ -6,8 +6,6 @@ import java.util.List;
 
 import radar.model.ExperimentData;
 import radar.model.Model;
-import radar.model.SbseAlgorithm;
-import radar.model.SbseData;
 import jmetal.core.Problem;
 import jmetal.core.Solution;
 import jmetal.encodings.solutionType.ArrayBitVectorSolutionType;
@@ -27,7 +25,7 @@ public class DecisionProblem extends Problem {
 		solutionType_ = new ArrayBitVectorSolutionType(this);
 	 }
 	 public void evaluate(Solution solution) throws JMException {
-		 solution = new SbseAlgorithm ().evaluate(solution,semanticModel_);
+		 solution = null; //new SbseAlgorithm ().evaluate(solution,semanticModel_);
 	 } // evaluate
 	 
 	 public Solution checkViolations (Solution solution) throws JMException{

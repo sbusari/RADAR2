@@ -52,10 +52,9 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 	}
 	@Override
 	List<QualityVariable> getQualityVariable() {
+		
 		List<QualityVariable> result = new ArrayList<QualityVariable>();
-		//if (! (this instanceof Parameter)){ // we do not want to show links to the option names
-			result.add(this);
-		//}
+		result.add(this);
 		return result;
 	}
 	
@@ -63,11 +62,22 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 		return this.getLabel().hashCode();
 	}
 	@Override
+	public List<Solution> getAllSolutions(){
+		Expression expr = this.definition_;
+		return expr.getAllSolutions();
+	}
+	@Override
 	public void accept(ModelVisitor visitor, Model m) {
 		// definition for the option may be null
-		if (definition_ == null){ // can only be null if it was populated partially for an arithmtetic expr 
+		// can only be null if it was populated partially during parsing for an arithmtetic expr 
+		if (definition_ == null){ 
 			QualityVariable qv = m.getQualityVariables().get(label_);
-			qv.getDefinition().accept(visitor,m);
+			// if we consider parameter, the label would have smt like qv_name[option], hence, qv may be null as such qv named do not exist.
+			if (qv != null){
+				qv.getDefinition().accept(visitor,m);
+				// update the definition of the this quality varible, so that when it visit itself it can prints the children of the arithmetic expression if it they exist.
+				this.setDefinition(qv.getDefinition());
+			}
 		}else{
 			definition_.accept(visitor,m);
 		}

@@ -33,13 +33,14 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	QualityVariable and_Ref_Parent; // only has name
 	QualityVariable arith_expr_Parent;
 	QualityVariable idParent;
-	//List<QualityVariable> arith_expr_children;
 	int nbr_simulation;
 	String infoValueObjective;
+	String subGraphObjective;
 	ModelConstructor modelConstructor;
-	public Visitor(int nbr_sim,  String infoValueObj){
+	public Visitor(int nbr_sim,  String infoValueObj,String subGraphObj){
 		nbr_simulation =nbr_sim;
 		infoValueObjective = infoValueObj;
+		subGraphObjective = subGraphObj;
 	}
 	public Model getSemanticModel() {
 		return semanticModel;
@@ -61,7 +62,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		}
 		// need objective definition to get the quality variable an objective refers to
 		
-		modelConstructor.addObjectivesToModel(semanticModel, obj_definitions, obj_list,qv_list,infoValueObjective );
+		modelConstructor.addObjectivesToModel(semanticModel, obj_definitions, obj_list,qv_list,infoValueObjective,subGraphObjective);
 		modelConstructor.addQualityVariablesToModel(semanticModel, qv_list );
 		modelConstructor.addDecisionsToModel(semanticModel,decision_list);
 		modelConstructor.addModelName(semanticModel,ctx.var_name().getText());
@@ -138,7 +139,6 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		qv = modelConstructor.addQualityVariableExpression(qv, qv_name,qv_def,arith_expr_Parent);
 		qv_list.put(qv_name.toString(), qv);
 		modelConstructor.addQualityVariableParameter(semanticModel,qv);
-		
 		and_Ref_Parent = null;
 		idParent = null;
 		arith_expr_Parent = null;

@@ -27,11 +27,11 @@ public class Parser {
 	public int getSimulationRun(){
 		return nbr_simulation_;
 	}
-	public Parser(String modelString, int nbr_simulation, String infoValueObjective){
-		parseModel(modelString,nbr_simulation, infoValueObjective);
+	public Parser(String modelString, int nbr_simulation, String infoValueObjective,String subGraphObjective){
+		parseModel(modelString,nbr_simulation, infoValueObjective, subGraphObjective);
 	}
-	public Visitor runVisitor (String inputString, int nbr_simulation,  String infoValueObjective) {
-		Visitor visitor = new Visitor(nbr_simulation, infoValueObjective);
+	public Visitor runVisitor (String inputString, int nbr_simulation,  String infoValueObjective,String subGraphObjective) {
+		Visitor visitor = new Visitor(nbr_simulation, infoValueObjective, subGraphObjective);
 		String model = inputString + "\n\n\n";
 		ModelExceptionListener errorListener = null;
 		try{
@@ -57,8 +57,8 @@ public class Parser {
 		}
 		return visitor;
 	}
-	void parseModel(String inputString, int nbr_simulation,  String infoValueObjective)  {
-		Visitor visitor = runVisitor (inputString,nbr_simulation, infoValueObjective);	
+	void parseModel(String inputString, int nbr_simulation,  String infoValueObjective,String subGraphObjective)  {
+		Visitor visitor = runVisitor (inputString,nbr_simulation, infoValueObjective, subGraphObjective);	
 		Model semanticModel = visitor.getSemanticModel();
 		setSemanticModel(semanticModel);
 	}

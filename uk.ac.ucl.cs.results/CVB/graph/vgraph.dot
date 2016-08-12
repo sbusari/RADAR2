@@ -21,6 +21,4 @@ AndRef4->"NB"
 "Cost"->AndRef4 [dir = none] 
 ENB [shape = box] 
 NB->"ENB"
-LP [shape = box] 
-NB->"LP"
 }

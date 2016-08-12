@@ -1,6 +1,6 @@
 package radar.model;
 import java.util.LinkedHashMap;
-
+import java.util.List;
 import java.util.Map;
 
 public  class Objective implements ModelVisitorElement {
@@ -65,12 +65,15 @@ public  class Objective implements ModelVisitorElement {
 			return value_.get(a);
 		}
 	}
+	
+	public List<Solution> getAllSolutions(){
+		QualityVariable var = this.getQualityVariable();
+		return var.getAllSolutions();
+	}
 	@Override
 	public void accept(ModelVisitor visitor, Model m) {
 		definition_.accept(visitor, m);
-		//visitor.visit(definition_);
 		visitor.visit(this);
-		//this.accept(visitor, m);
 	}
 	@Override
 	public int hashCode (){
