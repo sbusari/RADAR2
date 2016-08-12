@@ -67,12 +67,10 @@ AndRef15->"NbrFraudPerAccountBeforeBlocked"
 "NbrFraudBeforeDetection"->AndRef15 [dir = none] 
 "NbrFraudDuringInvestigation"->AndRef15 [dir = none] 
 "NbrFraudPerAccountBeforeBlocked" [shape = oval] 
-"FinLoss" [shape = oval] 
+"FinancialLoss" [shape = oval] 
 AndRef16[shape = point] 
-AndRef16->"FinLoss"
+AndRef16->"FinancialLoss"
 "AverageFraudValue"->AndRef16 [dir = none] 
 "NbrCompromisedAccounts"->AndRef16 [dir = none] 
 "NbrFraudPerAccountBeforeBlocked"->AndRef16 [dir = none] 
-FinancialLoss [shape = box] 
-FinLoss->"FinancialLoss"
 }

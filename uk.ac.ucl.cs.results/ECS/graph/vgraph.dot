@@ -244,6 +244,4 @@ AndRef43->"Utility"
 "NotificationsFrequency_Utility"->AndRef43 [dir = none] 
 "Performance_weight"->AndRef43 [dir = none] 
 "Performance_Utility"->AndRef43 [dir = none] 
-ExpectedUtility [shape = box] 
-Utility->"ExpectedUtility"
 }

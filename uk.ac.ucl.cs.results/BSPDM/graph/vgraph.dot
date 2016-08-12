@@ -92,6 +92,4 @@ AndRef17->"Cost_of_Disclosures"
 "Cost_MediumConfidentialityLeak"->AndRef17 [dir = none] 
 "Nbr_LowConfidentialityLeaks"->AndRef17 [dir = none] 
 "Cost_LowConfidentialityLeak"->AndRef17 [dir = none] 
-ExpectedCostOfDisclosures [shape = box] 
-Cost_of_Disclosures->"ExpectedCostOfDisclosures"
 }

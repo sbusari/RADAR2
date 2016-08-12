@@ -9,10 +9,11 @@ class RefinementGraphGenerator implements ModelVisitor {
 	private int refCounter ; // a counter used to give unique label to each refinement
 	private List<ModelVisitorElement> visited;
 	private List<String> edges; 
-
-	public RefinementGraphGenerator(){
+	Objective subGraphObjective;
+	public RefinementGraphGenerator(Objective subGraphObj){
 		visited = new ArrayList<ModelVisitorElement>();
 		edges = new ArrayList<String>();
+		subGraphObjective = subGraphObj;
 		dotString += "digraph G { \n";
 		dotString += "rankdir = BT \n";
 	}
@@ -29,15 +30,20 @@ class RefinementGraphGenerator implements ModelVisitor {
 	public void visit(Objective obj) {
 		
 		if (!visited.contains(obj)){
-			String objDotString = obj.getLabel() + " [shape = box] \n";
-			dotString +=  objDotString;
-			QualityVariable qvReferTo = obj.getQualityVariable();
-			// no edge when objective name equals var it refers to.
-			if (!obj.getLabel().equals(qvReferTo.getLabel())){
-				String childDotString = qvReferTo.getLabel() + "->" +  "\""+  obj.getLabel() +  "\"" + "\n";
-				dotString +=  childDotString;
+			// when subgraph is specified, we do not want the objective to show, it starts from the quality variable.
+			if (subGraphObjective != null
+					&& !subGraphObjective.getQualityVariable().getLabel().equals(obj.getQualityVariable().getLabel())){
+				String objDotString = obj.getLabel() + " [shape = box] \n";
+				dotString +=  objDotString;
+				QualityVariable qvReferTo = obj.getQualityVariable();
+				// no edge when objective name equals var it refers to.
+				if (!obj.getLabel().equals(qvReferTo.getLabel())){
+					String childDotString = qvReferTo.getLabel() + "->" +  "\""+  obj.getLabel() +  "\"" + "\n";
+					dotString +=  childDotString;
+				}
+				visited.add(obj);
 			}
-			visited.add(obj);
+			
 		}
 	}
 
@@ -45,33 +51,6 @@ class RefinementGraphGenerator implements ModelVisitor {
 	public void visit(Statistic stat) {
 		
 	}
-/*	@Override
-	public void visit(QualityVariable var) {
-		if (!visited.contains(var)){
-			String varDotString =  "\""+ var.getLabel() +  "\"" + " [shape = oval] \n";
-			dotString +=  varDotString;
-			// we do not want a qv whose parent is objective to be added here
-			// implement the same for unary
-			if (var.getDefinition() != null && var.getDefinition().getParent() != null && var.getDefinition() instanceof BinaryExpression ){ 
-				String refID = "AndRef" + refCounter;
-				refCounter++;
-				dotString += refID + "[shape = point] \n";
-				String parentLabel = ((BinaryExpression)var.getDefinition()).getParent().getLabel();
-				String andDotString = refID + "->" +  "\""+  parentLabel +  "\"" + "\n";
-				for (QualityVariable child : ((BinaryExpression)var.getDefinition()).getQualityVariable()){
-					String childLabel = child.getLabel();
-					String childDotString =  "\""+ childLabel + "\"" + "->" + refID + " [dir = none] \n";
-					if (!edges.contains(childDotString)){
-						andDotString += childDotString;
-						edges.add(childDotString);
-					}
-				}
-				dotString +=  andDotString;
-				visited.add(((BinaryExpression)var.getDefinition()));
-			}
-			visited.add(var);
-		}
-	}*/
 	
 	@Override
 	public void visit(QualityVariable var) {

@@ -5,169 +5,168 @@ Objective: 		MaxENB
 Objective: 		MinRisk
 SolutionSpace: 			6912
 Evaluated: 			6912
-Shortlisted: 			16
+Shortlisted: 			15
 Runtime(s): 			47
 
 ID 	Location Finding	File Sharing	Report Syncing	Chat Protocol	Map Access	Hardware Platform	Connectivity	Database	Architectural Pattern	Data Exchange Format	ENB	Risk	Optimal
-1	radio triangulation	OpenIntent	Explicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Nexus I	MySQL	Client-Server	Unformatted data	14.995212382063444	0.0393	Yes
-2	radio triangulation	OpenIntent	Explicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Droid	MySQL	Client-Server	XML	15.24380739452602	0.06	Yes
-3	radio triangulation	OpenIntent	Explicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Droid	MySQL	Client-Server	Compressed XML	15.326911664949451	0.106	Yes
-4	radio triangulation	OpenIntent	Explicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Droid	MySQL	Client-Server	Unformatted data	15.168461943560954	0.0409	Yes
-5	radio triangulation	OpenIntent	Explicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	3G on Droid	MySQL	Client-Server	Unformatted data	15.376516126128921	0.1966	Yes
-6	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	Wifi	MySQL	Client-Server	Unformatted data	16.002183263886653	0.7674	Yes
-7	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Nexus I	MySQL	Client-Server	Unformatted data	15.783160846982303	0.4347	Yes
-8	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Droid	MySQL	Client-Server	Unformatted data	15.956410408479842	0.5706	Yes
-9	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Droid	MySQL	Push-based	Unformatted data	15.500314589450547	0.4306	Yes
-10	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	Wifi	MySQL	Client-Server	XML	16.285582897419697	0.9957	Yes
-11	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	Wifi	MySQL	Client-Server	Compressed XML	16.36868716784314	0.9995	Yes
-12	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	Wifi	MySQL	Client-Server	Unformatted data	16.210237446454595	0.9442	Yes
-13	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	3G on Nexus I	MySQL	Client-Server	Unformatted data	15.991215029550302	0.7471	Yes
-14	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	3G on Droid	MySQL	Client-Server	XML	16.239810042012873	0.9884	Yes
-15	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	3G on Droid	MySQL	Client-Server	Compressed XML	16.32291431243635	0.9985	Yes
-16	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	3G on Droid	MySQL	Client-Server	Unformatted data	16.1644645910478	0.8799	Yes
+1	radio triangulation	OpenIntent	Explicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Droid	MySQL	Client-Server	XML	15.246272917498988	0.055	Yes
+2	radio triangulation	OpenIntent	Explicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Droid	MySQL	Client-Server	Compressed XML	15.32923168808388	0.1043	Yes
+3	radio triangulation	OpenIntent	Explicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Droid	MySQL	Client-Server	Unformatted data	15.17200968238567	0.0351	Yes
+4	radio triangulation	OpenIntent	Explicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	3G on Droid	MySQL	Client-Server	Unformatted data	15.37811731711134	0.1916	Yes
+5	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	Wifi	MySQL	Client-Server	Unformatted data	16.01715535386714	0.7513	Yes
+6	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Nexus I	MySQL	Client-Server	Unformatted data	15.796808490851568	0.4237	Yes
+7	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Droid	MySQL	Client-Server	Unformatted data	15.969231944143068	0.5625	Yes
+8	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Nexus I (HTC)	3G on Droid	MySQL	Push-based	Unformatted data	15.513404423843602	0.4143	Yes
+9	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	Wifi	MySQL	Client-Server	XML	16.29752622370621	0.9963	Yes
+10	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	Wifi	MySQL	Client-Server	Compressed XML	16.380484994291084	0.9995	Yes
+11	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	Wifi	MySQL	Client-Server	Unformatted data	16.223262988592914	0.9395	Yes
+12	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	3G on Nexus I	MySQL	Client-Server	Unformatted data	16.002916125577215	0.7425	Yes
+13	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	3G on Droid	MySQL	Client-Server	XML	16.249602813982072	0.9867	Yes
+14	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	3G on Droid	MySQL	Client-Server	Compressed XML	16.332561584566925	0.9973	Yes
+15	radio triangulation	OpenIntent	Implicit	XMPP (Open Fire)	Preloaded (ESRI)	Droid (Motorola)	3G on Droid	MySQL	Client-Server	Unformatted data	16.17533957886876	0.8807	Yes
 
 Information Value Analysis 
 ===============================
 
 Objective: 			ENB
-EVTPI: 			 0.03734994072881648
+EVTPI: 			 0.036650380128094184
 
 Parameter 			 EVPPI 
-BatteryUsage_LocationFinding[GPS]: 			 2.99994977268625E-5
-BatteryUsage_LocationFinding[radio triangulation]: 			 1.4902729393639902E-5
-BatteryUsage_FileSharing[OpenIntent]: 			 2.0749870401459702E-5
-BatteryUsage_FileSharing[In house]: 			 2.821317060508477E-5
-BatteryUsage_ReportSyncing[Explicit]: 			 5.2273388540413634E-5
-BatteryUsage_ReportSyncing[Implicit]: 			 1.61377534269036E-6
-BatteryUsage_ChatProtocol[XMPP (Open Fire)]: 			 2.688023962704733E-5
-BatteryUsage_ChatProtocol[In house]: 			 1.7654702457292615E-5
-BatteryUsage_MapAccess[On Demand (Google)]: 			 2.8158695844382464E-5
-BatteryUsage_MapAccess[Cache on server]: 			 -2.1316282072803006E-14
-BatteryUsage_MapAccess[Preloaded (ESRI)]: 			 1.1315821083712763E-5
-BatteryUsage_HardwarePlatform[Nexus I (HTC)]: 			 1.0200069468169204E-5
-BatteryUsage_HardwarePlatform[Droid (Motorola)]: 			 1.920332452058915E-4
-BatteryUsage_Connectivity[Wifi]: 			 0.0030036505896369192
-BatteryUsage_Connectivity[3G on Nexus I]: 			 3.361299533466422E-5
-BatteryUsage_Connectivity[3G on Droid]: 			 0.007833144081274668
-BatteryUsage_Connectivity[Bluetooth]: 			 -1.4210854715202004E-14
-BatteryUsage_DataBase[MySQL]: 			 6.786371097078359E-5
-BatteryUsage_DataBase[sqLite]: 			 5.113127002687179E-5
-BatteryUsage_ArchitecturalPattern[Peer-to-peer]: 			 2.2631761336100453E-5
-BatteryUsage_ArchitecturalPattern[Client-Server]: 			 1.139892389900865E-5
-BatteryUsage_ArchitecturalPattern[Push-based]: 			 3.759412938819651E-5
-BatteryUsage_DataExchangeFormat[XML]: 			 0.00387146343238598
-BatteryUsage_DataExchangeFormat[Compressed XML]: 			 1.4033355001075165E-4
-BatteryUsage_DataExchangeFormat[Unformatted data]: 			 6.016811252607113E-5
-ResponseTime_LocationFinding[GPS]: 			 1.0129619340659701E-5
-ResponseTime_LocationFinding[radio triangulation]: 			 4.994225008658759E-5
-ResponseTime_FileSharing[OpenIntent]: 			 4.217295575870139E-5
-ResponseTime_FileSharing[In house]: 			 3.2295130178994214E-5
-ResponseTime_ReportSyncing[Explicit]: 			 2.6745013272488904E-5
-ResponseTime_ReportSyncing[Implicit]: 			 2.163604173688327E-5
-ResponseTime_ChatProtocol[XMPP (Open Fire)]: 			 3.931711142612926E-5
-ResponseTime_ChatProtocol[In house]: 			 1.5953200858120908E-6
-ResponseTime_MapAccess[On Demand (Google)]: 			 2.4270616453492266E-5
-ResponseTime_MapAccess[Cache on server]: 			 1.593865193427746E-5
-ResponseTime_MapAccess[Preloaded (ESRI)]: 			 4.3763086054582345E-5
-ResponseTime_HardwarePlatform[Nexus I (HTC)]: 			 3.133877385508299E-5
-ResponseTime_HardwarePlatform[Droid (Motorola)]: 			 6.23072484913223E-5
-ResponseTime_Connectivity[Wifi]: 			 9.05702337661296E-6
-ResponseTime_Connectivity[3G on Nexus I]: 			 2.041802851238117E-5
-ResponseTime_Connectivity[3G on Droid]: 			 3.213510349553417E-5
-ResponseTime_Connectivity[Bluetooth]: 			 4.9565094798253995E-5
-ResponseTime_DataBase[MySQL]: 			 4.552231043319921E-5
-ResponseTime_DataBase[sqLite]: 			 3.193537509815769E-5
-ResponseTime_ArchitecturalPattern[Peer-to-peer]: 			 3.713763462087627E-5
-ResponseTime_ArchitecturalPattern[Client-Server]: 			 9.48161873637332E-6
-ResponseTime_ArchitecturalPattern[Push-based]: 			 1.2250209351805097E-5
-ResponseTime_DataExchangeFormat[XML]: 			 5.5043953025801784E-5
-ResponseTime_DataExchangeFormat[Compressed XML]: 			 3.729996532797486E-5
-ResponseTime_DataExchangeFormat[Unformatted data]: 			 1.8835105649372963E-5
-Reliability_LocationFinding[GPS]: 			 1.4698086925335474E-5
-Reliability_LocationFinding[radio triangulation]: 			 4.22928240269016E-5
-Reliability_FileSharing[OpenIntent]: 			 1.632792096728508E-5
-Reliability_FileSharing[In house]: 			 1.8296238710746593E-5
-Reliability_ReportSyncing[Explicit]: 			 4.803588586810292E-5
-Reliability_ReportSyncing[Implicit]: 			 2.0932230576420352E-5
-Reliability_ChatProtocol[XMPP (Open Fire)]: 			 2.1600406533650585E-5
-Reliability_ChatProtocol[In house]: 			 6.658637836665093E-7
-Reliability_MapAccess[On Demand (Google)]: 			 1.0108588348600733E-6
-Reliability_MapAccess[Cache on server]: 			 1.507805660949657E-5
-Reliability_MapAccess[Preloaded (ESRI)]: 			 2.6870602102491148E-5
-Reliability_Connectivity[Wifi]: 			 4.44012633092683E-4
-Reliability_Connectivity[3G on Nexus I]: 			 2.4102244594814692E-5
-Reliability_Connectivity[3G on Droid]: 			 0.003765587089191058
-Reliability_Connectivity[Bluetooth]: 			 5.511734322283246E-6
-Reliability_DataBase[MySQL]: 			 1.474730883188613E-6
-Reliability_DataBase[sqLite]: 			 4.355159612856596E-5
-Reliability_ArchitecturalPattern[Peer-to-peer]: 			 2.6288972236443442E-5
-Reliability_ArchitecturalPattern[Client-Server]: 			 1.5592981338130585E-5
-Reliability_ArchitecturalPattern[Push-based]: 			 0.0
-RampUpTime_LocationFinding[GPS]: 			 2.2490400581887116E-5
-RampUpTime_LocationFinding[radio triangulation]: 			 2.1112159576119893E-5
-RampUpTime_FileSharing[OpenIntent]: 			 5.5823396998277985E-6
-RampUpTime_FileSharing[In house]: 			 1.855476453371807E-5
-RampUpTime_ReportSyncing[Explicit]: 			 3.524569959623136E-5
-RampUpTime_ReportSyncing[Implicit]: 			 2.5601278803577543E-5
-RampUpTime_ChatProtocol[XMPP (Open Fire)]: 			 5.993058230302495E-5
-RampUpTime_ChatProtocol[In house]: 			 2.8806291751948265E-5
-RampUpTime_MapAccess[On Demand (Google)]: 			 2.2038308827632136E-5
-RampUpTime_MapAccess[Cache on server]: 			 2.3866681932105394E-5
-RampUpTime_MapAccess[Preloaded (ESRI)]: 			 1.7763568394002505E-14
-RampUpTime_Connectivity[Wifi]: 			 4.1727546822301065E-6
-RampUpTime_Connectivity[3G on Nexus I]: 			 3.914781668612477E-6
-RampUpTime_Connectivity[3G on Droid]: 			 -2.8421709430404007E-14
-RampUpTime_Connectivity[Bluetooth]: 			 6.578759959552372E-5
-RampUpTime_DataBase[MySQL]: 			 9.651314261560628E-6
-RampUpTime_DataBase[sqLite]: 			 6.511173602063991E-6
-RampUpTime_ArchitecturalPattern[Peer-to-peer]: 			 5.06473709549482E-6
-RampUpTime_ArchitecturalPattern[Client-Server]: 			 4.689454446449304E-5
-RampUpTime_ArchitecturalPattern[Push-based]: 			 3.23689200421029E-5
-RampUpTime_DataExchangeFormat[XML]: 			 1.562784591868649E-5
-RampUpTime_DataExchangeFormat[Compressed XML]: 			 8.900197338945759E-5
-RampUpTime_DataExchangeFormat[Unformatted data]: 			 2.987595123471465E-5
-Cost_LocationFinding[GPS]: 			 1.569825773373168E-5
-Cost_MapAccess[Cache on server]: 			 4.97007337969535E-5
-Cost_MapAccess[Preloaded (ESRI)]: 			 2.343855701525399E-6
-Cost_HardwarePlatform[Nexus I (HTC)]: 			 6.951128237275839E-5
-Cost_HardwarePlatform[Droid (Motorola)]: 			 6.290415659293558E-5
-Cost_Connectivity[Wifi]: 			 1.3795284285578191E-5
-Cost_Connectivity[3G on Nexus I]: 			 5.548148415712717E-5
-Cost_Connectivity[3G on Droid]: 			 2.3233735042538228E-4
-Cost_Connectivity[Bluetooth]: 			 9.205374325915727E-6
-DevelopmentTime_LocationFinding[GPS]: 			 5.6835188537718295E-6
-DevelopmentTime_LocationFinding[radio triangulation]: 			 4.330297517896042E-6
-DevelopmentTime_FileSharing[OpenIntent]: 			 2.6957607435207365E-5
-DevelopmentTime_FileSharing[In house]: 			 1.1339947278088403E-5
-DevelopmentTime_ReportSyncing[Explicit]: 			 3.7307092441096756E-5
-DevelopmentTime_ReportSyncing[Implicit]: 			 1.9964328394905806E-5
-DevelopmentTime_ChatProtocol[XMPP (Open Fire)]: 			 1.0546055140281396E-5
-DevelopmentTime_ChatProtocol[In house]: 			 4.3229587461723895E-5
-DevelopmentTime_MapAccess[On Demand (Google)]: 			 4.558884954874998E-5
-DevelopmentTime_MapAccess[Cache on server]: 			 1.5880112755439768E-5
-DevelopmentTime_MapAccess[Preloaded (ESRI)]: 			 7.862386636503516E-5
-DevelopmentTime_DataBase[MySQL]: 			 1.0720084780757588E-5
-DevelopmentTime_DataBase[sqLite]: 			 1.2219565945770228E-5
-DevelopmentTime_ArchitecturalPattern[Peer-to-peer]: 			 1.4524588550557382E-5
-DevelopmentTime_ArchitecturalPattern[Client-Server]: 			 4.472346408590511E-5
-DevelopmentTime_ArchitecturalPattern[Push-based]: 			 -4.618527782440651E-14
-DevelopmentTime_DataExchangeFormat[XML]: 			 1.0658141036401503E-14
-DevelopmentTime_DataExchangeFormat[Compressed XML]: 			 7.862537739100617E-6
-DevelopmentTime_DataExchangeFormat[Unformatted data]: 			 6.107530758470148E-6
-DeploymentTime_LocationFinding[GPS]: 			 2.046539547606585E-5
-DeploymentTime_LocationFinding[radio triangulation]: 			 2.3932335935228366E-5
-DeploymentTime_FileSharing[OpenIntent]: 			 6.149377233555242E-5
-DeploymentTime_ReportSyncing[Explicit]: 			 1.5570062327441292E-5
-DeploymentTime_ChatProtocol[XMPP (Open Fire)]: 			 3.197442310920451E-14
-DeploymentTime_MapAccess[Cache on server]: 			 8.135659118835292E-6
-DeploymentTime_MapAccess[Preloaded (ESRI)]: 			 2.4107772702564034E-5
-DeploymentTime_Connectivity[Wifi]: 			 1.897222006590482E-4
-DeploymentTime_Connectivity[3G on Nexus I]: 			 3.0098628865715682E-5
-DeploymentTime_Connectivity[3G on Droid]: 			 9.160573116773207E-5
-DeploymentTime_Connectivity[Bluetooth]: 			 0.0
-DeploymentTime_DataBase[MySQL]: 			 0.0
-DeploymentTime_DataBase[sqLite]: 			 3.306710505768251E-5
-DeploymentTime_ArchitecturalPattern[Peer-to-peer]: 			 3.421092413091742E-5
-DeploymentTime_ArchitecturalPattern[Client-Server]: 			 2.620080995896501E-5
-DeploymentTime_ArchitecturalPattern[Push-based]: 			 3.101689300777366E-5
+BatteryUsage_LocationFinding[GPS]: 			 1.3262997842033997E-4
+BatteryUsage_LocationFinding[radio triangulation]: 			 1.3710862624805031E-5
+BatteryUsage_FileSharing[OpenIntent]: 			 1.983938300753607E-6
+BatteryUsage_FileSharing[In house]: 			 5.752415762572127E-5
+BatteryUsage_ReportSyncing[Explicit]: 			 2.5225495008385224E-6
+BatteryUsage_ReportSyncing[Implicit]: 			 1.6716679361650222E-5
+BatteryUsage_ChatProtocol[XMPP (Open Fire)]: 			 1.9159779640176566E-5
+BatteryUsage_ChatProtocol[In house]: 			 7.950765887443367E-6
+BatteryUsage_MapAccess[On Demand (Google)]: 			 5.8906001765279825E-5
+BatteryUsage_MapAccess[Cache on server]: 			 2.5908936574836616E-5
+BatteryUsage_MapAccess[Preloaded (ESRI)]: 			 3.4767111159794695E-5
+BatteryUsage_HardwarePlatform[Nexus I (HTC)]: 			 4.965072979246088E-5
+BatteryUsage_HardwarePlatform[Droid (Motorola)]: 			 7.239409365666916E-5
+BatteryUsage_Connectivity[Wifi]: 			 0.002557418824455482
+BatteryUsage_Connectivity[3G on Nexus I]: 			 1.7976043974243794E-5
+BatteryUsage_Connectivity[3G on Droid]: 			 0.0076088444584243575
+BatteryUsage_Connectivity[Bluetooth]: 			 4.2631342562771124E-5
+BatteryUsage_DataBase[MySQL]: 			 7.58363086532654E-5
+BatteryUsage_DataBase[sqLite]: 			 2.3490990344043894E-5
+BatteryUsage_ArchitecturalPattern[Peer-to-peer]: 			 5.17825370849323E-6
+BatteryUsage_ArchitecturalPattern[Client-Server]: 			 3.8115338391264686E-5
+BatteryUsage_ArchitecturalPattern[Push-based]: 			 1.1479830131833069E-5
+BatteryUsage_DataExchangeFormat[XML]: 			 0.0041121726844366435
+BatteryUsage_DataExchangeFormat[Compressed XML]: 			 2.8472644480359577E-5
+BatteryUsage_DataExchangeFormat[Unformatted data]: 			 2.1625410429493286E-5
+ResponseTime_LocationFinding[GPS]: 			 8.755120493475488E-6
+ResponseTime_LocationFinding[radio triangulation]: 			 1.0692833263092894E-4
+ResponseTime_FileSharing[OpenIntent]: 			 2.131166798235995E-5
+ResponseTime_FileSharing[In house]: 			 1.6551827862087976E-5
+ResponseTime_ReportSyncing[Explicit]: 			 3.4285692649405064E-5
+ResponseTime_ReportSyncing[Implicit]: 			 2.418527617820132E-5
+ResponseTime_ChatProtocol[XMPP (Open Fire)]: 			 3.6664127044616635E-5
+ResponseTime_ChatProtocol[In house]: 			 1.9947794015706677E-5
+ResponseTime_MapAccess[On Demand (Google)]: 			 3.1096156334342595E-5
+ResponseTime_MapAccess[Cache on server]: 			 6.925403962299015E-6
+ResponseTime_MapAccess[Preloaded (ESRI)]: 			 3.493757213846038E-5
+ResponseTime_HardwarePlatform[Nexus I (HTC)]: 			 1.2217431578420701E-5
+ResponseTime_HardwarePlatform[Droid (Motorola)]: 			 1.0436228343735365E-4
+ResponseTime_Connectivity[Wifi]: 			 3.273644886903071E-5
+ResponseTime_Connectivity[3G on Nexus I]: 			 4.6530328944527355E-5
+ResponseTime_Connectivity[3G on Droid]: 			 1.8377387469570294E-5
+ResponseTime_Connectivity[Bluetooth]: 			 4.50977569279587E-5
+ResponseTime_DataBase[MySQL]: 			 4.880586033095824E-6
+ResponseTime_DataBase[sqLite]: 			 2.704802119168903E-5
+ResponseTime_ArchitecturalPattern[Peer-to-peer]: 			 4.497108925960447E-5
+ResponseTime_ArchitecturalPattern[Client-Server]: 			 2.745760519573537E-5
+ResponseTime_ArchitecturalPattern[Push-based]: 			 7.640676260578516E-5
+ResponseTime_DataExchangeFormat[XML]: 			 1.03259241654996E-5
+ResponseTime_DataExchangeFormat[Compressed XML]: 			 8.310545970857675E-5
+ResponseTime_DataExchangeFormat[Unformatted data]: 			 1.722261276881909E-5
+Reliability_LocationFinding[GPS]: 			 1.2334604626573764E-6
+Reliability_LocationFinding[radio triangulation]: 			 1.922273184362666E-5
+Reliability_FileSharing[OpenIntent]: 			 8.706769457234032E-5
+Reliability_FileSharing[In house]: 			 4.9863685365636456E-5
+Reliability_ReportSyncing[Explicit]: 			 8.30292766806906E-6
+Reliability_ReportSyncing[Implicit]: 			 2.9254273663070762E-5
+Reliability_ChatProtocol[XMPP (Open Fire)]: 			 5.466467470682801E-6
+Reliability_ChatProtocol[In house]: 			 3.701640266129402E-5
+Reliability_MapAccess[On Demand (Google)]: 			 7.527633783865895E-6
+Reliability_MapAccess[Cache on server]: 			 2.131813491956791E-5
+Reliability_MapAccess[Preloaded (ESRI)]: 			 1.8579409726271479E-6
+Reliability_Connectivity[Wifi]: 			 1.6332223080084418E-4
+Reliability_Connectivity[3G on Nexus I]: 			 1.6096124433317982E-5
+Reliability_Connectivity[3G on Droid]: 			 0.0037881440790599186
+Reliability_Connectivity[Bluetooth]: 			 3.210431474087727E-5
+Reliability_DataBase[MySQL]: 			 5.768949414175495E-6
+Reliability_DataBase[sqLite]: 			 2.433127639989152E-5
+Reliability_ArchitecturalPattern[Peer-to-peer]: 			 1.2696045320836902E-5
+Reliability_ArchitecturalPattern[Client-Server]: 			 3.8457031465100044E-5
+Reliability_ArchitecturalPattern[Push-based]: 			 5.614306591184004E-5
+RampUpTime_LocationFinding[GPS]: 			 1.8618234985723348E-5
+RampUpTime_LocationFinding[radio triangulation]: 			 1.707537133910364E-6
+RampUpTime_FileSharing[OpenIntent]: 			 5.278118269558263E-6
+RampUpTime_FileSharing[In house]: 			 1.7926661346479023E-5
+RampUpTime_ReportSyncing[Explicit]: 			 2.588793924829247E-5
+RampUpTime_ReportSyncing[Implicit]: 			 7.105427357601002E-14
+RampUpTime_ChatProtocol[XMPP (Open Fire)]: 			 5.97146958547512E-5
+RampUpTime_ChatProtocol[In house]: 			 2.0580942795334067E-5
+RampUpTime_MapAccess[On Demand (Google)]: 			 2.3827009023591472E-5
+RampUpTime_MapAccess[Cache on server]: 			 6.0753154699000333E-5
+RampUpTime_MapAccess[Preloaded (ESRI)]: 			 2.393094677088925E-5
+RampUpTime_Connectivity[Wifi]: 			 1.4243959985904553E-4
+RampUpTime_Connectivity[3G on Nexus I]: 			 1.6596454617712197E-5
+RampUpTime_Connectivity[3G on Droid]: 			 2.282835819436002E-4
+RampUpTime_Connectivity[Bluetooth]: 			 6.494968159387327E-5
+RampUpTime_DataBase[MySQL]: 			 8.937953651866337E-6
+RampUpTime_DataBase[sqLite]: 			 1.3643822597941835E-5
+RampUpTime_ArchitecturalPattern[Peer-to-peer]: 			 2.27263902274899E-6
+RampUpTime_ArchitecturalPattern[Client-Server]: 			 6.97236279414426E-5
+RampUpTime_ArchitecturalPattern[Push-based]: 			 7.113713731143889E-5
+RampUpTime_DataExchangeFormat[XML]: 			 5.02629895962059E-5
+RampUpTime_DataExchangeFormat[Compressed XML]: 			 4.271946507827806E-5
+RampUpTime_DataExchangeFormat[Unformatted data]: 			 2.9137074719187694E-5
+Cost_LocationFinding[GPS]: 			 4.45946918787854E-5
+Cost_MapAccess[Cache on server]: 			 4.0352010827859885E-5
+Cost_MapAccess[Preloaded (ESRI)]: 			 2.334380560853333E-5
+Cost_HardwarePlatform[Nexus I (HTC)]: 			 7.105427357601002E-15
+Cost_HardwarePlatform[Droid (Motorola)]: 			 4.341948643471483E-5
+Cost_Connectivity[Wifi]: 			 8.280777567648556E-5
+Cost_Connectivity[3G on Nexus I]: 			 8.164748521721776E-7
+Cost_Connectivity[3G on Droid]: 			 1.1018666102557972E-4
+Cost_Connectivity[Bluetooth]: 			 1.4822911200695899E-5
+DevelopmentTime_LocationFinding[GPS]: 			 5.372680668358498E-6
+DevelopmentTime_LocationFinding[radio triangulation]: 			 2.0395073629941862E-5
+DevelopmentTime_FileSharing[OpenIntent]: 			 2.4265912902166065E-5
+DevelopmentTime_FileSharing[In house]: 			 2.82278138818981E-5
+DevelopmentTime_ReportSyncing[Explicit]: 			 4.805572055488483E-5
+DevelopmentTime_ReportSyncing[Implicit]: 			 4.616580870475673E-5
+DevelopmentTime_ChatProtocol[XMPP (Open Fire)]: 			 3.052808003900509E-5
+DevelopmentTime_ChatProtocol[In house]: 			 9.584360594061536E-6
+DevelopmentTime_MapAccess[On Demand (Google)]: 			 1.036116632135986E-5
+DevelopmentTime_MapAccess[Cache on server]: 			 2.5491055716031497E-5
+DevelopmentTime_MapAccess[Preloaded (ESRI)]: 			 5.073956267054314E-5
+DevelopmentTime_DataBase[MySQL]: 			 7.040771158983716E-6
+DevelopmentTime_DataBase[sqLite]: 			 1.990703431076213E-5
+DevelopmentTime_ArchitecturalPattern[Peer-to-peer]: 			 4.1488600679429055E-5
+DevelopmentTime_ArchitecturalPattern[Client-Server]: 			 1.6262192282567867E-5
+DevelopmentTime_ArchitecturalPattern[Push-based]: 			 4.699263861596137E-6
+DevelopmentTime_DataExchangeFormat[XML]: 			 4.912029559989151E-6
+DevelopmentTime_DataExchangeFormat[Compressed XML]: 			 2.5735661541403942E-5
+DevelopmentTime_DataExchangeFormat[Unformatted data]: 			 2.9279762046030555E-6
+DeploymentTime_LocationFinding[GPS]: 			 2.1316282072803006E-14
+DeploymentTime_LocationFinding[radio triangulation]: 			 2.8897790116388933E-7
+DeploymentTime_FileSharing[OpenIntent]: 			 2.6169488421601272E-5
+DeploymentTime_ReportSyncing[Explicit]: 			 3.2783450869544595E-6
+DeploymentTime_ChatProtocol[XMPP (Open Fire)]: 			 2.6349386178736722E-5
+DeploymentTime_MapAccess[Cache on server]: 			 4.7076650226074435E-5
+DeploymentTime_MapAccess[Preloaded (ESRI)]: 			 1.8016182856683827E-5
+DeploymentTime_Connectivity[Wifi]: 			 8.065979866245243E-5
+DeploymentTime_Connectivity[3G on Nexus I]: 			 2.1160186634006095E-5
+DeploymentTime_Connectivity[3G on Droid]: 			 9.357397617293373E-5
+DeploymentTime_Connectivity[Bluetooth]: 			 4.59662559713081E-5
+DeploymentTime_DataBase[MySQL]: 			 7.378512066225085E-6
+DeploymentTime_DataBase[sqLite]: 			 6.157326571454291E-5
+DeploymentTime_ArchitecturalPattern[Peer-to-peer]: 			 2.506379794908753E-5
+DeploymentTime_ArchitecturalPattern[Client-Server]: 			 1.650029505029238E-5
+DeploymentTime_ArchitecturalPattern[Push-based]: 			 3.193254100963827E-5
 

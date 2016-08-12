@@ -163,15 +163,15 @@ public class Model implements ModelVisitorElement {
 		visitor.visit(this);
 	}
 	// Generates the subgraph for any model element
-	public String generateDOTRefinementGraph(ModelVisitorElement e, Model m){
-		RefinementGraphGenerator graphGenerator = new RefinementGraphGenerator();
+	public String generateDOTRefinementGraph(ModelVisitorElement e, Model m, Objective subGraphObjective){
+		RefinementGraphGenerator graphGenerator = new RefinementGraphGenerator(subGraphObjective);
 		e.accept(graphGenerator,m);
 		return graphGenerator.getDotString();
 	}
 
 	// Generates the refinement graph for the whole model
-	public String generateDOTRefinementGraph(Model m){
-		return generateDOTRefinementGraph(this, m);
+	public String generateDOTRefinementGraph(Model m, Objective subGraphObj){
+		return generateDOTRefinementGraph(this, m,subGraphObj);
 	}
 	
 	

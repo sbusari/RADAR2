@@ -2,9 +2,9 @@ Model PCFDM ;
 
 //This model is a fraud detection model
 
-Objective Min FinancialLoss = E(FinLoss) with 50000 margin;
+Objective Min ExpectedFinancialLoss = E(FinancialLoss) with 50000 margin;
 
-FinLoss =AverageFraudValue* NbrCompromisedAccounts*NbrFraudPerAccountBeforeBlocked;
+FinancialLoss =AverageFraudValue* NbrCompromisedAccounts*NbrFraudPerAccountBeforeBlocked;
 
 NbrCompromisedAccounts = NbrAccounts * CompromisedAccountRatio;
 
