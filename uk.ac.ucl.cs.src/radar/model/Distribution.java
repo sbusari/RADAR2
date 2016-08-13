@@ -37,8 +37,8 @@ abstract class Distribution extends Expression {
 
 	}
 	@Override
-	public Set<Solution> getAllSolutions(Model m){
-		return new LinkedHashSet<Solution>();
+	public List<Solution> getAllSolutions(Model m){
+		return new ArrayList<Solution>();
 	}
 	protected double [] deterministicDistribution (double value, int sampleSize){
 		double[] sample = new double[sampleSize];

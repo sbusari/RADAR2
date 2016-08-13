@@ -44,14 +44,15 @@ public class OR_Refinement extends Expression {
 		parent_ = parent;
 	}
 	@Override
-	public Set<Solution> getAllSolutions(Model m){
-		Set<Solution> result = new LinkedHashSet<Solution>();
+	public List<Solution> getAllSolutions(Model m){
+		List<Solution> result = new ArrayList<Solution>();
 		for (String option: this.decision_.getOptions()){
 			AND_Refinement ref = definition_.get(option);
-			Set<Solution> solutions = ref.getAllSolutions(m);
+			List<Solution> solutions = ref.getAllSolutions(m);
 			for(Solution s: solutions){
 				s.addDecision(this.decision_, option);
 			}
+			
 			result.addAll(solutions);
 		}
 		return result;

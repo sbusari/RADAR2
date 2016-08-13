@@ -1,34 +1,69 @@
 digraph G { 
-rankdir = BT; 
-edge[dir=back]; 
-PCFDM[shape=circle]
-"blocking_policy"[shape=polygon, style=diagonals]
-"block_first"[shape=box]
-"processing_type"[shape=polygon, style=diagonals]
-"continuous"[shape=box]
-"fraud_detection_method"[shape=polygon, style=diagonals]
-"classifier"[shape=box]
-"threshold_level"[shape=polygon, style=diagonals]
-"high"[shape=box]
-"medium"[shape=box]
-"low"[shape=box]
-"rule-based"[shape=box]
-"batch"[shape=box]
-"investigage_first"[shape=box]
-"high"->"threshold_level"
-"medium"->"threshold_level"
-"low"->"threshold_level"
-"threshold_level"->"classifier"
-"classifier"->"fraud_detection_method"
-"rule-based"->"fraud_detection_method"
-"fraud_detection_method"->"continuous"
-"continuous"->"processing_type"
-"fraud_detection_method"->"batch"
-"batch"->"processing_type"
-"processing_type"->"block_first"
-"block_first"->"blocking_policy"
-"processing_type"->"investigage_first"
-"investigage_first"->"blocking_policy"
-"blocking_policy"->PCFDM
-"processing_type"->PCFDM
+"blocking policy" [shape = polygon, sides =8] 
+"blocking policy" -> "block first"
+"processing type" [shape = polygon, sides =8] 
+"block first" -> "processing type"
+"fraud detection method" [shape = polygon, sides =8] 
+"block first" -> "fraud detection method"
+"threshold level" [shape = polygon, sides =8] 
+"block first" -> "threshold level"
+"blocking policy" -> "investigage first"
+"processing type" [shape = polygon, sides =8] 
+"investigage first" -> "processing type"
+"fraud detection method" [shape = polygon, sides =8] 
+"investigage first" -> "fraud detection method"
+"threshold level" [shape = polygon, sides =8] 
+"investigage first" -> "threshold level"
+"processing type" [shape = polygon, sides =8] 
+"processing type" -> "continuous"
+"blocking policy" [shape = polygon, sides =8] 
+"continuous" -> "blocking policy"
+"fraud detection method" [shape = polygon, sides =8] 
+"continuous" -> "fraud detection method"
+"threshold level" [shape = polygon, sides =8] 
+"continuous" -> "threshold level"
+"processing type" -> "batch"
+"blocking policy" [shape = polygon, sides =8] 
+"batch" -> "blocking policy"
+"fraud detection method" [shape = polygon, sides =8] 
+"batch" -> "fraud detection method"
+"threshold level" [shape = polygon, sides =8] 
+"batch" -> "threshold level"
+"fraud detection method" [shape = polygon, sides =8] 
+"fraud detection method" -> "classifier"
+"blocking policy" [shape = polygon, sides =8] 
+"classifier" -> "blocking policy"
+"processing type" [shape = polygon, sides =8] 
+"classifier" -> "processing type"
+"threshold level" [shape = polygon, sides =8] 
+"classifier" -> "threshold level"
+"fraud detection method" -> "rule-based"
+"blocking policy" [shape = polygon, sides =8] 
+"rule-based" -> "blocking policy"
+"processing type" [shape = polygon, sides =8] 
+"rule-based" -> "processing type"
+"threshold level" [shape = polygon, sides =8] 
+"rule-based" -> "threshold level"
+"threshold level" [shape = polygon, sides =8] 
+"threshold level" -> "high"
+"blocking policy" [shape = polygon, sides =8] 
+"high" -> "blocking policy"
+"processing type" [shape = polygon, sides =8] 
+"high" -> "processing type"
+"fraud detection method" [shape = polygon, sides =8] 
+"high" -> "fraud detection method"
+"threshold level" -> "medium"
+"blocking policy" [shape = polygon, sides =8] 
+"medium" -> "blocking policy"
+"processing type" [shape = polygon, sides =8] 
+"medium" -> "processing type"
+"fraud detection method" [shape = polygon, sides =8] 
+"medium" -> "fraud detection method"
+"threshold level" -> "low"
+"blocking policy" [shape = polygon, sides =8] 
+"low" -> "blocking policy"
+"processing type" [shape = polygon, sides =8] 
+"low" -> "processing type"
+"fraud detection method" [shape = polygon, sides =8] 
+"low" -> "fraud detection method"
 }

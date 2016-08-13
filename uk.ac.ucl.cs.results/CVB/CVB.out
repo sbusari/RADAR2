@@ -9,18 +9,18 @@ Shortlisted: 			2
 Runtime(s): 			0
 
 ID 	system type	ENB	LP	Optimal
-1	New	2.040966279950621	0.2219	Yes
-2	Legacy	1.000176571658425	0.0	Yes
+1	New	2.010551064274154	0.2284	Yes
+2	Legacy	0.999516916086492	0.0	Yes
 
 Information Value Analysis 
 ===============================
 
 Objective: 			ENB
-EVTPI: 			 0.6433658843599495
+EVTPI: 			 0.6543724602462899
 
 Parameter 			 EVPPI 
-Benefit[New]: 			 0.5361438539907368
-Benefit[Legacy]: 			 4.5593668511578755E-4
-Cost[New]: 			 0.12986478444620708
-Cost[Legacy]: 			 2.7189275380212763E-4
+Benefit[New]: 			 0.5500357798649937
+Benefit[Legacy]: 			 1.31560271787734E-4
+Cost[New]: 			 0.14301611737502906
+Cost[Legacy]: 			 0.0020373088486351776
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import radar.information.analysis.InformationAnalysis;
 
@@ -128,10 +129,29 @@ public class Model implements ModelVisitorElement {
 		}
 		return parameters;
 	}
+	void addUniqueSolutionsToResults (Solution obtainedSolution, List<Solution> results){
+		if (!obtainedSolution.isSolutionAlreadyInResult(results)){
+			results.add(obtainedSolution);
+		}
+	}
 	public  List<Solution> getAllSolutions(){
 		List<Solution> result = new ArrayList<Solution>();
 		for (Objective obj: this.getObjectives()){
-			result.addAll(obj.getAllSolutions(this));
+			List<Solution> objSolutions = obj.getAllSolutions(this);
+			if (result.size() > 0){
+				// do not add sub solutions
+				for (Solution objSolution : objSolutions){
+	                if (!objSolution.isSubSolution(result)){
+	                	addUniqueSolutionsToResults(objSolution,result);
+	                    //result.add(objSolution);
+	                }
+		        }
+			}else{
+				for (Solution objSolution : objSolutions){
+					addUniqueSolutionsToResults(objSolution,result);
+				}
+				//result = objSolutions;
+			}
 		}
 		return result;
 	}
@@ -173,8 +193,45 @@ public class Model implements ModelVisitorElement {
 	public String generateDOTRefinementGraph(Model m, Objective subGraphObj){
 		return generateDOTRefinementGraph(this, m,subGraphObj);
 	}
-	
-	
-
-
+	/*
+	* returns true if decision d1 is dependent on selection of option 'option' 
+	* in decision d0; in other words, if d1 is null every time 'option' is not 
+	* selected in d0.
+	* Formally: isDependent(d1, d0, option) iff
+	*  for all s: solution| s.selection(d0) != option imples s.selection(d1) == null
+	*/
+	boolean isDependent(Decision d1, Decision d0, String option){
+		// need when we have just only one decision in the model.
+		if (d1.equals(d0)){
+			return false;
+		}
+		for (Solution s: this.getAllSolutions()){
+			if(s.selection(d0) != null && s.selection(d0)!=option && s.selection(d1) != null) return false;
+		}
+		return true;
+	}
+	/*
+	* Generates the decision diagram in DOT format
+	*/
+	public String generateDecisionDiagram(){
+		String result = "digraph G { \n";
+		for(Decision d: this.getDecisions()){
+			String dShape =  "\""+ d.getDecisionLabel() +  "\"" + " [shape = polygon, sides =8] \n";
+			result +=  dShape;
+			for(String option: d.getOptions()){
+				String newLine = "\"" + d.getDecisionLabel() + "\"" + " -> " + "\"" + option + "\"" + "\n";
+				result = result + newLine;
+				for (Decision d1: this.getDecisions()){
+					if(this.isDependent(d1, d, option)){
+						String d1Shape =  "\""+ d1.getDecisionLabel() +  "\"" + " [shape = polygon, sides =8] \n";
+						result +=  d1Shape;
+						newLine = "\"" + option + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "\n";
+						result = result + newLine;
+					} 
+				}
+			}
+		}
+		result += "}";
+		return result;
+	}
 }

@@ -39,7 +39,7 @@ class Number extends ArithmeticExpression {
 
 	}
 	@Override
-	public Set<Solution> getAllSolutions(Model m) {
-		return new LinkedHashSet<Solution>();
+	public List<Solution> getAllSolutions(Model m) {
+		return new ArrayList<Solution>();
 	}
 }

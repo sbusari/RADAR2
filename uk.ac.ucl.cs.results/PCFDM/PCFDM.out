@@ -4,12 +4,12 @@ Optimisation Analysis
 Objective: 		MinExpectedFinancialLoss
 Objective: 		MinInvestigationCost
 SolutionSpace: 			24
-Evaluated: 			24
+Evaluated: 			16
 Shortlisted: 			1
 Runtime(s): 			0
 
 ID 	blocking policy	processing type	fraud detection method	threshold level	ExpectedFinancialLoss	InvestigationCost	Optimal
-1	block first	continuous	classifier	high	15537.771944520295	2.715762445264896E7	Yes
+1	high	classifier	continuous	block first	15313.26962518115	2.7256450002892744E7	Yes
 
 Information Value Analysis 
 ===============================

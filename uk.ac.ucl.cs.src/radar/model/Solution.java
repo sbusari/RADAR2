@@ -1,6 +1,7 @@
 package radar.model;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 class Solution {
 
@@ -15,6 +16,51 @@ class Solution {
 		if (a.selection != null){
 			selection.putAll(a.selection);
 		}
+	}
+	public boolean equals (Solution s){
+		boolean result = false;
+		if (this.selectionToString().equals(s.selectionToString())){
+			return true;
+		}
+		return result;
+	}
+	public boolean isSolutionAlreadyInResult (List<Solution> result){
+		boolean solutionExist = false;
+		for (int i =0; i < result.size(); i++){
+			if (result.get(i).equals(this)){
+				return true;
+			}
+		}
+		return solutionExist;
+	}
+	public boolean isSubSolution(List<Solution> solutions){
+		boolean result = true;
+		for (Solution s : solutions){
+			// check if the current solution is a subset of solution s.
+			boolean isSubSolutionOfS = isSolutionBSubsetOfA(s,this);
+			if (isSubSolutionOfS == true){
+				return true;
+			}
+			result &= isSubSolutionOfS;
+		}
+	
+		return result;
+	}
+	boolean isSolutionBSubsetOfA(Solution A, Solution B){
+		boolean result =true;
+		String[] aDecisionOptions = A.selectionToString().split(",");
+		for (Map.Entry<Decision, String> b: B.getSelection().entrySet()){
+			boolean optionOfBFoundInA = false;
+			String bDecisionOption = b.getKey().getDecisionLabel() + ":" + b.getValue();
+			for (String aDecisionOption: aDecisionOptions){
+				if (aDecisionOption.equals(bDecisionOption)){
+					optionOfBFoundInA =true;
+					break;
+				}
+			}
+			result &= optionOfBFoundInA;
+		}
+		return result;
 	}
 	public String getOption (Decision d){
 		String option ="";
@@ -49,6 +95,9 @@ class Solution {
 			output = output.substring(0,output.length()-1 );
 		}
 		return output;
+	}
+	String selection(Decision d){
+		return selection.get(d);
 	}
 	@Override
 	public int hashCode (){

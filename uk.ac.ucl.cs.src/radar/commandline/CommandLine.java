@@ -139,9 +139,9 @@ public class CommandLine {
 			
 			// generate graphs
 			String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
-			//String decisionGraph = new GraphGenerator().generateDecisionGraph(semanticModel);
+			String decisionGraph = semanticModel.generateDecisionDiagram();
 			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", variableGraph, "vgraph.dot", false);
-			//Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", decisionGraph, "dgraph.dot", false);
+			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", decisionGraph, "dgraph.dot", false);
 			
 			
     		if (pareto == true){

@@ -30,8 +30,8 @@ class AND_Refinement extends Expression {
 	public void setParent(QualityVariable parent) {
 		parent_ = parent;
 	}
-	public Set<Solution> getAllSolutions(Model m){
-		Set<Solution> result = new LinkedHashSet<Solution>();
+	public List<Solution> getAllSolutions(Model m){
+		List<Solution> result = new ArrayList<Solution>();
 	
 		for (QualityVariable var: this.getChildren()){
 			// variable could be a binary operand in which case its definition is null cos it was partially populated during parsing

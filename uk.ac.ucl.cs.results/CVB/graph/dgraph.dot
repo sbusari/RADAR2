@@ -1,11 +1,5 @@
 digraph G { 
-rankdir = BT; 
-edge[dir=back]; 
-CVB[shape=circle]
-"system_type"[shape=polygon, style=diagonals]
-"New"[shape=box]
-"Legacy"[shape=box]
-"New"->"system_type"
-"Legacy"->"system_type"
-"system_type"->CVB
+"system type" [shape = polygon, sides =8] 
+"system type" -> "New"
+"system type" -> "Legacy"
 }

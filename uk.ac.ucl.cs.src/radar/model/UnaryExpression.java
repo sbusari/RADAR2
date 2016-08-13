@@ -56,9 +56,9 @@ class UnaryExpression extends ArithmeticExpression {
 		
 	}
 	@Override
-	public Set<Solution> getAllSolutions(Model m) {
-		Set<Solution> results = new LinkedHashSet<Solution>();
-		Set<Solution> solutions= expr_.getAllSolutions(m);
+	public List<Solution> getAllSolutions(Model m) {
+		List<Solution> results = new ArrayList<Solution>();
+		List<Solution> solutions= expr_.getAllSolutions(m);
 		results.addAll(solutions);
 		return results;
 	}

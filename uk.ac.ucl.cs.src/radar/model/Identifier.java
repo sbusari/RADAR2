@@ -47,9 +47,9 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 		return result;
 	}
 	@Override
-	public Set<Solution> getAllSolutions(Model m) {
+	public List<Solution> getAllSolutions(Model m) {
 		QualityVariable qv = m.getQualityVariables().get(id_);
-		Set<Solution> solutions = qv.getDefinition().getAllSolutions(m);
+		List<Solution> solutions = qv.getDefinition().getAllSolutions(m);
 		return solutions;
 	}
 }

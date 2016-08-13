@@ -89,10 +89,10 @@ class BinaryExpression extends ArithmeticExpression {
 		rightExpr_.accept(visitor, m);
 	}
 	@Override
-	public Set<Solution> getAllSolutions(Model m) {
-		Set<Solution> results = new LinkedHashSet<Solution>();
-		Set<Solution> leftSolution= leftExpr_.getAllSolutions(m);
-		Set<Solution> rightSolution= rightExpr_.getAllSolutions(m);
+	public List<Solution> getAllSolutions(Model m) {
+		List<Solution> results = new ArrayList<Solution>();
+		List<Solution> leftSolution= leftExpr_.getAllSolutions(m);
+		List<Solution> rightSolution= rightExpr_.getAllSolutions(m);
 		results.addAll(leftSolution);
 		results.addAll (rightSolution);
 		return results;
