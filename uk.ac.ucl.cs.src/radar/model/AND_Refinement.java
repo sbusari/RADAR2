@@ -1,9 +1,7 @@
 package radar.model;
-
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
+
+import radar.utilities.PseudoRandom;
 
 class AND_Refinement extends Expression {
 
@@ -30,10 +28,13 @@ class AND_Refinement extends Expression {
 	public void setParent(QualityVariable parent) {
 		parent_ = parent;
 	}
-	public List<Solution> getAllSolutions(Model m){
-		List<Solution> result = new ArrayList<Solution>();
+	public SolutionSet getAllSolutions(Model m){
+		SolutionSet result = new SolutionSet();
 	
+		//String.valueOf(System.currentTimeMillis() + PseudoRandom.randDouble(0, 100000));
+		int i =0;
 		for (QualityVariable var: this.getChildren()){
+			
 			// variable could be a binary operand in which case its definition is null cos it was partially populated during parsing
 			if (var.getDefinition() == null){ 
 				QualityVariable qv = m.getQualityVariables().get(var.getLabel());
@@ -41,11 +42,14 @@ class AND_Refinement extends Expression {
 					result.addAll(qv.getAllSolutions(m));
 				}else{ // if it is a paramter within an expr it  will return null cos its labe does not exist
 					Solution s = new Solution();
-					result.add(s);
+					String uniqueParentID = ""+ m.getSolutionCount(); 
+					s.setUniqueID(uniqueParentID);
+					result.addNewSolution(s);
 				}
 			}else{
 				result.addAll(var.getAllSolutions(m));
 			}
+			i++;
 		}
 		return result;
 	}

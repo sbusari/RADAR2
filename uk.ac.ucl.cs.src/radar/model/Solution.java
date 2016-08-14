@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ class Solution {
 
 	private Map<Decision, String> selection;
 	private Model sematicModel;
+	private String uniqueParentID_;
 	public Solution(){
 		selection = new LinkedHashMap<Decision, String>();
 	}
@@ -17,13 +19,13 @@ class Solution {
 			selection.putAll(a.selection);
 		}
 	}
-	public boolean equals (Solution s){
+	/*public boolean equals (Solution s){
 		boolean result = false;
 		if (this.selectionToString().equals(s.selectionToString())){
 			return true;
 		}
 		return result;
-	}
+	}*/
 	public boolean isSolutionAlreadyInResult (List<Solution> result){
 		boolean solutionExist = false;
 		for (int i =0; i < result.size(); i++){
@@ -62,12 +64,13 @@ class Solution {
 		}
 		return result;
 	}
-	public String getOption (Decision d){
-		String option ="";
+	public String selection (Decision d){
+		String option = null;
 		if (selection  != null){
 			for (Map.Entry<Decision, String> entry:selection.entrySet() ){
 				if (entry.getKey().getDecisionLabel().equals(d.getDecisionLabel())){
 					option =  entry.getValue();
+					break;
 				}
 			}
 		}
@@ -79,7 +82,12 @@ class Solution {
 	public void addDecision (Decision d, String option){
 		selection.put(d, option);
 	}
-
+	public void setUniqueID (String uniqueID){
+		uniqueParentID_ =uniqueID;
+	}
+	public String getUniqueID (){
+		return uniqueParentID_;
+	}
 	public Model getSemanticModel (){
 		return sematicModel;
 	}
@@ -96,8 +104,32 @@ class Solution {
 		}
 		return output;
 	}
-	String selection(Decision d){
-		return selection.get(d);
+	List<Decision> decisions(){
+		return new ArrayList<Decision>( selection.keySet());
+	}
+
+	/*
+	* Returns true if both solutions have the same option selection on all their decisions.
+	*/
+	boolean equals(Solution s){
+		return this.selection.equals(s.selection);
+	}
+
+	/*
+	* Returns true if all decisions in 'this' are the same as in s.
+	* Note: if this.equals(s) then this.subSolution(s), 
+	* but not vice-versa because s may contain decisions that are not defined in `this`.
+	*/
+	boolean subSolution(Solution s){
+		// we do not want to do a  check when a new Solution "this" with an empty selection is the same as new Solution s populated within the same AND_refinement
+		if (this.getUniqueID().equals(s.getUniqueID())){
+			return false;
+		}
+		for (Decision d: this.decisions()){
+			// used get option as getselction was giving null in som instance due to the nature of Map.
+			if (!this.selection(d).equals(s.selection(d))) return false;
+		}
+		return true;
 	}
 	@Override
 	public int hashCode (){

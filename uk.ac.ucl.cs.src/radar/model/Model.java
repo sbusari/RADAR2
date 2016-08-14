@@ -26,6 +26,8 @@ public class Model implements ModelVisitorElement {
 	private Objective infoValueObjective_;
 	private Objective subgraphObjective;
 	private int noOfSimulation_;
+	// needed to maintain unique solution ID in getAllSolutions
+	private int solutionCounter_;
 	public void setModelName(String modelName ){
 		modelName_ =modelName;
 	}
@@ -76,7 +78,9 @@ public class Model implements ModelVisitorElement {
 	public int getNbr_Simulation() {
 		return noOfSimulation_;
 	}
-
+	public int getSolutionCount(){
+		return solutionCounter_++;
+	}
 	public int getSolutionSpace (){
 		int result =1;
 		for (Map.Entry<String , Decision> entry: this.decisions_.entrySet()){
@@ -134,7 +138,7 @@ public class Model implements ModelVisitorElement {
 			results.add(obtainedSolution);
 		}
 	}
-	public  List<Solution> getAllSolutions(){
+/*	public  List<Solution> getAllSolutions(){
 		List<Solution> result = new ArrayList<Solution>();
 		for (Objective obj: this.getObjectives()){
 			List<Solution> objSolutions = obj.getAllSolutions(this);
@@ -152,6 +156,14 @@ public class Model implements ModelVisitorElement {
 				}
 				//result = objSolutions;
 			}
+		}
+		return result;
+	}*/
+	public  SolutionSet getAllSolutions(){
+		SolutionSet result = new SolutionSet();
+		for (Objective obj: this.getObjectives()){
+			SolutionSet solnSet = obj.getAllSolutions(this);
+			result.addAll(solnSet);
 		}
 		return result;
 	}
@@ -205,8 +217,8 @@ public class Model implements ModelVisitorElement {
 		if (d1.equals(d0)){
 			return false;
 		}
-		for (Solution s: this.getAllSolutions()){
-			if(s.selection(d0) != null && s.selection(d0)!=option && s.selection(d1) != null) return false;
+		for (Solution s: this.getAllSolutions().list()){
+			if(s.selection(d0) != null && !s.selection(d0).equals(option) && s.selection(d1) != null) return false;
 		}
 		return true;
 	}

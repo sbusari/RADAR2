@@ -63,11 +63,11 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 		return this.getLabel().hashCode();
 	}
 	@Override
-	public List<Solution> getAllSolutions(Model m){
+	public SolutionSet getAllSolutions(Model m){
 		Expression expr = this.definition_;
 		// variable could be a parameter or a binary operand in which case its definition is null cos it was partially populated during parsing
 		if (expr == null){ 
-			return new ArrayList<Solution>();
+			return new SolutionSet();
 		}
 		return expr.getAllSolutions(m);
 	}

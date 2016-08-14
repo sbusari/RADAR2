@@ -3,6 +3,7 @@ package radar.model;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -89,13 +90,31 @@ class BinaryExpression extends ArithmeticExpression {
 		rightExpr_.accept(visitor, m);
 	}
 	@Override
-	public List<Solution> getAllSolutions(Model m) {
-		List<Solution> results = new ArrayList<Solution>();
-		List<Solution> leftSolution= leftExpr_.getAllSolutions(m);
-		List<Solution> rightSolution= rightExpr_.getAllSolutions(m);
+	public SolutionSet getAllSolutions(Model m) {
+		SolutionSet results = new SolutionSet();
+		SolutionSet leftSolution= leftExpr_.getAllSolutions(m);
+		SolutionSet rightSolution= rightExpr_.getAllSolutions(m);
 		results.addAll(leftSolution);
 		results.addAll (rightSolution);
 		return results;
+	}
+	
+	SolutionSet combinedBinarySolutions (SolutionSet left, SolutionSet right){
+		SolutionSet result = new SolutionSet();
+		List<Solution> combinedSolutions = new ArrayList<Solution>();
+		for (int i = 0 ; i <left.size() ; i++ ){
+			Solution aLeftSolution = left.get(i);
+			for (int j=0; j < right.size(); j++){
+				Solution aRightSolution = right.get(j);
+				for (Map.Entry<Decision, String> entry:aRightSolution.getSelection().entrySet() ){
+					aLeftSolution.addDecision(entry.getKey(), entry.getValue());
+				}
+				result.addSolution(aLeftSolution);
+			}
+			
+		}
+		//result.setSolutions(combinedSolutions);
+		return result;
 	}
 	
 }

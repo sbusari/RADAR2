@@ -1,11 +1,10 @@
 package radar.model;
-import java.util.List;
 
 
  abstract class Expression implements ModelVisitorElement {
 
 	public abstract double [] simulate (Solution s);
-	public abstract List<Solution> getAllSolutions(Model m);
+	public abstract SolutionSet getAllSolutions(Model m);
 	QualityVariable parent_;
 	public QualityVariable getParent() {
 		return parent_;

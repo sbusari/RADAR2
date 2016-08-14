@@ -67,7 +67,7 @@ public  class Objective implements ModelVisitorElement {
 		}
 	}
 	
-	public List<Solution> getAllSolutions(Model m){
+	public SolutionSet getAllSolutions(Model m){
 		QualityVariable var = this.getQualityVariable();
 		return var.getAllSolutions(m);
 	}

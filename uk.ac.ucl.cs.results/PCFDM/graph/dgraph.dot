@@ -1,69 +1,17 @@
 digraph G { 
 "blocking policy" [shape = polygon, sides =8] 
 "blocking policy" -> "block first"
-"processing type" [shape = polygon, sides =8] 
-"block first" -> "processing type"
-"fraud detection method" [shape = polygon, sides =8] 
-"block first" -> "fraud detection method"
-"threshold level" [shape = polygon, sides =8] 
-"block first" -> "threshold level"
 "blocking policy" -> "investigage first"
 "processing type" [shape = polygon, sides =8] 
-"investigage first" -> "processing type"
-"fraud detection method" [shape = polygon, sides =8] 
-"investigage first" -> "fraud detection method"
-"threshold level" [shape = polygon, sides =8] 
-"investigage first" -> "threshold level"
-"processing type" [shape = polygon, sides =8] 
 "processing type" -> "continuous"
-"blocking policy" [shape = polygon, sides =8] 
-"continuous" -> "blocking policy"
-"fraud detection method" [shape = polygon, sides =8] 
-"continuous" -> "fraud detection method"
-"threshold level" [shape = polygon, sides =8] 
-"continuous" -> "threshold level"
 "processing type" -> "batch"
-"blocking policy" [shape = polygon, sides =8] 
-"batch" -> "blocking policy"
-"fraud detection method" [shape = polygon, sides =8] 
-"batch" -> "fraud detection method"
-"threshold level" [shape = polygon, sides =8] 
-"batch" -> "threshold level"
 "fraud detection method" [shape = polygon, sides =8] 
 "fraud detection method" -> "classifier"
-"blocking policy" [shape = polygon, sides =8] 
-"classifier" -> "blocking policy"
-"processing type" [shape = polygon, sides =8] 
-"classifier" -> "processing type"
 "threshold level" [shape = polygon, sides =8] 
 "classifier" -> "threshold level"
 "fraud detection method" -> "rule-based"
-"blocking policy" [shape = polygon, sides =8] 
-"rule-based" -> "blocking policy"
-"processing type" [shape = polygon, sides =8] 
-"rule-based" -> "processing type"
-"threshold level" [shape = polygon, sides =8] 
-"rule-based" -> "threshold level"
 "threshold level" [shape = polygon, sides =8] 
 "threshold level" -> "high"
-"blocking policy" [shape = polygon, sides =8] 
-"high" -> "blocking policy"
-"processing type" [shape = polygon, sides =8] 
-"high" -> "processing type"
-"fraud detection method" [shape = polygon, sides =8] 
-"high" -> "fraud detection method"
 "threshold level" -> "medium"
-"blocking policy" [shape = polygon, sides =8] 
-"medium" -> "blocking policy"
-"processing type" [shape = polygon, sides =8] 
-"medium" -> "processing type"
-"fraud detection method" [shape = polygon, sides =8] 
-"medium" -> "fraud detection method"
 "threshold level" -> "low"
-"blocking policy" [shape = polygon, sides =8] 
-"low" -> "blocking policy"
-"processing type" [shape = polygon, sides =8] 
-"low" -> "processing type"
-"fraud detection method" [shape = polygon, sides =8] 
-"low" -> "fraud detection method"
 }

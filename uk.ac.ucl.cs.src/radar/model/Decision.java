@@ -27,4 +27,11 @@ public class Decision {
 			options_.add(option);
 		}
 	}
+	boolean equals(Decision d){
+		return this.decisonLabel_.equals(d.decisonLabel_);
+	}
+
+	public int hashCode(){
+		return decisonLabel_.hashCode();
+	}
 }

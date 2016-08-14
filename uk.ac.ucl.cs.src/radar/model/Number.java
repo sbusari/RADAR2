@@ -39,7 +39,7 @@ class Number extends ArithmeticExpression {
 
 	}
 	@Override
-	public List<Solution> getAllSolutions(Model m) {
-		return new ArrayList<Solution>();
+	public SolutionSet getAllSolutions(Model m) {
+		return new SolutionSet();
 	}
 }

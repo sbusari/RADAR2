@@ -15,7 +15,7 @@ public class OR_Refinement extends Expression {
 	}
 	@Override
 	public double[] simulate(Solution s) {
-		String option = s.getOption(decision_);
+		String option = s.selection(decision_);
 		AND_Refinement and_ref = definition_.get(option);
 		return and_ref.simulate(s);
 	}
@@ -44,12 +44,12 @@ public class OR_Refinement extends Expression {
 		parent_ = parent;
 	}
 	@Override
-	public List<Solution> getAllSolutions(Model m){
-		List<Solution> result = new ArrayList<Solution>();
+	public SolutionSet getAllSolutions(Model m){
+		SolutionSet result = new SolutionSet();
 		for (String option: this.decision_.getOptions()){
 			AND_Refinement ref = definition_.get(option);
-			List<Solution> solutions = ref.getAllSolutions(m);
-			for(Solution s: solutions){
+			SolutionSet solutions = ref.getAllSolutions(m);
+			for(Solution s: solutions.list()){
 				s.addDecision(this.decision_, option);
 			}
 			
