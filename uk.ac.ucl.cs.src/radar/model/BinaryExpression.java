@@ -99,22 +99,6 @@ class BinaryExpression extends ArithmeticExpression {
 		return results;
 	}
 	
-	SolutionSet combinedBinarySolutions (SolutionSet left, SolutionSet right){
-		SolutionSet result = new SolutionSet();
-		List<Solution> combinedSolutions = new ArrayList<Solution>();
-		for (int i = 0 ; i <left.size() ; i++ ){
-			Solution aLeftSolution = left.get(i);
-			for (int j=0; j < right.size(); j++){
-				Solution aRightSolution = right.get(j);
-				for (Map.Entry<Decision, String> entry:aRightSolution.getSelection().entrySet() ){
-					aLeftSolution.addDecision(entry.getKey(), entry.getValue());
-				}
-				result.addSolution(aLeftSolution);
-			}
-			
-		}
-		//result.setSolutions(combinedSolutions);
-		return result;
-	}
+
 	
 }
