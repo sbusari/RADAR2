@@ -8,7 +8,8 @@ class Solution {
 
 	private Map<Decision, String> selection;
 	private Model sematicModel;
-	private String uniqueParentID_;
+	// needed to maintain unique solution ID
+	private String uniqueID_;
 	public Solution(){
 		selection = new LinkedHashMap<Decision, String>();
 	}
@@ -83,10 +84,10 @@ class Solution {
 		selection.put(d, option);
 	}
 	public void setUniqueID (String uniqueID){
-		uniqueParentID_ =uniqueID;
+		uniqueID_ =uniqueID;
 	}
 	public String getUniqueID (){
-		return uniqueParentID_;
+		return uniqueID_;
 	}
 	public Model getSemanticModel (){
 		return sematicModel;
@@ -121,12 +122,11 @@ class Solution {
 	* but not vice-versa because s may contain decisions that are not defined in `this`.
 	*/
 	boolean subSolution(Solution s){
-		// we do not want to do a  check when a new Solution "this" with an empty selection is the same as new Solution s populated within the same AND_refinement
+		// we do not want to do a  check when a new Solution "this" with an empty selection is the same as new Solution "s" populated within the same AND_refinement
 		if (this.getUniqueID().equals(s.getUniqueID())){
 			return false;
 		}
 		for (Decision d: this.decisions()){
-			// used get option as getselction was giving null in som instance due to the nature of Map.
 			if (!this.selection(d).equals(s.selection(d))) return false;
 		}
 		return true;
