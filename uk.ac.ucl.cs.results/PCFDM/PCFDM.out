@@ -9,7 +9,22 @@ Shortlisted: 			1
 Runtime(s): 			0
 
 ID 	blocking policy	processing type	fraud detection method	threshold level	ExpectedFinancialLoss	InvestigationCost	Optimal
-1	high	classifier	continuous	block first	15327.00875231205	2.7077469116192445E7	Yes
+1	block first	continuous	classifier	high	15463.961173870337	2.7443805539761133E7	Yes
+2	block first	continuous	classifier	medium	17396.956320604055	3.0187317170233674E7	No
+3	block first	continuous	classifier	low	19882.235794976175	3.0461256737937164E7	No
+4	block first	continuous	rule-based	17077.225638343098	3.0187391355722353E7	No
+5	block first	batch	classifier	high	19832.53020548877	3.018800316247332E7	No
+6	block first	batch	classifier	medium	17744.895447016246	3.0339988554237645E7	No
+7	block first	batch	classifier	low	15657.26068854372	3.0461485402017195E7	No
+8	block first	batch	rule-based	16701.07806777998	3.033975989015754E7	No
+9	investigage first	continuous	classifier	high	29381.526230353713	2.7443805539761133E7	No
+10	investigage first	continuous	classifier	medium	31314.52137708744	3.0187317170233674E7	No
+11	investigage first	continuous	classifier	low	33799.80085145931	3.0461256737937164E7	No
+12	investigage first	continuous	rule-based	30994.790694826323	3.0187391355722353E7	No
+13	investigage first	batch	classifier	high	33750.095261971954	3.018800316247332E7	No
+14	investigage first	batch	classifier	medium	31662.460503499795	3.0339988554237645E7	No
+15	investigage first	batch	classifier	low	29574.82574502699	3.0461485402017195E7	No
+16	investigage first	batch	rule-based	30618.64312426325	3.033975989015754E7	No
 
 Information Value Analysis 
 ===============================

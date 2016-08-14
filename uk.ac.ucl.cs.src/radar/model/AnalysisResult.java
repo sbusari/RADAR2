@@ -85,9 +85,11 @@ public class AnalysisResult {
 		return subGraphObjective;
 	}
 	public String generateSolutionHeader (){
+		
+		// we can't use decision to generate the header due to change in the getAllSolutions
 		String result ="ID \t";
 		for(int i =0 ; i  < decisions.size(); i ++){
-			result +=decisions.get(i).getDecisionLabel() + "\t";
+			result += decisions.get(i).getDecisionLabel() + "\t";
 		}
 		for(int j=0; j < objectives.size(); j++){
 			result +=objectives.get(j).getLabel() + "\t";
@@ -148,12 +150,13 @@ public class AnalysisResult {
 		List<Integer> solutionIndexToRemove = new ArrayList<Integer>();
 		int  i=0;
 		for (Map.Entry<Solution, double []> allSolutionEntry : value.entrySet()){
-			int j =0;
 			for (Map.Entry<Solution, double []> optimalSolutionEntry:shortlist.entrySet() ){
 				if (allSolutionEntry.getKey().selectionToString().equals(optimalSolutionEntry.getKey().selectionToString())){
 					solutionIndexToRemove.add(i);
+					break;
 				}
 			}
+			i++;
 		}
 		Map<Solution, double[]> nonOptimalSolutions = new LinkedHashMap<Solution, double[]>();
 		int  k=0;
@@ -161,6 +164,7 @@ public class AnalysisResult {
 			if( !solutionIndexToRemove.contains((Integer)k) ){
 				 nonOptimalSolutions.put(allSolutionEntry.getKey(), allSolutionEntry.getValue());
 			 }
+			k++;
 		}
 		return nonOptimalSolutions;
 	}
@@ -179,9 +183,20 @@ public class AnalysisResult {
 		String record ="";
 		List<Solution> solutionList = new ArrayList<Solution>(solutions.keySet());
 		Map<Decision, String>  selection = solutionList.get(index).getSelection();
-		for (Map.Entry<Decision, String> entry: selection.entrySet()){
-			record += entry.getValue() + separator;
+		// we now use deicision to get the option because we do not know the order in which the selections are in solution.
+		for(int i =0 ; i  < decisions.size(); i ++){
+			String decision = decisions.get(i).getDecisionLabel();
+			for (Map.Entry<Decision, String> entry: selection.entrySet()){
+				if (decision.equals(entry.getKey().getDecisionLabel())){
+					record += entry.getValue() + separator;
+					break;
+				}
+			}
 		}
+		
+		/*for (Map.Entry<Decision, String> entry: selection.entrySet()){
+			record += entry.getValue() + separator;
+		}*/
 		return record;
 	}
 	private String informationValueToString(){
