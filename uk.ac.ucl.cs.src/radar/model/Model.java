@@ -133,36 +133,11 @@ public class Model implements ModelVisitorElement {
 		}
 		return parameters;
 	}
-	void addUniqueSolutionsToResults (Solution obtainedSolution, List<Solution> results){
-		if (!obtainedSolution.isSolutionAlreadyInResult(results)){
-			results.add(obtainedSolution);
-		}
-	}
-/*	public  List<Solution> getAllSolutions(){
-		List<Solution> result = new ArrayList<Solution>();
-		for (Objective obj: this.getObjectives()){
-			List<Solution> objSolutions = obj.getAllSolutions(this);
-			if (result.size() > 0){
-				// do not add sub solutions
-				for (Solution objSolution : objSolutions){
-	                if (!objSolution.isSubSolution(result)){
-	                	addUniqueSolutionsToResults(objSolution,result);
-	                    //result.add(objSolution);
-	                }
-		        }
-			}else{
-				for (Solution objSolution : objSolutions){
-					addUniqueSolutionsToResults(objSolution,result);
-				}
-				//result = objSolutions;
-			}
-		}
-		return result;
-	}*/
 	public  SolutionSet getAllSolutions(){
 		SolutionSet result = new SolutionSet();
 		for (Objective obj: this.getObjectives()){
 			SolutionSet solnSet = obj.getAllSolutions(this);
+			//result = result.merge(solnSet);
 			result.addAll(solnSet);
 		}
 		return result;
@@ -214,31 +189,58 @@ public class Model implements ModelVisitorElement {
 	*/
 	boolean isDependent(Decision d1, Decision d0, String option){
 		// need when we have just only one decision in the model.
+		boolean result = true;
 		if (d1.equals(d0)){
 			return false;
 		}
-		for (Solution s: this.getAllSolutions().list()){
+		/*for (Solution s: this.getAllSolutions().list()){
 			if(s.selection(d0) != null && !s.selection(d0).equals(option) && s.selection(d1) != null) return false;
+		}*/
+		for (Solution s: this.getAllSolutions().list()){
+			if(s.selection(d0) != null){
+				if ( !s.selection(d0).equals(option) && s.selection(d1) != null) return false;
+			}else{
+				// a 
+				result =false;
+			}
 		}
-		return true;
+		return result;
 	}
 	/*
 	* Generates the decision diagram in DOT format
 	*/
 	public String generateDecisionDiagram(){
+		int equalDecisionAndOptionNameCounter =1;
+		List<String> edges = new ArrayList<String>();
 		String result = "digraph G { \n";
 		for(Decision d: this.getDecisions()){
 			String dShape =  "\""+ d.getDecisionLabel() +  "\"" + " [shape = polygon, sides =8] \n";
 			result +=  dShape;
 			for(String option: d.getOptions()){
-				String newLine = "\"" + d.getDecisionLabel() + "\"" + " -> " + "\"" + option + "\"" + "\n";
-				result = result + newLine;
+				String newLine ="";
+				if (d.getDecisionLabel().equals(option)){
+					newLine = "\"" + d.getDecisionLabel() + "\"" + " -> " + "\"" + option + "_"+equalDecisionAndOptionNameCounter++ + "\"" + "\n";
+				}else{
+					newLine = "\"" + d.getDecisionLabel() + "\"" + " -> " + "\"" + option + "\"" + "\n";
+				}
+				if (!edges.contains(newLine)){
+					result = result + newLine;
+					edges.add(newLine);
+				}
 				for (Decision d1: this.getDecisions()){
 					if(this.isDependent(d1, d, option)){
 						String d1Shape =  "\""+ d1.getDecisionLabel() +  "\"" + " [shape = polygon, sides =8] \n";
 						result +=  d1Shape;
-						newLine = "\"" + option + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "\n";
-						result = result + newLine;
+						if (d.getDecisionLabel().equals(option)){
+							newLine = "\"" + option+ "_"+equalDecisionAndOptionNameCounter++ + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "\n";
+						}else{
+							newLine = "\"" + option + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "\n";
+						}
+						
+						if (!edges.contains(newLine)){
+							result = result + newLine;
+							edges.add(newLine);
+						}
 					} 
 				}
 			}

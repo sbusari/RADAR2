@@ -1,19 +1,9 @@
 digraph G { 
-rankdir = BT; 
-edge[dir=back]; 
-BSPDM[shape=circle]
-"Document_Sharing_Policy"[shape=polygon, style=diagonals]
-"Neutral"[shape=box]
-"Recommend_Email"[shape=box]
-"Recommend_External_Media"[shape=box]
-"Building_entry_security"[shape=polygon, style=diagonals]
-"not_guarded"[shape=box]
-"guarded"[shape=box]
-"Neutral"->"Document_Sharing_Policy"
-"Recommend_Email"->"Document_Sharing_Policy"
-"Recommend_External_Media"->"Document_Sharing_Policy"
-"not_guarded"->"Building_entry_security"
-"guarded"->"Building_entry_security"
-"Document_Sharing_Policy"->BSPDM
-"Building_entry_security"->BSPDM
+"Building entry security" [shape = polygon, sides =8] 
+"Building entry security" -> "not guarded"
+"Building entry security" -> "guarded"
+"Document Sharing Policy" [shape = polygon, sides =8] 
+"Document Sharing Policy" -> "Neutral"
+"Document Sharing Policy" -> "Recommend Email"
+"Document Sharing Policy" -> "Recommend External Media"
 }

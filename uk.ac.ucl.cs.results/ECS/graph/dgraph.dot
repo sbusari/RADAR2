@@ -1,61 +1,32 @@
 digraph G { 
-rankdir = BT; 
-edge[dir=back]; 
-ECS[shape=circle]
-"Order_Reassignment"[shape=polygon, style=diagonals]
-"Current:_not_possible_to_reassign_order"[shape=box]
-"Allow_Order_Reassignment"[shape=box]
-"Forced_Order_Completion"[shape=polygon, style=diagonals]
-"Current:_not_possible_to_force_order_completion"[shape=box]
-"Allow_Forced_Order_Completion"[shape=box]
-"Order_Persistence_Strategy"[shape=polygon, style=diagonals]
-"Current:_store_when_processed"[shape=box]
-"Store_as_soon_as_received"[shape=box]
-"Order_Segmentation"[shape=polygon, style=diagonals]
-"Current:_no_order_segmentation"[shape=box]
-"Orders_are_segmented"[shape=box]
-"Hung_Order_Recovery"[shape=polygon, style=diagonals]
-"Current:_no_order_retry"[shape=box]
-"Allow_Order_Retry"[shape=box]
-"Failed_Order_Notification"[shape=polygon, style=diagonals]
-"Current:_no_notification"[shape=box]
-"User_notified_of_failed_order"[shape=box]
-"Order_Tracking"[shape=polygon, style=diagonals]
-"Current:_order_level"[shape=box]
-"Granule-level_order_tracking"[shape=box]
-"Available_User_Information"[shape=polygon, style=diagonals]
-"Current:_no_link_to_user_info"[shape=box]
-"Link_to_user_information"[shape=box]
-"Order_Chunking"[shape=polygon, style=diagonals]
-"Current:_no_oder_chunking"[shape=box]
-"Order_Bundling"[shape=polygon, style=diagonals]
-"No_Order_Bundling"[shape=box]
-"Current:_not_possible_to_reassign_order"->"Order_Reassignment"
-"Allow_Order_Reassignment"->"Order_Reassignment"
-"Current:_not_possible_to_force_order_completion"->"Forced_Order_Completion"
-"Allow_Forced_Order_Completion"->"Forced_Order_Completion"
-"Current:_store_when_processed"->"Order_Persistence_Strategy"
-"Store_as_soon_as_received"->"Order_Persistence_Strategy"
-"Current:_no_order_segmentation"->"Order_Segmentation"
-"Orders_are_segmented"->"Order_Segmentation"
-"Current:_no_order_retry"->"Hung_Order_Recovery"
-"Allow_Order_Retry"->"Hung_Order_Recovery"
-"Current:_no_notification"->"Failed_Order_Notification"
-"User_notified_of_failed_order"->"Failed_Order_Notification"
-"Current:_order_level"->"Order_Tracking"
-"Granule-level_order_tracking"->"Order_Tracking"
-"Current:_no_link_to_user_info"->"Available_User_Information"
-"Link_to_user_information"->"Available_User_Information"
-"Current:_no_oder_chunking"->"Order_Chunking"
-"No_Order_Bundling"->"Order_Bundling"
-"Order_Reassignment"->ECS
-"Forced_Order_Completion"->ECS
-"Order_Persistence_Strategy"->ECS
-"Order_Segmentation"->ECS
-"Hung_Order_Recovery"->ECS
-"Failed_Order_Notification"->ECS
-"Order_Tracking"->ECS
-"Available_User_Information"->ECS
-"Order_Chunking"->ECS
-"Order_Bundling"->ECS
+"Order Reassignment" [shape = polygon, sides =8] 
+"Order Reassignment" -> "Current: not possible to reassign order"
+"Order Reassignment" -> "Allow Order Reassignment"
+"Forced Order Completion" [shape = polygon, sides =8] 
+"Forced Order Completion" -> "Current: not possible to force order completion"
+"Forced Order Completion" -> "Allow Forced Order Completion"
+"Order Persistence Strategy" [shape = polygon, sides =8] 
+"Order Persistence Strategy" -> "Current: store when processed"
+"Order Persistence Strategy" -> "Store as soon as received"
+"Order Segmentation" [shape = polygon, sides =8] 
+"Order Segmentation" -> "Current: no order segmentation"
+"Order Segmentation" -> "Orders are segmented"
+"Hung Order Recovery" [shape = polygon, sides =8] 
+"Hung Order Recovery" -> "Current: no order retry"
+"Hung Order Recovery" -> "Allow Order Retry"
+"Failed Order Notification" [shape = polygon, sides =8] 
+"Failed Order Notification" -> "Current: no notification"
+"Failed Order Notification" -> "User notified of failed order"
+"Order Tracking" [shape = polygon, sides =8] 
+"Order Tracking" -> "Current: order level"
+"Order Tracking" -> "Granule-level order tracking"
+"Available User Information" [shape = polygon, sides =8] 
+"Available User Information" -> "Current: no link to user info"
+"Available User Information" -> "Link to user information"
+"Order Chunking" [shape = polygon, sides =8] 
+"Order Chunking" -> "Current: no oder chunking"
+"Order Chunking" -> "Order Chunking_1"
+"Order Bundling" [shape = polygon, sides =8] 
+"Order Bundling" -> "No Order Bundling"
+"Order Bundling" -> "Order Bundling_2"
 }

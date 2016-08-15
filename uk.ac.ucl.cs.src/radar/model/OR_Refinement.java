@@ -52,7 +52,7 @@ public class OR_Refinement extends Expression {
 			for(Solution s: solutions.list()){
 				s.addDecision(this.decision_, option);
 			}
-			
+			//result = result.merge(solutions);
 			result.addAll(solutions);
 		}
 		return result;

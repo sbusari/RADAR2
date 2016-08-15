@@ -30,26 +30,25 @@ class AND_Refinement extends Expression {
 	}
 	public SolutionSet getAllSolutions(Model m){
 		SolutionSet result = new SolutionSet();
-	
-		//String.valueOf(System.currentTimeMillis() + PseudoRandom.randDouble(0, 100000));
-		int i =0;
 		for (QualityVariable var: this.getChildren()){
-			
 			// variable could be a binary operand in which case its definition is null cos it was partially populated during parsing
 			if (var.getDefinition() == null){ 
 				QualityVariable qv = m.getQualityVariables().get(var.getLabel());
 				if (qv != null){
+					//result = result.merge(qv.getAllSolutions(m));
 					result.addAll(qv.getAllSolutions(m));
 				}else{ // if it is a paramter within an expr it  will return null cos its labe does not exist
+					
 					Solution s = new Solution();
 					String uniqueParentID = ""+ m.getSolutionCount(); 
 					s.setUniqueID(uniqueParentID);
 					result.addNewSolution(s);
+					//result = result.merge(newSolutionSet);
 				}
 			}else{
+				//result = result.merge(var.getAllSolutions(m));
 				result.addAll(var.getAllSolutions(m));
 			}
-			i++;
 		}
 		return result;
 	}

@@ -20,51 +20,28 @@ class Solution {
 			selection.putAll(a.selection);
 		}
 	}
-	/*public boolean equals (Solution s){
-		boolean result = false;
-		if (this.selectionToString().equals(s.selectionToString())){
-			return true;
+	/*
+	* Returns true if `this` and `s` agree on the decisions they have in common
+	* Formally, if this.selection(d) == s.selection(d) for all decisions d present in both solutions
+	*/
+	boolean compatible(Solution s){
+		for (Decision d: this.decisions()){
+			if ( s.selection(d) != null && !s.selection(d).equals(this.selection(d)) ) return false;
 		}
-		return result;
-	}*/
-	public boolean isSolutionAlreadyInResult (List<Solution> result){
-		boolean solutionExist = false;
-		for (int i =0; i < result.size(); i++){
-			if (result.get(i).equals(this)){
-				return true;
-			}
-		}
-		return solutionExist;
+		return true;
 	}
-	public boolean isSubSolution(List<Solution> solutions){
-		boolean result = true;
-		for (Solution s : solutions){
-			// check if the current solution is a subset of solution s.
-			boolean isSubSolutionOfS = isSolutionBSubsetOfA(s,this);
-			if (isSubSolutionOfS == true){
-				return true;
-			}
-			result &= isSubSolutionOfS;
-		}
-	
-		return result;
+
+	/*
+	* Returns a new solution that combines decisions in 'this` and s.
+	* If `this` and s disagree on some decision, the new solution keeps the decision in `this`.
+	*/
+	Solution merge(Solution s){
+		Solution result = new Solution();
+		s.selection.putAll(this.selection);
+		result =s;
+		return result;		
 	}
-	boolean isSolutionBSubsetOfA(Solution A, Solution B){
-		boolean result =true;
-		String[] aDecisionOptions = A.selectionToString().split(",");
-		for (Map.Entry<Decision, String> b: B.getSelection().entrySet()){
-			boolean optionOfBFoundInA = false;
-			String bDecisionOption = b.getKey().getDecisionLabel() + ":" + b.getValue();
-			for (String aDecisionOption: aDecisionOptions){
-				if (aDecisionOption.equals(bDecisionOption)){
-					optionOfBFoundInA =true;
-					break;
-				}
-			}
-			result &= optionOfBFoundInA;
-		}
-		return result;
-	}
+
 	public String selection (Decision d){
 		String option = null;
 		if (selection  != null){

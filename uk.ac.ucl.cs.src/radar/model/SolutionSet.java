@@ -27,6 +27,15 @@ class SolutionSet {
 	{
 		return solutions.get(i);
 	}
+	void add(Solution s){
+		solutions.add(s);
+	}
+	boolean isEmpty(){
+		if (this.size() <= 0){
+			return true;
+		}
+		return false;
+	}
 	/*
 	 * Needed when combining solutions in binary expression
 	 */
@@ -76,6 +85,27 @@ class SolutionSet {
 	void addNewSolution(Solution newSolution){
 		solutions.add(newSolution);
 	}
+	/*
+	*  Returns a new solution set that merges this solution set with slns.
+	* The merged solution set merges each pair of compatible solutions in `this' and `slns`
+	*/
+	SolutionSet merge(SolutionSet slns){
+		SolutionSet result = new SolutionSet();
+		if (this.isEmpty()){return slns;}
+		if (slns.isEmpty()){return this;}
+		for (Solution s: this.list()){
+			for (Solution s1: slns.list()){
+				if (!s.compatible(s1)){
+					Solution newSol = s.merge(s1);
+					result.solutions.add(newSol);
+				}
+			}
+		}
+		return result;
+	}
+
+	
+	
 	
 
 }

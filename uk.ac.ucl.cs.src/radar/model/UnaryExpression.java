@@ -1,8 +1,5 @@
 package radar.model;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 
 class UnaryExpression extends ArithmeticExpression {
@@ -59,6 +56,7 @@ class UnaryExpression extends ArithmeticExpression {
 	public SolutionSet getAllSolutions(Model m) {
 		SolutionSet results = new SolutionSet();
 		SolutionSet solutions= expr_.getAllSolutions(m);
+		//results = results.merge(solutions);
 		results.addAll(solutions);
 		return results;
 	}
