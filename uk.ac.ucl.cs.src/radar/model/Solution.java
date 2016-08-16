@@ -21,12 +21,22 @@ class Solution {
 		}
 	}
 	/*
+	* Returns a new solution that takes the union of all decisions in `this` and `s`.
+	* If a decision is made in both `this` and s, the union keeps the option selected in `this`. 
+	*/
+	Solution union(Solution s){
+		Solution result = new Solution();
+		s.selection.putAll(this.selection);
+		result = s;
+		return result;		
+	}
+	/*
 	* Returns true if `this` and `s` agree on the decisions they have in common
 	* Formally, if this.selection(d) == s.selection(d) for all decisions d present in both solutions
 	*/
 	boolean compatible(Solution s){
 		for (Decision d: this.decisions()){
-			if ( s.selection(d) != null && !s.selection(d).equals(this.selection(d)) ) return false;
+			if (s.selection(d) != null && !s.selection(d).equals(this.selection(d)) ) return false;
 		}
 		return true;
 	}

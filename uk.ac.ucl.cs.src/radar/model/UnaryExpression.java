@@ -56,8 +56,8 @@ class UnaryExpression extends ArithmeticExpression {
 	public SolutionSet getAllSolutions(Model m) {
 		SolutionSet results = new SolutionSet();
 		SolutionSet solutions= expr_.getAllSolutions(m);
-		//results = results.merge(solutions);
-		results.addAll(solutions);
+		results = results.merge(solutions);
+		//results.addAll(solutions);
 		return results;
 	}
 

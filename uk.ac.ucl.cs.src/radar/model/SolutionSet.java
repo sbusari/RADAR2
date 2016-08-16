@@ -85,6 +85,16 @@ class SolutionSet {
 	void addNewSolution(Solution newSolution){
 		solutions.add(newSolution);
 	}
+
+	/*
+	* Returns true if s1 and s2 select different options on some decision
+	*/ 
+	private static boolean conflicting(Solution s1, Solution s2){
+		for (Decision d: s1.decisions()){
+			if (s2.selection(d) != null && !s2.selection(d).equals(s1.selection(d))) return true;
+		}
+		return false;
+	}
 	/*
 	*  Returns a new solution set that merges this solution set with slns.
 	* The merged solution set merges each pair of compatible solutions in `this' and `slns`
@@ -95,10 +105,14 @@ class SolutionSet {
 		if (slns.isEmpty()){return this;}
 		for (Solution s: this.list()){
 			for (Solution s1: slns.list()){
-				if (!s.compatible(s1)){
+				if (!conflicting(s, s1)){
+					Solution newSol = s.union(s1);
+					result.addSolution(newSol);
+				}
+				/*if (!s.compatible(s1)){
 					Solution newSol = s.merge(s1);
 					result.solutions.add(newSol);
-				}
+				}*/
 			}
 		}
 		return result;

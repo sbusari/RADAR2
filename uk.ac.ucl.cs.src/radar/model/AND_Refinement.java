@@ -35,19 +35,18 @@ class AND_Refinement extends Expression {
 			if (var.getDefinition() == null){ 
 				QualityVariable qv = m.getQualityVariables().get(var.getLabel());
 				if (qv != null){
-					//result = result.merge(qv.getAllSolutions(m));
-					result.addAll(qv.getAllSolutions(m));
+					result = result.merge(qv.getAllSolutions(m));
+					//result.addAll(qv.getAllSolutions(m));
 				}else{ // if it is a paramter within an expr it  will return null cos its labe does not exist
 					
 					Solution s = new Solution();
 					String uniqueParentID = ""+ m.getSolutionCount(); 
 					s.setUniqueID(uniqueParentID);
 					result.addNewSolution(s);
-					//result = result.merge(newSolutionSet);
 				}
 			}else{
-				//result = result.merge(var.getAllSolutions(m));
-				result.addAll(var.getAllSolutions(m));
+				result = result.merge(var.getAllSolutions(m));
+				//result.addAll(var.getAllSolutions(m));
 			}
 		}
 		return result;

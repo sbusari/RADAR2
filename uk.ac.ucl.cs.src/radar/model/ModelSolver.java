@@ -9,8 +9,8 @@ public class ModelSolver {
 	public static AnalysisResult solve(Model m){
 
 		List<Objective> objectives = m.getObjectives();
-		//List<Solution> allSolutions = m.getAllSolutions().list(); 
-		List<Solution> allSolutions = m.getAllSolutionss();
+		List<Solution> allSolutions = m.getAllSolutions().list(); 
+		//List<Solution> allSolutions = m.getAllSolutionss();
 		List<Decision> decisions = m.getDecisions();
 		
 		AnalysisResult result = new AnalysisResult(objectives,decisions);

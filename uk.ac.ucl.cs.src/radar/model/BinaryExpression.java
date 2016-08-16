@@ -94,9 +94,9 @@ class BinaryExpression extends ArithmeticExpression {
 		SolutionSet results = new SolutionSet();
 		SolutionSet leftSolution= leftExpr_.getAllSolutions(m);
 		SolutionSet rightSolution= rightExpr_.getAllSolutions(m);
-		//results = leftSolution.merge(rightSolution);
-		results.addAll(leftSolution);
-		results.addAll (rightSolution);
+		results = leftSolution.merge(rightSolution);
+		//results.addAll(leftSolution);
+		//results.addAll (rightSolution);
 		return results;
 	}
 

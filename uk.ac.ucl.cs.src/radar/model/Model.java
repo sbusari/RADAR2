@@ -137,8 +137,8 @@ public class Model implements ModelVisitorElement {
 		SolutionSet result = new SolutionSet();
 		for (Objective obj: this.getObjectives()){
 			SolutionSet solnSet = obj.getAllSolutions(this);
-			//result = result.merge(solnSet);
-			result.addAll(solnSet);
+			result = result.merge(solnSet);
+			//result.addAll(solnSet);
 		}
 		return result;
 	}
@@ -219,9 +219,9 @@ public class Model implements ModelVisitorElement {
 			for(String option: d.getOptions()){
 				String newLine ="";
 				if (d.getDecisionLabel().equals(option)){
-					newLine = "\"" + d.getDecisionLabel() + "\"" + " -> " + "\"" + option + "_"+equalDecisionAndOptionNameCounter++ + "\"" + "\n";
+					newLine = "\"" + d.getDecisionLabel() + "\"" + " -> " + "\"" + option + "_"+equalDecisionAndOptionNameCounter++ + "\"" + "[arrowhead= odot]"+ "\n";
 				}else{
-					newLine = "\"" + d.getDecisionLabel() + "\"" + " -> " + "\"" + option + "\"" + "\n";
+					newLine = "\"" + d.getDecisionLabel() + "\"" + " -> " + "\"" + option + "\"" + "[arrowhead= odot]"+ "\n";
 				}
 				if (!edges.contains(newLine)){
 					result = result + newLine;
@@ -232,9 +232,9 @@ public class Model implements ModelVisitorElement {
 						String d1Shape =  "\""+ d1.getDecisionLabel() +  "\"" + " [shape = polygon, sides =8] \n";
 						result +=  d1Shape;
 						if (d.getDecisionLabel().equals(option)){
-							newLine = "\"" + option+ "_"+equalDecisionAndOptionNameCounter++ + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "\n";
+							newLine = "\"" + option+ "_"+equalDecisionAndOptionNameCounter++ + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "[arrowhead= dot]"+ "\n";
 						}else{
-							newLine = "\"" + option + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "\n";
+							newLine = "\"" + option + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "[arrowhead= dot]"+ "\n";
 						}
 						
 						if (!edges.contains(newLine)){
