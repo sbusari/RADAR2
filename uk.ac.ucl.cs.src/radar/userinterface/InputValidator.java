@@ -1,27 +1,16 @@
-package radar.commandline;
+package radar.userinterface;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import radar.model.Model;
-import radar.model.Objective;
 
 public class InputValidator {
 	
 	public static void objectiveExist (Model model, String objective) throws Exception{
+		
 		if (objective != null){
-			List<Objective>  objs = model.getObjectives();
-			boolean exist = false;
-			for (int i =0; i <objs.size(); i ++ ){
-				if (objs.get(i).getLabel().equals(objective.trim())){
-					exist =true;
-				}
-			}
-			if (exist == false){
-				throw new Exception ("Error: "+ "specified objective name "+ objective+ " does not exist in the model."); 
-			}
+			model.objectiveExist(objective);
 		}
 	}
 	public static void validateModelPath (String modelPath) throws Exception{

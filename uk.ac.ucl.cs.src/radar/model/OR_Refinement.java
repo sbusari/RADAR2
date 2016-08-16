@@ -49,7 +49,7 @@ public class OR_Refinement extends Expression {
 		for (String option: this.decision_.getOptions()){
 			AND_Refinement ref = definition_.get(option);
 			SolutionSet solutions = ref.getAllSolutions(m);
-			for(Solution s: solutions.list()){
+			for(Solution s: solutions.set()){
 				s.addDecision(this.decision_, option);
 			}
 			//result = result.merge(solutions);

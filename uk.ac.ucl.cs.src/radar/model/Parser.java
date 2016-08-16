@@ -62,7 +62,7 @@ public class Parser {
 		Model semanticModel = visitor.getSemanticModel();
 		setSemanticModel(semanticModel);
 	}
-	public Model parseModel (String modelPath,int nbr_simulation, String infoValueObjective, String subGraphObjective){
+	public Model parseCommandLineModel (String modelPath,int nbr_simulation, String infoValueObjective, String subGraphObjective){
 		Model semanticModel = null;
 		try {
 			String model = Helper.readFile(modelPath);
@@ -73,6 +73,17 @@ public class Parser {
 			throw new RuntimeException( "Error: "+ re.getMessage());
 		}
 		
+		return semanticModel;
+	}
+	public Model parseUIModel (String model,int nbr_simulation, String infoValueObjective, String subGraphObjective){
+		Model semanticModel = null;
+		try {
+			Parser parser  = new Parser(model,nbr_simulation,infoValueObjective,subGraphObjective );
+			semanticModel = parser.getSemanticModel();
+		}
+		catch (RuntimeException re){
+			throw new RuntimeException( "Error: "+ re.getMessage());
+		}
 		return semanticModel;
 	}
 }

@@ -38,7 +38,12 @@ abstract class Distribution extends Expression {
 	}
 	@Override
 	public SolutionSet getAllSolutions(Model m){
-		return new SolutionSet();
+		Solution s = new Solution();
+		//String uniqueParentID = ""+ m.getSolutionCount(); 
+		//s.setUniqueID(uniqueParentID);
+		SolutionSet result = new SolutionSet();
+		result.add(s);
+		return result;
 	}
 	protected double [] deterministicDistribution (double value, int sampleSize){
 		double[] sample = new double[sampleSize];

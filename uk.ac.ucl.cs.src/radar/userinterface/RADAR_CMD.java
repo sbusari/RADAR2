@@ -1,4 +1,4 @@
-package radar.commandline;
+package radar.userinterface;
 import java.util.Locale;
 
 import radar.model.AnalysisResult;
@@ -14,7 +14,7 @@ import radar.utilities.Helper;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
-public class CommandLine {
+public class RADAR_CMD {
 	
 	// how to exit the command.
 	@Parameter(names = "--debug", description = "Debug mode")
@@ -59,7 +59,7 @@ public class CommandLine {
 	
    
 	public static void main(String[]args) {
-    	CommandLine cmd = new CommandLine();
+    	RADAR_CMD cmd = new RADAR_CMD();
     	JCommander jcommander = new JCommander(cmd, args);
     	jcommander.setProgramName("Radar");
         if (cmd.help) {
@@ -103,7 +103,7 @@ public class CommandLine {
 			InputValidator.validateModelPath(model);
     		InputValidator.validateOutputPath(output);
     		try {
-    			semanticModel = new Parser().parseModel(model.trim(), nbr_Simulation, infoValueObjective,subGraphObjective);
+    			semanticModel = new Parser().parseCommandLineModel(model.trim(), nbr_Simulation, infoValueObjective,subGraphObjective);
     		}catch (RuntimeException re){
     			throw new RuntimeException( "Error: "+ re.getMessage());
     		}
@@ -111,7 +111,7 @@ public class CommandLine {
 		}
 		// if solve is specified, we  parse the model and solve.
 		if (semanticModel == null && solve == true){
-			semanticModel = new Parser().parseModel(model.trim(), nbr_Simulation, infoValueObjective,subGraphObjective);
+			semanticModel = new Parser().parseCommandLineModel(model.trim(), nbr_Simulation, infoValueObjective,subGraphObjective);
 		}
 		if (model != null && output != null && semanticModel == null){
 			throw new RuntimeException ("Specify a command to solve the model. Use the --help command for more information.");
@@ -119,7 +119,7 @@ public class CommandLine {
 		return semanticModel;
 		
 	}
-	public void run(CommandLine cmdParam) {
+	public void run(RADAR_CMD cmdParam) {
     	
     	try {
     		// populate model and algorithm data
@@ -127,6 +127,7 @@ public class CommandLine {
     		String typeOfOptimisation = "EXACT";
     		OptimisationType optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
     		dataInput.setTypeOfOptimisation(optimisationType);
+    		
     		
     		// get sematic model from model file
     		Model semanticModel = loadModel ();
@@ -136,6 +137,7 @@ public class CommandLine {
     		dataInput.setProblemName(semanticModel.getModelName());
     		InputValidator.objectiveExist(semanticModel, infoValueObjective);
     		InputValidator.objectiveExist(semanticModel, subGraphObjective);
+    		
 
     		// analyse model
     		AnalysisResult result = ModelSolver.solve(semanticModel);
