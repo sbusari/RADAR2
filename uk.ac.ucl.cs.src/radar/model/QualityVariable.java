@@ -66,10 +66,12 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 	public SolutionSet getAllSolutions(Model m){
 		Expression expr = this.definition_;
 		// variable could be a parameter or a binary operand in which case its definition is null cos it was partially populated during parsing
-		if (expr == null){ 
+		/*if (expr == null){
+			System.out.print("Null");
 			return new SolutionSet();
-		}
+		}*/
 		return expr.getAllSolutions(m);
+		
 	}
 	@Override
 	public void accept(ModelVisitor visitor, Model m) {

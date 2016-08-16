@@ -100,7 +100,7 @@ public class ModelConstructor {
 		return qv;
 	}
 	
-	// helpsm to display options even for deterministic options of the and/or grapg e.g cost[new]
+	// helpsm to display options even for deterministic options of the and/or graph e.g cost[new]
 	public void setModelParameterLabels (Model m){
 		List<String> paramNames = m.getParameters();
 		for (int i =0 ; i < m.getParameters().size(); i++){
@@ -247,43 +247,52 @@ public class ModelConstructor {
 			double sd = distributionArguments.get(1).convertToDouble();
 			NormalDistribution nd = new NormalDistribution(mean,sd,simulation);
 			param.setDistribution(nd);
+			param.setDefinition(nd);
 		}else if (distribution.toString().equals(ParameterDistribution.TRIANGULAR.toString())){
 			double lower = distributionArguments.get(0).convertToDouble();
 			double mode = distributionArguments.get(1).convertToDouble();
 			double upper = distributionArguments.get(2).convertToDouble();
 			TriangularDistribution tr = new TriangularDistribution(lower, mode, upper,simulation);
 			param.setDistribution(tr);
+			param.setDefinition(tr);
 		}else if (distribution.toString().equals(ParameterDistribution.NORMAL_CI.toString())){
 			double a = distributionArguments.get(0).convertToDouble();
 			double b = distributionArguments.get(1).convertToDouble();
 			NormalCIDistribution ncid = new NormalCIDistribution(a,b,simulation);
 			param.setDistribution(ncid);
+			param.setDefinition(ncid);
 		}else if (distribution.toString().equals(ParameterDistribution.UNIFORM.toString())){
 			double lower = distributionArguments.get(0).convertToDouble();
 			double upper = distributionArguments.get(1).convertToDouble();
 			UniformDistribution und = new UniformDistribution(lower,upper,simulation);
 			param.setDistribution(und);
+			param.setDefinition(und);
 		}else if (distribution.toString().equals(ParameterDistribution.DETERMINISTIC.toString())){
 			double value = distributionArguments.get(0).convertToDouble();
 			DeterministicDistribution dt = new DeterministicDistribution(value,simulation);
 			param.setDistribution(dt);
+			param.setDefinition(dt);
 		}
 		else if (distribution.toString().equals(ParameterDistribution.EXPONENTIAL.toString())){
 			double mean = distributionArguments.get(0).convertToDouble();
 			ExponentialDistribution expd = new ExponentialDistribution(mean,simulation);
 			param.setDistribution(expd);
+			param.setDefinition(expd);
 		}else if (distribution.toString().equals(ParameterDistribution.GEOMETRIC.toString())){
 			double prob = distributionArguments.get(0).convertToDouble();
 			GeometricDistribution geod = new GeometricDistribution(prob,simulation);
 			param.setDistribution(geod);
+			param.setDefinition(geod);
 		}
 		else if (distribution.toString().equals(ParameterDistribution.BINOMIAL.toString())){
 			double trial = distributionArguments.get(0).convertToDouble();
 			double prob = distributionArguments.get(1).convertToDouble();
 			BinomialDistribution bid = new BinomialDistribution((int)trial,prob, simulation);
 			param.setDistribution(bid);
+			param.setDistribution(bid);
 		}else if (distribution.toString().equals(ParameterDistribution.RANDOM.toString())){;
 			RandomDistribution rd = new RandomDistribution(simulation);
+			param.setDistribution(rd);
 			param.setDistribution(rd);
 		}
 		return new Value(param);

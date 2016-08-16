@@ -69,7 +69,7 @@ public class CommandLine {
         cmd.run(cmd);
     }
 	
-	private Model parseModel (String modelPath,int nbr_simulation, String infoValueObjective, String subGraphObjective){
+/*	private Model parseModel (String modelPath,int nbr_simulation, String infoValueObjective, String subGraphObjective){
 		Model semanticModel = null;
 		try {
 			String model = Helper.readFile(modelPath);
@@ -81,7 +81,7 @@ public class CommandLine {
 		}
 		
 		return semanticModel;
-	}
+	}*/
 
 	ExperimentData populateExperimentData () throws Exception{
 		ExperimentData result = new ExperimentData();
@@ -102,11 +102,16 @@ public class CommandLine {
 		if (parse == true || decision == true){
 			InputValidator.validateModelPath(model);
     		InputValidator.validateOutputPath(output);
-    		semanticModel = parseModel(model.trim(), nbr_Simulation, infoValueObjective,subGraphObjective);
+    		try {
+    			semanticModel = new Parser().parseModel(model.trim(), nbr_Simulation, infoValueObjective,subGraphObjective);
+    		}catch (RuntimeException re){
+    			throw new RuntimeException( "Error: "+ re.getMessage());
+    		}
+    		
 		}
 		// if solve is specified, we  parse the model and solve.
 		if (semanticModel == null && solve == true){
-			semanticModel = parseModel(model.trim(), nbr_Simulation, infoValueObjective,subGraphObjective);
+			semanticModel = new Parser().parseModel(model.trim(), nbr_Simulation, infoValueObjective,subGraphObjective);
 		}
 		if (model != null && output != null && semanticModel == null){
 			throw new RuntimeException ("Specify a command to solve the model. Use the --help command for more information.");

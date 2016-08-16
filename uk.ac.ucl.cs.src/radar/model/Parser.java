@@ -1,7 +1,5 @@
 package radar.model;
 
-import java.util.List;
-
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.InputMismatchException;
@@ -11,10 +9,12 @@ import radar.parser.engine.Visitor;
 import radar.parser.error.handler.ModelExceptionListener;
 import radar.parser.generated.ModelLexer;
 import radar.parser.generated.ModelParser;
+import radar.utilities.Helper;
 
 public class Parser {
 	Model semanticmodel_;
 	int nbr_simulation_;
+	public Parser(){}
 	public void setSemanticModel (Model model){
 		semanticmodel_ =model;
 	}
@@ -28,7 +28,7 @@ public class Parser {
 		return nbr_simulation_;
 	}
 	public Parser(String modelString, int nbr_simulation, String infoValueObjective,String subGraphObjective){
-		parseModel(modelString,nbr_simulation, infoValueObjective, subGraphObjective);
+		parse(modelString,nbr_simulation, infoValueObjective, subGraphObjective);
 	}
 	public Visitor runVisitor (String inputString, int nbr_simulation,  String infoValueObjective,String subGraphObjective) {
 		Visitor visitor = new Visitor(nbr_simulation, infoValueObjective, subGraphObjective);
@@ -57,9 +57,22 @@ public class Parser {
 		}
 		return visitor;
 	}
-	void parseModel(String inputString, int nbr_simulation,  String infoValueObjective,String subGraphObjective)  {
+	void parse(String inputString, int nbr_simulation,  String infoValueObjective,String subGraphObjective)  {
 		Visitor visitor = runVisitor (inputString,nbr_simulation, infoValueObjective, subGraphObjective);	
 		Model semanticModel = visitor.getSemanticModel();
 		setSemanticModel(semanticModel);
+	}
+	public Model parseModel (String modelPath,int nbr_simulation, String infoValueObjective, String subGraphObjective){
+		Model semanticModel = null;
+		try {
+			String model = Helper.readFile(modelPath);
+			Parser parser  = new Parser(model,nbr_simulation,infoValueObjective,subGraphObjective );
+			semanticModel = parser.getSemanticModel();
+		}
+		catch (RuntimeException re){
+			throw new RuntimeException( "Error: "+ re.getMessage());
+		}
+		
+		return semanticModel;
 	}
 }
