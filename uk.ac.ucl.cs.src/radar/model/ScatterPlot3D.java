@@ -163,6 +163,7 @@ public class ScatterPlot3D extends JFrame {
         this.setTitle(frameTilte);
         this.pack();
         this.setLocationRelativeTo(null);
+        
         this.setVisible(true);
 
         ImageIO.write(Helper.getImage(this), "PNG", new File(outputpath + semanticModel.getModelName() + ".png"));

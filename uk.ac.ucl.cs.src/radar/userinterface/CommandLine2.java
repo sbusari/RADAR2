@@ -1,3 +1,4 @@
+package radar.userinterface;
 /*package radar.commandline;
 import java.util.ArrayList;
 import java.util.List;

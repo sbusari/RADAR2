@@ -15,24 +15,30 @@ public class ModelConstructor {
 		return new Model();
 	}
 	void addModelSubGraphObjective (Model model, String obj_name, String subGraphObj){
-		Objective subGraphObjective = new Objective();
-		List<Objective> objectives = model.getObjectives();
-		for (int i=0; i < objectives.size(); i ++){
-			if (objectives.get(i).getLabel().equals(subGraphObj.trim())){
-				subGraphObjective= objectives.get(i);
+		if (subGraphObj != null){
+			Objective subGraphObjective = new Objective();
+			List<Objective> objectives = model.getObjectives();
+			for (int i=0; i < objectives.size(); i ++){
+				if (objectives.get(i).getLabel().equals(subGraphObj.trim())){
+					subGraphObjective= objectives.get(i);
+				}
 			}
+			model.setSubGraphObjective(subGraphObjective);
 		}
-		model.setSubGraphObjective(subGraphObjective);
+		
 	} 
 	void addModelInfoValueObjective (Model model, String obj_name, String infoValueObj){
-		Objective infoValueObjective = new Objective();
-		List<Objective> objectives = model.getObjectives();
-		for (int i=0; i < objectives.size(); i ++){
-			if (objectives.get(i).getLabel().equals(infoValueObj.trim())){
-				infoValueObjective= objectives.get(i);
+		if (infoValueObj != null){
+			Objective infoValueObjective = new Objective();
+			List<Objective> objectives = model.getObjectives();
+			for (int i=0; i < objectives.size(); i ++){
+				if (objectives.get(i).getLabel().equals(infoValueObj.trim())){
+					infoValueObjective= objectives.get(i);
+				}
 			}
+			model.setInfoValueObjective(infoValueObjective);
 		}
-		model.setInfoValueObjective(infoValueObjective);
+		
 	}
 	void addModelObjective (Model model, String obj_name, Objective objective){
 		model.addObjective(obj_name, objective);

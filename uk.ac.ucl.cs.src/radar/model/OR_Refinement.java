@@ -51,9 +51,11 @@ public class OR_Refinement extends Expression {
 			SolutionSet solutions = ref.getAllSolutions(m);
 			for(Solution s: solutions.set()){
 				s.addDecision(this.decision_, option);
+				result.add(s);
 			}
 			//result = result.merge(solutions);
-			result.addAll(solutions);
+			//result.addAll(solutions);
+			
 		}
 		return result;
 	}

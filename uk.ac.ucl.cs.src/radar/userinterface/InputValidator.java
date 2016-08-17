@@ -3,10 +3,20 @@ package radar.userinterface;
 import java.io.File;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JTextField;
+
 import radar.model.Model;
 
 public class InputValidator {
 	
+	public String verifyEmptyField (JComponent input, String fieldName, String dataType){
+		String message ="";
+	    if (((JTextField) input).getText().isEmpty()){
+	    	message += fieldName + " must be specified. \n";
+	    }
+	   return message;
+	}
 	public static void objectiveExist (Model model, String objective) throws Exception{
 		
 		if (objective != null){

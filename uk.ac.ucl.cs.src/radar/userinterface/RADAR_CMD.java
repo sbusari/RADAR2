@@ -155,7 +155,7 @@ public class RADAR_CMD {
     			String imageOutput = dataInput.getOutputDirectory() + dataInput.getProblemName() + "/";
     			if (result.getShortListObjectives().get(0).length == 2){
 					TwoDPlotter twoDPlot = new TwoDPlotter();
-					twoDPlot.plotAll(semanticModel,imageOutput, result);
+					twoDPlot.plot(semanticModel,imageOutput, result);
 				}else if (result.getShortListObjectives().get(0).length == 3){
 					ScatterPlot3D sc3D2= new ScatterPlot3D( );
 					sc3D2.plot(semanticModel, imageOutput, result);;
