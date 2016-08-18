@@ -20,8 +20,11 @@ class Solution {
 			selection.putAll(a.selection);
 		}
 	}
-	/*
-	* Returns a new solution that takes the union of all decisions in `this` and `s`.
+	Solution(Map<Decision, String> mapping){
+		selection = mapping;
+	}
+	
+	/* Returns a new solution that takes the union of all decisions in `this` and `s`.
 	* If a decision is made in both `this` and s, the union keeps the option selected in `this`. 
 	*/
 	Solution union(Solution s){
@@ -30,8 +33,8 @@ class Solution {
 		result = s;
 		return result;		
 	}
-	/*
-	* Returns true if `this` and `s` agree on the decisions they have in common
+	
+	/* Returns true if `this` and `s` agree on the decisions they have in common
 	* Formally, if this.selection(d) == s.selection(d) for all decisions d present in both solutions
 	*/
 	boolean compatible(Solution s){
@@ -41,8 +44,8 @@ class Solution {
 		return true;
 	}
 
-	/*
-	* Returns a new solution that combines decisions in 'this` and s.
+	
+	/* Returns a new solution that combines decisions in 'this` and s.
 	* If `this` and s disagree on some decision, the new solution keeps the decision in `this`.
 	*/
 	Solution merge(Solution s){
@@ -96,15 +99,15 @@ class Solution {
 		return new ArrayList<Decision>( selection.keySet());
 	}
 
-	/*
-	* Returns true if both solutions have the same option selection on all their decisions.
+	
+	/* Returns true if both solutions have the same option selection on all their decisions.
 	*/
 	boolean equals(Solution s){
 		return this.selection.equals(s.selection);
 	}
 
-	/*
-	* Returns true if all decisions in 'this' are the same as in s.
+	
+	/* Returns true if all decisions in 'this' are the same as in s.
 	* Note: if this.equals(s) then this.subSolution(s), 
 	* but not vice-versa because s may contain decisions that are not defined in `this`.
 	*/

@@ -10,7 +10,8 @@ import radar.model.Model;
 
 public class InputValidator {
 	
-	public String verifyEmptyField (JComponent input, String fieldName, String dataType){
+	
+	public static String verifyEmptyField (JComponent input, String fieldName, String dataType){
 		String message ="";
 	    if (((JTextField) input).getText().isEmpty()){
 	    	message += fieldName + " must be specified. \n";

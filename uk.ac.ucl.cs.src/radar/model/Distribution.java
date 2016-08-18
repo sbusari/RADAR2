@@ -39,8 +39,8 @@ abstract class Distribution extends Expression {
 	@Override
 	public SolutionSet getAllSolutions(Model m){
 		Solution s = new Solution();
-		//String uniqueParentID = ""+ m.getSolutionCount(); 
-		//s.setUniqueID(uniqueParentID);
+		//String uniqueID = ""+ m.getSolutionCount(); 
+		//s.setUniqueID(uniqueID);
 		SolutionSet result = new SolutionSet();
 		result.add(s);
 		return result;

@@ -49,10 +49,20 @@ public class OR_Refinement extends Expression {
 		for (String option: this.decision_.getOptions()){
 			AND_Refinement ref = definition_.get(option);
 			SolutionSet solutions = ref.getAllSolutions(m);
-			for(Solution s: solutions.set()){
+			 if (solutions.isEmpty()){
+                Solution s = new Solution();
+                s = s.addDecision(this.decision_, option);
+                result.add(s);
+	         }else {
+                for(Solution s: solutions.set()){
+                    s = s.addDecision(this.decision_, option);
+                    result.add(s);
+                }
+	         }
+			/*for(Solution s: solutions.list()){
 				s.addDecision(this.decision_, option);
 				result.add(s);
-			}
+			}*/
 			//result = result.merge(solutions);
 			//result.addAll(solutions);
 			
@@ -70,10 +80,5 @@ public class OR_Refinement extends Expression {
 	List<AND_Refinement> getAndrefinements(){
 		return new ArrayList<AND_Refinement>(definition_.values());
 	}
-
-
-
-
-	
 	
 }

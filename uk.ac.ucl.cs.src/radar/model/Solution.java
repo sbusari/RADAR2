@@ -57,9 +57,17 @@ final class Solution {
 	/*
 	* Returns true if both solutions have the same option selection on all their decisions.
 	*/
-	boolean equals(Solution s){
-		return this.selection.equals(s.selection);
-	}
+	@Override
+    public boolean equals(Object o){
+        if (o.getClass() != getClass()) return false;
+        Solution s = (Solution) o;
+        return this.selection.equals(s.selection);
+    }
+  
+    @Override
+    public String toString(){
+        return selection.toString();
+    }
 
 	@Override
 	public int hashCode (){

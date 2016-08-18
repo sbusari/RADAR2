@@ -9,8 +9,8 @@ public class ModelSolver {
 	public static AnalysisResult solve(Model m){
 
 		List<Objective> objectives = m.getObjectives();
-		List<Solution> allSolutions = m.getAllSolutions().list(); 
-		//List<Solution> allSolutions = m.getAllSolutionss();
+		//List<Solution> allSolutions = m.getAllSolutions().list(); 
+		List<Solution> allSolutions = m.getAllSolutionss();
 		List<Decision> decisions = m.getDecisions();
 		
 		AnalysisResult result = new AnalysisResult(objectives,decisions);
@@ -47,11 +47,16 @@ public class ModelSolver {
 		
 		// Computes Value of Information
 		Objective infoValueObjective = m.getInfoValueObjective();
+		
 		if (infoValueObjective != null){
 			List<String> paramNames = m.getParameters();
 			List<Parameter> parameters = Model.getParameterList(paramNames, m);
 			m.computeInformationValue(result,infoValueObjective, result.getShortListSolutions(), parameters);
 		}
+		
+		result.addSubGraphObejctive(m.getSubGraphObjective());
+		result.addEviObjective(infoValueObjective);
+		//
 		return result;
 	}
 	private static Map<Solution, double[]> addMaximisationSign (Map<Solution, double[]> evaluatedSoltions, List<Objective> objectives){

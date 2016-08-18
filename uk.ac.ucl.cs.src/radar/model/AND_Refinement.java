@@ -38,8 +38,8 @@ class AND_Refinement extends Expression {
 					//result.addAll(qv.getAllSolutions(m));
 				}else{ // if it is a paramter within an expr it  will return null cos its labe does not exist
 					Solution s = new Solution();
-					//String uniqueParentID = ""+ m.getSolutionCount(); 
-					//s.setUniqueID(uniqueParentID);
+					//String uniqueID = ""+ m.getSolutionCount(); 
+					//s.setUniqueID(uniqueID);
 					result.add(s);
 				}
 			}else{

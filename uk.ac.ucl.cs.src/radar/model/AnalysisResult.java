@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import radar.utilities.TableBuilder;
+
 
 public class AnalysisResult {
 	// the optimisation objectives. 
@@ -84,19 +86,31 @@ public class AnalysisResult {
 	public Objective getSubGraphObjective (){
 		return subGraphObjective;
 	}
-	public String generateSolutionHeader (){
+	public String generateSolutionHeader ( String separator){
 		
 		// we can't use decision to generate the header due to change in the getAllSolutions
-		String result ="ID \t";
+		String result ="ID" + separator;
 		for(int i =0 ; i  < decisions.size(); i ++){
-			result += decisions.get(i).getDecisionLabel() + "\t";
+			result += decisions.get(i).getDecisionLabel() + separator;
 		}
 		for(int j=0; j < objectives.size(); j++){
-			result +=objectives.get(j).getLabel() + "\t";
+			result +=objectives.get(j).getLabel() + separator;
 		}
 		result += "Optimal";
 		return result;
 	}
+	public void generateSolutionHeader2 (TableBuilder tableBuilder){
+		String result ="ID" + ",";
+		for(int i =0 ; i  < decisions.size(); i ++){
+			result += decisions.get(i).getDecisionLabel() + ",";
+		}
+		for(int j=0; j < objectives.size(); j++){
+			result +=objectives.get(j).getLabel() + ",";
+		}
+		result += "Optimal";
+		tableBuilder.addRow(result.split(","));
+	}
+	
 	public String objectivesToString (){
 		String result ="";
 		for(int j=0; j < objectives.size(); j++){
@@ -104,6 +118,61 @@ public class AnalysisResult {
 			result += "Objective: " + "\t\t" + optimisationDirection + objectives.get(j).getLabel() +"\n" ;
 		}
 		return result;
+	}
+	String getOptimisationAnalysisResult (){
+		TableBuilder tableBuilder = new TableBuilder ();
+		tableBuilder.addRow (new String []{"Optimisation", "Analysis"});
+		tableBuilder.addRow ("----------------------", "\n");
+		for(int j=0; j < objectives.size(); j++){
+			String optimisationDirection = objectives.get(j).getIsMinimisation() ? "Min" : "Max";
+			tableBuilder.addRow (new String []{"Objective: ",optimisationDirection + objectives.get(j).getLabel() +"\n" });
+		}
+		tableBuilder.addRow ("SolutionSpace:", "solutionSpace\n");
+		tableBuilder.addRow ("Evaluated:", value.size() +"\n");
+		tableBuilder.addRow ("Shortlisted:", shortlist.size() +"\n");
+		tableBuilder.addRow ("Runtime(s):", runtime +"\n");
+		return tableBuilder.toString();
+	}
+	public List<String> optimisationAnalysisDetails (){
+		List<String> result = new ArrayList<String> ();
+		for(int j=0; j < objectives.size(); j++){
+			String optimisationDirection = objectives.get(j).getIsMinimisation() ? "Min" : "Max";
+			result.add ("Objective ,"+optimisationDirection + objectives.get(j).getLabel() +"\n");
+		}
+		result.add ("SolutionSpace ," + solutionSpace);
+		result.add ("Evaluated ,"+ value.size());
+		result.add ("Shortlisted ,"+ shortlist.size() );
+		result.add ("Runtime(s) ,"+ runtime);
+		return result;
+	}
+	public List<String> infoValueDetails (){
+		List<String> result = new ArrayList<String> ();
+		if (eviObjective != null){
+			result.add ("Objective,"+ eviObjective.getLabel());
+			result.add("EVTPI," + evtpi );
+			result.add ("Parameter,"+ "EVPPI \n");
+			for (Map.Entry<String, Double> entry: evppi.entrySet()){
+				result.add(entry.getKey()+ ","+entry.getValue() );
+			}
+		}
+		return result;
+	}
+	public String analysisToStringNew (){
+		StringBuilder analysisResult = new StringBuilder();
+		analysisResult.append (getOptimisationAnalysisResult());
+		TableBuilder resultBuilder = new TableBuilder ();
+		generateSolutionHeader2(resultBuilder);
+		getSolutionsToCSVNew(0, shortlist, true,resultBuilder);
+		Map<Solution, double []> nonOptimalSolutions =getNonOptimalSolutions();
+		getSolutionsToCSVNew(shortlist.size(), nonOptimalSolutions, false,resultBuilder);
+		analysisResult.append (resultBuilder.toString());
+		analysisResult.append ("\n");
+		if (eviObjective != null){
+			String infoAnalysis =informationValueToString2();
+			analysisResult.append (infoAnalysis);
+		}
+		System.out.println ("Analysis result: \n"+analysisResult.toString());
+		return analysisResult.toString();
 	}
 	public String analysisToString (){
 		StringBuilder analysisResult = new StringBuilder();
@@ -114,7 +183,7 @@ public class AnalysisResult {
 		analysisResult.append ("Evaluated: \t\t\t" + value.size() +"\n");
 		analysisResult.append ("Shortlisted: \t\t\t" + shortlist.size() +"\n");
 		analysisResult.append ("Runtime(s): \t\t\t" + runtime +"\n\n");
-		String shortlistHeader = generateSolutionHeader();
+		String shortlistHeader = generateSolutionHeader("\t");
 		analysisResult.append(shortlistHeader);
 		analysisResult.append("\n");
 		String optimalSoln = getSolutionsToCSV(0, shortlist, true);
@@ -125,10 +194,54 @@ public class AnalysisResult {
 		analysisResult.append ("\n");
 		analysisResult.append ("Information Value Analysis \n");
 		analysisResult.append ("===============================\n\n");
-		analysisResult.append(informationValueToString());
+		if (eviObjective != null){
+			analysisResult.append(informationValueToString());
+		}
 		return analysisResult.toString();
 	}
-	
+	String getSolutionTableRow (int index, int offset, Map<Solution, double[]> solutions, boolean isOptimal ){
+		String row = "";
+		row += (index+ offset+ 1 ) + "," ;
+        String record = "";
+        record += optimalDecisionsToString (index, ",", shortlist);
+        record += optimalObjectiveToString (index, ",", shortlist);
+        row += (record);
+        String optimal = isOptimal == true ? "Yes" :"No";
+        row += (optimal + "\n");
+        return row;
+	}
+	public String getSolutionTableColumnIdentifier (){
+		String shortlistHeader = generateSolutionHeader(",");
+		return shortlistHeader;
+	}
+	public List<String> solutionTable (){
+		List<String> result = new ArrayList<String>();
+		for (int i =0; i < shortlist.size(); i++){
+			result.add(getSolutionTableRow(i, 0, shortlist, true));
+		}
+		Map<Solution, double []> nonOptimalSolutions =getNonOptimalSolutions();
+		for (int i =0; i < nonOptimalSolutions.size(); i++){
+			result.add(getSolutionTableRow(i, shortlist.size(), nonOptimalSolutions, true));
+		}
+		return result;
+		
+	}
+	private void getSolutionsToCSVNew(int offset, Map<Solution, double[]> solutions, boolean isOptimal ,TableBuilder table){
+		if (solutions.size() > 0){
+			for (int index = 0; index < solutions.size(); index++) {
+				String row = "";
+				row += (index+ 1 + offset) + "," ;
+		        String record = "";
+		        record += optimalDecisionsToString (index, ",", solutions);
+		        record += optimalObjectiveToString (index, ",", solutions);
+		        
+		        row += (record);
+		        String optimal = isOptimal == true ? "Yes" :"No";
+		        row += (optimal + "\n");
+		        table.addRow(row.split(","));
+		    }
+		}
+	}
 	private String getSolutionsToCSV(int offset, Map<Solution, double[]> solutions, boolean isOptimal ){
 		StringBuilder result = new StringBuilder();
 		for (int index = 0; index < solutions.size(); index++) {
@@ -199,7 +312,7 @@ public class AnalysisResult {
 		}*/
 		return record;
 	}
-	private String informationValueToString(){
+	public  String informationValueToString(){
 		String result = "";
 		result += "Objective: \t\t\t" + eviObjective.getLabel() + "\n";
 		result += "EVTPI: \t\t\t "+ evtpi + "\n\n";
@@ -208,6 +321,19 @@ public class AnalysisResult {
 			result += entry.getKey() + ": \t\t\t "+ entry.getValue() +"\n";
 		}
 		return result;
+	}
+	public  String informationValueToString2(){
+		TableBuilder result = new TableBuilder();
+		result.addRow ("Information Value Analysis", "\n");
+		result.addRow ("--------------------------", "\n\n");
+		result.addRow ("Objective:", eviObjective.getLabel() + "\n");
+		result.addRow ("EVTPI:", evtpi + "\n\n");
+		result.addRow ("Parameter", "EVPPI \n");
+		result.addRow ("----------","----- \n\n");
+		for (Map.Entry<String, Double> entry: evppi.entrySet()){
+			result.addRow(new String[]{ entry.getKey() ,  entry.getValue() +"\n"});
+		}
+		return result.toString();
 	}
 	public String decisionsToCSV ( ){
 		StringBuilder decision = new StringBuilder ();

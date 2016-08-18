@@ -8,6 +8,7 @@ import java.util.Set;
 class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 	private String id_;
 	QualityVariable parent_;
+	// the quality variable its self
 	QualityVariable linkedQv_;
 	public void setID (String id){
 		id_ = id;
@@ -48,9 +49,6 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 	}
 	@Override
 	public SolutionSet getAllSolutions(Model m) {
-		if(id_.equals("Nbr_OfficeIntrusions")){
-			System.out.println("Nbr_OfficeIntrusions");
-		}
 		QualityVariable qv = m.getQualityVariables().get(id_);
 		SolutionSet solutions = qv.getDefinition().getAllSolutions(m);
 		return solutions;

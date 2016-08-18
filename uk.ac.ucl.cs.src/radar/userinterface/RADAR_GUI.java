@@ -39,6 +39,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
@@ -51,10 +53,12 @@ public class RADAR_GUI {
 
 	private JFrame frame;
 	private Model semanticModel;
+	AnalysisResult result;
 	private int nbr_Simulation;
 	private String infoValueObjective;
 	private String subGraphObjective;
 	private DefaultTableModel decisionTableModel;
+	ModelResultFrame modelResultFrame;
 	private JPanel modelBoard;
 	private JMenuItem itemWriteModel;
 	private JMenuItem itemParseModel;
@@ -113,6 +117,7 @@ public class RADAR_GUI {
 		openExistingModel ();
 		parseModel();
 		findOutPutDirectory();
+		solveModel();
 		
 	}
 	private String getFileExtension(File file) {
@@ -135,7 +140,6 @@ public class RADAR_GUI {
 	            	   JOptionPane.showMessageDialog(null, "Radar files must end with  the (rdr) extensions");
 	            	   return;
 	               }
-	               //check the extension of the file.
 	               loadExistingModel(file.getPath());
 	               if (modelBoard.isVisible() == false){
 	            	   modelBoard.setVisible(true);
@@ -164,31 +168,96 @@ public class RADAR_GUI {
 					JOptionPane.showMessageDialog(null, "You need to write a new decision model or select from existing decision models.");
 					return;
 				}
-				validateAnalysisSettings();
+				String analysisMsg = allAnalysisSettingValid();
+				if (!analysisMsg.isEmpty()){
+					JOptionPane.showMessageDialog(null, analysisMsg);
+					return;
+				}
+				if (!doesOutputDirectoryExist()){
+					JOptionPane.showMessageDialog(null, "Specified output director does not exist.");
+					return;
+				}
+				
 				parse();
 				populateDecisionTable();
 				int selection = JOptionPane.showConfirmDialog( null , "Model has been parsed successfully. Do you want to continue with analysis?" , "Confirmation "
 	                    , JOptionPane.OK_CANCEL_OPTION , JOptionPane.INFORMATION_MESSAGE);
 				if (selection == JOptionPane.OK_OPTION)
                 {
-					solveModel();
+					solve();
+					loadResultInFrame();
                 }
+				
 			}
 		});
 	}
-	private void validateAnalysisSettings (){
-		String errorMessage = "";
-		String emptyValidationMessage = EmptyInputValidation();
-		if (!emptyValidationMessage.isEmpty()){
-			errorMessage += emptyValidationMessage;
-			JOptionPane.showMessageDialog(null, errorMessage);
-			return;
-		}
+	private void solveModel (){
+		itemSolveModel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (textModelArea.getText().isEmpty()){
+					JOptionPane.showMessageDialog(null, "You need to write a new decision model or select from existing decision models.");
+					return;
+				}
+				if (semanticModel != null){
+					solve();
+				}else{
+					String analysisMsg = allAnalysisSettingValid();
+					if (!analysisMsg.isEmpty()){
+						JOptionPane.showMessageDialog(null, analysisMsg);
+						return;
+					}
+					if (!doesOutputDirectoryExist()){
+						JOptionPane.showMessageDialog(null, "Specified output director does not exist.");
+						return;
+					}
+					parseModel();
+					solve();
+				}
+				populateDecisionTable();
+				loadResultInFrame();
+			}
+		});
 	}
-	private String EmptyInputValidation (){
+	private String allAnalysisSettingValid (){
+		String validationMessage = inputValidation();
+		return validationMessage;
+
+	}
+	private boolean doesOutputDirectoryExist(){
+		boolean result =true;
+		try{
+			InputValidator.validateOutputPath(textOutputDirectory.getText());
+		}catch (Exception e){
+			result = false;
+			
+		}
+		return result;
+	}
+	private String inputValidation (){
 		String message = "";
-		message += new InputValidator().verifyEmptyField (textNbrSimulation, "number of simulation", "Integer");
-		message += new InputValidator().verifyEmptyField (textOutputDirectory, "output directory", "String");
+		message += InputValidator.verifyEmptyField (textNbrSimulation, "number of simulation", "Integer");
+		message += InputValidator.verifyEmptyField (textOutputDirectory, "output directory", "String");
+		message += InputValidator.verifyFieldDataType (textNbrSimulation.getText(), "Nbr. Simulation", "Integer");
+		message += InputValidator.verifyFieldNonNegativeValue(textNbrSimulation.getText(), "Nbr. Simulation", "Integer");
+		//message += validateOutputDirectoryPath();
+		return message;
+	}
+	private String validateOutputDirectoryPath (){
+		String message ="";
+		if(!textOutputDirectory.getText().isEmpty()){
+			if (textOutputDirectory.getText().equals("--Select--")){
+				message += "You must specify the directory to store results.";
+				return message;
+			}else{
+				Pattern pattern = Pattern.compile("([a-zA-Z]:)?(\\\\[a-zA-Z0-9_-]+)+\\\\?");
+				Matcher matcher = pattern.matcher(textOutputDirectory.getText());
+				if (!matcher.matches()){
+					message += "The path specified for the output directory is not valid.";
+				}
+			}
+		}else{
+			message+= "You must specify the directory to store results.";
+		}
 		return message;
 	}
 	private void populateDecisionTable (){
@@ -238,27 +307,105 @@ public class RADAR_GUI {
 			JOptionPane.showMessageDialog(null, err);
 		}
 	}
-	void solveModel (){
-		// analyse model
+	void loadSolutionTable (DefaultTableModel solutionTableModel){
+		List<String> solutions= result.solutionTable();
+		for (int i =0; i < solutions.size(); i ++){
+			String [] entry = solutions.get(i).split(",");
+			Vector<Object> data = new Vector<Object>();
+			for (String value: entry){
+				data.add(value);
+			}
+			solutionTableModel.addRow(data);
+		}
+	}
+	void loadOptimisationTable (DefaultTableModel optimiastionTableModel){
+		List<String> optimisationDetail= result.optimisationAnalysisDetails();
+		for (int i =0; i < optimisationDetail.size(); i ++){
+			String [] entry = optimisationDetail.get(i).split(",");
+			Vector<Object> data = new Vector<Object>();
+			for (String value: entry){
+				data.add(value);
+			}
+			optimiastionTableModel.addRow(data);
+		}
+	}
+	void loadInfoValueTable (DefaultTableModel infoValueTableModel){
+		List<String> infoValueDetail= result.infoValueDetails();
+		for (int i =0; i < infoValueDetail.size(); i ++){
+			String [] entry = infoValueDetail.get(i).split(",");
+			Vector<Object> data = new Vector<Object>();
+			for (String value: entry){
+				data.add(value);
+			}
+			infoValueTableModel.addRow(data);
+		}
+	}
+	void populateTable (JTable table, String detail){
+		DefaultTableModel tableModel =  new DefaultTableModel( );
+		if (detail.equals("solution")){
+			tableModel.setColumnIdentifiers(result.getSolutionTableColumnIdentifier().split(","));
+			loadSolutionTable(tableModel);
+		}else if (detail.equals("optimisation")){
+			tableModel.setColumnIdentifiers(new String[]{"Optimisation Analysis", " "});
+			loadOptimisationTable(tableModel);
+		}else if (detail.equals("infoValue")){
+			tableModel.setColumnIdentifiers(new String[]{"Information Value Analysis", " "});
+			loadInfoValueTable(tableModel);
+		}
+		table.setModel(tableModel);
+		table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		table.changeSelection(0, 0, false, false);
+		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+	
+	}
+	void loadResultInFrame (){
+		if (result == null  || result.getShortListObjectives().size() <= 0){
+			JOptionPane.showMessageDialog(null, "No results found!");
+			return;
+		}
+		if (semanticModel == null){
+			JOptionPane.showMessageDialog(null, "Model needs to be parsed and analysed for results to show!");
+			return;
+		}
+		modelResultFrame  = new ModelResultFrame();
+		
+		JTable solutionTable = modelResultFrame.getSolutionTable();
+		populateTable(solutionTable, "solution");
+		JTable optimisationTable = modelResultFrame.getOptimisationAnalysisTable();
+		populateTable(optimisationTable, "optimisation");
+		JTable infoValueTable = modelResultFrame.getInfoValueTable();
+		populateTable(infoValueTable, "infoValue");
+		
+		modelResultFrame.setVisible(true);
+		modelResultFrame.setTitle("Analysis Results" );
+		modelResultFrame.pack();
+		modelResultFrame.setLocationRelativeTo(null);
+		modelResultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+	}
+	void solve (){
+		
 		try {
+			// analyse model
+			result = ModelSolver.solve(semanticModel);
+			String analysisResult = result.analysisToStringNew();
+			String modelResultPath = textOutputDirectory.getText() +"/" + semanticModel.getModelName() ;
 			
-			AnalysisResult result = ModelSolver.solve(semanticModel);
-			String analysisResult = result.analysisToString();
-			Helper.printResults (textOutputDirectory + semanticModel.getModelName()+ "/" , analysisResult, semanticModel.getModelName() +".out", false);
+			Helper.printResults (modelResultPath + "/" , analysisResult, semanticModel.getModelName() +".out", false);
 			
 			// generate graphs
 			if (chckbxVariable.isSelected()){
 				String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
-				Helper.printResults (textOutputDirectory + semanticModel.getModelName()+ "/graph/", variableGraph, "vgraph.dot", false);
+				Helper.printResults (modelResultPath + "/graph/", variableGraph, "vgraph.dot", false);
 				
 			}
 			if (chckbxDecision.isSelected()){
 				String decisionGraph = semanticModel.generateDecisionDiagram();
-				Helper.printResults (textOutputDirectory+ semanticModel.getModelName()+ "/graph/", decisionGraph, "dgraph.dot", false);
+				Helper.printResults (modelResultPath + "/graph/", decisionGraph, "dgraph.dot", false);
 				
 			}
 			if (chckbxPareto.isSelected()){
-				String imageOutput = textOutputDirectory + semanticModel.getModelName() + "/";
+				String imageOutput = modelResultPath + "/";
 				if (result.getShortListObjectives().get(0).length == 2){
 					TwoDPlotter twoDPlot = new TwoDPlotter();
 					twoDPlot.plot(semanticModel,imageOutput, result);
@@ -271,7 +418,7 @@ public class RADAR_GUI {
 		
 		} 
 		catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "There was a problem writing the results to directory. Details: "+ e.getMessage());
+			JOptionPane.showMessageDialog(null, "There was a problem writing the results to directory. Check that the path exist: ");
 			return;
 		}
 		catch (NullPointerException e){
@@ -284,9 +431,40 @@ public class RADAR_GUI {
 		}
 		
 	}
+	private boolean infoValueObjectiveExist(){
+		boolean result = true;
+		try{
+			if (infoValueObjective != null){
+				InputValidator.objectiveExist(semanticModel, infoValueObjective);
+			}
+		}catch(Exception e){
+			result = false;
+		}
+		return result;
+	}
+	private boolean subGraphObjectiveExist(){
+		boolean result = true;
+		try{
+			if(subGraphObjective != null){
+				InputValidator.objectiveExist(semanticModel, subGraphObjective);
+			}
+		}catch (Exception e){
+			result = false;
+		}
+		return result;
+	}
 	private Model loadModel () throws Exception{
 		Model semanticModel =null;
 		try {
+			nbr_Simulation = Integer.parseInt(textNbrSimulation.getText());
+			subGraphObjective = textSubgraphObj.getText();
+			infoValueObjective = textInfoValueObj.getText();
+			/*if (!infoValueObjectiveExist()){
+				throw new RuntimeException("Information value objective does not exist in the model.");
+			}
+			if (!subGraphObjectiveExist()){
+				throw new RuntimeException("Subgraph objective does not exist in the model.");
+			}*/
 			semanticModel = new Parser().parseUIModel(textModelArea.getText(), nbr_Simulation, infoValueObjective,subGraphObjective);
 		}catch (RuntimeException re){
 			String err = re.getMessage();
@@ -403,6 +581,7 @@ public class RADAR_GUI {
 		fileMenu.add(separator_1);
 		
 		itemSolveModel = new JMenuItem("Solve Model");
+		
 		fileMenu.add(itemSolveModel);
 		
 		JMenu settingMenu = new JMenu("Settings");
@@ -426,6 +605,7 @@ public class RADAR_GUI {
 		analysisPanel.setBorder(new TitledBorder(null, "Analysis Settings", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		decisionPanel = new JPanel();
+		decisionPanel.setBorder(new TitledBorder(null, "Decisions", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		decisionPanel.setVisible(false);
 		
 		//populateDecisionTable();
@@ -458,7 +638,6 @@ public class RADAR_GUI {
 		);
 		
 		decisionTableScrollPane = new JScrollPane();
-		decisionTableScrollPane.setBorder(new TitledBorder(null, "Model decisions and options", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		decisionTableScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		GroupLayout gl_decisionPanel = new GroupLayout(decisionPanel);
 		gl_decisionPanel.setHorizontalGroup(

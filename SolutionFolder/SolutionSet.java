@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class SolutionSet {
-	/* 
-	* Invariant: solutions contain no duplicate solutions and no solution that is a sub-solution of another
+	 
+	/* Invariant: solutions contain no duplicate solutions and no solution that is a sub-solution of another
 	*/
 	private List<Solution> solutions;
 
@@ -13,8 +13,8 @@ class SolutionSet {
 		solutions = new ArrayList<Solution>();
 	}
 
-	/*
-	* Returns the list of solutions (makes it easy to loop over all solutions in the set)
+	
+	/* Returns the list of solutions (makes it easy to loop over all solutions in the set)
 	*/
 	List<Solution> list(){
 		return solutions;
@@ -36,14 +36,14 @@ class SolutionSet {
 		}
 		return false;
 	}
-	/*
-	 * Needed when combining solutions in binary expression
+	
+	 /* Needed when combining solutions in binary expression
 	 */
 	public void setSolutions(List<Solution> solns){
 		solutions = solns;
 	}
-	/*
-	* Returns true if 'this' contains a solution that subsumes s, i.e. a solution s0 such that s is a sub-solution of s0
+	
+	/* Returns true if 'this' contains a solution that subsumes s, i.e. a solution s0 such that s is a sub-solution of s0
 	*/
 	boolean contains(Solution s){
 		for(Solution s0: solutions){
@@ -52,8 +52,8 @@ class SolutionSet {
 		return false;
 	}
 
-	/*
-	*  Adds solution s to the solution set. 
+	
+	/*  Adds solution s to the solution set. 
 	*  If the solution set already contains a solution that is equal to or subsumes s, the solution set is unchanged.
 	*  If the solution set contains a sub-solution of s, the sub-solution is removed from the solution set and replaced by s
 	*/
@@ -70,8 +70,8 @@ class SolutionSet {
 		}
 	}
 
-	/*
-	*  Adds all solutions in solution set `slns` to this solution set
+	
+	/*  Adds all solutions in solution set `slns` to this solution set
 	*/	
 	void addAll(SolutionSet slns){
 		for (Solution s: slns.list()){
@@ -79,24 +79,24 @@ class SolutionSet {
 		}
 	}
 	
-	/*
-	 * Adds a new Solution with no selection, and do not check for subsolution.
+	
+	/* Adds a new Solution with no selection, and do not check for subsolution.
 	 */
 	void addNewSolution(Solution newSolution){
 		solutions.add(newSolution);
 	}
 
-	/*
-	* Returns true if s1 and s2 select different options on some decision
-	*/ 
+	
+	/* Returns true if s1 and s2 select different options on some decision
+	 */
 	private static boolean conflicting(Solution s1, Solution s2){
 		for (Decision d: s1.decisions()){
 			if (s2.selection(d) != null && !s2.selection(d).equals(s1.selection(d))) return true;
 		}
 		return false;
 	}
-	/*
-	*  Returns a new solution set that merges this solution set with slns.
+	
+	/*  Returns a new solution set that merges this solution set with slns.
 	* The merged solution set merges each pair of compatible solutions in `this' and `slns`
 	*/
 	SolutionSet merge(SolutionSet slns){
@@ -109,10 +109,10 @@ class SolutionSet {
 					Solution newSol = s.union(s1);
 					result.addSolution(newSol);
 				}
-				/*if (!s.compatible(s1)){
+				if (!s.compatible(s1)){
 					Solution newSol = s.merge(s1);
 					result.solutions.add(newSol);
-				}*/
+				}
 			}
 		}
 		return result;

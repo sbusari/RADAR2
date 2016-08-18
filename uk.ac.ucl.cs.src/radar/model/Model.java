@@ -137,8 +137,8 @@ public class Model implements ModelVisitorElement {
 		SolutionSet result = new SolutionSet();
 		for (Objective obj: this.getObjectives()){
 			SolutionSet solnSet = obj.getAllSolutions(this);
-			result = result.merge(solnSet);
-			//result.addAll(solnSet);
+			//result = result.merge(solnSet);
+			result.addAll(solnSet);
 		}
 		return result;
 	}
@@ -200,7 +200,6 @@ public class Model implements ModelVisitorElement {
 			if(s.selection(d0) != null){
 				if ( !s.selection(d0).equals(option) && s.selection(d1) != null) return false;
 			}else{
-				// a 
 				result =false;
 			}
 		}
