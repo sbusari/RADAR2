@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class DeterministicDistribution extends Distribution {
@@ -13,6 +14,9 @@ class DeterministicDistribution extends Distribution {
 	@Override
 	public double[] simulate(Solution s) {
 		return  deterministicDistribution(value_, N);
+	}
+	@Override
+	public void checkAcyclicity(Model m) {
 	}
 
 

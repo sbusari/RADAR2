@@ -11,6 +11,7 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 	private String label_;
 	private Expression definition_;
 	private Map<Solution, double[]> simData_;
+	private List<String> children_;
 	public QualityVariable(){
 		simData_ = new LinkedHashMap<Solution, double[]>();
 	}
@@ -25,6 +26,12 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 	}
 	public Expression getDefinition (){
 		return definition_;
+	}
+	public void setChildren (List<String> children){
+		children_ =children;
+	}
+	public List<String> getChildren (){
+		return children_;
 	}
 	public double[] getSimData(Solution s) {
 		return simulate(s);
@@ -93,6 +100,10 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 	@Override
 	public QualityVariable getParent() {
 		return null;
+	}
+	@Override
+	public void checkAcyclicity(Model m) {
+		definition_.checkAcyclicity(m);
 	}
 
 

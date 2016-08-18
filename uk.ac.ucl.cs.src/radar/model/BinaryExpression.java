@@ -95,9 +95,12 @@ class BinaryExpression extends ArithmeticExpression {
 		SolutionSet leftSolution= leftExpr_.getAllSolutions(m);
 		SolutionSet rightSolution= rightExpr_.getAllSolutions(m);
 		results = leftSolution.merge(rightSolution);
-		//results.addAll(leftSolution);
-		//results.addAll (rightSolution);
 		return results;
+	}
+	@Override
+	public void checkAcyclicity(Model m) {
+		leftExpr_.checkAcyclicity(m);
+		rightExpr_.checkAcyclicity(m);
 	}
 
 	

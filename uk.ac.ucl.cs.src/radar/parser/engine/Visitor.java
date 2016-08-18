@@ -33,6 +33,10 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	QualityVariable and_Ref_Parent; // only has name
 	QualityVariable arith_expr_Parent;
 	QualityVariable idParent;
+	/*
+	 * Added to store a list of quality variable children to be used for check acyclicity.
+	 */
+	String qualityVariableChildren;
 	int nbr_simulation;
 	String infoValueObjective;
 	String subGraphObjective;
@@ -135,13 +139,15 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		and_Ref_Parent = qv;
 		arith_expr_Parent = qv;
 		idParent = qv;
+		qualityVariableChildren = "";// set to empty before we visit qv expression.
 		Value qv_def = visit(ctx.quality_var_def());
-		qv = modelConstructor.addQualityVariableExpression(qv, qv_name,qv_def,arith_expr_Parent);
+		qv = modelConstructor.addQualityVariableExpression(qv, qv_name,qv_def,arith_expr_Parent, qualityVariableChildren);
 		qv_list.put(qv_name.toString(), qv);
 		modelConstructor.addQualityVariableParameter(semanticModel,qv);
 		and_Ref_Parent = null;
 		idParent = null;
 		arith_expr_Parent = null;
+		qualityVariableChildren = null;
 		return new Value (qv);
 	}
 	@Override 
@@ -227,6 +233,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	public Value visitVar_name(ModelParser.Var_nameContext ctx) {
 		String idValue = ctx.Identifier().getText();
 		Value varname = modelConstructor.addIdentifierExpression(idValue,idParent);
+		qualityVariableChildren += idValue + ",";
 		return varname;
 		
 	}

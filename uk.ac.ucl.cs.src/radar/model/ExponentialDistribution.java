@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class ExponentialDistribution extends Distribution {
@@ -19,6 +20,9 @@ class ExponentialDistribution extends Distribution {
 	@Override
 	public double[] simulate(Solution s) {
 		return  exponentialDistribution(mean_, N);
+	}
+	@Override
+	public void checkAcyclicity(Model m) {
 	}
 
 }

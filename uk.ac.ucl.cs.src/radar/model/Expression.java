@@ -1,5 +1,7 @@
 package radar.model;
 
+import java.util.List;
+
 
  abstract class Expression implements ModelVisitorElement {
 
@@ -13,6 +15,7 @@ package radar.model;
 		parent_ = parent;
 	}
 	public abstract void accept (ModelVisitor visitor, Model m);
+	public abstract void checkAcyclicity (Model m);
 	public Expression() {}
 	
 }

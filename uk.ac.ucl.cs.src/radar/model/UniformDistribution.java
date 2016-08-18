@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class UniformDistribution extends Distribution {
@@ -20,6 +21,9 @@ class UniformDistribution extends Distribution {
 	@Override
 	public double[] simulate(Solution s) {
 		return  uniformDistribution(lower_,upper_, N);
+	}
+	@Override
+	public void checkAcyclicity(Model m) {
 	}
 
 }

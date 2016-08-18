@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class BinomialDistribution extends Distribution {
@@ -20,6 +21,9 @@ class BinomialDistribution extends Distribution {
 	@Override
 	public double[] simulate(Solution s) {
 		return  binomialDistribution(trials_, prob_, N);
+	}
+	@Override
+	public void checkAcyclicity(Model m) {
 	}
 
 

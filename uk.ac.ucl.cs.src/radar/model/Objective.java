@@ -71,6 +71,10 @@ public  class Objective implements ModelVisitorElement {
 		QualityVariable var = this.getQualityVariable();
 		return var.getAllSolutions(m);
 	}
+	public void checkAcyclicity(Model m){
+		QualityVariable var = this.getQualityVariable();
+		var.checkAcyclicity(m);
+	}
 	@Override
 	public void accept(ModelVisitor visitor, Model m) {
 		definition_.accept(visitor, m);

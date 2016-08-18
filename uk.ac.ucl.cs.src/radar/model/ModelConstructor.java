@@ -1,5 +1,6 @@
 package radar.model;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -100,8 +101,9 @@ public class ModelConstructor {
 		QualityVariable qv = new QualityVariable ();
 		return qv;
 	}
-	public  QualityVariable addQualityVariableExpression (QualityVariable qv, String qv_name, Value qv_def, QualityVariable parent){
+	public  QualityVariable addQualityVariableExpression (QualityVariable qv, String qv_name, Value qv_def, QualityVariable parent, String qualityVariableChildren){
 		qv.setLabel(qv_name.toString());
+		qv.setChildren(Arrays.asList(qualityVariableChildren.split(",")));
 		Expression qv_expr = (Expression)qv_def.getExpression();
 		qv_expr.setParent(parent);
 		qv.setDefinition(qv_expr);

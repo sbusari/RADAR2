@@ -514,14 +514,17 @@ public class RADAR_GUI {
 		
 		} 
 		catch (IOException e) {
+			modelSolved = false;
 			JOptionPane.showMessageDialog(null, "There was a problem writing the results to directory. Check that the path exist: ");
 			return;
 		}
 		catch (NullPointerException e){
+			modelSolved = false;
 			JOptionPane.showMessageDialog(null,"There was a problem during model analysis. Details:" + e.getMessage());
 			return;
 		}
 		catch ( RuntimeException e){
+			modelSolved = false;
 			JOptionPane.showMessageDialog(null, "There was a problem during model analysis. Details:" + e.getMessage());
 			return;
 		}

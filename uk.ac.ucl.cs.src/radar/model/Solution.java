@@ -39,20 +39,10 @@ final class Solution {
 	Set<Decision> decisions(){
 		return selection.keySet();
 	}
-	/*public String selectionToString (){
-			The standard string format for maps is better than an ad-hoc one 	
-		// but not helpful for debugging as it shows objects ref and not the string its self
-		return this.toString();
-	}*/
 	public String selectionToString (){
-		String output = "";
-		if (selection != null && selection.size() > 0){
-			for (Map.Entry<Decision, String> entry:selection.entrySet() ){
-				output += entry.getKey().getDecisionLabel() + ":" +entry.getValue() + ",";
-			}
-			output = output.substring(0,output.length()-1 );
-		}
-		return output;
+			//The standard string format for maps is better than an ad-hoc one 	
+		// but not helpful for debugging as it shows objects ref and not the string its self
+		return this.selection.toString();
 	}
 	/*
 	* Returns true if both solutions have the same option selection on all their decisions.

@@ -1,4 +1,5 @@
 package radar.model;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,6 +60,10 @@ class UnaryExpression extends ArithmeticExpression {
 		results = results.merge(solutions);
 		//results.addAll(solutions);
 		return results;
+	}
+	@Override
+	public void checkAcyclicity(Model m) {
+		expr_.checkAcyclicity(m);
 	}
 
 

@@ -53,4 +53,31 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 		SolutionSet solutions = qv.getDefinition().getAllSolutions(m);
 		return solutions;
 	}
+	@Override
+	public void checkAcyclicity(Model m) {
+		QualityVariable qv = m.getQualityVariables().get(id_);
+		for (String child : qv.getChildren()){
+			if (parent_.getLabel().equals(child)){
+				throw new RuntimeException ("Cyclic dependency in the model between " + parent_.getLabel() + " and " + id_);
+			}
+			// is the child (NB) of qv(A) is already on stack, get that child and check if any of its child is not qv(A)
+			if (isChildVariableOnStack(child, m)){
+				List<String> grandChildren =  m.getQualityVariables().get(child).getChildren();
+				for (String grandChild : grandChildren){
+					if (id_.equals(grandChild)){
+						throw new RuntimeException ("Cyclic dependency in the model between " + id_ + " and " + grandChild);
+					}
+				}
+			}
+			
+		}
+		m.addVariableToStack(qv);
+	}
+	boolean isChildVariableOnStack (String variable, Model m){
+		boolean result =false;
+		if (m.getStackedVariable().containsKey(variable)){
+			return true;
+		}
+		return result;
+	}
 }

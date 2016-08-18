@@ -42,4 +42,7 @@ class Number extends ArithmeticExpression {
 	public SolutionSet getAllSolutions(Model m) {
 		return new SolutionSet();
 	}
+	@Override
+	public void checkAcyclicity(Model m) {
+	}
 }

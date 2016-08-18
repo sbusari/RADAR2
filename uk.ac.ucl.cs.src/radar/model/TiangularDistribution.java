@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class TriangularDistribution extends Distribution {
@@ -19,6 +20,9 @@ class TriangularDistribution extends Distribution {
 	@Override
 	public double[] simulate(Solution s) {
 		return  triangularDistribution(lower_,mode_, upper_, N);
+	}
+	@Override
+	public void checkAcyclicity(Model m) {
 	}
 	
 }

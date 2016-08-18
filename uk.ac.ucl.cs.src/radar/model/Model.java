@@ -16,7 +16,7 @@ public class Model implements ModelVisitorElement {
 		qualityVariables_ = new LinkedHashMap<String, QualityVariable>();
 		parameters_ =  new ArrayList<String>();
 		decisions_ = new LinkedHashMap<String, Decision>();
-		
+		qualityVariableStack_ = new LinkedHashMap<String,QualityVariable>();
 	}
 	private String modelName_;
 	private Map<String, Objective> objectives_;
@@ -26,6 +26,7 @@ public class Model implements ModelVisitorElement {
 	private Objective infoValueObjective_;
 	private Objective subgraphObjective;
 	private int noOfSimulation_;
+	private Map<String, QualityVariable> qualityVariableStack_;
 	// needed to maintain unique solution ID in getAllSolutions
 	private int solutionCounter_;
 	public void setModelName(String modelName ){
@@ -44,6 +45,12 @@ public class Model implements ModelVisitorElement {
 		if (!parameters_.contains(param_name)){
 			parameters_.add(param_name);
 		}
+	}
+	public void addVariableToStack (QualityVariable qv){
+		qualityVariableStack_.put(qv.getLabel(), qv);
+	}
+	public Map<String, QualityVariable> getStackedVariable (){
+		return qualityVariableStack_;
 	}
 	public List<String> getParameters(){
 		return parameters_;
@@ -137,10 +144,15 @@ public class Model implements ModelVisitorElement {
 		SolutionSet result = new SolutionSet();
 		for (Objective obj: this.getObjectives()){
 			SolutionSet solnSet = obj.getAllSolutions(this);
-			//result = result.merge(solnSet);
-			result.addAll(solnSet);
+			result = result.merge(solnSet);
+			// result.addAll(solnSet);
 		}
 		return result;
+	}
+	public void checkAcyclicity(){
+		for (Objective obj: this.getObjectives()){
+			obj.checkAcyclicity(this);
+		}
 	}
 	public  List<Solution> getAllSolutionss(){
 		List<Solution> solutions = new ArrayList<Solution>();
@@ -213,6 +225,9 @@ public class Model implements ModelVisitorElement {
 		List<String> edges = new ArrayList<String>();
 		String result = "digraph G { \n";
 		for(Decision d: this.getDecisions()){
+			Object o = (Object) d;
+			String dID = o.toString(); 
+			// String dShape = "d_" + dID + "[label=\"" + d.getDecisionLabel() +"\"]"; 
 			String dShape =  "\""+ d.getDecisionLabel() +  "\"" + " [shape = polygon, sides =8] \n";
 			result +=  dShape;
 			for(String option: d.getOptions()){

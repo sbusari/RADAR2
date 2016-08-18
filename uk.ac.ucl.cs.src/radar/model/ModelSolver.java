@@ -12,6 +12,12 @@ public class ModelSolver {
 	public static AnalysisResult solve(Model m){
 
 		List<Objective> objectives = m.getObjectives();
+		try{
+			m.checkAcyclicity();
+		}catch (Exception e){
+			throw new RuntimeException (e.getMessage());
+		}
+		
 		
 		long solutionGenStart = System.currentTimeMillis();
 		List<Solution> allSolutions = m.getAllSolutions().list(); 
@@ -36,11 +42,11 @@ public class ModelSolver {
 		for (int i =0; i < allSolutions.size(); i++){
 			System.out.println("Solution "+ i+ ": "+ allSolutions.get(i).selectionToString() );
 			String sol = "Solution "+ i+ ": "+ allSolutions.get(i).selectionToString();
-			try {
+			/*try {
 				Helper.printResults("/Users/INTEGRALSABIOLA/Documents/JavaProject/RADAR/uk.ac.ucl.cs.results/", sol, "Sol"+ m.getModelName(), true);
 			} catch (IOException e) {
 				//System.out.println(e.getMessage());
-			}
+			}*/
 		}
 		
 		// Evaluate objectives for all solutions

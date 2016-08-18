@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class NormalCIDistribution extends Distribution {
@@ -18,5 +19,8 @@ class NormalCIDistribution extends Distribution {
 	@Override
 	public double[] simulate(Solution s) {
 		return  normalCIDistribution(a_,b_, N);
+	}
+	@Override
+	public void checkAcyclicity(Model m) {
 	}
 }

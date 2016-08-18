@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class RandomDistribution extends Distribution {
@@ -16,5 +17,8 @@ class RandomDistribution extends Distribution {
 	@Override
 	public double[] simulate(Solution s) {
 		return  randomDistribution(N);
+	}
+	@Override
+	public void checkAcyclicity(Model m) {
 	}
 }
