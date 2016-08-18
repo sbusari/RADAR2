@@ -178,7 +178,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		for (ModelParser.Option_defContext optionDefContext : ctx.option_def()){
 			// could be a unary, binary expr or a parameter.
 			Value definition =visit(optionDefContext);
-			modelConstructor.addOR_RefinementDefinition(or_ref,optionNames.get(i),definition,and_Ref_Parent);
+			modelConstructor.addOR_RefinementDefinition(or_ref,optionNames.get(i),definition,and_Ref_Parent,decision_name);
 			i++;
 		}
 		

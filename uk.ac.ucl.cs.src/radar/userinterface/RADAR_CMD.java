@@ -147,7 +147,7 @@ public class RADAR_CMD {
 			// generate graphs
 			
 			String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
-			String decisionGraph = semanticModel.generateDecisionDiagram();
+			String decisionGraph = semanticModel.generateDecisionDiagram(result.getAllSolutions());
 			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", variableGraph, "vgraph.dot", false);
 			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", decisionGraph, "dgraph.dot", false);
 			

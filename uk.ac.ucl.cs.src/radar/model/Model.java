@@ -199,7 +199,7 @@ public class Model implements ModelVisitorElement {
 	* Formally: isDependent(d1, d0, option) iff
 	*  for all s: solution| s.selection(d0) != option imples s.selection(d1) == null
 	*/
-	boolean isDependent(Decision d1, Decision d0, String option){
+	boolean isDependent(Decision d1, Decision d0, String option, List<Solution> allSolutions){
 		// need when we have just only one decision in the model.
 		boolean result = true;
 		if (d1.equals(d0)){
@@ -208,7 +208,7 @@ public class Model implements ModelVisitorElement {
 		/*for (Solution s: this.getAllSolutions().list()){
 			if(s.selection(d0) != null && !s.selection(d0).equals(option) && s.selection(d1) != null) return false;
 		}*/
-		for (Solution s: this.getAllSolutions().list()){
+		for (Solution s: allSolutions){
 			if(s.selection(d0) != null){
 				if ( !s.selection(d0).equals(option) && s.selection(d1) != null) return false;
 			}else{
@@ -220,7 +220,7 @@ public class Model implements ModelVisitorElement {
 	/*
 	* Generates the decision diagram in DOT format
 	*/
-	public String generateDecisionDiagram(){
+	public String generateDecisionDiagram(List<Solution> allSolutions){
 		int equalDecisionAndOptionNameCounter =1;
 		List<String> edges = new ArrayList<String>();
 		String result = "digraph G { \n";
@@ -242,7 +242,7 @@ public class Model implements ModelVisitorElement {
 					edges.add(newLine);
 				}
 				for (Decision d1: this.getDecisions()){
-					if(this.isDependent(d1, d, option)){
+					if(this.isDependent(d1, d, option,allSolutions)){
 						String d1Shape =  "\""+ d1.getDecisionLabel() +  "\"" + " [shape = polygon, sides =8] \n";
 						result +=  d1Shape;
 						if (d.getDecisionLabel().equals(option)){

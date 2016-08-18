@@ -157,11 +157,12 @@ public class ModelConstructor {
 		OR_Refinement or_refinement = new OR_Refinement ();
 		return or_refinement;
 	}
-	public  Value addOR_RefinementDefinition (OR_Refinement or_ref, String option_name, Value option_def, QualityVariable and_Ref_Parent){
+	public  Value addOR_RefinementDefinition (OR_Refinement or_ref, String option_name, Value option_def, QualityVariable and_Ref_Parent, String decision){
 		AND_Refinement and_ref = new AND_Refinement();
 		if (and_Ref_Parent != null){
 			and_ref.setParent(and_Ref_Parent);
 		}
+		and_ref.setDecisionNameAndRefRefersTo(decision);
 		and_ref.addDefinition(option_def.getArithmeticExpression());
 		or_ref.addDefinition(option_name, and_ref);
 		return new Value(or_ref);

@@ -19,17 +19,21 @@ public class ModelSolver {
 		}
 		
 		
-		long solutionGenStart = System.currentTimeMillis();
-		List<Solution> allSolutions = m.getAllSolutions().list(); 
-		//List<Solution> allSolutions = m.getAllSolutionss();
-		long solutionGenEnd = System.currentTimeMillis();
-		long solutionGenRunTime = (solutionGenEnd - solutionGenStart) / 1000;
-		System.out.println("Solution Gen runtime is "+ solutionGenRunTime );
+		
 		
 		
 		List<Decision> decisions = m.getDecisions();
 		
 		AnalysisResult result = new AnalysisResult(objectives,decisions);
+		
+		long solutionGenStart = System.currentTimeMillis();
+		List<Solution> allSolutions = m.getAllSolutions().list(); 
+		//List<Solution> allSolutions = m.getAllSolutionss();
+		result.addAllSolutions(allSolutions);
+		
+		long solutionGenEnd = System.currentTimeMillis();
+		long solutionGenRunTime = (solutionGenEnd - solutionGenStart) / 1000;
+		System.out.println("Solution Gen runtime is "+ solutionGenRunTime );
 		
 		// solution space
 		result.addSolutionSpace(m.getSolutionSpace());

@@ -19,6 +19,8 @@ public class AnalysisResult {
 	// the list of shortlisted solutions
 	private Map<Solution, double[]> shortlist;
 	
+	// the list of all generated solutions
+	private List<Solution> allSolutions;
 
 	// objective with respect to which information value is measured
 	private Objective eviObjective;
@@ -47,7 +49,9 @@ public class AnalysisResult {
 	public Map<Solution, double[]> getEvaluatedSolutions (){
 		return value;
 	}
-	
+	public List<Solution> getAllSolutions(){
+		return allSolutions;
+	}
 	public void addShortlist (Map<Solution, double[]> optimalSolns){
 		shortlist= optimalSolns;
 	}
@@ -63,7 +67,9 @@ public class AnalysisResult {
 	public void addEVTPI (double evtpi_value){
 		evtpi = evtpi_value;
 	}
-	
+	void addAllSolutions (List<Solution> allSolns){
+		allSolutions = allSolns;
+	}
 	void addEVPPI(String param, Double n){
 		evppi.put(param, n);
 	}

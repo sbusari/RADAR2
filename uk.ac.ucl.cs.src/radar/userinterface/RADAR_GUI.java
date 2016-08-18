@@ -495,7 +495,7 @@ public class RADAR_GUI {
 				
 			}
 			if (chckbxDecision.isSelected()){
-				String decisionGraph = semanticModel.generateDecisionDiagram();
+				String decisionGraph = semanticModel.generateDecisionDiagram(result.getAllSolutions());
 				Helper.printResults (modelResultPath + "/graph/", decisionGraph, "dgraph.dot", false);
 				
 			}

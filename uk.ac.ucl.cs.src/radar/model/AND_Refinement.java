@@ -5,6 +5,10 @@ import radar.utilities.PseudoRandom;
 
 class AND_Refinement extends Expression {
 
+	/*
+	 * the decision name in which this ANDRef refers to 
+	 */
+	String decisionAndRefRefersTo_;
 	QualityVariable parent_;
 	private ArithmeticExpression definition_;
 	@Override
@@ -27,6 +31,12 @@ class AND_Refinement extends Expression {
 	}
 	public void setParent(QualityVariable parent) {
 		parent_ = parent;
+	}
+	public void setDecisionNameAndRefRefersTo (String decisionNameAndRefReferTo){
+		decisionAndRefRefersTo_ = decisionNameAndRefReferTo;
+	}
+	public String getDecisionNameAndRefRefersTo (){
+		return decisionAndRefRefersTo_;
 	}
 	public SolutionSet getAllSolutions(Model m){
 		SolutionSet result = new SolutionSet();

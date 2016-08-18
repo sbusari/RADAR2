@@ -59,12 +59,6 @@ public class OR_Refinement extends Expression {
                     result.add(s);
                 }
 	         }
-			/*for(Solution s: solutions.list()){
-				s.addDecision(this.decision_, option);
-				result.add(s);
-			}*/
-			//result = result.merge(solutions);
-			//result.addAll(solutions);
 			
 		}
 		return result;
