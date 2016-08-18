@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import radar.parser.engine.Visitor;
 import radar.parser.error.handler.ModelExceptionListener;
+import radar.parser.error.handler.ModelParserErrorStrategy;
 import radar.parser.generated.ModelLexer;
 import radar.parser.generated.ModelParser;
 import radar.utilities.Helper;
@@ -42,7 +43,11 @@ public class Parser {
 	        parser.removeErrorListeners(); // remove ConsoleErrorListener
 	        errorListener = new ModelExceptionListener();
 	        parser.addErrorListener(errorListener);
+	        //parser.setErrorHandler(new ModelParserErrorStrategy());
 	        ParseTree tree = parser.model(); 
+	        if (errorListener.getErrorMsg() != "") {
+				throw new RuntimeException(errorListener.getErrorMsg() + "\nPossible resolution hints:\n1. Remove extraneous and unrecognised tokens within expressions. \n2. Ensure model keywords are written according to RADAR syntax. \n3. The equality signs '=' must be used when defining a quality variable. \n4 Add semicolon at the end of each statement.");
+			}
 			visitor.visit(tree);
 		}
 		catch(InputMismatchException e){
@@ -82,7 +87,7 @@ public class Parser {
 			semanticModel = parser.getSemanticModel();
 		}
 		catch (RuntimeException re){
-			throw new RuntimeException( "Error: "+ re.getMessage());
+			throw new RuntimeException(re.getMessage());
 		}
 		return semanticModel;
 	}

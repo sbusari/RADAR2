@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 
 public class ModelConstructor {
 
@@ -15,7 +17,7 @@ public class ModelConstructor {
 		return new Model();
 	}
 	void addModelSubGraphObjective (Model model, String obj_name, String subGraphObj){
-		if (subGraphObj != null){
+		if (subGraphObj != null && !StringUtils.isEmpty(subGraphObj)){
 			Objective subGraphObjective = new Objective();
 			List<Objective> objectives = model.getObjectives();
 			for (int i=0; i < objectives.size(); i ++){
@@ -28,7 +30,7 @@ public class ModelConstructor {
 		
 	} 
 	void addModelInfoValueObjective (Model model, String obj_name, String infoValueObj){
-		if (infoValueObj != null){
+		if (infoValueObj != null && !StringUtils.isEmpty(infoValueObj)){
 			Objective infoValueObjective = new Objective();
 			List<Objective> objectives = model.getObjectives();
 			for (int i=0; i < objectives.size(); i ++){

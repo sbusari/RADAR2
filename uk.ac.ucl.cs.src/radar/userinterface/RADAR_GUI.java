@@ -53,25 +53,25 @@ public class RADAR_GUI {
 
 	private JFrame frame;
 	private Model semanticModel;
-	AnalysisResult result;
+	private AnalysisResult result;
+	private boolean modelParsed;
+	private boolean modelSolved;
 	private int nbr_Simulation;
 	private String infoValueObjective;
 	private String subGraphObjective;
+	private boolean isBoardEnabled;
 	private DefaultTableModel decisionTableModel;
-	ModelResultFrame modelResultFrame;
+	private ModelResultFrame modelResultFrame;
 	private JPanel modelBoard;
 	private JMenuItem itemWriteModel;
 	private JMenuItem itemParseModel;
 	private JMenuItem itemSolveModel;
 	private JMenuItem itemAbout;
-	private JMenuItem itemTutorial;
 	private JMenuItem itemExit;
 	private JMenuItem itemOpen;
 	private JMenuItem itemSave;
 	private JMenuItem itemExport;
 	private JMenuItem itemPrint;
-	private JMenuItem itemSetModel;
-	private JMenuItem itemSetAlg;
 	private JTextArea textModelArea;
 	private JScrollPane textAreaScroll;
 	private JPanel analysisPanel;
@@ -86,6 +86,8 @@ public class RADAR_GUI {
 	private JCheckBox chckbxDecision;
 	private JCheckBox chckbxPareto;
 	private JTable decisionsTable;
+	private JMenuItem itemEnableBoard;
+	private JSeparator separator_8;
 	
 
 	/**
@@ -118,7 +120,35 @@ public class RADAR_GUI {
 		parseModel();
 		findOutPutDirectory();
 		solveModel();
+		enableDiableBoard();
+		exitRadar();
 		
+	}
+	private void  enableDiableBoard (){
+		itemEnableBoard.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isBoardEnabled != true){
+					activateModelWriting();
+					itemEnableBoard.setText("Disable Model Board");
+				}else{
+					deactivateModelWriting();
+					itemEnableBoard.setText("Enable Model Board");
+				}
+			}
+		});
+	}
+	private void exitRadar(){
+		itemExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int selection = JOptionPane.showConfirmDialog( null , "Are you sure you want to close this window?" , "Confirmation "
+	                    , JOptionPane.OK_CANCEL_OPTION , JOptionPane.INFORMATION_MESSAGE);
+				if (selection == JOptionPane.OK_OPTION)
+                {
+					frame.dispose();
+                }
+				
+			}
+		});
 	}
 	private String getFileExtension(File file) {
 	    String name = file.getName();
@@ -128,10 +158,49 @@ public class RADAR_GUI {
 	        return "";
 	    }
 	}
+	void activateModelWriting(){
+		textModelArea.setEnabled(true);
+		textAreaScroll.setEnabled(true);
+		analysisPanel.setEnabled(true);
+		decisionPanel.setEnabled(true);
+		decisionTableScrollPane.setEnabled(true);
+		textNbrSimulation.setEnabled(true);
+		textInfoValueObj.setEnabled(true);
+		textSubgraphObj.setEnabled(true);
+		textOutputDirectory.setEnabled(true);
+		btnFindDirectory.setEnabled(true);
+		chckbxVariable.setEnabled(true);
+		chckbxDecision.setEnabled(true);
+		chckbxPareto.setEnabled(true);
+		decisionsTable.setEnabled(true);
+		isBoardEnabled = true;
+	}
+	void deactivateModelWriting(){
+		textModelArea.setEnabled(false);
+		textAreaScroll.setEnabled(false);
+		analysisPanel.setEnabled(false);
+		decisionPanel.setEnabled(false);
+		decisionTableScrollPane.setEnabled(false);
+		textNbrSimulation.setEnabled(false);
+		textInfoValueObj.setEnabled(false);
+		textSubgraphObj.setEnabled(false);
+		textOutputDirectory.setEnabled(false);
+		btnFindDirectory.setEnabled(false);
+		chckbxVariable.setEnabled(false);
+		chckbxDecision.setEnabled(false);
+		chckbxPareto.setEnabled(false);
+		decisionsTable.setEnabled(false);
+		isBoardEnabled = false;
+	}
 	void openExistingModel (){
 		final JFileChooser  fileDialog = new JFileChooser();
 		itemOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (isBoardEnabled == false){
+					JOptionPane.showMessageDialog(null, "Model board must be enabled before any action.");
+	            	   return;
+				}
+				
 				int returnVal = fileDialog.showOpenDialog(frame);
 	            if (returnVal == JFileChooser.APPROVE_OPTION) {
 	               java.io.File file = fileDialog.getSelectedFile();
@@ -142,9 +211,9 @@ public class RADAR_GUI {
 	               }
 	               loadExistingModel(file.getPath());
 	               if (modelBoard.isVisible() == false){
-	            	   modelBoard.setVisible(true);
-	            	   decisionPanel.setVisible(true);
-	   					analysisPanel.setVisible(true);
+	            	   modelBoard.setEnabled(true);
+	            	   decisionPanel.setEnabled(true);
+	   					analysisPanel.setEnabled(true);
 	               }
 	               
 	            }
@@ -155,15 +224,23 @@ public class RADAR_GUI {
 		
 		itemWriteModel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				modelBoard.setVisible(true);
-				decisionPanel.setVisible(true);
-				analysisPanel.setVisible(true);
+				modelBoard.setEnabled(true);
+				decisionPanel.setEnabled(true);
+				analysisPanel.setEnabled(true);
+				activateModelWriting();
+				isBoardEnabled = true;
+				itemEnableBoard.setText("Disable Model Board");
+				
 			}
 		});
 	}
 	void parseModel (){
 		itemParseModel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (isBoardEnabled == false){
+					JOptionPane.showMessageDialog(null, "Model board must be enabled before any action.");
+					return;
+				}
 				if (textModelArea.getText().isEmpty()){
 					JOptionPane.showMessageDialog(null, "You need to write a new decision model or select from existing decision models.");
 					return;
@@ -174,31 +251,39 @@ public class RADAR_GUI {
 					return;
 				}
 				if (!doesOutputDirectoryExist()){
-					JOptionPane.showMessageDialog(null, "Specified output director does not exist.");
+					JOptionPane.showMessageDialog(null, "Specified output directory does not exist.");
 					return;
 				}
 				
-				parse();
-				populateDecisionTable();
-				int selection = JOptionPane.showConfirmDialog( null , "Model has been parsed successfully. Do you want to continue with analysis?" , "Confirmation "
-	                    , JOptionPane.OK_CANCEL_OPTION , JOptionPane.INFORMATION_MESSAGE);
-				if (selection == JOptionPane.OK_OPTION)
-                {
-					solve();
-					loadResultInFrame();
-                }
+				boolean parsed = parse();
+				if (parsed ==true){
+					populateDecisionTable();
+					int selection = JOptionPane.showConfirmDialog( null , "Model has been parsed successfully. Do you want to continue with analysis?" , "Confirmation "
+		                    , JOptionPane.OK_CANCEL_OPTION , JOptionPane.INFORMATION_MESSAGE);
+					if (selection == JOptionPane.OK_OPTION)
+	                {
+						solve();
+						loadResultInFrame();
+	                }
+					modelParsed= true;
+				}
 				
 			}
 		});
+
 	}
 	private void solveModel (){
 		itemSolveModel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (isBoardEnabled == false){
+					JOptionPane.showMessageDialog(null, "Model board must be enabled before any action.");
+	            	   return;
+				}
 				if (textModelArea.getText().isEmpty()){
 					JOptionPane.showMessageDialog(null, "You need to write a new decision model or select from existing decision models.");
 					return;
 				}
-				if (semanticModel != null){
+				if (semanticModel != null && modelParsed == true){
 					solve();
 				}else{
 					String analysisMsg = allAnalysisSettingValid();
@@ -211,10 +296,15 @@ public class RADAR_GUI {
 						return;
 					}
 					parseModel();
-					solve();
+					if (modelParsed == true){
+						solve();
+					}
+					
 				}
-				populateDecisionTable();
-				loadResultInFrame();
+				if (modelSolved){
+					populateDecisionTable();
+					loadResultInFrame();
+				}
 			}
 		});
 	}
@@ -261,10 +351,12 @@ public class RADAR_GUI {
 		return message;
 	}
 	private void populateDecisionTable (){
-		decisionTableModel.setNumRows(0);
-		List<Decision> decisions = semanticModel.getDecisions();
-		setDecisionTableHeader(decisionTableModel,decisionsTable);
-		populateDecisionOptionTable(decisionTableModel, decisions);
+		if (semanticModel != null){
+			decisionTableModel.setNumRows(0);
+			List<Decision> decisions = semanticModel.getDecisions();
+			setDecisionTableHeader(decisionTableModel,decisionsTable);
+			populateDecisionOptionTable(decisionTableModel, decisions);
+		}
 	}
 	private void setDecisionTableHeader(DefaultTableModel decisionTableModel, JTable tableDecisionOptions){
 		ArrayList<String> decisionOption = new ArrayList<String>();
@@ -299,13 +391,16 @@ public class RADAR_GUI {
 		}
 		fillDecisionTable(decisionsEntry);		
 	}
-	void parse (){
+	boolean parse (){
+		boolean result = true;
 		try {
 			semanticModel = loadModel();
 		} catch (Exception e) {
+			result = false;
 			String err = e.getMessage();
 			JOptionPane.showMessageDialog(null, err);
 		}
+		return result;
 	}
 	void loadSolutionTable (DefaultTableModel solutionTableModel){
 		List<String> solutions= result.solutionTable();
@@ -415,6 +510,7 @@ public class RADAR_GUI {
 				}
 			}
 			System.out.println("Finished!");
+			modelSolved =true;
 		
 		} 
 		catch (IOException e) {
@@ -520,19 +616,21 @@ public class RADAR_GUI {
 		JMenu radarMenu = new JMenu("Radar");
 		menuBar.add(radarMenu);
 		
-		itemAbout = new JMenuItem("About");
+		itemEnableBoard = new JMenuItem("Enable Model Board");
+		
+		radarMenu.add(itemEnableBoard);
+		
+		separator_8 = new JSeparator();
+		radarMenu.add(separator_8);
+		
+		itemAbout = new JMenuItem("About Radar");
 		radarMenu.add(itemAbout);
-		
-		JSeparator separator_2 = new JSeparator();
-		radarMenu.add(separator_2);
-		
-		itemTutorial = new JMenuItem("Tutorial");
-		radarMenu.add(itemTutorial);
 		
 		JSeparator separator_3 = new JSeparator();
 		radarMenu.add(separator_3);
 		
 		itemExit = new JMenuItem("Exit");
+		
 		radarMenu.add(itemExit);
 		
 		JMenu mnNewMenu_2 = new JMenu("File");
@@ -584,29 +682,20 @@ public class RADAR_GUI {
 		
 		fileMenu.add(itemSolveModel);
 		
-		JMenu settingMenu = new JMenu("Settings");
+		JMenu settingMenu = new JMenu("Tutorial");
 		menuBar.add(settingMenu);
-		
-		itemSetModel = new JMenuItem("Model Settings");
-		settingMenu.add(itemSetModel);
 		
 		JSeparator separator_7 = new JSeparator();
 		settingMenu.add(separator_7);
 		
-		itemSetAlg = new JMenuItem("Algorithm Settings");
-		settingMenu.add(itemSetAlg);
-		
 		modelBoard = new JPanel();
-		modelBoard.setVisible(false);
 		modelBoard.setBorder(new TitledBorder(null, "Model Board", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		analysisPanel = new JPanel();
-		analysisPanel.setVisible(false);
 		analysisPanel.setBorder(new TitledBorder(null, "Analysis Settings", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		decisionPanel = new JPanel();
 		decisionPanel.setBorder(new TitledBorder(null, "Decisions", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		decisionPanel.setVisible(false);
 		
 		//populateDecisionTable();
 		
@@ -638,6 +727,7 @@ public class RADAR_GUI {
 		);
 		
 		decisionTableScrollPane = new JScrollPane();
+		decisionTableScrollPane.setEnabled(false);
 		decisionTableScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		GroupLayout gl_decisionPanel = new GroupLayout(decisionPanel);
 		gl_decisionPanel.setHorizontalGroup(
@@ -672,39 +762,47 @@ public class RADAR_GUI {
 		JLabel lblNbrSimulation = new JLabel("Nbr. Simulation:");
 		
 		textNbrSimulation = new JTextField();
+		textNbrSimulation.setEnabled(false);
 		textNbrSimulation.setText("10000");
 		textNbrSimulation.setColumns(10);
 		
 		JLabel lblInfoValueObj = new JLabel("Info. Value Objective:");
 		
 		textInfoValueObj = new JTextField();
+		textInfoValueObj.setEnabled(false);
 		textInfoValueObj.setColumns(10);
 		
 		JLabel lblSUbGraphObj = new JLabel("SubGraph Objective:");
 		
 		textSubgraphObj = new JTextField();
+		textSubgraphObj.setEnabled(false);
 		textSubgraphObj.setColumns(10);
 		
 		JLabel lblOutputDir = new JLabel("Output Directory:");
 		
 		textOutputDirectory = new JTextField();
+		textOutputDirectory.setEnabled(false);
 		textOutputDirectory.setText("--Select--");
 		textOutputDirectory.setColumns(10);
 		
 		JLabel lblDOTGraph = new JLabel("DOT Graph:");
 		
 		chckbxVariable = new JCheckBox("Variable");
+		chckbxVariable.setEnabled(false);
 		chckbxVariable.setSelected(true);
 		
 		chckbxDecision = new JCheckBox("Decision");
+		chckbxDecision.setEnabled(false);
 		chckbxDecision.setSelected(true);
 		
 		JLabel lblPlot = new JLabel("Plot:");
 		
 		chckbxPareto = new JCheckBox("Pareto Optimal");
+		chckbxPareto.setEnabled(false);
 		chckbxPareto.setSelected(true);
 		
 		btnFindDirectory = new JButton("Find");
+		btnFindDirectory.setEnabled(false);
 		
 		GroupLayout gl_analysisPanel = new GroupLayout(analysisPanel);
 		gl_analysisPanel.setHorizontalGroup(
@@ -782,6 +880,7 @@ public class RADAR_GUI {
 		analysisPanel.setLayout(gl_analysisPanel);
 		
 		textAreaScroll = new JScrollPane();
+		textAreaScroll.setEnabled(false);
 		GroupLayout gl_modelBoard = new GroupLayout(modelBoard);
 		gl_modelBoard.setHorizontalGroup(
 			gl_modelBoard.createParallelGroup(Alignment.LEADING)
@@ -798,6 +897,7 @@ public class RADAR_GUI {
 		);
 		
 		textModelArea = new JTextArea();
+		textModelArea.setEnabled(false);
 		textAreaScroll.setViewportView(textModelArea);
 		modelBoard.setLayout(gl_modelBoard);
 		frame.getContentPane().setLayout(groupLayout);

@@ -1,16 +1,26 @@
 package radar.model;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import radar.utilities.Helper;
 
 public class ModelSolver {
 	
 	public static AnalysisResult solve(Model m){
 
 		List<Objective> objectives = m.getObjectives();
-		//List<Solution> allSolutions = m.getAllSolutions().list(); 
-		List<Solution> allSolutions = m.getAllSolutionss();
+		
+		long solutionGenStart = System.currentTimeMillis();
+		List<Solution> allSolutions = m.getAllSolutions().list(); 
+		//List<Solution> allSolutions = m.getAllSolutionss();
+		long solutionGenEnd = System.currentTimeMillis();
+		long solutionGenRunTime = (solutionGenEnd - solutionGenStart) / 1000;
+		System.out.println("Solution Gen runtime is "+ solutionGenRunTime );
+		
+		
 		List<Decision> decisions = m.getDecisions();
 		
 		AnalysisResult result = new AnalysisResult(objectives,decisions);
@@ -25,6 +35,12 @@ public class ModelSolver {
 
 		for (int i =0; i < allSolutions.size(); i++){
 			System.out.println("Solution "+ i+ ": "+ allSolutions.get(i).selectionToString() );
+			String sol = "Solution "+ i+ ": "+ allSolutions.get(i).selectionToString();
+			try {
+				Helper.printResults("/Users/INTEGRALSABIOLA/Documents/JavaProject/RADAR/uk.ac.ucl.cs.results/", sol, "Sol"+ m.getModelName(), true);
+			} catch (IOException e) {
+				//System.out.println(e.getMessage());
+			}
 		}
 		
 		// Evaluate objectives for all solutions
@@ -34,7 +50,7 @@ public class ModelSolver {
 			System.out.println("Solution index "+ i);
 			i++;
 		}
-		
+		System.out.println("Solution Gen runtime is "+ solutionGenRunTime );
 		// add -ve sign for maximisaiton
 		Map<Solution, double[]> evaluatedSolutions = addMaximisationSign(result.getEvaluatedSolutions(), objectives);
 			
