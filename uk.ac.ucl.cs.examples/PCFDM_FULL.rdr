@@ -2,7 +2,7 @@ Model PCFDM ;
 
 //This model is a fraud detection model
 
-Objective Min ExpectedFinancialLoss = E(FinancialLoss) with 50000 margin;
+Objective Min ExpectedFinancialLoss = EV(FinancialLoss) with 50000 margin;
 
 FinancialLoss =AverageFraudValue* NbrCompromisedAccounts*NbrFraudPerAccountBeforeBlocked;
 
@@ -13,6 +13,7 @@ NbrAccounts = normal(10^6,100);
 CompromisedAccountRatio = deterministic(0.0001);
 
 AverageFraudValue =normal(500,50);
+//AverageFraudValue = FinancialLoss;
 
 NbrFraudPerAccountBeforeBlocked = decision("blocking policy"){
     "block first"          : NbrFraudBeforeDetection;
@@ -53,7 +54,7 @@ BatchAlertThreshold = decision("threshold level"){
 }
 
 
-Objective Min InvestigationCost = E(InvestCost) with 50000 margin;
+Objective Min InvestigationCost = EV(InvestCost) with 50000 margin;
 
 InvestCost = NbrAlerts * CostPerAlert; 
     

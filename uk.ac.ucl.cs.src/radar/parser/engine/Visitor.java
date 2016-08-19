@@ -124,6 +124,15 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		Value obj_prob = modelConstructor.addObjectiveProbablity(comparisonExpr);
 		return obj_prob; 
 	}
+	@Override 
+	public Value visitObjectivePercentile(ModelParser.ObjectivePercentileContext ctx) {
+		String obj_qv =  ctx.var_name().getText().trim();
+		String var = ctx.integerLiteral().getText();
+		String sign = "";
+		if (ctx.op != null)sign	=ctx.op.getText();
+		Value obj_percentile = modelConstructor.addObjectivePercentile(obj_qv, var,sign);
+		return obj_percentile; 
+	}
 	public Value visitModelQualityVariableList(ModelParser.ModelQualityVariableListContext ctx) { 
 		if (ctx.quality_var_decl() != null && ctx.quality_var_decl().size() > 0){
 			for(ModelParser.Quality_var_declContext qv_decl_ctx : ctx.quality_var_decl()){

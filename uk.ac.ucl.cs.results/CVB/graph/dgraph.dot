@@ -1,5 +1,4 @@
 digraph G { 
-"system type" [shape = polygon, sides =8] 
-"system type" -> "New"
-"system type" -> "Legacy"
+"0"[label="system type", shape = polygon, sides =8 ]"1"[label="New"]"0" -> "1"[arrowhead= odot]
+"2"[label="Legacy"]"0" -> "2"[arrowhead= odot]
 }

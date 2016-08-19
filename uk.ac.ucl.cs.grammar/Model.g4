@@ -6,22 +6,23 @@ model 						:'Model' var_name  ';' NEWLINE* (model_element)*
 model_element				: objective_decl+ 								#modelObjectiveList
 							| quality_var_decl+								#modelQualityVariableList
 							;
-
 																
 objective_decl				:'Objective' optimisationDirection  var_name ('=' objective_def)? ('with' number 'margin')? ';' NEWLINE* ;			
 
-objective_def				:'E'SINGLESPACE* '(' var_name ')' 													#objectiveExpectation
-							|'P'SINGLESPACE* '(' var_name ')' 													#objectiveBooleanProbability
-							|'P'SINGLESPACE* '(' comparision ')' 												#objectiveProbability
-							|'percentile' SINGLESPACE* '(' integerLiteral ',' var_name ')'						#objectivePercentile
+objective_def				:'EV'SINGLESPACE* '(' var_name ')' 													#objectiveExpectation
+							|'Pr'SINGLESPACE* '(' var_name ')' 													#objectiveBooleanProbability
+							|'Pr'SINGLESPACE* '(' comparision ')' 												#objectiveProbability
+							|'percentile' SINGLESPACE* '(' (op = ('-'| '+'))? var_name ',' integerLiteral ')'				#objectivePercentile
 							; 
-
+		
+													
 quality_var_decl			:var_name  '='  quality_var_def  NEWLINE* ;
 
 quality_var_def				: decision_def 															#qualityVariableDecision
 							| arithmetic_expr ';'													#qualityVariableArithmetic
 							| parameter_def ';'														#qualityVariableParameter
 							;
+
 
 decision_def				:'decision'  decision_body 				#decisionXOR
 							;
@@ -80,7 +81,7 @@ comparision					:var_name relationalOp=comparator var_name 											#compareVa
 							;																					
 
 							
-number			: integerLiteral												    #atomicInteger
+number						: integerLiteral												    #atomicInteger
     						| FloatingPointLiteral												#atomicFloat
 							| DecimalLiteral													#atomicDecimal
     						;

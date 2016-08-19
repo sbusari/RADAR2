@@ -1,6 +1,6 @@
 Model SAS;
 
-Objective Max ENB = E(NB);
+Objective Max ENB = EV(NB);
 
 NB = BatteryUsage_weight * BatteryUsage_Preference +
      ResponseTime_weight * ResponseTime_Preference +
@@ -18,7 +18,7 @@ Cost_weight = deterministic(1);
 DevelopmentTime_weight = deterministic(2);
 DeploymentTime_weight = deterministic(2);
 
-Objective Min Risk = P(GoalFailure) ;
+Objective Min Risk = Pr(GoalFailure) ;
 
 GoalFailure = (BatteryUsage_Failure
                 || ResponseTime_Failure

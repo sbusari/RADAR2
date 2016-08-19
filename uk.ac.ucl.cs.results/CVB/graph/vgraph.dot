@@ -1,20 +1,26 @@
 digraph G { 
 rankdir = BT 
 AndRef0[shape = point] 
-AndRef0->"Benefit"
+1[label="system type", shape = polygon, sides =8]1->"Benefit"
+"Benefit[New]"[shape = box, style = rounded] 
+AndRef0->1
 "Benefit[New]"->AndRef0 [dir = none] 
 AndRef1[shape = point] 
-AndRef1->"Benefit"
+1[label="system type", shape = polygon, sides =8]"Benefit[Legacy]"[shape = box, style = rounded] 
+AndRef1->1
 "Benefit[Legacy]"->AndRef1 [dir = none] 
-"Benefit" [shape = oval] 
+"Benefit"[shape = box, style = rounded] 
 AndRef2[shape = point] 
-AndRef2->"Cost"
+3[label="system type", shape = polygon, sides =8]3->"Cost"
+"Cost[New]"[shape = box, style = rounded] 
+AndRef2->3
 "Cost[New]"->AndRef2 [dir = none] 
 AndRef3[shape = point] 
-AndRef3->"Cost"
+3[label="system type", shape = polygon, sides =8]"Cost[Legacy]"[shape = box, style = rounded] 
+AndRef3->3
 "Cost[Legacy]"->AndRef3 [dir = none] 
-"Cost" [shape = oval] 
-"NB" [shape = oval] 
+"Cost"[shape = box, style = rounded] 
+"NB"[shape = box, style = rounded] 
 AndRef4[shape = point] 
 AndRef4->"NB"
 "Benefit"->AndRef4 [dir = none] 

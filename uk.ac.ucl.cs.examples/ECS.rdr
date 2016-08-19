@@ -1,6 +1,6 @@
 Model ECS;
 
-Objective Max ExpectedUtility = E(Utility);
+Objective Max ExpectedUtility = EV(Utility);
 
 Utility = 	HungRequestsRatio_weight * HungRequestsRatio_Utility +
 			LostRequestsRatio_weight * LostRequestsRatio_Utility +

@@ -72,15 +72,24 @@ public class ModelConstructor {
 				Expectation exp = (Expectation)obj.getStatistic();
 				Identifier id = (Identifier)exp.getObjExpression();
 				//add Objective QualityVariable ReferedTo
+				if (!qvlist.containsKey(id.getID())) throw new RuntimeException ("Variable name "+ id.getID()+" refereneced in the objective definition is not defined.");
 				modelObj.setQualityVariable(qvlist.get(id.getID()));
 				modelObj.setStatistic(exp);
 			}else if (obj.getStatistic() instanceof BooleanProbability){
 				BooleanProbability bool_prob = (BooleanProbability)obj.getStatistic();
 				Identifier id = (Identifier)bool_prob.getObjExpression();
 				//add Objective Quality Variable ReferedTo
+				if (!qvlist.containsKey(id.getID())) throw new RuntimeException ("Variable name "+ id.getID()+" refereneced in the objective definition is not defined.");
 				modelObj.setQualityVariable(qvlist.get(id.getID()));
 				modelObj.setStatistic(bool_prob);
-			}else if (obj.getStatistic() instanceof Probability){
+			}else if (obj.getStatistic() instanceof Percentile){
+				Percentile percent = (Percentile)obj.getStatistic();
+				Identifier id = (Identifier)percent.getObjExpression();
+				if (!qvlist.containsKey(id.getID())) throw new RuntimeException ("Variable name "+ id.getID()+" refereneced in the objective definition is not defined.");
+				modelObj.setQualityVariable(qvlist.get(id.getID()));
+				modelObj.setStatistic(percent);
+			}
+			else if (obj.getStatistic() instanceof Probability){
 				Probability prob = (Probability)obj.getStatistic();
 				modelObj.setStatistic(prob);
 				BinaryExpression binaryExpr = (BinaryExpression)prob.getObjExpression();
@@ -88,6 +97,7 @@ public class ModelConstructor {
 					throw new RuntimeException ("Left operand of a comparison expression must be a quality variable");
 				}else{
 					//add Objective Quality Variable ReferedTo
+					if (!qvlist.containsKey(((Identifier)binaryExpr.getLeftExpression()).getID())) throw new RuntimeException ("Variable name "+ ((Identifier)binaryExpr.getLeftExpression()).getID() +" refereneced in the objective definition is not defined.");
 					modelObj.setQualityVariable(qvlist.get(((Identifier)binaryExpr.getLeftExpression()).getID()));
 				}
 			}
@@ -198,6 +208,21 @@ public class ModelConstructor {
 		boop.setObjExpression(qv_id);
 		return new Value (boop);
 	}
+	public  Value addObjectivePercentile (String referredQV, String percentile, String sign){
+		Integer percentileValue = null;
+		try{
+			percentileValue = Integer.parseInt(percentile);
+			if (sign != "" && sign.equals("-")) percentileValue *= -1;
+			if (percentileValue > 100  || percentileValue  < 0) throw new RuntimeException ("Percentile must be a number between 0 and 100.");
+		}catch(Exception e){
+			throw new RuntimeException ("percentile must be a number between 0 and 100.");
+		}
+		Percentile percent = new Percentile(percentileValue);
+		Identifier qv_id =new Identifier();
+		qv_id.setID(referredQV);
+		percent.setObjExpression(qv_id);
+		return new Value (percent);
+	}
 	public  Value addObjectiveProbablity (Value referredQV){
 		Probability p = new Probability();
 		// get the comparison expression from Value referredQV
@@ -219,7 +244,7 @@ public class ModelConstructor {
 		try{
 			decimalValue =Double.parseDouble(number);
 		}catch (Exception e){
-			
+			throw new RuntimeException ("Parse error: "+ number+ " cannot be cast to a number.");	
 		}
 		numeric.setValue(decimalValue);
 		return new Value(numeric);

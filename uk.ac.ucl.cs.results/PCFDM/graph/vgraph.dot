@@ -1,73 +1,95 @@
 digraph G { 
 rankdir = BT 
-"AverageFraudValue" [shape = oval] 
-"NbrAccounts" [shape = oval] 
-"CompromisedAccountRatio" [shape = oval] 
-"NbrCompromisedAccounts" [shape = oval] 
+"AverageFraudValue"[shape = box, style = rounded] 
+"NbrAccounts"[shape = box, style = rounded] 
+"CompromisedAccountRatio"[shape = box, style = rounded] 
+"NbrCompromisedAccounts"[shape = box, style = rounded] 
 AndRef0[shape = point] 
 AndRef0->"NbrCompromisedAccounts"
 "NbrAccounts"->AndRef0 [dir = none] 
 "CompromisedAccountRatio"->AndRef0 [dir = none] 
 AndRef1[shape = point] 
-AndRef1->"ContinuousAlertThreshold"
+2[label="threshold level", shape = polygon, sides =8]2->"ContinuousAlertThreshold"
+"ContinuousAlertThreshold[high]"[shape = box, style = rounded] 
+AndRef1->2
 "ContinuousAlertThreshold[high]"->AndRef1 [dir = none] 
 AndRef2[shape = point] 
-AndRef2->"ContinuousAlertThreshold"
+2[label="threshold level", shape = polygon, sides =8]"ContinuousAlertThreshold[medium]"[shape = box, style = rounded] 
+AndRef2->2
 "ContinuousAlertThreshold[medium]"->AndRef2 [dir = none] 
 AndRef3[shape = point] 
-AndRef3->"ContinuousAlertThreshold"
+2[label="threshold level", shape = polygon, sides =8]"ContinuousAlertThreshold[low]"[shape = box, style = rounded] 
+AndRef3->2
 "ContinuousAlertThreshold[low]"->AndRef3 [dir = none] 
-"ContinuousAlertThreshold" [shape = oval] 
+"ContinuousAlertThreshold"[shape = box, style = rounded] 
 AndRef4[shape = point] 
-AndRef4->"ContinuousTrueAlertRate"
+5[label="fraud detection method", shape = polygon, sides =8]5->"ContinuousTrueAlertRate"
+"ContinuousAlertThreshold"[shape = box, style = rounded] 
+AndRef4->5
 "ContinuousAlertThreshold"->AndRef4 [dir = none] 
 AndRef5[shape = point] 
-AndRef5->"ContinuousTrueAlertRate"
+5[label="fraud detection method", shape = polygon, sides =8]"ContinuousTrueAlertRate[rule-based]"[shape = box, style = rounded] 
+AndRef5->5
 "ContinuousTrueAlertRate[rule-based]"->AndRef5 [dir = none] 
-"ContinuousTrueAlertRate" [shape = oval] 
+"ContinuousTrueAlertRate"[shape = box, style = rounded] 
 AndRef6[shape = point] 
-AndRef6->"NbrFraudBeforeDetection"
+7[label="processing type", shape = polygon, sides =8]7->"NbrFraudBeforeDetection"
+"ContinuousTrueAlertRate"[shape = box, style = rounded] 
+AndRef6->7
 "ContinuousTrueAlertRate"->AndRef6 [dir = none] 
-"NbrFraudPerCompromisedAccountPerDay" [shape = oval] 
+"NbrFraudPerCompromisedAccountPerDay"[shape = box, style = rounded] 
 AndRef7[shape = point] 
-AndRef7->"BatchAlertThreshold"
+8[label="threshold level", shape = polygon, sides =8]8->"BatchAlertThreshold"
+"BatchAlertThreshold[high]"[shape = box, style = rounded] 
+AndRef7->8
 "BatchAlertThreshold[high]"->AndRef7 [dir = none] 
 AndRef8[shape = point] 
-AndRef8->"BatchAlertThreshold"
+8[label="threshold level", shape = polygon, sides =8]"BatchAlertThreshold[medium]"[shape = box, style = rounded] 
+AndRef8->8
 "BatchAlertThreshold[medium]"->AndRef8 [dir = none] 
 AndRef9[shape = point] 
-AndRef9->"BatchAlertThreshold"
+8[label="threshold level", shape = polygon, sides =8]"BatchAlertThreshold[low]"[shape = box, style = rounded] 
+AndRef9->8
 "BatchAlertThreshold[low]"->AndRef9 [dir = none] 
-"BatchAlertThreshold" [shape = oval] 
+"BatchAlertThreshold"[shape = box, style = rounded] 
 AndRef10[shape = point] 
-AndRef10->"BatchTrueAlertRate"
+11[label="fraud detection method", shape = polygon, sides =8]11->"BatchTrueAlertRate"
+"BatchAlertThreshold"[shape = box, style = rounded] 
+AndRef10->11
 "BatchAlertThreshold"->AndRef10 [dir = none] 
 AndRef11[shape = point] 
-AndRef11->"BatchTrueAlertRate"
+11[label="fraud detection method", shape = polygon, sides =8]"BatchTrueAlertRate[rule-based]"[shape = box, style = rounded] 
+AndRef11->11
 "BatchTrueAlertRate[rule-based]"->AndRef11 [dir = none] 
-"BatchTrueAlertRate" [shape = oval] 
+"BatchTrueAlertRate"[shape = box, style = rounded] 
 AndRef12[shape = point] 
-AndRef12->"NbrFraudBeforeDetection"
+7[label="processing type", shape = polygon, sides =8]"NbrFraudPerCompromisedAccountPerDay"[shape = box, style = rounded] 
+"BatchTrueAlertRate"[shape = box, style = rounded] 
+AndRef12->7
 "NbrFraudPerCompromisedAccountPerDay"->AndRef12 [dir = none] 
 "BatchTrueAlertRate"->AndRef12 [dir = none] 
-"NbrFraudBeforeDetection" [shape = oval] 
+"NbrFraudBeforeDetection"[shape = box, style = rounded] 
 AndRef13[shape = point] 
-AndRef13->"NbrFraudPerAccountBeforeBlocked"
+14[label="blocking policy", shape = polygon, sides =8]14->"NbrFraudPerAccountBeforeBlocked"
+"NbrFraudBeforeDetection"[shape = box, style = rounded] 
+AndRef13->14
 "NbrFraudBeforeDetection"->AndRef13 [dir = none] 
-"NbrFraudBeforeDetection" [shape = oval] 
-"NbrFraudPerCompromisedAccountPerDay" [shape = oval] 
-"InvestigationDelay" [shape = oval] 
-"NbrFraudDuringInvestigation" [shape = oval] 
+"NbrFraudBeforeDetection"[shape = box, style = rounded] 
+"NbrFraudPerCompromisedAccountPerDay"[shape = box, style = rounded] 
+"InvestigationDelay"[shape = box, style = rounded] 
+"NbrFraudDuringInvestigation"[shape = box, style = rounded] 
 AndRef14[shape = point] 
 AndRef14->"NbrFraudDuringInvestigation"
 "NbrFraudPerCompromisedAccountPerDay"->AndRef14 [dir = none] 
 "InvestigationDelay"->AndRef14 [dir = none] 
 AndRef15[shape = point] 
-AndRef15->"NbrFraudPerAccountBeforeBlocked"
+14[label="blocking policy", shape = polygon, sides =8]"NbrFraudBeforeDetection"[shape = box, style = rounded] 
+"NbrFraudDuringInvestigation"[shape = box, style = rounded] 
+AndRef15->14
 "NbrFraudBeforeDetection"->AndRef15 [dir = none] 
 "NbrFraudDuringInvestigation"->AndRef15 [dir = none] 
-"NbrFraudPerAccountBeforeBlocked" [shape = oval] 
-"FinancialLoss" [shape = oval] 
+"NbrFraudPerAccountBeforeBlocked"[shape = box, style = rounded] 
+"FinancialLoss"[shape = box, style = rounded] 
 AndRef16[shape = point] 
 AndRef16->"FinancialLoss"
 "AverageFraudValue"->AndRef16 [dir = none] 

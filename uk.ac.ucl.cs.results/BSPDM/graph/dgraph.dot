@@ -1,9 +1,7 @@
 digraph G { 
-"Building entry security" [shape = polygon, sides =8] 
-"Building entry security" -> "not guarded"
-"Building entry security" -> "guarded"
-"Document Sharing Policy" [shape = polygon, sides =8] 
-"Document Sharing Policy" -> "Neutral"
-"Document Sharing Policy" -> "Recommend Email"
-"Document Sharing Policy" -> "Recommend External Media"
+"0"[label="Building entry security", shape = polygon, sides =8 ]"1"[label="not guarded"]"0" -> "1"[arrowhead= odot]
+"2"[label="guarded"]"0" -> "2"[arrowhead= odot]
+"3"[label="Document Sharing Policy", shape = polygon, sides =8 ]"4"[label="Neutral"]"3" -> "4"[arrowhead= odot]
+"5"[label="Recommend Email"]"3" -> "5"[arrowhead= odot]
+"6"[label="Recommend External Media"]"3" -> "6"[arrowhead= odot]
 }

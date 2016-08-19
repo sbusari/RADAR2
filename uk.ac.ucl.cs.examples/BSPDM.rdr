@@ -1,8 +1,8 @@
 Model BSPDM;
 
-Objective Min ExpectedCostOfDisclosures = E(Cost_of_Disclosures);
+Objective Min ExpectedCostOfDisclosures = EV(Cost_of_Disclosures);
 
-Objective Min RiskOfCatastrophicDisclosures = P(Cost_of_Disclosures > 10^6);
+Objective Min RiskOfCatastrophicDisclosures = Pr(Cost_of_Disclosures > 10^6);
 
 Cost_of_Disclosures = 
     Nbr_HighConfidentialityLeaks * Cost_HighConfidentialityLeak

@@ -220,7 +220,7 @@ public class Model implements ModelVisitorElement {
 	/*
 	* Generates the decision diagram in DOT format
 	*/
-	public String generateDecisionDiagram(List<Solution> allSolutions){
+	public String generateDecisionDiagram2(List<Solution> allSolutions){
 		int equalDecisionAndOptionNameCounter =1;
 		List<String> edges = new ArrayList<String>();
 		String result = "digraph G { \n";
@@ -251,6 +251,61 @@ public class Model implements ModelVisitorElement {
 							newLine = "\"" + option + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "[arrowhead= dot]"+ "\n";
 						}
 						
+						if (!edges.contains(newLine)){
+							result = result + newLine;
+							edges.add(newLine);
+						}
+					} 
+				}
+			}
+		}
+		result += "}";
+		return result;
+	}
+	public String generateDecisionDiagram(List<Solution> allSolutions){
+		int idCounter =0;
+		Map<Decision, Integer> decisionIDs = new LinkedHashMap<Decision, Integer>();
+		Map<String, Integer> optionIDs = new LinkedHashMap<String, Integer>();
+		List<String> edges = new ArrayList<String>();
+		String result = "digraph G { \n";
+		for(Decision d: this.getDecisions()){
+			Integer dID = idCounter++;
+			/*if(decisionIDs.containsKey(d)){
+				dID =  decisionIDs.get(d); 
+			}else{
+				dID = idCounter++;
+				decisionIDs.put(d, dID);
+			}*/
+			String dShape =  "\"" + dID +  "\""  + "[label=\"" + d.getDecisionLabel() +"\", shape = polygon, sides =8 ]"; 
+			result +=  dShape;
+			for(String option: d.getOptions()){
+				Integer optionID =idCounter++;
+				/*if(optionIDs.containsKey(option)){
+					optionID =  optionIDs.get(option); 
+				}else{
+					optionID = idCounter++;
+					optionIDs.put(option, optionID);
+				}*/
+				String optionShape = "\"" + optionID +  "\""  + "[label=\"" + option +"\"]"; 
+				result +=  optionShape;
+				
+				String newLine = "\"" + dID + "\"" + " -> " + "\"" + optionID + "\"" + "[arrowhead= odot]"+ "\n";
+				if (!edges.contains(newLine)){
+					result = result + newLine;
+					edges.add(newLine);
+				}
+				for (Decision d1: this.getDecisions()){
+					if(this.isDependent(d1, d, option,allSolutions)){
+						Integer d1ID = idCounter++;
+						/*if(decisionIDs.containsKey(d1)){
+							d1ID =  decisionIDs.get(d1); 
+						}else{
+							d1ID = idCounter++;
+							decisionIDs.put(d1, d1ID);
+						}*/
+						String d1Shape =  "\"" + d1ID +  "\""  + "[label=\"" + d1.getDecisionLabel() +"\", shape = polygon, sides =8 ]"; 
+						result +=  d1Shape;
+						newLine = "\"" + optionID + "\"" + " -> " + "\"" + d1ID + "\"" + "[arrowhead= dot]"+ "\n";
 						if (!edges.contains(newLine)){
 							result = result + newLine;
 							edges.add(newLine);

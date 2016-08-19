@@ -4,35 +4,27 @@ Optimisation Analysis
 Objective: 		MinExpectedFinancialLoss
 Objective: 		MinInvestigationCost
 SolutionSpace: 			24
-Evaluated: 			24
+Evaluated: 			16
 Shortlisted: 			1
 Runtime(s): 			0
 
-ID 	blocking policy	processing type	fraud detection method	threshold level	ExpectedFinancialLoss	InvestigationCost	Optimal
-1	block first	continuous	classifier	high	15075.633042876154	2.7033875237382494E7	Yes
-2	block first	continuous	classifier	medium	16960.08717323564	2.973640681679665E7	No
-3	block first	continuous	classifier	low	19382.956769412292	3.000625452742644E7	No
-4	block first	continuous	rule-based	high	16655.849531187574	2.973647918762383E7	No
-5	block first	continuous	rule-based	medium	16655.849531187574	2.973647918762383E7	No
-6	block first	continuous	rule-based	low	16655.849531187574	2.973647918762383E7	No
-7	block first	batch	classifier	high	19334.499377488624	2.973708256231567E7	No
-8	block first	batch	classifier	medium	17299.28891670039	2.9886797736215547E7	No
-9	block first	batch	classifier	low	15264.07845591209	3.0006479775932983E7	No
-10	block first	batch	rule-based	high	16281.68368630627	2.988657248770913E7	No
-11	block first	batch	rule-based	medium	16281.68368630627	2.988657248770913E7	No
-12	block first	batch	rule-based	low	16281.68368630627	2.988657248770913E7	No
-13	investigage first	continuous	classifier	high	28643.702781464803	2.7033875237382494E7	No
-14	investigage first	continuous	classifier	medium	30528.15691182418	2.973640681679665E7	No
-15	investigage first	continuous	classifier	low	32951.026508001014	3.000625452742644E7	No
-16	investigage first	continuous	rule-based	high	30223.919269776095	2.973647918762383E7	No
-17	investigage first	continuous	rule-based	medium	30223.919269776095	2.973647918762383E7	No
-18	investigage first	continuous	rule-based	low	30223.919269776095	2.973647918762383E7	No
-19	investigage first	batch	classifier	high	32902.56911607712	2.973708256231567E7	No
-20	investigage first	batch	classifier	medium	30867.358655288856	2.9886797736215547E7	No
-21	investigage first	batch	classifier	low	28832.14819450059	3.0006479775932983E7	No
-22	investigage first	batch	rule-based	high	29849.75342489472	2.988657248770913E7	No
-23	investigage first	batch	rule-based	medium	29849.75342489472	2.988657248770913E7	No
-24	investigage first	batch	rule-based	low	29849.75342489472	2.988657248770913E7	No
+ID	blocking policy	processing type	fraud detection method	threshold level	ExpectedFinancialLoss	InvestigationCost	Optimal
+1	block first	continuous	classifier	high	15255.730416183815	2.7407870180944916E7	Yes
+2	block first	continuous	rule-based	16845.721891887213	3.0147864439971197E7	No
+3	investigage first	batch	rule-based	30206.346224043995	3.030003252230185E7	No
+4	investigage first	batch	classifier	low	29176.584420951574	3.042159864482499E7	No
+5	block first	batch	rule-based	16476.18884947842	3.030003252230185E7	No
+6	investigage first	batch	classifier	medium	31236.108027136303	3.0300260886965185E7	No
+7	investigage first	batch	classifier	high	33295.631633321245	3.014847450730871E7	No
+8	block first	batch	classifier	high	19565.474258755763	3.014847450730871E7	No
+9	block first	batch	classifier	low	15446.427046386152	3.042159864482499E7	No
+10	investigage first	continuous	rule-based	30575.87926645267	3.0147864439971197E7	No
+11	block first	batch	classifier	medium	17505.950652571024	3.0300260886965185E7	No
+12	block first	continuous	classifier	medium	17162.696718206804	3.0147789413318243E7	No
+13	block first	continuous	classifier	low	19614.51053509366	3.04213702801615E7	No
+14	investigage first	continuous	classifier	low	33344.667909658776	3.04213702801615E7	No
+15	investigage first	continuous	classifier	medium	30892.854092772304	3.0147789413318243E7	No
+16	investigage first	continuous	classifier	high	28985.88779074937	2.7407870180944916E7	No
 
 Information Value Analysis 
 ===============================

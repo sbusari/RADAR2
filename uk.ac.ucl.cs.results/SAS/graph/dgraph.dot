@@ -1,37 +1,27 @@
 digraph G { 
-"Location Finding" [shape = polygon, sides =8] 
-"Location Finding" -> "GPS"
-"Location Finding" -> "radio triangulation"
-"File Sharing" [shape = polygon, sides =8] 
-"File Sharing" -> "OpenIntent"
-"File Sharing" -> "In house"
-"Report Syncing" [shape = polygon, sides =8] 
-"Report Syncing" -> "Explicit"
-"Report Syncing" -> "Implicit"
-"Chat Protocol" [shape = polygon, sides =8] 
-"Chat Protocol" -> "XMPP (Open Fire)"
-"Chat Protocol" -> "In house"
-"Map Access" [shape = polygon, sides =8] 
-"Map Access" -> "On Demand (Google)"
-"Map Access" -> "Cache on server"
-"Map Access" -> "Preloaded (ESRI)"
-"Hardware Platform" [shape = polygon, sides =8] 
-"Hardware Platform" -> "Nexus I (HTC)"
-"Hardware Platform" -> "Droid (Motorola)"
-"Connectivity" [shape = polygon, sides =8] 
-"Connectivity" -> "Wifi"
-"Connectivity" -> "3G on Nexus I"
-"Connectivity" -> "3G on Droid"
-"Connectivity" -> "Bluetooth"
-"Database" [shape = polygon, sides =8] 
-"Database" -> "MySQL"
-"Database" -> "sqLite"
-"Architectural Pattern" [shape = polygon, sides =8] 
-"Architectural Pattern" -> "Peer-to-peer"
-"Architectural Pattern" -> "Client-Server"
-"Architectural Pattern" -> "Push-based"
-"Data Exchange Format" [shape = polygon, sides =8] 
-"Data Exchange Format" -> "XML"
-"Data Exchange Format" -> "Compressed XML"
-"Data Exchange Format" -> "Unformatted data"
+"0"[label="Location Finding", shape = polygon, sides =8 ]"1"[label="GPS"]"0" -> "1"[arrowhead= odot]
+"2"[label="radio triangulation"]"0" -> "2"[arrowhead= odot]
+"3"[label="File Sharing", shape = polygon, sides =8 ]"4"[label="OpenIntent"]"3" -> "4"[arrowhead= odot]
+"5"[label="In house"]"3" -> "5"[arrowhead= odot]
+"6"[label="Report Syncing", shape = polygon, sides =8 ]"7"[label="Explicit"]"6" -> "7"[arrowhead= odot]
+"8"[label="Implicit"]"6" -> "8"[arrowhead= odot]
+"9"[label="Chat Protocol", shape = polygon, sides =8 ]"10"[label="XMPP (Open Fire)"]"9" -> "10"[arrowhead= odot]
+"11"[label="In house"]"9" -> "11"[arrowhead= odot]
+"12"[label="Map Access", shape = polygon, sides =8 ]"13"[label="On Demand (Google)"]"12" -> "13"[arrowhead= odot]
+"14"[label="Cache on server"]"12" -> "14"[arrowhead= odot]
+"15"[label="Preloaded (ESRI)"]"12" -> "15"[arrowhead= odot]
+"16"[label="Hardware Platform", shape = polygon, sides =8 ]"17"[label="Nexus I (HTC)"]"16" -> "17"[arrowhead= odot]
+"18"[label="Droid (Motorola)"]"16" -> "18"[arrowhead= odot]
+"19"[label="Connectivity", shape = polygon, sides =8 ]"20"[label="Wifi"]"19" -> "20"[arrowhead= odot]
+"21"[label="3G on Nexus I"]"19" -> "21"[arrowhead= odot]
+"22"[label="3G on Droid"]"19" -> "22"[arrowhead= odot]
+"23"[label="Bluetooth"]"19" -> "23"[arrowhead= odot]
+"24"[label="Database", shape = polygon, sides =8 ]"25"[label="MySQL"]"24" -> "25"[arrowhead= odot]
+"26"[label="sqLite"]"24" -> "26"[arrowhead= odot]
+"27"[label="Architectural Pattern", shape = polygon, sides =8 ]"28"[label="Peer-to-peer"]"27" -> "28"[arrowhead= odot]
+"29"[label="Client-Server"]"27" -> "29"[arrowhead= odot]
+"30"[label="Push-based"]"27" -> "30"[arrowhead= odot]
+"31"[label="Data Exchange Format", shape = polygon, sides =8 ]"32"[label="XML"]"31" -> "32"[arrowhead= odot]
+"33"[label="Compressed XML"]"31" -> "33"[arrowhead= odot]
+"34"[label="Unformatted data"]"31" -> "34"[arrowhead= odot]
 }

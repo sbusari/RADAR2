@@ -1,6 +1,7 @@
 Model CVB;
-Objective Max ENB = E(NB);
-Objective Min LP=P(NB <0);
+Objective Max ENB = EV(NB);
+Objective Min LP=percentile(-NB,1);
+//Objective Min LP=Pr(NB <0);
 NB = Benefit - Cost;
 Benefit = decision("system type"){
 	"New" 	: normal_ci(1, 9);

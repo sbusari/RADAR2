@@ -18,10 +18,6 @@ public class ModelSolver {
 			throw new RuntimeException (e.getMessage());
 		}
 		
-		
-		
-		
-		
 		List<Decision> decisions = m.getDecisions();
 		
 		AnalysisResult result = new AnalysisResult(objectives,decisions);
