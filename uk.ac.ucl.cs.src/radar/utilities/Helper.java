@@ -13,6 +13,14 @@ import java.io.OutputStreamWriter;
 
 public class Helper {
 
+	public static void writeToAFile (String path,String content) throws IOException{
+		FileOutputStream fos   = new FileOutputStream(path) ;
+	      OutputStreamWriter osw = new OutputStreamWriter(fos)    ;
+	      BufferedWriter bw      = new BufferedWriter(osw)        ;
+	      bw.write(content);
+	      bw.write("\n");
+	      bw.close();
+	}
 	public static void printResults (String directory, String expResult, String fileName, boolean append) throws IOException{
 		File resultFile;
 		resultFile = new File(directory);

@@ -23,7 +23,7 @@ class UniformDistribution extends Distribution {
 		return  uniformDistribution(lower_,upper_, N);
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
+	public void getCyclicDependentVariables(Model m) {
 	}
 
 }

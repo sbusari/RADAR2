@@ -9,22 +9,22 @@ Shortlisted: 			1
 Runtime(s): 			0
 
 ID	blocking policy	processing type	fraud detection method	threshold level	ExpectedFinancialLoss	InvestigationCost	Optimal
-1	block first	continuous	classifier	high	15255.730416183815	2.7407870180944916E7	Yes
-2	block first	continuous	rule-based	16845.721891887213	3.0147864439971197E7	No
-3	investigage first	batch	rule-based	30206.346224043995	3.030003252230185E7	No
-4	investigage first	batch	classifier	low	29176.584420951574	3.042159864482499E7	No
-5	block first	batch	rule-based	16476.18884947842	3.030003252230185E7	No
-6	investigage first	batch	classifier	medium	31236.108027136303	3.0300260886965185E7	No
-7	investigage first	batch	classifier	high	33295.631633321245	3.014847450730871E7	No
-8	block first	batch	classifier	high	19565.474258755763	3.014847450730871E7	No
-9	block first	batch	classifier	low	15446.427046386152	3.042159864482499E7	No
-10	investigage first	continuous	rule-based	30575.87926645267	3.0147864439971197E7	No
-11	block first	batch	classifier	medium	17505.950652571024	3.0300260886965185E7	No
-12	block first	continuous	classifier	medium	17162.696718206804	3.0147789413318243E7	No
-13	block first	continuous	classifier	low	19614.51053509366	3.04213702801615E7	No
-14	investigage first	continuous	classifier	low	33344.667909658776	3.04213702801615E7	No
-15	investigage first	continuous	classifier	medium	30892.854092772304	3.0147789413318243E7	No
-16	investigage first	continuous	classifier	high	28985.88779074937	2.7407870180944916E7	No
+1	block first	continuous	classifier	high	15148.153843653134	2.697073815432787E7	Yes
+2	block first	continuous	rule-based	16723.63849266847	2.9667032103141095E7	No
+3	investigage first	batch	rule-based	29993.34461043328	2.981677298642401E7	No
+4	investigage first	batch	classifier	low	28970.844225986595	2.9936400233538173E7	No
+5	block first	batch	rule-based	16360.006151145451	2.981677298642401E7	No
+6	investigage first	batch	classifier	medium	31015.84499487998	2.9816997708866887E7	No
+7	investigage first	batch	classifier	high	33060.84576377305	2.966763219180647E7	No
+8	block first	batch	classifier	high	19427.507304485098	2.966763219180647E7	No
+9	block first	batch	classifier	low	15337.50576669887	2.9936400233538173E7	No
+10	investigage first	continuous	rule-based	30356.976951956378	2.9667032103141095E7	No
+11	block first	batch	classifier	medium	17382.50653559206	2.9816997708866887E7	No
+12	block first	continuous	classifier	medium	17041.673074109854	2.9666958024477582E7	No
+13	block first	continuous	classifier	low	19476.197798982594	2.9936175511095442E7	No
+14	investigage first	continuous	classifier	low	33109.536258270564	2.9936175511095442E7	No
+15	investigage first	continuous	classifier	medium	30675.01153339774	2.9666958024477582E7	No
+16	investigage first	continuous	classifier	high	28781.492302940947	2.697073815432787E7	No
 
 Information Value Analysis 
 ===============================

@@ -22,7 +22,7 @@ class TriangularDistribution extends Distribution {
 		return  triangularDistribution(lower_,mode_, upper_, N);
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
+	public void getCyclicDependentVariables(Model m) {
 	}
 	
 }

@@ -212,8 +212,8 @@ public class ModelConstructor {
 		Integer percentileValue = null;
 		try{
 			percentileValue = Integer.parseInt(percentile);
-			if (sign != "" && sign.equals("-")) percentileValue *= -1;
 			if (percentileValue > 100  || percentileValue  < 0) throw new RuntimeException ("Percentile must be a number between 0 and 100.");
+			if (sign != "" && sign.equals("-")) percentileValue *= -1;
 		}catch(Exception e){
 			throw new RuntimeException ("percentile must be a number between 0 and 100.");
 		}

@@ -62,8 +62,8 @@ class UnaryExpression extends ArithmeticExpression {
 		return results;
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
-		expr_.checkAcyclicity(m);
+	public void getCyclicDependentVariables(Model m) {
+		expr_.getCyclicDependentVariables(m);
 	}
 
 

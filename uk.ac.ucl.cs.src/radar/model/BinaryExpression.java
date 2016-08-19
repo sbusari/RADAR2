@@ -98,9 +98,9 @@ class BinaryExpression extends ArithmeticExpression {
 		return results;
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
-		leftExpr_.checkAcyclicity(m);
-		rightExpr_.checkAcyclicity(m);
+	public void getCyclicDependentVariables(Model m) {
+		leftExpr_.getCyclicDependentVariables(m);
+		rightExpr_.getCyclicDependentVariables(m);
 	}
 
 	

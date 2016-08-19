@@ -15,7 +15,7 @@ import java.util.List;
 		parent_ = parent;
 	}
 	public abstract void accept (ModelVisitor visitor, Model m);
-	public abstract void checkAcyclicity (Model m);
+	public abstract void getCyclicDependentVariables (Model m);
 	public Expression() {}
 	
 }

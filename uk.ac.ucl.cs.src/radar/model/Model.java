@@ -149,9 +149,9 @@ public class Model implements ModelVisitorElement {
 		}
 		return result;
 	}
-	public void checkAcyclicity(){
+	public void getCyclicDependentVariables(){
 		for (Objective obj: this.getObjectives()){
-			obj.checkAcyclicity(this);
+			obj.getCyclicDependentVariables(this) ;
 		}
 	}
 	public  List<Solution> getAllSolutionss(){
@@ -330,5 +330,17 @@ public class Model implements ModelVisitorElement {
 				throw new Exception ("Error: "+ "specified objective name "+ objective+ " does not exist in the model."); 
 			}
 		}
+	}
+	Map<Solution, double[]> addMaximisationSign (Map<Solution, double[]> evaluatedSoltions){
+		Map<Solution, double[]> evaluatedSolutions = new LinkedHashMap<Solution, double[]> ();
+		evaluatedSolutions.putAll(evaluatedSoltions);
+		for (Map.Entry<Solution, double[]> entry: evaluatedSolutions.entrySet() ){
+			for (int i =0; i < entry.getValue().length ; i++){
+				if (this.getObjectives().get(i).getIsMinimisation() == false){
+					entry.getValue()[i] = entry.getValue()[i] *-1;
+				}
+			}
+		}
+		return evaluatedSolutions;
 	}
 }

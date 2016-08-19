@@ -22,7 +22,7 @@ class ExponentialDistribution extends Distribution {
 		return  exponentialDistribution(mean_, N);
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
+	public void getCyclicDependentVariables(Model m) {
 	}
 
 }

@@ -1,26 +1,22 @@
-Optimisation Analysis 
-============================ 
+Optimisation           Analysis       
+---------------------- 
+              
+Objective:             MaxENB
+        
+Objective:             MinLP
+         
+SolutionSpace:         solutionSpace
+ 
+Evaluated:             2
+             
+Shortlisted:           2
+             
+Runtime(s):            3
+             
+ID system type ENB                LP     Optimal 
+1  As-is       1.9719401304939235 0.2334 Yes
+    
+2  Refactoring 0.9988399007313383 0.0    Yes
+    
 
-Objective: 		MaxENB
-Objective: 		MinLP
-SolutionSpace: 			2
-Evaluated: 			2
-Shortlisted: 			1
-Runtime(s): 			0
-
-ID	system type	ENB	LP	Optimal
-1	New	2.0137916417641986	-4.368642523726841	Yes
-2	Legacy	0.9989826278296425	0.8604234425725273	No
-
-Information Value Analysis 
-===============================
-
-Objective: 			ENB
-EVTPI: 			 0.0
-
-Parameter 			 EVPPI 
-Benefit[New]: 			 0.0
-Benefit[Legacy]: 			 0.0
-Cost[New]: 			 0.0
-Cost[Legacy]: 			 0.0
 

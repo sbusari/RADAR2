@@ -1,7 +1,9 @@
 package radar.userinterface;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -17,6 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.Document;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
 import javax.swing.JTextArea;
 
 import radar.model.AnalysisResult;
@@ -30,6 +35,7 @@ import radar.utilities.Helper;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.print.PrinterException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -49,6 +55,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.ScrollPaneConstants;
 
+import org.apache.commons.lang3.StringUtils;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 public class RADAR_GUI {
 
 	private JFrame frame;
@@ -60,8 +70,11 @@ public class RADAR_GUI {
 	private String infoValueObjective;
 	private String subGraphObjective;
 	private boolean isBoardEnabled;
+	private boolean parsed;
+	private String openedFilePath;
 	private DefaultTableModel decisionTableModel;
 	private ModelResultFrame modelResultFrame;
+	private TutorialFrame tutorialFrame;
 	private JPanel modelBoard;
 	private JMenuItem itemWriteModel;
 	private JMenuItem itemParseModel;
@@ -70,7 +83,6 @@ public class RADAR_GUI {
 	private JMenuItem itemExit;
 	private JMenuItem itemOpen;
 	private JMenuItem itemSave;
-	private JMenuItem itemExport;
 	private JMenuItem itemPrint;
 	private JTextArea textModelArea;
 	private JScrollPane textAreaScroll;
@@ -88,6 +100,18 @@ public class RADAR_GUI {
 	private JTable decisionsTable;
 	private JMenuItem itemEnableBoard;
 	private JSeparator separator_8;
+	private JMenuItem itemTutorial;
+	private JSeparator separator_2;
+	private JMenu caseStudyMenu;
+	private JMenuItem itemCBA;
+	private JMenuItem itemFDM;
+	private JMenuItem itemBSPDM;
+	private JMenuItem itemECS;
+	private JMenuItem itemSAS;
+	private JSeparator separator_5;
+	private JSeparator separator_7;
+	private JSeparator separator_9;
+	private JSeparator separator_10;
 	
 
 	/**
@@ -117,11 +141,15 @@ public class RADAR_GUI {
 	private void createEvents (){
 		visualiseModelBoard();
 		openExistingModel ();
+		saveFile();
 		parseModel();
 		findOutPutDirectory();
 		solveModel();
 		enableDiableBoard();
 		exitRadar();
+		printModel();
+		viewTutorial();
+		aboutRadar();
 		
 	}
 	private void  enableDiableBoard (){
@@ -130,10 +158,26 @@ public class RADAR_GUI {
 				if (isBoardEnabled != true){
 					activateModelWriting();
 					itemEnableBoard.setText("Disable Model Board");
+					
 				}else{
 					deactivateModelWriting();
 					itemEnableBoard.setText("Enable Model Board");
 				}
+				openedFilePath = "";
+			}
+		});
+	}
+	private void viewTutorial (){
+		itemTutorial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+	}
+	private void aboutRadar(){
+		itemAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AboutRadar();
 			}
 		});
 	}
@@ -192,6 +236,70 @@ public class RADAR_GUI {
 		decisionsTable.setEnabled(false);
 		isBoardEnabled = false;
 	}
+	private void printModel(){
+		itemPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					if (!StringUtils.isEmpty(textModelArea.getText())){
+						boolean complete = textModelArea.print();
+			            if(complete){
+			                JOptionPane.showMessageDialog(null,  "Print Completed!", "Model",JOptionPane.INFORMATION_MESSAGE);
+			            }else{
+			                JOptionPane.showMessageDialog(null, "Printing", "Printer", JOptionPane.ERROR_MESSAGE);
+			            }
+					}
+		            
+		        }
+				catch(PrinterException ex){
+					JOptionPane.showMessageDialog(null, ex);
+					return;
+		        }
+		        
+			}
+		});
+	}
+	private void saveFile (){
+		final JFileChooser  fileChooser = new JFileChooser();
+		itemSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String savedPath ="";
+					if (!StringUtils.isEmpty(textModelArea.getText())){
+						if (openedFilePath != null && !StringUtils.isEmpty(openedFilePath)){
+							Helper.writeToAFile(openedFilePath, textModelArea.getText());
+							savedPath = openedFilePath;
+						}else{
+							fileChooser.setDialogTitle("Save file"); 
+							fileChooser.setAcceptAllFileFilterUsed(true);
+							int userSelection = fileChooser.showSaveDialog(frame);
+							if (userSelection == JFileChooser.APPROVE_OPTION) {
+							    File fileToSave = fileChooser.getSelectedFile();
+							    String fileExtension = getFileExtension(fileToSave);
+							    if (!fileExtension.equals("rdr")){
+				            	   JOptionPane.showMessageDialog(null, "Radar files must end with  the (rdr) extensions");
+				            	   return;
+							    }
+							    Helper.writeToAFile(fileToSave.getAbsolutePath(), textModelArea.getText());
+							    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+							    savedPath = fileToSave.getAbsolutePath();
+							    JOptionPane.showMessageDialog(null, "File succesfully saved in the path: " + savedPath);
+				            	return;
+							}
+						}
+						
+					}else{
+						JOptionPane.showMessageDialog(null, "You cannot save an empty board.");
+		            	return;
+					}
+					
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null, "There was problem saving the file. Ensure the path stille exist.");
+	            	return;
+				}
+				
+			}
+		});
+	}
 	void openExistingModel (){
 		final JFileChooser  fileDialog = new JFileChooser();
 		itemOpen.addActionListener(new ActionListener() {
@@ -209,6 +317,7 @@ public class RADAR_GUI {
 	            	   JOptionPane.showMessageDialog(null, "Radar files must end with  the (rdr) extensions");
 	            	   return;
 	               }
+	               openedFilePath = file.getPath();
 	               loadExistingModel(file.getPath());
 	               if (modelBoard.isVisible() == false){
 	            	   modelBoard.setEnabled(true);
@@ -224,6 +333,15 @@ public class RADAR_GUI {
 		
 		itemWriteModel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (!textModelArea.getText().isEmpty()){
+					int selection = JOptionPane.showConfirmDialog( null , "The content in the model board will be removed. Do you want to continue?" , "Confirmation "
+		                    , JOptionPane.OK_CANCEL_OPTION , JOptionPane.INFORMATION_MESSAGE);
+					if (selection == JOptionPane.OK_OPTION)
+	                {
+						textModelArea.setText("");
+						openedFilePath = "";
+	                }
+				}
 				modelBoard.setEnabled(true);
 				decisionPanel.setEnabled(true);
 				analysisPanel.setEnabled(true);
@@ -255,7 +373,7 @@ public class RADAR_GUI {
 					return;
 				}
 				
-				boolean parsed = parse();
+				parse();
 				if (parsed ==true){
 					populateDecisionTable();
 					int selection = JOptionPane.showConfirmDialog( null , "Model has been parsed successfully. Do you want to continue with analysis?" , "Confirmation "
@@ -391,16 +509,15 @@ public class RADAR_GUI {
 		}
 		fillDecisionTable(decisionsEntry);		
 	}
-	boolean parse (){
-		boolean result = true;
+	void parse (){
 		try {
 			semanticModel = loadModel();
+			parsed =true;
 		} catch (Exception e) {
-			result = false;
+			parsed =false;
 			String err = e.getMessage();
 			JOptionPane.showMessageDialog(null, err);
 		}
-		return result;
 	}
 	void loadSolutionTable (DefaultTableModel solutionTableModel){
 		List<String> solutions= result.solutionTable();
@@ -582,6 +699,7 @@ public class RADAR_GUI {
         }
 		return done;
 	}
+
 	private void findOutPutDirectory(){
 		final JFileChooser  fileDialog = new JFileChooser();
 		btnFindDirectory.addActionListener(new ActionListener() {
@@ -627,7 +745,15 @@ public class RADAR_GUI {
 		radarMenu.add(separator_8);
 		
 		itemAbout = new JMenuItem("About Radar");
+	
 		radarMenu.add(itemAbout);
+		
+		separator_2 = new JSeparator();
+		radarMenu.add(separator_2);
+		
+		itemTutorial = new JMenuItem("Guided Tour");
+	
+		radarMenu.add(itemTutorial);
 		
 		JSeparator separator_3 = new JSeparator();
 		radarMenu.add(separator_3);
@@ -647,18 +773,14 @@ public class RADAR_GUI {
 		mnNewMenu_2.add(separator_4);
 		
 		itemSave = new JMenuItem("Save");
+		
 		mnNewMenu_2.add(itemSave);
-		
-		JSeparator separator_5 = new JSeparator();
-		mnNewMenu_2.add(separator_5);
-		
-		itemExport = new JMenuItem("Export");
-		mnNewMenu_2.add(itemExport);
 		
 		JSeparator separator_6 = new JSeparator();
 		mnNewMenu_2.add(separator_6);
 		
 		itemPrint = new JMenuItem("Print");
+		
 		mnNewMenu_2.add(itemPrint);
 		
 		JMenu fileMenu = new JMenu("Action");
@@ -685,11 +807,35 @@ public class RADAR_GUI {
 		
 		fileMenu.add(itemSolveModel);
 		
-		JMenu settingMenu = new JMenu("Tutorial");
-		menuBar.add(settingMenu);
+		caseStudyMenu = new JMenu("Case Study");
+		menuBar.add(caseStudyMenu);
 		
-		JSeparator separator_7 = new JSeparator();
-		settingMenu.add(separator_7);
+		itemCBA = new JMenuItem("System Architecture Refactoring");
+		caseStudyMenu.add(itemCBA);
+		
+		separator_5 = new JSeparator();
+		caseStudyMenu.add(separator_5);
+		
+		itemFDM = new JMenuItem("Fraud Detection System");
+		caseStudyMenu.add(itemFDM);
+		
+		separator_7 = new JSeparator();
+		caseStudyMenu.add(separator_7);
+		
+		itemBSPDM = new JMenuItem("Building Security System");
+		caseStudyMenu.add(itemBSPDM);
+		
+		separator_9 = new JSeparator();
+		caseStudyMenu.add(separator_9);
+		
+		itemECS = new JMenuItem("NASA System");
+		caseStudyMenu.add(itemECS);
+		
+		separator_10 = new JSeparator();
+		caseStudyMenu.add(separator_10);
+		
+		itemSAS = new JMenuItem("Emergency Response System");
+		caseStudyMenu.add(itemSAS);
 		
 		modelBoard = new JPanel();
 		modelBoard.setBorder(new TitledBorder(null, "Model Board", TitledBorder.LEADING, TitledBorder.TOP, null, null));

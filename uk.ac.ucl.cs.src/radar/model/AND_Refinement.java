@@ -69,8 +69,8 @@ class AND_Refinement extends Expression {
 	}
 
 	@Override
-	public void checkAcyclicity(Model m) {
-		definition_.checkAcyclicity(m);
+	public void getCyclicDependentVariables(Model m) {
+		 definition_.getCyclicDependentVariables(m);
 	}
 
 

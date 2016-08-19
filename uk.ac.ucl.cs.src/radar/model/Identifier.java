@@ -54,7 +54,7 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 		return solutions;
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
+	public void getCyclicDependentVariables(Model m) {
 		QualityVariable qv = m.getQualityVariables().get(id_);
 		for (String child : qv.getChildren()){
 			if (parent_.getLabel().equals(child)){
@@ -65,7 +65,7 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 				List<String> grandChildren =  m.getQualityVariables().get(child).getChildren();
 				for (String grandChild : grandChildren){
 					if (id_.equals(grandChild)){
-						throw new RuntimeException ("Cyclic dependency in the model between " + id_ + " and " + grandChild);
+						throw new RuntimeException( "Cyclic dependency in the model between " + id_ + " and " + grandChild + "\n");
 					}
 				}
 			}

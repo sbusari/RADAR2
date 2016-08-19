@@ -9,12 +9,12 @@ Shortlisted: 			2
 Runtime(s): 			0
 
 ID	Building entry security	Document Sharing Policy	ExpectedCostOfDisclosures	RiskOfCatastrophicDisclosures	Optimal
-1	not guarded	Recommend Email	904.2542218451571	0.0	Yes
-2	guarded	Recommend Email	904.2542218451571	0.0	Yes
-3	guarded	Recommend External Media	1075277.9011931666	0.3079	No
-4	not guarded	Recommend External Media	3238365.664732137	0.6559	No
-5	not guarded	Neutral	2938.8262209967647	0.0	No
-6	guarded	Neutral	2938.8262209967647	0.0	No
+1	not guarded	Recommend Email	908.7278340605851	0.0	Yes
+2	guarded	Recommend Email	908.7278340605851	0.0	Yes
+3	guarded	Recommend External Media	1065572.435529012	0.3031	No
+4	not guarded	Recommend External Media	3134330.8988961973	0.6517	No
+5	not guarded	Neutral	2953.3654606968903	0.0	No
+6	guarded	Neutral	2953.3654606968903	0.0	No
 
 Information Value Analysis 
 ===============================

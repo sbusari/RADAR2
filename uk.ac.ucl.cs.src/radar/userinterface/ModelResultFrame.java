@@ -111,12 +111,6 @@ public class ModelResultFrame extends JFrame {
 		resultTableModel = new DefaultTableModel();
 		contentPane.setLayout(gl_contentPane);
 	}
-/*	public JTextArea getOptimisationResultTextArea (){
-		return textAreaOptimisation;
-	}
-	public JTextArea getInfoValueResultTextArea (){
-		return textAreaInfoValue;
-	}*/
 	public JTable getSolutionTable (){
 		
 		return solutionTable;

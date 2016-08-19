@@ -43,6 +43,6 @@ class Number extends ArithmeticExpression {
 		return new SolutionSet();
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
+	public void getCyclicDependentVariables(Model m) {
 	}
 }

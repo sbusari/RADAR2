@@ -75,9 +75,9 @@ public class OR_Refinement extends Expression {
 		return new ArrayList<AND_Refinement>(definition_.values());
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
+	public void getCyclicDependentVariables(Model m) {
 		for (AND_Refinement andRef : getAndrefinements()){
-			andRef.checkAcyclicity(m);
+			andRef.getCyclicDependentVariables(m);
 		}
 	}
 	

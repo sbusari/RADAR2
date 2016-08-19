@@ -127,7 +127,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	@Override 
 	public Value visitObjectivePercentile(ModelParser.ObjectivePercentileContext ctx) {
 		String obj_qv =  ctx.var_name().getText().trim();
-		String var = ctx.integerLiteral().getText();
+		String var = ctx.integerLiteral().getText().trim();
 		String sign = "";
 		if (ctx.op != null)sign	=ctx.op.getText();
 		Value obj_percentile = modelConstructor.addObjectivePercentile(obj_qv, var,sign);

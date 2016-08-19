@@ -19,6 +19,6 @@ class RandomDistribution extends Distribution {
 		return  randomDistribution(N);
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
+	public void getCyclicDependentVariables(Model m) {
 	}
 }

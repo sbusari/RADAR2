@@ -27,6 +27,6 @@ class NormalDistribution extends Distribution{
 		return  normalCIDistribution(mean_,sd_, N);
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
+	public void getCyclicDependentVariables(Model m) {
 	}
 }

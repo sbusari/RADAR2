@@ -102,8 +102,8 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 		return null;
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
-		definition_.checkAcyclicity(m);
+	public void getCyclicDependentVariables(Model m) {
+		definition_.getCyclicDependentVariables(m);
 	}
 
 

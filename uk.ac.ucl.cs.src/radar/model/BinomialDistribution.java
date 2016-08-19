@@ -23,7 +23,7 @@ class BinomialDistribution extends Distribution {
 		return  binomialDistribution(trials_, prob_, N);
 	}
 	@Override
-	public void checkAcyclicity(Model m) {
+	public void getCyclicDependentVariables(Model m) {
 	}
 
 

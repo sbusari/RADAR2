@@ -5,49 +5,41 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import radar.utilities.Helper;
 
 public class ModelSolver {
 	
 	public static AnalysisResult solve(Model m){
 
+		// get all objectives
 		List<Objective> objectives = m.getObjectives();
+			
+		// check for cylic dependencies in quality variables.
 		try{
-			m.checkAcyclicity();
+			m.getCyclicDependentVariables();
 		}catch (Exception e){
 			throw new RuntimeException (e.getMessage());
 		}
 		
+		// get all decisions
 		List<Decision> decisions = m.getDecisions();
 		
+		// instantiate the result object
 		AnalysisResult result = new AnalysisResult(objectives,decisions);
 		
-		long solutionGenStart = System.currentTimeMillis();
-		List<Solution> allSolutions = m.getAllSolutions().list(); 
-		//List<Solution> allSolutions = m.getAllSolutionss();
-		result.addAllSolutions(allSolutions);
+		long start = System.currentTimeMillis();
 		
-		long solutionGenEnd = System.currentTimeMillis();
-		long solutionGenRunTime = (solutionGenEnd - solutionGenStart) / 1000;
-		System.out.println("Solution Gen runtime is "+ solutionGenRunTime );
+		// get all solutions
+		List<Solution> allSolutions = m.getAllSolutions().list(); 
+		result.addAllSolutions(allSolutions);
 		
 		// solution space
 		result.addSolutionSpace(m.getSolutionSpace());
 
 		// add subgraph obejective
 		result.addSubGraphObejctive(m.getSubGraphObjective());
-		
-		long start = System.currentTimeMillis();
-
-		for (int i =0; i < allSolutions.size(); i++){
-			System.out.println("Solution "+ i+ ": "+ allSolutions.get(i).selectionToString() );
-			String sol = "Solution "+ i+ ": "+ allSolutions.get(i).selectionToString();
-			/*try {
-				Helper.printResults("/Users/INTEGRALSABIOLA/Documents/JavaProject/RADAR/uk.ac.ucl.cs.results/", sol, "Sol"+ m.getModelName(), true);
-			} catch (IOException e) {
-				//System.out.println(e.getMessage());
-			}*/
-		}
 		
 		// Evaluate objectives for all solutions
 		int i =0;
@@ -56,10 +48,11 @@ public class ModelSolver {
 			System.out.println("Solution index "+ i);
 			i++;
 		}
-		System.out.println("Solution Gen runtime is "+ solutionGenRunTime );
+
 		// add -ve sign for maximisaiton
 		Map<Solution, double[]> evaluatedSolutions = addMaximisationSign(result.getEvaluatedSolutions(), objectives);
-			
+		//Map<Solution, double[]> evaluatedSolutions = m.addMaximisationSign(result.getEvaluatedSolutions());
+		
 		// Shortlists Pareto-optimal solutions
 		result.addShortlist(new Pareto().getParetoSet(evaluatedSolutions));
 		
