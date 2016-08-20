@@ -268,6 +268,8 @@ public class RADAR_GUI {
 						if (openedFilePath != null && !StringUtils.isEmpty(openedFilePath)){
 							Helper.writeToAFile(openedFilePath, textModelArea.getText());
 							savedPath = openedFilePath;
+							JOptionPane.showMessageDialog(null, "File succesfully saved in the path: " + savedPath);
+			            	return;
 						}else{
 							fileChooser.setDialogTitle("Save file"); 
 							fileChooser.setAcceptAllFileFilterUsed(true);
@@ -381,7 +383,10 @@ public class RADAR_GUI {
 					if (selection == JOptionPane.OK_OPTION)
 	                {
 						solve();
-						loadResultInFrame();
+						if (modelSolved){
+							loadResultInFrame();
+						}
+						
 	                }
 					modelParsed= true;
 				}
@@ -570,6 +575,13 @@ public class RADAR_GUI {
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 	
 	}
+	/*void resetResultTableModel (){
+		JTable  solutionTable = modelResultFrame.getSolutionTable();
+		DefaultTableModel solutionTableModel = (DefaultTableModel) solutionTable.getModel();
+		solutionTableModel.setNumRows(0);
+		JTable optimisationTable = modelResultFrame.getOptimisationAnalysisTable();
+		JTable infoValueTable = modelResultFrame.getInfoValueTable();
+	}*/
 	void loadResultInFrame (){
 		if (result == null  || result.getShortListObjectives().size() <= 0){
 			JOptionPane.showMessageDialog(null, "No results found!");
@@ -600,7 +612,7 @@ public class RADAR_GUI {
 		try {
 			// analyse model
 			result = ModelSolver.solve(semanticModel);
-			String analysisResult = result.analysisToStringNew();
+			String analysisResult = result.analysisToString();
 			String modelResultPath = textOutputDirectory.getText() +"/" + semanticModel.getModelName() ;
 			
 			Helper.printResults (modelResultPath + "/" , analysisResult, semanticModel.getModelName() +".out", false);
@@ -992,8 +1004,8 @@ public class RADAR_GUI {
 							.addGroup(gl_analysisPanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(textNbrSimulation, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
 								.addComponent(textSubgraphObj, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-								.addComponent(textInfoValueObj, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
-							.addGap(142))))
+								.addComponent(textInfoValueObj, GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
+							.addGap(87))))
 		);
 		gl_analysisPanel.setVerticalGroup(
 			gl_analysisPanel.createParallelGroup(Alignment.LEADING)

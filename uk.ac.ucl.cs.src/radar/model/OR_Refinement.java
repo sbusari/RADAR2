@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import radar.exception.CyclicDependencyException;
+
 public class OR_Refinement extends Expression {
 	private Decision decision_;
 	private Map<String, AND_Refinement> definition_;
@@ -75,7 +77,7 @@ public class OR_Refinement extends Expression {
 		return new ArrayList<AND_Refinement>(definition_.values());
 	}
 	@Override
-	public void getCyclicDependentVariables(Model m) {
+	public void getCyclicDependentVariables(Model m) throws CyclicDependencyException {
 		for (AND_Refinement andRef : getAndrefinements()){
 			andRef.getCyclicDependentVariables(m);
 		}

@@ -1,8 +1,5 @@
 package radar.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class NormalDistribution extends Distribution{
 
 	private double mean_, sd_;

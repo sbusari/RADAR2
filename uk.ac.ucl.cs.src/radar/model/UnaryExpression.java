@@ -2,6 +2,8 @@ package radar.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import radar.exception.CyclicDependencyException;
+
 
 class UnaryExpression extends ArithmeticExpression {
 
@@ -62,7 +64,7 @@ class UnaryExpression extends ArithmeticExpression {
 		return results;
 	}
 	@Override
-	public void getCyclicDependentVariables(Model m) {
+	public void getCyclicDependentVariables(Model m) throws CyclicDependencyException {
 		expr_.getCyclicDependentVariables(m);
 	}
 

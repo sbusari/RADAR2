@@ -1,8 +1,5 @@
 package radar.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class BinomialDistribution extends Distribution {
 	private double prob_; 
 	private int trials_ ;

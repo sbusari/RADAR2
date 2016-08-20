@@ -14,10 +14,20 @@ import radar.exception.StatsException;
 public class InformationAnalysis {
 
 	
-	
+	/**
+	 * This method computes the expected value of total perfect information (evtpi). evtpi gives an upper bound to the information that would result from additional data collection and analysis
+	 * @param nbs simulation matrix of the specified information value objective. 
+	 * @return returns the computed evpi value.
+	 */
     public static double evpi(double[][] nbs) {
         return VectorUtils.mean(VectorUtils.colMax(nbs)) - VectorUtils.max(VectorUtils.rowMeans(nbs));
     }
+    /**
+	 * This method computes the expected value of partial perfect information (evppi). evppi gives an upper bound to how much we should pay to reduce uncertainty about a model parameter.
+	 * @param param model parameter for which we intend to reduce uncertainty.
+	 * @param nbs simulation matrix of the specified information value objective. 
+	 * @return returns the computed evppi value.
+	 */
     public static double evppi(double[] param, double[][] nbs) {
     	if (param == null){
     		//During parsing, we populate the list of parameter varibles, but when a paramter (e.g. Cost_OrderChunking[Order Chunking]) is not part of the selected optimal solutions, 

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import radar.exception.CyclicDependencyException;
+
 public class QualityVariable extends ArithmeticExpression implements ModelVisitorElement {
 
 	private String label_;
@@ -102,7 +104,7 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 		return null;
 	}
 	@Override
-	public void getCyclicDependentVariables(Model m) {
+	public void getCyclicDependentVariables(Model m) throws CyclicDependencyException {
 		definition_.getCyclicDependentVariables(m);
 	}
 

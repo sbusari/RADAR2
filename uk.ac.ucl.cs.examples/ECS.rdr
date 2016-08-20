@@ -222,3 +222,4 @@ Cost_OrderBundling = decision("Order Bundling"){
 		"No Order Bundling" 	: deterministic(0);
 		"Order Bundling"	: triangular(360, 400, 440);
 }	
+

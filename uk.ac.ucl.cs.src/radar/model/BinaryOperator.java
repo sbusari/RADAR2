@@ -1,5 +1,8 @@
 package radar.model;
 
+/**
+ * @author Saheed Busari and Emmanuel Letier
+ */
 enum BinaryOperator {
 	ADD ("+"),
 	SUB ("-"),

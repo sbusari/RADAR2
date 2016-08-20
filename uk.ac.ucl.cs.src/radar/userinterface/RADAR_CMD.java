@@ -2,10 +2,9 @@ package radar.userinterface;
 import java.util.Locale;
 
 import radar.model.AnalysisResult;
-import radar.model.ExperimentData;
+import radar.model.AnalysisData;
 import radar.model.Model;
 import radar.model.ModelSolver;
-import radar.model.OptimisationType;
 import radar.model.Parser;
 import radar.model.ScatterPlot3D;
 import radar.model.TwoDPlotter;
@@ -83,13 +82,12 @@ public class RADAR_CMD {
 		return semanticModel;
 	}*/
 
-	ExperimentData populateExperimentData () throws Exception{
-		ExperimentData result = new ExperimentData();
+	AnalysisData populateExperimentData () throws Exception{
+		AnalysisData result = new AnalysisData();
 		InputValidator.validateModelPath(model);
 		InputValidator.validateOutputPath(output);
 		// populate data
 		result.setSimulationNumber(nbr_Simulation);
-		result.setExperimentName(expName != null?expName:"NewExperiemnt");
 		if (output.trim().charAt(output.length()-1) != '/'){
 			result.setOutputDirectory(output.trim() +"/");
 		}
@@ -123,12 +121,8 @@ public class RADAR_CMD {
     	
     	try {
     		// populate model and algorithm data
-    		ExperimentData dataInput = populateExperimentData();
-    		String typeOfOptimisation = "EXACT";
-    		OptimisationType optimisationType = OptimisationType.valueOf(typeOfOptimisation.toUpperCase(Locale.ENGLISH));
-    		dataInput.setTypeOfOptimisation(optimisationType);
-    		
-    		
+    		AnalysisData dataInput = populateExperimentData();
+
     		// get sematic model from model file
     		Model semanticModel = loadModel ();
     		semanticModel.setNbr_Simulation(nbr_Simulation);
@@ -137,7 +131,6 @@ public class RADAR_CMD {
     		dataInput.setProblemName(semanticModel.getModelName());
     		InputValidator.objectiveExist(semanticModel, infoValueObjective);
     		InputValidator.objectiveExist(semanticModel, subGraphObjective);
-    		
 
     		// analyse model
     		AnalysisResult result = ModelSolver.solve(semanticModel);

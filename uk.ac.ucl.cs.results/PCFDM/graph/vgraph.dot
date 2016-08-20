@@ -95,4 +95,107 @@ AndRef16->"FinancialLoss"
 "AverageFraudValue"->AndRef16 [dir = none] 
 "NbrCompromisedAccounts"->AndRef16 [dir = none] 
 "NbrFraudPerAccountBeforeBlocked"->AndRef16 [dir = none] 
+"NbrFraud"[shape = box, style = rounded] 
+AndRef17[shape = point] 
+AndRef17->"NbrFraud"
+"NbrAccounts"->AndRef17 [dir = none] 
+"CompromisedAccountRatio"->AndRef17 [dir = none] 
+"NbrFraudPerCompromisedAccountPerDay"->AndRef17 [dir = none] 
+"ContinuousTrueAlertRate"[shape = box, style = rounded] 
+AndRef18[shape = point] 
+19[label="processing type", shape = polygon, sides =8]19->"TrueAlertRate"
+"ContinuousTrueAlertRate"[shape = box, style = rounded] 
+AndRef18->19
+"ContinuousTrueAlertRate"->AndRef18 [dir = none] 
+"BatchTrueAlertRate"[shape = box, style = rounded] 
+AndRef19[shape = point] 
+19[label="processing type", shape = polygon, sides =8]"BatchTrueAlertRate"[shape = box, style = rounded] 
+AndRef19->19
+"BatchTrueAlertRate"->AndRef19 [dir = none] 
+"TrueAlertRate"[shape = box, style = rounded] 
+"NbrTrueAlerts"[shape = box, style = rounded] 
+AndRef20[shape = point] 
+AndRef20->"NbrTrueAlerts"
+"NbrFraud"->AndRef20 [dir = none] 
+"TrueAlertRate"->AndRef20 [dir = none] 
+"NbrLegitTransactionsPerAccountPerDay"[shape = box, style = rounded] 
+"NbrLegitTransactions"[shape = box, style = rounded] 
+AndRef21[shape = point] 
+AndRef21->"NbrLegitTransactions"
+"NbrAccounts"->AndRef21 [dir = none] 
+"NbrLegitTransactionsPerAccountPerDay"->AndRef21 [dir = none] 
+AndRef22[shape = point] 
+23[label="threshold level", shape = polygon, sides =8]23->"ContinuousClassierTrueNegativeRate"
+"ContinuousClassierTrueNegativeRate[high]"[shape = box, style = rounded] 
+AndRef22->23
+"ContinuousClassierTrueNegativeRate[high]"->AndRef22 [dir = none] 
+AndRef23[shape = point] 
+23[label="threshold level", shape = polygon, sides =8]"ContinuousClassierTrueNegativeRate[medium]"[shape = box, style = rounded] 
+AndRef23->23
+"ContinuousClassierTrueNegativeRate[medium]"->AndRef23 [dir = none] 
+AndRef24[shape = point] 
+23[label="threshold level", shape = polygon, sides =8]"ContinuousClassierTrueNegativeRate[low]"[shape = box, style = rounded] 
+AndRef24->23
+"ContinuousClassierTrueNegativeRate[low]"->AndRef24 [dir = none] 
+"ContinuousClassierTrueNegativeRate"[shape = box, style = rounded] 
+AndRef25[shape = point] 
+26[label="fraud detection method", shape = polygon, sides =8]26->"ContinuousTrueNegativeRate"
+"ContinuousClassierTrueNegativeRate"[shape = box, style = rounded] 
+AndRef25->26
+"ContinuousClassierTrueNegativeRate"->AndRef25 [dir = none] 
+AndRef26[shape = point] 
+26[label="fraud detection method", shape = polygon, sides =8]"ContinuousTrueNegativeRate[rule-based]"[shape = box, style = rounded] 
+AndRef26->26
+"ContinuousTrueNegativeRate[rule-based]"->AndRef26 [dir = none] 
+"ContinuousTrueNegativeRate"[shape = box, style = rounded] 
+AndRef27[shape = point] 
+28[label="processing type", shape = polygon, sides =8]28->"TrueNegativeRate"
+"ContinuousTrueNegativeRate"[shape = box, style = rounded] 
+AndRef27->28
+"ContinuousTrueNegativeRate"->AndRef27 [dir = none] 
+AndRef28[shape = point] 
+29[label="threshold level", shape = polygon, sides =8]29->"BatchClassifierTrueNegativeRate"
+"BatchClassifierTrueNegativeRate[high]"[shape = box, style = rounded] 
+AndRef28->29
+"BatchClassifierTrueNegativeRate[high]"->AndRef28 [dir = none] 
+AndRef29[shape = point] 
+29[label="threshold level", shape = polygon, sides =8]"BatchClassifierTrueNegativeRate[medium]"[shape = box, style = rounded] 
+AndRef29->29
+"BatchClassifierTrueNegativeRate[medium]"->AndRef29 [dir = none] 
+AndRef30[shape = point] 
+29[label="threshold level", shape = polygon, sides =8]"BatchClassifierTrueNegativeRate[low]"[shape = box, style = rounded] 
+AndRef30->29
+"BatchClassifierTrueNegativeRate[low]"->AndRef30 [dir = none] 
+"BatchClassifierTrueNegativeRate"[shape = box, style = rounded] 
+AndRef31[shape = point] 
+32[label="fraud detection method", shape = polygon, sides =8]32->"BatchTrueNegativeRate"
+"BatchClassifierTrueNegativeRate"[shape = box, style = rounded] 
+AndRef31->32
+"BatchClassifierTrueNegativeRate"->AndRef31 [dir = none] 
+AndRef32[shape = point] 
+32[label="fraud detection method", shape = polygon, sides =8]"BatchTrueNegativeRate[rule-based]"[shape = box, style = rounded] 
+AndRef32->32
+"BatchTrueNegativeRate[rule-based]"->AndRef32 [dir = none] 
+"BatchTrueNegativeRate"[shape = box, style = rounded] 
+AndRef33[shape = point] 
+28[label="processing type", shape = polygon, sides =8]"BatchTrueNegativeRate"[shape = box, style = rounded] 
+AndRef33->28
+"BatchTrueNegativeRate"->AndRef33 [dir = none] 
+"TrueNegativeRate"[shape = box, style = rounded] 
+"NbrFalseAlerts"[shape = box, style = rounded] 
+AndRef34[shape = point] 
+AndRef34->"NbrFalseAlerts"
+"NbrLegitTransactions"->AndRef34 [dir = none] 
+"TrueNegativeRate"->AndRef34 [dir = none] 
+"NbrAlerts"[shape = box, style = rounded] 
+AndRef35[shape = point] 
+AndRef35->"NbrAlerts"
+"NbrTrueAlerts"->AndRef35 [dir = none] 
+"NbrFalseAlerts"->AndRef35 [dir = none] 
+"CostPerAlert"[shape = box, style = rounded] 
+"InvestCost"[shape = box, style = rounded] 
+AndRef36[shape = point] 
+AndRef36->"InvestCost"
+"NbrAlerts"->AndRef36 [dir = none] 
+"CostPerAlert"->AndRef36 [dir = none] 
 }

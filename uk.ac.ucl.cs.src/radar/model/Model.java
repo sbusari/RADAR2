@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import radar.exception.CyclicDependencyException;
+import radar.exception.ModelException;
 import radar.information.analysis.InformationAnalysis;
-
-
+/**
+ * @author Saheed Busari and Emmanuel Letier
+ * This class is the semantic model obtained from parsing the decision model. 
+ */
 public class Model implements ModelVisitorElement {
-	
 	public Model (){
 		objectives_ = new LinkedHashMap<String, Objective>();
 		qualityVariables_ = new LinkedHashMap<String, QualityVariable>();
 		parameters_ =  new ArrayList<String>();
 		decisions_ = new LinkedHashMap<String, Decision>();
-		qualityVariableStack_ = new LinkedHashMap<String,QualityVariable>();
+		visitedQualityVariableStack_ = new LinkedHashMap<String,QualityVariable>();
 	}
 	private String modelName_;
 	private Map<String, Objective> objectives_;
@@ -26,68 +28,125 @@ public class Model implements ModelVisitorElement {
 	private Objective infoValueObjective_;
 	private Objective subgraphObjective;
 	private int noOfSimulation_;
-	private Map<String, QualityVariable> qualityVariableStack_;
-	// needed to maintain unique solution ID in getAllSolutions
-	private int solutionCounter_;
+	private Map<String, QualityVariable> visitedQualityVariableStack_;
+
 	public void setModelName(String modelName ){
 		modelName_ =modelName;
 	}
 	public String getModelName(){
 		return modelName_;
 	}
-	public void addQualityVariables(String qv_name, QualityVariable qualityVariable){
-		qualityVariables_.put(qv_name, qualityVariable);
+	/**
+	 * Adds quality variable to the list of quality variables.
+	 * @param qvName quality variable name.
+	 * @param qualityVariable the quality variable instance to add.
+	 */
+	public void addQualityVariable(String qvName, QualityVariable qualityVariable){
+		qualityVariables_.put(qvName, qualityVariable);
 	}
+	/**
+	 * @return a map that stores the model quality variables, where the map key is the quality variable name and the map value is a quality variable
+	 */
 	public Map<String, QualityVariable> getQualityVariables(){
 		return qualityVariables_;
 	}
-	public void addParameters(String param_name){
-		if (!parameters_.contains(param_name)){
-			parameters_.add(param_name);
+	/**
+	 * Adds model parameter to the list of model parameters.
+	 * @param paramName quality variable that is a distribution.
+	 */
+	public void addParameters(String paramName){
+		if (!parameters_.contains(paramName)){
+			parameters_.add(paramName);
 		}
 	}
-	public void addVariableToStack (QualityVariable qv){
-		qualityVariableStack_.put(qv.getLabel(), qv);
+	/**
+	 * Adds quality variable to the list of visited quality variables when checking for cyclic dependencies between quality variables.
+	 * @param qv quality variable to add.
+	 */
+	public void addVisitedQualityVariable (QualityVariable qv){
+		visitedQualityVariableStack_.put(qv.getLabel(), qv);
 	}
-	public Map<String, QualityVariable> getStackedVariable (){
-		return qualityVariableStack_;
+	/**
+	 * @return all visited quality variable.
+	 */
+	public Map<String, QualityVariable> getVisitedQualityVariable (){
+		return visitedQualityVariableStack_;
 	}
+	/**
+	 * @return a list of model paramters i.e paramters that are distribution.
+	 */
 	public List<String> getParameters(){
 		return parameters_;
 	}
-	public void addObjective(String obj_name, Objective objective){
-		objectives_.put(obj_name, objective);
+	/**
+	 * Adds objective instance to the list of objectives.
+	 * @param objName name of objective.
+	 * @param objective the objective instance to add.
+	 */
+	public void addObjective(String objName, Objective objective){
+		objectives_.put(objName, objective);
 	}
+	/**
+	 * @return a list that stores the model objectives.
+	 */
 	public List<Objective> getObjectives (){
 		return new ArrayList<Objective>(objectives_.values());
 	}
+	/**
+	 * Sets model decisions .
+	 * @param decision a map whose keys are the name of decision and values are Decision.
+	 */
 	public void setDecisions(Map<String, Decision> decision){
 		decisions_ = decision;
 	}
+	/**
+	 * @return a list that stores the model decisions.
+	 */
 	public List<Decision> getDecisions (){
 		return new ArrayList<Decision>(decisions_.values());
 	}
+	/**
+	 * Sets the information value objective.
+	 * @param objective information value objective to add.
+	 */
 	public void setInfoValueObjective (Objective objective){
 			infoValueObjective_ = objective;
 	}
+	/**
+	 * @return  information value objective.
+	 */
 	public Objective getInfoValueObjective (){
 		return infoValueObjective_ ;
 	}
+	/**
+	 * Sets the subgraph objective used to restrict the genration of a goal graph to a particular objective.
+	 * @param subGraphObj subgraph objective to add.
+	 */
 	public void setSubGraphObjective (Objective subGraphObj){
 		subgraphObjective = subGraphObj;
 	}
+	/**
+	 * @return  subgraph objective used to restrict the genration of a goal graph to a particular objective.
+	 */
 	public Objective getSubGraphObjective (){
 		return subgraphObjective ;
 	}
+	/**
+	 * Sets the number of simulation for monte-carlo simulation.
+	 * @param noOfSimulation number of simulation.
+	 */
 	public void setNbr_Simulation(int noOfSimulation) {
 		noOfSimulation_ = noOfSimulation;
 	}
+	/**
+	 * @return  the number of simulation for monte-carlo simulation.
+	 */
 	public int getNbr_Simulation() {
 		return noOfSimulation_;
 	}
-	public int getSolutionCount(){
-		return solutionCounter_++;
-	}
+	/**
+	 * @return the number of all possible solutions for the decision model.
+	 */
 	public int getSolutionSpace (){
 		int result =1;
 		for (Map.Entry<String , Decision> entry: this.decisions_.entrySet()){
@@ -95,6 +154,12 @@ public class Model implements ModelVisitorElement {
 		}
 		return result;
 	}
+	/**
+	 * Evaluates model objective through monte-carlo simulation.
+	 * @param s a solution to be simulated through monte-carlo simulation.
+	 * @param objectives model objectives to simulate
+	 * @return an array of simulated objective values.
+	 */
 	public double[] evaluate (List<Objective> objectives, Solution s){
 		s.setSemanticModel(this);
 		double [] objectiveValues = new double [objectives.size()];
@@ -105,6 +170,13 @@ public class Model implements ModelVisitorElement {
 		}
 		return objectiveValues;
 	}
+	/**
+	 * Computes and store expected value of perfect information (evtpi) and expected value of partial perfect information (evppi) in the AnalysisResult  object.
+	 * @param result analysis result.
+	 * @param objective model objectives.
+	 * @param solutions list of optimal solutions
+	 * @param params list of model parameters.
+	 */
 	void computeInformationValue(AnalysisResult result, Objective objective, List<Solution> solutions, List<Parameter> params){
 		result.addEviObjective (objective);
 		double[][] objSim = objective.getQualityVariable().simulate(solutions);
@@ -119,6 +191,11 @@ public class Model implements ModelVisitorElement {
 	        result.addEVPPI(param.getLabel(), evppi);
 		}
 	}
+	/**
+	 * @param paramNames list of model parameters.
+	 * @param m semantic model obtained from parsing.
+	 * @return a list of model parameters
+	 */
 	public static List<Parameter> getParameterList (List<String> paramNames, Model m){
 		List<Parameter> parameters = new ArrayList<Parameter>();
 		for (int i =0; i < paramNames.size(); i ++){
@@ -140,36 +217,31 @@ public class Model implements ModelVisitorElement {
 		}
 		return parameters;
 	}
+	/**
+	 * @return a list of generated minimal set of solutions.
+	 */
 	public  SolutionSet getAllSolutions(){
 		SolutionSet result = new SolutionSet();
 		for (Objective obj: this.getObjectives()){
 			SolutionSet solnSet = obj.getAllSolutions(this);
 			result = result.merge(solnSet);
-			// result.addAll(solnSet);
 		}
 		return result;
 	}
-	public void getCyclicDependentVariables(){
+	/**
+	 * Detects cyclic dependency between quality variables.
+	 * @throws CyclicDependencyException if there exist a cyclic dependency between quality variables.
+	 */
+	public void getCyclicDependentVariables() throws CyclicDependencyException{
 		for (Objective obj: this.getObjectives()){
 			obj.getCyclicDependentVariables(this) ;
 		}
 	}
-	public  List<Solution> getAllSolutionss(){
-		List<Solution> solutions = new ArrayList<Solution>();
-		List<Decision> allDecisions = this.getDecisions();
-		List<Integer[]> selectedOptionIndices = SolutionAnalyser.generateSelectedOptionIndices (this.getDecisions());
-		for (int i =0; i <selectedOptionIndices.size(); i++ ){
-			Integer [] aSelectedOptionIndex = selectedOptionIndices.get(i);
-			Solution s = new Solution();
-			for (int j =0 ; j < aSelectedOptionIndex.length; j ++){
-				Decision d = allDecisions.get(j);
-				String selectedOption = allDecisions.get(j).getOptions().get(aSelectedOptionIndex[j]);
-				s.addDecision(d, selectedOption);
-			}
-			solutions.add(s);
-		}
-		return solutions;
-	}	@Override
+	/**
+	 * Visits the semantic model structure to generate the variable dependency graph.
+	 * @param m semantic model obtained from parsing.
+	 * @param visitor model visitor
+	 */
 	public void accept(ModelVisitor visitor, Model m) {
 		if (m.getSubGraphObjective() == null){
 			for (Objective obj: this.getObjectives()){
@@ -181,33 +253,44 @@ public class Model implements ModelVisitorElement {
 		
 		visitor.visit(this);
 	}
-	// Generates the subgraph for any model element
+ 
+	/**
+	 * Generates the subgraph for any model element.
+	 * @param e model element to be visited, whcih could be an objective or a quality variable.
+	 * @param m semantic model obtained from parsing.
+	 * @param subGraphObjective subgraph objective used to restrict the genration of a goal graph to a particular objective.
+	 *@return generated DOT graph for a model element.
+	 */
 	public String generateDOTRefinementGraph(ModelVisitorElement e, Model m, Objective subGraphObjective){
 		RefinementGraphGenerator graphGenerator = new RefinementGraphGenerator(subGraphObjective);
 		e.accept(graphGenerator,m);
 		return graphGenerator.getDotString();
 	}
 
-	// Generates the refinement graph for the whole model
+	// 
+	/**
+	 * Generates the refinement graph for the whole model
+	 * @param m semantic model obtained from parsing.
+	 * @param subGraphObj subgraph objective used to restrict the genration of a goal graph to a particular objective.
+	 *@return generated DOT graph for the model.
+	 */
 	public String generateDOTRefinementGraph(Model m, Objective subGraphObj){
 		return generateDOTRefinementGraph(this, m,subGraphObj);
 	}
-	/*
-	* returns true if decision d1 is dependent on selection of option 'option' 
-	* in decision d0; in other words, if d1 is null every time 'option' is not 
-	* selected in d0.
-	* Formally: isDependent(d1, d0, option) iff
-	*  for all s: solution| s.selection(d0) != option imples s.selection(d1) == null
+	/**
+	*@param d1 decision d1
+	*@param d0 decision d0
+	*@param option selected option
+	*@param allSolutions  all generated solutions.
+	* @return true if decision d1 is dependent on selection of option 'option' in decision d0; in other words, if d1 is null every time 'option' is not selected in d0.
+	* Formally: isDependent(d1, d0, option) iff for all s: solution| s.selection(d0) != option imples s.selection(d1) == null
 	*/
+	
 	boolean isDependent(Decision d1, Decision d0, String option, List<Solution> allSolutions){
-		// need when we have just only one decision in the model.
 		boolean result = true;
 		if (d1.equals(d0)){
 			return false;
 		}
-		/*for (Solution s: this.getAllSolutions().list()){
-			if(s.selection(d0) != null && !s.selection(d0).equals(option) && s.selection(d1) != null) return false;
-		}*/
 		for (Solution s: allSolutions){
 			if(s.selection(d0) != null){
 				if ( !s.selection(d0).equals(option) && s.selection(d1) != null) return false;
@@ -217,75 +300,21 @@ public class Model implements ModelVisitorElement {
 		}
 		return result;
 	}
-	/*
-	* Generates the decision diagram in DOT format
+	/**
+	* Generates the decision diagram in DOT format.
+	* @param allSolutions all generated solutions.
+	* @return DOT graph of the decision model.
 	*/
-	public String generateDecisionDiagram2(List<Solution> allSolutions){
-		int equalDecisionAndOptionNameCounter =1;
-		List<String> edges = new ArrayList<String>();
-		String result = "digraph G { \n";
-		for(Decision d: this.getDecisions()){
-			Object o = (Object) d;
-			String dID = o.toString(); 
-			// String dShape = "d_" + dID + "[label=\"" + d.getDecisionLabel() +"\"]"; 
-			String dShape =  "\""+ d.getDecisionLabel() +  "\"" + " [shape = polygon, sides =8] \n";
-			result +=  dShape;
-			for(String option: d.getOptions()){
-				String newLine ="";
-				if (d.getDecisionLabel().equals(option)){
-					newLine = "\"" + d.getDecisionLabel() + "\"" + " -> " + "\"" + option + "_"+equalDecisionAndOptionNameCounter++ + "\"" + "[arrowhead= odot]"+ "\n";
-				}else{
-					newLine = "\"" + d.getDecisionLabel() + "\"" + " -> " + "\"" + option + "\"" + "[arrowhead= odot]"+ "\n";
-				}
-				if (!edges.contains(newLine)){
-					result = result + newLine;
-					edges.add(newLine);
-				}
-				for (Decision d1: this.getDecisions()){
-					if(this.isDependent(d1, d, option,allSolutions)){
-						String d1Shape =  "\""+ d1.getDecisionLabel() +  "\"" + " [shape = polygon, sides =8] \n";
-						result +=  d1Shape;
-						if (d.getDecisionLabel().equals(option)){
-							newLine = "\"" + option+ "_"+equalDecisionAndOptionNameCounter++ + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "[arrowhead= dot]"+ "\n";
-						}else{
-							newLine = "\"" + option + "\"" + " -> " + "\"" + d1.getDecisionLabel() + "\"" + "[arrowhead= dot]"+ "\n";
-						}
-						
-						if (!edges.contains(newLine)){
-							result = result + newLine;
-							edges.add(newLine);
-						}
-					} 
-				}
-			}
-		}
-		result += "}";
-		return result;
-	}
 	public String generateDecisionDiagram(List<Solution> allSolutions){
 		int idCounter =0;
-		Map<Decision, Integer> decisionIDs = new LinkedHashMap<Decision, Integer>();
-		Map<String, Integer> optionIDs = new LinkedHashMap<String, Integer>();
 		List<String> edges = new ArrayList<String>();
 		String result = "digraph G { \n";
 		for(Decision d: this.getDecisions()){
 			Integer dID = idCounter++;
-			/*if(decisionIDs.containsKey(d)){
-				dID =  decisionIDs.get(d); 
-			}else{
-				dID = idCounter++;
-				decisionIDs.put(d, dID);
-			}*/
 			String dShape =  "\"" + dID +  "\""  + "[label=\"" + d.getDecisionLabel() +"\", shape = polygon, sides =8 ]"; 
 			result +=  dShape;
 			for(String option: d.getOptions()){
 				Integer optionID =idCounter++;
-				/*if(optionIDs.containsKey(option)){
-					optionID =  optionIDs.get(option); 
-				}else{
-					optionID = idCounter++;
-					optionIDs.put(option, optionID);
-				}*/
 				String optionShape = "\"" + optionID +  "\""  + "[label=\"" + option +"\"]"; 
 				result +=  optionShape;
 				
@@ -297,12 +326,6 @@ public class Model implements ModelVisitorElement {
 				for (Decision d1: this.getDecisions()){
 					if(this.isDependent(d1, d, option,allSolutions)){
 						Integer d1ID = idCounter++;
-						/*if(decisionIDs.containsKey(d1)){
-							d1ID =  decisionIDs.get(d1); 
-						}else{
-							d1ID = idCounter++;
-							decisionIDs.put(d1, d1ID);
-						}*/
 						String d1Shape =  "\"" + d1ID +  "\""  + "[label=\"" + d1.getDecisionLabel() +"\", shape = polygon, sides =8 ]"; 
 						result +=  d1Shape;
 						newLine = "\"" + optionID + "\"" + " -> " + "\"" + d1ID + "\"" + "[arrowhead= dot]"+ "\n";
@@ -317,20 +340,30 @@ public class Model implements ModelVisitorElement {
 		result += "}";
 		return result;
 	}
-	public void objectiveExist ( String objective) throws Exception{
-		if (objective != null){
+	/**
+	* Checks if specified objective exist in a model.
+	* @param objectiveName name of the objective to check if it exist.
+	* @throws CyclicDependencyException  if objective with the specified name does not exist.
+	*/
+	public void objectiveExist ( String objectiveName) throws Exception{
+		if (objectiveName != null){
 			List<Objective>  objs = this.getObjectives();
 			boolean exist = false;
 			for (int i =0; i <objs.size(); i ++ ){
-				if (objs.get(i).getLabel().equals(objective.trim())){
+				if (objs.get(i).getLabel().equals(objectiveName.trim())){
 					exist =true;
 				}
 			}
 			if (exist == false){
-				throw new Exception ("Error: "+ "specified objective name "+ objective+ " does not exist in the model."); 
+				throw new ModelException ("Error: "+ "specified objective name "+ objectiveName + " does not exist in the model."); 
 			}
 		}
 	}
+	/**
+	* Adds negative sign for a maximisation objective before finding pareto optimal solutions.
+	* @param evaluatedSoltions map of evaluated solutions, where the map key represent a solution and map value is the simulated objective values.
+	*@return updated evaluated solutions.
+	*/
 	Map<Solution, double[]> addMaximisationSign (Map<Solution, double[]> evaluatedSoltions){
 		Map<Solution, double[]> evaluatedSolutions = new LinkedHashMap<Solution, double[]> ();
 		evaluatedSolutions.putAll(evaluatedSoltions);

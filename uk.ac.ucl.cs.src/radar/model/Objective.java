@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import radar.exception.CyclicDependencyException;
+
 public  class Objective implements ModelVisitorElement {
 	private double margin_;
 	private boolean isMinimisation_;
@@ -71,7 +73,7 @@ public  class Objective implements ModelVisitorElement {
 		QualityVariable var = this.getQualityVariable();
 		return var.getAllSolutions(m);
 	}
-	public void getCyclicDependentVariables(Model m){
+	public void getCyclicDependentVariables(Model m) throws CyclicDependencyException{
 		QualityVariable var = this.getQualityVariable();
 		var.getCyclicDependentVariables(m);
 	}

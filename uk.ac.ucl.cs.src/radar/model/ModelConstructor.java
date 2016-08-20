@@ -1,5 +1,4 @@
 package radar.model;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,7 @@ public class ModelConstructor {
 		model.addObjective(obj_name, objective);
 	}
 	 void addModelQualityVariable(Model model, String qv_name, QualityVariable qualityVariable){
-		model.addQualityVariables(qv_name, qualityVariable);
+		model.addQualityVariable(qv_name, qualityVariable);
 	}
 	public  Model addQualityVariablesToModel (Model model, Map<String, QualityVariable> qvlist){
 		for (Map.Entry<String, QualityVariable> entry: qvlist.entrySet()){

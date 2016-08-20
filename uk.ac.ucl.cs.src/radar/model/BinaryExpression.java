@@ -6,29 +6,59 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import radar.exception.CyclicDependencyException;
 
+/**
+ * @author Saheed Busari and Emmanuel Letier
+ */
 class BinaryExpression extends ArithmeticExpression {
 	private BinaryOperator bop_;
 	private ArithmeticExpression leftExpr_, rightExpr_;
-
+	/**
+	 * Sets operator for the binary expression.
+	 * @param bop binary operator.
+	 */
 	public void setBinaryOperator (BinaryOperator bop){
 		bop_ = bop;
 	}
+	/**
+	 * Returns a binary operator for a binary expression.
+	 * @return a binary operator such as +, -, /, * etc.
+	 */
 	public BinaryOperator getBinaryOperator(){
 		return bop_;
 	}
+	/**
+	 * Sets the left operand of a binary expression.
+	 * @param expr arithmetic expression which could also be a number.
+	 */
 	public void setLeftExpression (ArithmeticExpression expr){
 		leftExpr_ = expr;
 	}
+	/**
+	 * @return the left expression of binary expression, which could also be a number.
+	 */
 	public ArithmeticExpression getLeftExpression (){
 		return leftExpr_;
 	}
+	/**
+	 * Sets the right operand of a binary expression.
+	 * @param expr arithmetic expression which could also be a number.
+	 */
 	public void setRightExpression (ArithmeticExpression expr){
 		rightExpr_ = expr;
 	}
+	/**
+	 * @return the right expression of binary expression, which could also be a number.
+	 */
 	public ArithmeticExpression getRightExpression (){
 		return rightExpr_;
 	}
+	/**
+	 * Simulates a solution s.
+	 * @param s a solution to be simulated through monte-carlo simulation.
+	 * @return an array of simulated values.
+	 */
 	@Override
 	public double[] simulate(Solution s) {
 		double [] leftSim = leftExpr_.simulate(s);
@@ -71,6 +101,10 @@ class BinaryExpression extends ArithmeticExpression {
 		}
 		return combinedSim;
 	}
+	/**
+	 * Returns a list of quality variables that that defines a binary expression.
+	 * @return a list of quality variables.
+	 */
 	@Override
 	List<QualityVariable> getQualityVariable() {
 		List<QualityVariable> result = new ArrayList<QualityVariable>();
@@ -80,15 +114,29 @@ class BinaryExpression extends ArithmeticExpression {
 		result.addAll(rightVars);
 		return result;
 	}
+	/**
+	 * Returns the parent of an AND_Refinement.
+	 * @return a quality variable that is a parent of an AND_Refinement.
+	 */
 	@Override
 	public QualityVariable getParent() {
 		return parent_;
 	}
+	/**
+	 * Visits the children of a binary expression to generate the variable dependency graph.
+	 * @param m semantic model obtained from parsing.
+	 *@param visitor model visitor
+	 */
 	@Override
 	public void accept(ModelVisitor visitor, Model m) {
 		leftExpr_.accept(visitor, m);
 		rightExpr_.accept(visitor, m);
 	}
+	/**
+	 * Traverses the operands of a binary expression recursively until reaching the leaf quality variables.
+	 * @param m parsed decison model.
+	 * @return a set of solutions constructed while traversing a binary expression up to the leaf quality variables.
+	 */
 	@Override
 	public SolutionSet getAllSolutions(Model m) {
 		SolutionSet results = new SolutionSet();
@@ -97,8 +145,13 @@ class BinaryExpression extends ArithmeticExpression {
 		results = leftSolution.merge(rightSolution);
 		return results;
 	}
+	/**
+	 * Traverses the model recursively from a quality variable binary expression to its children and to the leaf quality variables of the model to check for cyclic dependencies between quality variables.
+	 * @param m semantic model obtained from parsing.
+	 * @throws CyclicDependencyException if there exist a cyclic dependency between quality variables.
+	 */
 	@Override
-	public void getCyclicDependentVariables(Model m) {
+	public void getCyclicDependentVariables(Model m) throws CyclicDependencyException {
 		leftExpr_.getCyclicDependentVariables(m);
 		rightExpr_.getCyclicDependentVariables(m);
 	}

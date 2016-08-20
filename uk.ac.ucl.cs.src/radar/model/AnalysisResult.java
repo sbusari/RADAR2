@@ -6,7 +6,10 @@ import java.util.Map;
 
 import radar.utilities.TableBuilder;
 
-
+/**
+ * @author Saheed Busari and Emmanuel Letier
+ * This class holds the results of model analysis.
+ */
 public class AnalysisResult {
 	// the optimisation objectives. 
 	private List<Objective> objectives;
@@ -35,65 +38,135 @@ public class AnalysisResult {
 
 	// mapping from parameter's label to parameter's evppi
 	private Map<String, Double> evppi;
-
+	/**
+	 * Constructors analysis result with model objectives and model decisions.
+	 * @param objs model objectives.
+	 * @param ds model decisons.
+	 */
 	AnalysisResult(List<Objective> objs,  List<Decision> ds){
 		objectives = objs;
 		decisions = ds;
 		value = new LinkedHashMap<Solution, double[]>();
 		evppi = new LinkedHashMap<String, Double>();
 	}
+	
+	/**
+	 * Adds a solution and it evaluated objectives to a list of evaluated solutions.
+	 * @param s a solution to be added.
+	 * @param objValues computed objective values. 
+	 */
 	public void addEvaluation (Solution s, double [] objValues){
 		value.put(s, objValues);
 	}
-	
+	/**
+	 * Returns all evaluated solutions and their corresponding objective values.
+	 * @return evaluated solutions
+	 */
 	public Map<Solution, double[]> getEvaluatedSolutions (){
 		return value;
 	}
+	/**
+	 *Returns all generated solutions.
+	 *@return minimal set of generated solutions
+	 */
 	public List<Solution> getAllSolutions(){
 		return allSolutions;
 	}
+	/**
+	 * Adds a shortlisted solution to the list of shorlists.
+	 * @param optimalSolns an optimal solution to be added.
+	 */
 	public void addShortlist (Map<Solution, double[]> optimalSolns){
 		shortlist= optimalSolns;
 	}
+	/**
+	 * Returns all shortlisted solutions.
+	 * @return shortlisted solutions
+	 */
 	public List<Solution> getShortListSolutions (){
 		return new ArrayList<Solution>(shortlist.keySet());
 	}
+	/**
+	 * Returns all shortlisted solutions objectives.
+	 * @return shortlisted objective values.
+	 */
 	public List<double[]> getShortListObjectives (){
 		return new ArrayList<double[]>(shortlist.values());
 	}
+	/**
+	 * Returns all evaluated solutions objectives.
+	 * @return   evaluated objectives
+	 */
 	public List<double[]> getEvaluatedObjectives (){
 		return new ArrayList<double[]>(value.values());
 	}
+	/**
+	 * Adds the computed evtpi value to analysis result.
+	 * @param evtpi_value computed evtpi
+	 */
 	public void addEVTPI (double evtpi_value){
 		evtpi = evtpi_value;
 	}
+	/**
+	 * Adds all generated solutions to analysis result.
+	 * @param allSolns all generated solutions
+	 */
 	void addAllSolutions (List<Solution> allSolns){
 		allSolutions = allSolns;
 	}
+	/**
+	 * Adds a model parameter and its evppi value to analysis result.
+	 * @param param model parameter for which we intend to reduce uncertainty.
+	 * @param n computed evppi. 
+	 */
 	void addEVPPI(String param, Double n){
 		evppi.put(param, n);
 	}
-	
+	/**
+	 * Adds specified information value objective to analysis result.
+	 * @param eviObj expected value information objective
+	 */
 	void addEviObjective (Objective eviObj){
 		eviObjective = eviObj;
 	}
+	/**
+	 * Adds the model solution space to analysis result.
+	 * @param solnSpace solution space
+	 */
 	void addSolutionSpace (int solnSpace){
 		solutionSpace = solnSpace;
 	}
+	/**
+	 * Adds the model analysis runtime to analysis result.
+	 * @param time execution analysis run time.
+	 */
 	void addRunTime (long time){
 		runtime = time;
 	}
+	/**
+	 * Adds specified subgraph objective to analysis result.
+	 * @param subGraphObj subgraph objective that restrict the variable dependency graph to a particular objective.
+	
+	 */
 	void addSubGraphObejctive (Objective subGraphObj){
 		subGraphObjective =subGraphObj;
 	}
+	/**
+	 * Returns all model objective.
+	 * @return model obejectives.
+	 */
 	public List<Objective> getObjectives (){
 		return objectives;
 	}
+	/**
+	 * Returns subgraph objective that restrict the variable dependency graph to a particular objective.
+	 * @return subgraph obejective.
+	 */
 	public Objective getSubGraphObjective (){
 		return subGraphObjective;
 	}
+	
 	public String generateSolutionHeader ( String separator){
-		
 		// we can't use decision to generate the header due to change in the getAllSolutions
 		String result ="ID" + separator;
 		for(int i =0 ; i  < decisions.size(); i ++){
@@ -105,7 +178,7 @@ public class AnalysisResult {
 		result += "Optimal";
 		return result;
 	}
-	public void generateSolutionHeader2 (TableBuilder tableBuilder){
+	public void generateSolutionHeader (TableBuilder tableBuilder){
 		String result ="ID" + ",";
 		for(int i =0 ; i  < decisions.size(); i ++){
 			result += decisions.get(i).getDecisionLabel() + ",";
@@ -113,18 +186,13 @@ public class AnalysisResult {
 		for(int j=0; j < objectives.size(); j++){
 			result +=objectives.get(j).getLabel() + ",";
 		}
-		result += "Optimal";
+		result += "Optimal\n";
 		tableBuilder.addRow(result.split(","));
 	}
-	
-	public String objectivesToString (){
-		String result ="";
-		for(int j=0; j < objectives.size(); j++){
-			String optimisationDirection = objectives.get(j).getIsMinimisation() ? "Min" : "Max";
-			result += "Objective: " + "\t\t" + optimisationDirection + objectives.get(j).getLabel() +"\n" ;
-		}
-		return result;
-	}
+	/**
+	 * Returns optimisation analysis result needed for out put display.
+	 * @return optimisation analysis result in string form.
+	 */
 	String getOptimisationAnalysisResult (){
 		TableBuilder tableBuilder = new TableBuilder ();
 		tableBuilder.addRow (new String []{"Optimisation", "Analysis"});
@@ -133,8 +201,8 @@ public class AnalysisResult {
 			String optimisationDirection = objectives.get(j).getIsMinimisation() ? "Min" : "Max";
 			tableBuilder.addRow (new String []{"Objective: ",optimisationDirection + objectives.get(j).getLabel() +"\n" });
 		}
-		tableBuilder.addRow ("SolutionSpace:", "solutionSpace\n");
-		tableBuilder.addRow ("Evaluated:", value.size() +"\n");
+		tableBuilder.addRow ("SolutionSpace:", solutionSpace +"\n");
+		tableBuilder.addRow ("Minimal SolutionSet:", value.size() +"\n");
 		tableBuilder.addRow ("Shortlisted:", shortlist.size() +"\n");
 		tableBuilder.addRow ("Runtime(s):", runtime +"\n");
 		return tableBuilder.toString();
@@ -146,7 +214,7 @@ public class AnalysisResult {
 			result.add ("Objective ,"+optimisationDirection + objectives.get(j).getLabel() +"\n");
 		}
 		result.add ("SolutionSpace ," + solutionSpace);
-		result.add ("Evaluated ,"+ value.size());
+		result.add ("Minimal SolutionSet ,"+ value.size());
 		result.add ("Shortlisted ,"+ shortlist.size() );
 		result.add ("Runtime(s) ,"+ runtime);
 		return result;
@@ -163,54 +231,33 @@ public class AnalysisResult {
 		}
 		return result;
 	}
-	public String analysisToStringNew (){
+	/**
+	 * Returns formatted analysis results. Includes optimisation analysis result, pareto optimal solutions and information value results.
+	 *@return analysis results converted to String.
+	 */
+	public String analysisToString (){
 		StringBuilder analysisResult = new StringBuilder();
 		analysisResult.append (getOptimisationAnalysisResult());
 		TableBuilder resultBuilder = new TableBuilder ();
-		generateSolutionHeader2(resultBuilder);
-		getSolutionsToCSVNew(0, shortlist, true,resultBuilder);
+		generateSolutionHeader(resultBuilder);
+		getFormattedSolutions(0, shortlist, true,resultBuilder);
 		Map<Solution, double []> nonOptimalSolutions =getNonOptimalSolutions();
-		getSolutionsToCSVNew(shortlist.size(), nonOptimalSolutions, false,resultBuilder);
+		getFormattedSolutions(shortlist.size(), nonOptimalSolutions, false,resultBuilder);
 		analysisResult.append (resultBuilder.toString());
 		analysisResult.append ("\n");
 		if (eviObjective != null){
-			String infoAnalysis =informationValueToString2();
+			String infoAnalysis =informationValueResultToString();
 			analysisResult.append (infoAnalysis);
 		}
 		System.out.println ("Analysis result: \n"+analysisResult.toString());
-		return analysisResult.toString();
-	}
-	public String analysisToString (){
-		StringBuilder analysisResult = new StringBuilder();
-		analysisResult.append ("Optimisation Analysis \n");
-		analysisResult.append ("============================ \n\n");
-		analysisResult.append(objectivesToString());
-		analysisResult.append ("SolutionSpace: \t\t\t" + solutionSpace +"\n");
-		analysisResult.append ("Evaluated: \t\t\t" + value.size() +"\n");
-		analysisResult.append ("Shortlisted: \t\t\t" + shortlist.size() +"\n");
-		analysisResult.append ("Runtime(s): \t\t\t" + runtime +"\n\n");
-		String shortlistHeader = generateSolutionHeader("\t");
-		analysisResult.append(shortlistHeader);
-		analysisResult.append("\n");
-		String optimalSoln = getSolutionsToCSV(0, shortlist, true);
-		analysisResult.append(optimalSoln);
-		Map<Solution, double []> nonOptimalSolutions =getNonOptimalSolutions();
-		String otherSolutions = getSolutionsToCSV(shortlist.size(), nonOptimalSolutions, false);
-		analysisResult.append(otherSolutions);
-		analysisResult.append ("\n");
-		analysisResult.append ("Information Value Analysis \n");
-		analysisResult.append ("===============================\n\n");
-		if (eviObjective != null){
-			analysisResult.append(informationValueToString());
-		}
 		return analysisResult.toString();
 	}
 	String getSolutionTableRow (int index, int offset, Map<Solution, double[]> solutions, boolean isOptimal ){
 		String row = "";
 		row += (index+ offset+ 1 ) + "," ;
         String record = "";
-        record += optimalDecisionsToString (index, ",", shortlist);
-        record += optimalObjectiveToString (index, ",", shortlist);
+        record += optimalDecisionsToString (index, ",", solutions);
+        record += optimalObjectiveToString (index, ",", solutions);
         row += (record);
         String optimal = isOptimal == true ? "Yes" :"No";
         row += (optimal + "\n");
@@ -227,12 +274,12 @@ public class AnalysisResult {
 		}
 		Map<Solution, double []> nonOptimalSolutions =getNonOptimalSolutions();
 		for (int i =0; i < nonOptimalSolutions.size(); i++){
-			result.add(getSolutionTableRow(i, shortlist.size(), nonOptimalSolutions, true));
+			result.add(getSolutionTableRow(i, shortlist.size(), nonOptimalSolutions, false));
 		}
 		return result;
 		
 	}
-	private void getSolutionsToCSVNew(int offset, Map<Solution, double[]> solutions, boolean isOptimal ,TableBuilder table){
+	private void getFormattedSolutions(int offset, Map<Solution, double[]> solutions, boolean isOptimal ,TableBuilder table){
 		if (solutions.size() > 0){
 			for (int index = 0; index < solutions.size(); index++) {
 				String row = "";
@@ -248,23 +295,9 @@ public class AnalysisResult {
 		    }
 		}
 	}
-	private String getSolutionsToCSV(int offset, Map<Solution, double[]> solutions, boolean isOptimal ){
-		StringBuilder result = new StringBuilder();
-		for (int index = 0; index < solutions.size(); index++) {
-			String row = "";
-			row += (index+ 1 + offset + "\t");
-	        String record = "";
-	        
-	        record += optimalDecisionsToString (index, "\t", solutions);
-	        record += optimalObjectiveToString (index, "\t", solutions);
-	        
-	        row += (record);
-	        String optimal = isOptimal == true ? "Yes" :"No";
-	        row += (optimal + "\n");
-	        result.append(row);
-	    }
-		return result.toString();
-	}
+	/**
+	 * Returns non-Pareto optimal solutions i.e all dominated solutions.
+	 */
 	private Map<Solution, double []> getNonOptimalSolutions (){
 		List<Integer> solutionIndexToRemove = new ArrayList<Integer>();
 		int  i=0;
@@ -304,31 +337,22 @@ public class AnalysisResult {
 		Map<Decision, String>  selection = solutionList.get(index).getSelection();
 		// we now use deicision to get the option because we do not know the order in which the selections are in solution.
 		for(int i =0 ; i  < decisions.size(); i ++){
-			String decision = decisions.get(i).getDecisionLabel();
-			for (Map.Entry<Decision, String> entry: selection.entrySet()){
-				if (decision.equals(entry.getKey().getDecisionLabel())){
-					record += entry.getValue() + separator;
-					break;
+			if (!selection.containsKey(decisions.get(i))){
+				record += " " + separator;
+			}else{
+				String decision = decisions.get(i).getDecisionLabel();
+				for (Map.Entry<Decision, String> entry: selection.entrySet()){
+					if (decision.equals(entry.getKey().getDecisionLabel())){
+						record += entry.getValue() + separator;
+						break;
+					}
 				}
 			}
+			
 		}
-		
-		/*for (Map.Entry<Decision, String> entry: selection.entrySet()){
-			record += entry.getValue() + separator;
-		}*/
 		return record;
 	}
-	public  String informationValueToString(){
-		String result = "";
-		result += "Objective: \t\t\t" + eviObjective.getLabel() + "\n";
-		result += "EVTPI: \t\t\t "+ evtpi + "\n\n";
-		result += "Parameter \t\t\t EVPPI \n";
-		for (Map.Entry<String, Double> entry: evppi.entrySet()){
-			result += entry.getKey() + ": \t\t\t "+ entry.getValue() +"\n";
-		}
-		return result;
-	}
-	public  String informationValueToString2(){
+	public  String informationValueResultToString(){
 		TableBuilder result = new TableBuilder();
 		result.addRow ("Information Value Analysis", "\n");
 		result.addRow ("--------------------------", "\n\n");
@@ -363,22 +387,6 @@ public class AnalysisResult {
 			count++;
 		}
 		return decision.toString();
-	}
-	public  String getReferenceObjectives () {
-		String record = "";
-		for (int index = 0; index < shortlist.size(); index++) {
-			record += optimalObjectiveToString (index, " ", shortlist);
-			record += "\n";
-		}
-		return record;
-	}
-	public String getReferenceDecisions (){
-		String record = "";
-		for (int index = 0; index < shortlist.size(); index++) {
-			record += optimalDecisionsToString (index, " ",  shortlist);
-			record += "\n";
-		}
-		return record;
 	}
 	
 

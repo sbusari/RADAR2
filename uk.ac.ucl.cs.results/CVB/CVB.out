@@ -1,22 +1,22 @@
-Optimisation           Analysis       
+Optimisation           Analysis 
 ---------------------- 
-              
-Objective:             MaxENB
         
+Objective:             MaxENB
+  
 Objective:             MinLP
-         
-SolutionSpace:         solutionSpace
- 
+   
+SolutionSpace:         2
+       
 Evaluated:             2
-             
+       
 Shortlisted:           2
-             
-Runtime(s):            3
-             
+       
+Runtime(s):            0
+       
 ID system type ENB                LP     Optimal 
-1  As-is       1.9719401304939235 0.2334 Yes
+1  As-is       1.9419164996869254 0.2354 Yes
     
-2  Refactoring 0.9988399007313383 0.0    Yes
+2  Refactoring 1.0000543022229311 0.0    Yes
     
 
 

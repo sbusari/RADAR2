@@ -1,9 +1,6 @@
 package radar.model;
-
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
+
 
 import org.apache.commons.math3.distribution.BinomialDistribution;
 import org.apache.commons.math3.distribution.ExponentialDistribution;
@@ -17,6 +14,9 @@ import org.apache.commons.math3.random.RandomGenerator;
 
 import radar.utilities.ConfigSetting;
 
+/**
+ * @author Saheed Busari and Emmanuel Letier
+ */
 abstract class Distribution extends Expression {
 	List<Expression> distributionParamter_;
 	RandomGenerator rg_; 
@@ -27,24 +27,45 @@ abstract class Distribution extends Expression {
 			rg_.setSeed(ConfigSetting.SEED);
 		}
 	}
+	/**
+	 * Returns the parent of a distribution object.
+	 * @return a quality variable that is a parent of a distribution object.
+	 */
 	public QualityVariable getParent() {
 		return parent_;
 	}
+	/**
+	 * Adds the parent of a distribution object.
+	 * @param parent the quality variable that is a parent of the distribution object.
+	 */
 	public void setParent(QualityVariable parent) {
 		parent_ = parent;
 	}
+	/**
+	 * Visits the children of AND_Refinement to generate the variable dependency graph.
+	 * @param m parsed decison model.
+	 * @param visitor model visitor
+	 */
 	public void accept(ModelVisitor visitor, Model m) {
-
 	}
+	/**
+	 * Constructs a solution instance for a distribution object.
+	 * @param m parsed decison model.
+	 * @return a set of solutions contructed for a distribution .
+	 */
 	@Override
 	public SolutionSet getAllSolutions(Model m){
 		Solution s = new Solution();
-		//String uniqueID = ""+ m.getSolutionCount(); 
-		//s.setUniqueID(uniqueID);
 		SolutionSet result = new SolutionSet();
 		result.add(s);
 		return result;
 	}
+	/**
+	 * Generate simulation values for a deterministic distribution.
+	 * @param value the numeric value of the distribution
+	 * @param sampleSize the number of simulation.
+	 * @return an array of simulation values.
+	 */
 	protected double [] deterministicDistribution (double value, int sampleSize){
 		double[] sample = new double[sampleSize];
 		for (int i = 0; i < sample.length; ++i) {
@@ -52,6 +73,11 @@ abstract class Distribution extends Expression {
 		}
 		return sample;
 	}
+	/**
+	 * Generate simulation values for a random distribution.
+	 * @param sampleSize the number of simulation.
+	 * @return an array of simulation values.
+	 */
 	protected double [] randomDistribution (int sampleSize){
 			GaussianRandomGenerator generator = new GaussianRandomGenerator(rg_);
 			double[] sample = new double[sampleSize];
@@ -60,6 +86,13 @@ abstract class Distribution extends Expression {
 			}
 			return sample;
 	 }
+	/**
+	 * Generate simulation values for a normal distribution.
+	 * @param mean the  mean of the distribution.
+	 * @param sd the standard deviation of the distribution.
+	 * @param sampleSize the number of simulation.
+	 * @return an array of simulation values.
+	 */
 	protected double [] normalDistribution ( double mean, double sd, int sampleSize){
 		boolean zeros = false;
     	if (mean == 0 && sd == 0){
@@ -79,6 +112,13 @@ abstract class Distribution extends Expression {
 		}
 		return sample;
     }
+	/**
+	 * Generate simulation values for a normal distribution with confidence interval.
+	 * @param a the lower bound of the distribution.
+	 * @param b the upper bound of the distribution.
+	 * @param sampleSize the number of simulation.
+	 * @return an array of simulation values.
+	 */
 	protected double [] normalCIDistribution ( double a, double b, int sampleSize){
     	boolean zeros = false;
     	if (a == 0 && b == 0){
@@ -99,6 +139,12 @@ abstract class Distribution extends Expression {
 		}
 		return sample;
  	}
+	/**
+	 * Generate simulation values for a exponential distribution.
+	 * @param mean the mean of the distribution.
+	 * @param sampleSize the number of simulation.
+	 * @return an array of simulation values.
+	 */
 	protected double [] exponentialDistribution ( double mean, int sampleSize){
 		ExponentialDistribution generator = new ExponentialDistribution(rg_, mean);
 		double[] sample = new double[sampleSize];
@@ -107,6 +153,13 @@ abstract class Distribution extends Expression {
 		}
 		return sample;
     }
+	/**
+	 * Generate simulation values for a binomial distribution.
+	 * @param trials the number of trials.
+	 * @param prob the probability of success.
+	 * @param sampleSize the number of simulation.
+	 * @return an array of simulation values.
+	 */
     public double [] binomialDistribution ( int trials, double prob, int sampleSize){
 		BinomialDistribution generator = new BinomialDistribution(rg_, trials, prob);
 		double[] sample = new double[sampleSize];
@@ -115,6 +168,12 @@ abstract class Distribution extends Expression {
 		}
 		return sample;
     }
+    /**
+	 * Generate simulation values for a geometric distribution.
+	 * @param prob the probability of success.
+	 * @param sampleSize the number of simulation.
+	 * @return an array of simulation values.
+	 */
     protected double [] geometricDistribution ( double prob, int sampleSize){
 		GeometricDistribution generator = new GeometricDistribution(rg_, prob);
 		double[] sample = new double[sampleSize];
@@ -123,6 +182,13 @@ abstract class Distribution extends Expression {
 		}
 		return sample;
     }
+	/**
+	 * Generate simulation values for a uniform distribution.
+	 * @param lower the lower bound of the distribution.
+	 * @param upper the upper boudn of the distribution.
+	 * @param sampleSize the number of simulation.
+	 * @return an array of simulation values.
+	 */
     protected double [] uniformDistribution ( double lower, double upper, int sampleSize){
     	boolean zeros = false;
     	if (lower == 0 && upper == 0){
@@ -141,6 +207,14 @@ abstract class Distribution extends Expression {
 		}
 		return sample;
  	}
+	/**
+	 * Generate simulation values for a triangular distribution.
+	 * @param lower the lower bound of the distribution.
+	 * @param mode the mode of the distribution.
+	 * @param upper the upper bound of the distribution.
+	 * @param sampleSize the number of simulation.
+	 * @return an array of simulation values.
+	 */
     protected double [] triangularDistribution ( double lower, double mode, double upper, int sampleSize){
     	boolean zeros = false;
     	if (lower == 0 && upper == 0 &&  mode == 0){

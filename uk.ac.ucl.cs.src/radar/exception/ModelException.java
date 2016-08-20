@@ -1,19 +1,13 @@
 package radar.exception;
 
-import java.io.Serializable;
-
-public class ModelException extends Exception implements Serializable {
+public class ModelException extends Exception {
 	  
 	  /**
 	   * Constructor
-	   * @param Error message
+	   * @param message error message.
 	   */
 	  public ModelException (String message){
 	     super(message);      
 	  } // ModelException
 	  
-	  
-	  //TODO:
-	  //IllegalArgumentException
-		  
 }

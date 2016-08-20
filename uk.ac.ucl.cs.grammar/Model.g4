@@ -14,7 +14,6 @@ objective_def				:'EV'SINGLESPACE* '(' var_name ')' 													#objectiveExpec
 							|'Pr'SINGLESPACE* '(' comparision ')' 												#objectiveProbability
 							|'percentile' SINGLESPACE* '(' (op = ('-'| '+'))? var_name ',' integerLiteral ')'				#objectivePercentile
 							; 
-		
 													
 quality_var_decl			:var_name  '='  quality_var_def  NEWLINE* ;
 
@@ -31,11 +30,11 @@ decision_body				: '(' decision_Name= StringLiteral ')' '{' (option_name ':' opt
 							;
 							
 
-option_name					: StringLiteral
+option_name					: (NEWLINE|WS|SINGLESPACE)* StringLiteral (NEWLINE|WS|SINGLESPACE)*
 							;
 
-option_def					: arithmetic_expr						#optionExpression
- 							| parameter_def 						#optionParameter
+option_def					:(NEWLINE|WS|SINGLESPACE)* arithmetic_expr (NEWLINE|WS|SINGLESPACE)*					#optionExpression
+ 							|(NEWLINE|WS|SINGLESPACE)* parameter_def  (NEWLINE|WS|SINGLESPACE)*						#optionParameter
  							;
 
 							
@@ -62,15 +61,15 @@ distribution_arg 			: arithmetic_expr
 arithmetic_expr				: number 																															#exprNumber
 							|<assoc=right> arithmetic_expr '^' arithmetic_expr																					#exprPower
 							| '(' arithmetic_expr ')'																											#exprBracket						
-							| arithmetic_expr (NEWLINE|WS)* '/' (NEWLINE|WS)* arithmetic_expr 																	#exprDiv
-							| arithmetic_expr (NEWLINE|WS)* '*' (NEWLINE|WS)* arithmetic_expr 																	#exprMult
-							| arithmetic_expr (NEWLINE|WS)* '+' (NEWLINE|WS)* arithmetic_expr 																	#exprAdd
-							| arithmetic_expr (NEWLINE|WS)* '-' (NEWLINE|WS)* arithmetic_expr 																	#exprSub
-							| (NEWLINE|WS)* op=('-'|'+') (NEWLINE|WS)* arithmetic_expr			 																#exprPreOperator	
-							| arithmetic_expr (NEWLINE|WS)* AND (NEWLINE|WS)* arithmetic_expr 																	#exprAnd
-							| arithmetic_expr (NEWLINE|WS)* OR (NEWLINE|WS)* arithmetic_expr 																	#exprOr
-							| (NEWLINE|WS)* NOT (NEWLINE|WS)* arithmetic_expr																					#exprNot						
-							| arithmetic_expr (NEWLINE|WS)* '%'																									#exprPercent
+							| arithmetic_expr (NEWLINE|WS|SINGLESPACE)* '/' (NEWLINE|WS|SINGLESPACE)* arithmetic_expr 																	#exprDiv
+							| arithmetic_expr (NEWLINE|WS|SINGLESPACE)* '*' (NEWLINE|WS|SINGLESPACE)* arithmetic_expr 																	#exprMult
+							| arithmetic_expr (NEWLINE|WS|SINGLESPACE)* '+' (NEWLINE|WS|SINGLESPACE)* arithmetic_expr 																	#exprAdd
+							| arithmetic_expr (NEWLINE|WS|SINGLESPACE)* '-' (NEWLINE|WS|SINGLESPACE)* arithmetic_expr 																	#exprSub
+							| (NEWLINE|WS|SINGLESPACE)* op=('-'|'+') (NEWLINE|WS|SINGLESPACE)* arithmetic_expr			 																#exprPreOperator	
+							| arithmetic_expr (NEWLINE|WS|SINGLESPACE)* AND (NEWLINE|WS|SINGLESPACE)* arithmetic_expr 																	#exprAnd
+							| arithmetic_expr (NEWLINE|WS|SINGLESPACE)* OR (NEWLINE|WS|SINGLESPACE)* arithmetic_expr 																	#exprOr
+							| (NEWLINE|WS|SINGLESPACE)* NOT (NEWLINE|WS|SINGLESPACE)* arithmetic_expr																					#exprNot						
+							| arithmetic_expr (NEWLINE|WS|SINGLESPACE)* '%'																									#exprPercent
 							| comparision																														#exprCompare	
 							| var_name																															#exprIdentifier																							
 							;

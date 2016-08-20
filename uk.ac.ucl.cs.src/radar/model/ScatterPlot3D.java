@@ -76,7 +76,7 @@ public class ScatterPlot3D extends JFrame {
      * Creates a scatter chart based on the supplied dataset.
      * 
      * @param dataset  the dataset.
-     * 
+     * @param semanticModel parsed decision model.
      * @return A scatter chart. 
      */
     public Chart3D createChart(Model semanticModel, XYZDataset dataset) {
@@ -108,7 +108,7 @@ public class ScatterPlot3D extends JFrame {
      * Creates a sample dataset (hard-coded for the purpose of keeping the
      * demo self-contained - in practice you would normally read your data
      * from a file, database or other source).
-     * 
+     * @param analysis_result results of analysis.
      * @return A sample dataset.
      */
     public XYZDataset createDataset(AnalysisResult analysis_result) {

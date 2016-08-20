@@ -1,16 +1,15 @@
 package radar.model;
-
-import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
-import radar.utilities.Helper;
-
+/**
+ * @author Saheed Busari and Emmanuel Letier
+ */
 public class ModelSolver {
-	
+	/**
+	 * Solves the model and saves the analysis results. 
+	 * @param m semantic model obtained during parsing.
+	 */
 	public static AnalysisResult solve(Model m){
 
 		// get all objectives
@@ -50,8 +49,7 @@ public class ModelSolver {
 		}
 
 		// add -ve sign for maximisaiton
-		Map<Solution, double[]> evaluatedSolutions = addMaximisationSign(result.getEvaluatedSolutions(), objectives);
-		//Map<Solution, double[]> evaluatedSolutions = m.addMaximisationSign(result.getEvaluatedSolutions());
+		Map<Solution, double[]> evaluatedSolutions = m.addMaximisationSign(result.getEvaluatedSolutions());
 		
 		// Shortlists Pareto-optimal solutions
 		result.addShortlist(new Pareto().getParetoSet(evaluatedSolutions));
@@ -73,17 +71,5 @@ public class ModelSolver {
 		result.addEviObjective(infoValueObjective);
 		//
 		return result;
-	}
-	private static Map<Solution, double[]> addMaximisationSign (Map<Solution, double[]> evaluatedSoltions, List<Objective> objectives){
-		Map<Solution, double[]> evaluatedSolutions = new LinkedHashMap<Solution, double[]> ();
-		evaluatedSolutions.putAll(evaluatedSoltions);
-		for (Map.Entry<Solution, double[]> entry: evaluatedSolutions.entrySet() ){
-			for (int i =0; i < entry.getValue().length ; i++){
-				if (objectives.get(i).getIsMinimisation() == false){
-					entry.getValue()[i] = entry.getValue()[i] *-1;
-				}
-			}
-		}
-		return evaluatedSolutions;
 	}
 }
