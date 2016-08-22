@@ -31,20 +31,18 @@ class AND_Refinement extends Expression {
 	}
 	/**
 	 * Adds arithemetic definition of the AND_Refinement.
-	 * @param definition an arithmetic expression that defines the current AND_Refinement.
+	 * @param definition an arithmetic expression that defines the AND_Refinement.
 	 */
 	public void addDefinition (ArithmeticExpression definition){
 		definition_ = definition;
 	}
 	/**
-	 * Returns the arithemetic definition of the AND_Refinement.
-	 * @return arithmetic expression.
+	 * @return the arithemetic definition of the AND_Refinement.
 	 */
 	public ArithmeticExpression getDefinition (){
 		return definition_;
 	}
 	/**
-	 * Returns the parent of an AND_Refinement.
 	 * @return a quality variable that is a parent of an AND_Refinement.
 	 */
 	@Override
@@ -58,16 +56,23 @@ class AND_Refinement extends Expression {
 	public void setParent(QualityVariable parent) {
 		parent_ = parent;
 	}
+	/**
+	 * Sets decision name AND_Refinement refers to during parsing to be used in generating variable dependency graph.
+	 * @param decisionNameAndRefReferTo decision name AND_Refinement refers to
+	 */
 	public void setDecisionNameAndRefRefersTo (String decisionNameAndRefReferTo){
 		aDecisionAndRefRefersTo_ = decisionNameAndRefReferTo;
 	}
+	/**
+	 * @return decision name AND_Refinement refers to
+	 */
 	public String getDecisionNameAndRefRefersTo (){
 		return aDecisionAndRefRefersTo_;
 	}
 	/**
 	 * Traverses the model recursively from a AND_refinement to its children and to the leaf quality variables of the model.
 	 * @param m semantic model obtained from parsing.
-	 * @return solutions from the leaf quality variables of the decision model up to the point of an AND_Refinement.
+	 * @return solutions constructed from the leaf quality variables of the decision model up to the point of the calling AND_Refinement, where solutions are merged.
 	 */
 	public SolutionSet getAllSolutions(Model m){
 		SolutionSet result = new SolutionSet();

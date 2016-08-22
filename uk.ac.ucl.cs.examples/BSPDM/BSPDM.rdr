@@ -19,9 +19,9 @@ Ratio_LowConfidentialityDocs = uniform(30%, 60%);
 
 // other docs are not confidential 
     
-Cost_HighConfidentialityLeak = normal_ci(0.5*10^6, 5*10^6);
-Cost_MediumConfidentialityLeak = normal_ci(10^4, 5*10^4);
-Cost_LowConfidentialityLeak = normal_ci(10^2, 10^4);
+Cost_HighConfidentialityLeak = normalCI(0.5*10^6, 5*10^6);
+Cost_MediumConfidentialityLeak = normalCI(10^4, 5*10^4);
+Cost_LowConfidentialityLeak = normalCI(10^2, 10^4);
 
 Nbr_LeakedDoc = Nbr_DocsLeakedByInsiders + Nbr_DocsStolenByOutsiders;
 

@@ -5,9 +5,15 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-class Pareto {
-	
+/**
+ * Computes the pareto optimal solutions. A solution is said to be Pareto-optimal if there is no other solution that is better on all objectives simultaneously.
+ */
+class Optimiser {
+	 /**
+	 * @param s1 objective values for the first solution.
+	 * @param s2 objective values for the second solution.
+	 * @return -1 if solution 1 dominates solution 2, and 1 if solution 2 dominates solution 1, and 0 if neither solutions dominated each other.
+	 */
 	int dominate (double[] s1, double [] s2){
 	    int dominate1 = 0 ; //dominate1 : Solution 1 domainates solution 2 for an objective
 	    int dominate2 = 0 ; //dominate2 : Solution 2 domainates solution 1 for an objective
@@ -38,6 +44,9 @@ class Pareto {
 	    }
 	    return 1;    // solution2 dominate 
 	}
+	 /**
+	 * @return the set of all non-domimated (pareto optimal) solutions for the decision model.
+	 */
 	public  Map<Solution, double[]> getParetoSet (Map<Solution, double[]> evaluatedSolutions){
 		
 		Map<Solution, double[]> paretoSet = new LinkedHashMap<Solution, double[]>();

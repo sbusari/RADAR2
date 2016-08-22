@@ -44,7 +44,7 @@ parameter_def				: distribution '(' (distribution_arg ( ',' distribution_arg ) *
 											
 distribution				: distributionValue=( 'deterministic'
 							|'normal'
-							|'normal_ci'
+							|'normalCI'
 							|'geometric'
 							|'exponential'
 							|'random'

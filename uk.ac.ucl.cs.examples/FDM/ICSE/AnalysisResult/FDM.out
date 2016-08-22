@@ -1,0 +1,104 @@
+Optimisation           Analysis            
+---------------------- 
+                   
+Objective:             MaxExpectedBenefit
+ 
+Objective:             MinExpectedCost
+    
+SolutionSpace:         24
+                 
+Minimal SolutionSet:   16
+                 
+Shortlisted:           2
+                  
+Runtime(s):            0
+                  
+ID blocking policy   processing type fraud detection method threshold level ExpectedBenefit     ExpectedCost         Optimal
+ 
+1  block first       batch           classifier             high            164195.2267655413   277044.79881475406   Yes
+     
+2  block first       continuous      classifier             high            418453.3833874737   277143.80528278975   Yes
+     
+3  block first       continuous      rule-based                             402161.63106220507  1323155.6072995372   No
+      
+4  investigage first batch           rule-based                             -44371.208262521584 669051.1311248764    No
+      
+5  investigage first batch           classifier             low             -71409.49234495276  2850986.850045921    No
+      
+6  block first       batch           rule-based                             101454.8274234688   669051.1311248764    No
+      
+7  investigage first batch           classifier             medium          -21025.32114598494  712835.422903871     No
+      
+8  investigage first batch           classifier             high            18369.19107955105   277044.79881475406   No
+      
+9  block first       batch           classifier             low             74416.54334103712   2850986.850045921    No
+      
+10 investigage first continuous      rule-based                             256335.59537621602  1323155.6072995372   No
+      
+11 block first       batch           classifier             medium          124800.71454000502  712835.422903871     No
+      
+12 block first       continuous      classifier             medium          408193.9466641959   2865042.3780224384   No
+      
+13 block first       continuous      classifier             low             395144.8418110115   1.3114907641396731E7 No
+      
+14 investigage first continuous      classifier             low             249318.80612502055  1.3114907641396731E7 No
+      
+15 investigage first continuous      classifier             medium          262367.9109782064   2865042.3780224384   No
+      
+16 investigage first continuous      classifier             high            272627.34770148405  277143.80528278975   No
+      
+
+Information Value Analysis                 
+                       
+--------------------------                 
+
+                      
+Objective:                                 ExpectedBenefit
+        
+EVTPI:                                     2164.4230349352
+
+       
+Parameter                                  EVPPI 
+                 
+----------                                 ----- 
+
+                
+NbrAccounts                                0.0
+                    
+CompromisedAccountRatio                    0.0
+                    
+AverageFraudValue                          1191.5617695967085
+     
+NbrFraudPerCompromisedAccountPerDay        967.7693768665195
+      
+InvestigationDelay                         0.0
+                    
+ContinuousAlertThreshold[high]             0.0
+                    
+ContinuousAlertThreshold[medium]           1.9612235912354663
+     
+ContinuousAlertThreshold[low]              -5.820766091346741E-11
+ 
+BatchAlertThreshold[high]                  0.0
+                    
+BatchAlertThreshold[medium]                0.0
+                    
+BatchAlertThreshold[low]                   0.0
+                    
+CostPerAlert                               0.0
+                    
+ContinuousClassierTrueNegativeRate[high]   0.0
+                    
+ContinuousClassierTrueNegativeRate[medium] 0.0
+                    
+ContinuousClassierTrueNegativeRate[low]    5.820766091346741E-11
+  
+BatchClassifierTrueNegativeRate[high]      0.0
+                    
+BatchClassifierTrueNegativeRate[medium]    0.0
+                    
+BatchClassifierTrueNegativeRate[low]       0.0
+                    
+NbrLegitTransactionsPerAccountPerDay       0.0
+                    
+

@@ -55,8 +55,8 @@ public class TwoDPlotter extends JFrame {
 	public void plot (Model semanticModel,String outputpath, AnalysisResult results){
 		try{
 			String chartTitle = "Pareto front for the " + semanticModel.getModelName();
-			String Xlabel =  semanticModel.getObjectives().get(0).getLabel();
-			String Ylabel =  semanticModel.getObjectives().get(1).getLabel();
+			String Xlabel =  semanticModel.getObjectives().get(1).getLabel();
+			String Ylabel =  semanticModel.getObjectives().get(0).getLabel();
 			
 			final ChartPanel chartPanel = createDemoPanel(chartTitle, populateDataSeries(results), Xlabel,Ylabel);
 	        chartPanel.setPreferredSize(new Dimension(400, 500));
@@ -66,9 +66,9 @@ public class TwoDPlotter extends JFrame {
 	        this.setLocationRelativeTo(null);
 	        
 	        this.setVisible(true);
-	        
-	        ImageIO.write(Helper.getImage(this), "PNG", new File(outputpath + semanticModel.getModelName() + ".png"));
-			
+
+	        Helper.writeImageToFolder(outputpath + "Figure/", Helper.getImage(this), "PNG", semanticModel.getModelName());
+	     			
 		}catch (IllegalArgumentException e){
 			throw new IllegalArgumentException (e.getMessage());
 		}catch (Exception e){
@@ -81,29 +81,25 @@ public class TwoDPlotter extends JFrame {
 		 Font font = new Font("Dialog",Font.PLAIN, 25); 
 		 axis.setLabelFont(font);
 		 axis.setLabelFont(font);
-		 
-		 	/*axis.setRange(-3.0, 3.0);
-	        axis.setTickUnit(new NumberTickUnit(0.5));
-	        axis.setVerticalTickLabels(vertical);*/
 	 }
 	private XYDataset populateDataSeries (AnalysisResult analysis_result){
 		XYSeriesCollection result= new XYSeriesCollection();
 	    
 		XYSeries series = new XYSeries("Non Dominated Solutions");
 		for (int i =0; i < analysis_result.getShortListObjectives().size(); i ++){
-			float v_0 = (float) analysis_result.getShortListObjectives().get(i)[0];
-			float v_1 = (float) analysis_result.getShortListObjectives().get(i)[1];
-			float x = analysis_result.getObjectives().get(0).getIsMinimisation() == true?v_0: -1*v_0;
-			float y = analysis_result.getObjectives().get(1).getIsMinimisation() == true?v_1: -1*v_1;
+			float v_0 = (float) analysis_result.getShortListObjectives().get(i)[1];
+			float v_1 = (float) analysis_result.getShortListObjectives().get(i)[0];
+			float x = analysis_result.getObjectives().get(1).getIsMinimisation() == true?v_0: -1*v_0;
+			float y = analysis_result.getObjectives().get(0).getIsMinimisation() == true?v_1: -1*v_1;
 			series.add(x, y);
 		}
 		
 		XYSeries series2 = new XYSeries("Dominated Solutions");
 		for (int i =0; i < analysis_result.getEvaluatedObjectives().size(); i ++){
-			float v_0 = (float) analysis_result.getEvaluatedObjectives().get(i)[0];
-			float v_1 = (float) analysis_result.getEvaluatedObjectives().get(i)[1];
-			float x = analysis_result.getObjectives().get(0).getIsMinimisation() == true?v_0: -1*v_0;
-			float y = analysis_result.getObjectives().get(1).getIsMinimisation() == true?v_1: -1*v_1;
+			float v_0 = (float) analysis_result.getEvaluatedObjectives().get(i)[1];
+			float v_1 = (float) analysis_result.getEvaluatedObjectives().get(i)[0];
+			float x = analysis_result.getObjectives().get(1).getIsMinimisation() == true?v_0: -1*v_0;
+			float y = analysis_result.getObjectives().get(0).getIsMinimisation() == true?v_1: -1*v_1;
 			series2.add(x, y);
 		}
 		
@@ -124,30 +120,11 @@ public class TwoDPlotter extends JFrame {
 	        
 	        XYItemRenderer renderer = xyPlot.getRenderer();
 	        renderer.setSeriesPaint(1, Color.green);
-	        //renderer.setSeriesPaint(0, Color.blue);
 	        
 	        renderer.setSeriesVisible(1, true);
-	        //renderer.setSeriesVisible(0, true);
-	        
-	      /*  XYItemRenderer renderer2 = xyPlot.getRenderer();
-	        renderer2.setSeriesPaint(0, Color.green);
-	        renderer2.setSeriesPaint(1, Color.red);*/
-	        
-	        //renderer.setSeriesVisible(1, true);;
-	        
-	        //rend.setSeriesFillPaint(0, Color.black);
-	        //rend.setSeriesFillPaint(1, Color.green);
-	        
 	        
 	        adjustAxis((NumberAxis) xyPlot.getDomainAxis(), true);
 	        adjustAxis((NumberAxis) xyPlot.getRangeAxis(), false);
-	        
-	        
-	        //xyPlot.setRenderer(0, renderer);
-	        //xyPlot.setDataset(0, dataset1());
-	        
-	        //xyPlot.setRenderer(1, renderer2);
-	        //xyPlot.setDataset(1, dataset2());
 	        
 	        xyPlot.setBackgroundPaint(Color.white);
 	        

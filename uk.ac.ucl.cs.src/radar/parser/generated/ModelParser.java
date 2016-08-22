@@ -43,7 +43,7 @@ public class ModelParser extends Parser {
 	private static final String[] _LITERAL_NAMES = {
 		null, "'Model'", "';'", "'Objective'", "'='", "'with'", "'margin'", "'EV'", 
 		"'('", "')'", "'Pr'", "'percentile'", "'-'", "'+'", "','", "'decision'", 
-		"'{'", "':'", "'}'", "'deterministic'", "'normal'", "'normal_ci'", "'geometric'", 
+		"'{'", "':'", "'}'", "'deterministic'", "'normal'", "'normalCI'", "'geometric'", 
 		"'exponential'", "'random'", "'uniform'", "'triangular'", "'^'", "'/'", 
 		"'*'", "'%'", "'Max'", "'Min'", "'>'", "'>='", "'<'", "'<='", "'=='", 
 		"'!='"

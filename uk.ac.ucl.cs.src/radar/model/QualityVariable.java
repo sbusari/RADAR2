@@ -53,6 +53,7 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 		return result;
 	}
 	public double [] simulate (Solution s){
+		
 		return definition_.simulate(s);
 	}
 	public Map<Solution, double[]> getSimData(){
@@ -73,12 +74,11 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 	}
 	@Override
 	public SolutionSet getAllSolutions(Model m){
+		System.out.println("qv:"+  label_);
+		if (label_.equals("BaseLinesLoss")){
+			System.out.println("BaseLinesLoss");
+		}
 		Expression expr = this.definition_;
-		// variable could be a parameter or a binary operand in which case its definition is null cos it was partially populated during parsing
-		/*if (expr == null){
-			System.out.print("Null");
-			return new SolutionSet();
-		}*/
 		return expr.getAllSolutions(m);
 		
 	}

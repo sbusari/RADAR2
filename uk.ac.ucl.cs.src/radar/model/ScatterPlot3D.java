@@ -95,10 +95,7 @@ public class ScatterPlot3D extends JFrame {
         plot.setLegendLabelGenerator(new StandardXYZLabelGenerator(
                 StandardXYZLabelGenerator.COUNT_TEMPLATE));
         ScatterXYZRenderer renderer = (ScatterXYZRenderer) plot.getRenderer();
-        //renderer.setSize(0.1);
-        //renderer.setColors(new Color(255, 128, 128), new Color(128, 255, 128));
         renderer.setSize(0.15);
-        //renderer.setColors(Colors.createIntenseColors());
         renderer.setColors(new Color(255, 128, 128), new Color(128, 255, 128));
         chart.setViewPoint(ViewPoint3D.createAboveRightViewPoint(40));
         return chart;
@@ -156,7 +153,7 @@ public class ScatterPlot3D extends JFrame {
     public void plot (Model semanticModel, String outputpath, AnalysisResult analysis_result) throws IOException{
 
 		Chart3D chart =createChart(semanticModel, createDataset(analysis_result));
-		Chart3DPanel chartPanel = new Chart3DPanel(chart) ;// createDemoPanel(chartTitle, populateDataSeries(), Xlabel,Ylabel);
+		Chart3DPanel chartPanel = new Chart3DPanel(chart) ;
         chartPanel.setPreferredSize(new Dimension(700, 500));
         this.add(chartPanel, BorderLayout.CENTER);
         String frameTilte = "Pareto front obtained  for " + semanticModel.getModelName() + " model." ;
@@ -165,9 +162,8 @@ public class ScatterPlot3D extends JFrame {
         this.setLocationRelativeTo(null);
         
         this.setVisible(true);
-
-        ImageIO.write(Helper.getImage(this), "PNG", new File(outputpath + semanticModel.getModelName() + ".png"));
-
+        
+        Helper.writeImageToFolder(outputpath  + "Figure/", Helper.getImage(this), "PNG", semanticModel.getModelName());
     }
     
 }

@@ -18,10 +18,11 @@ public class ModelConstructor {
 	}
 	void addModelSubGraphObjective (Model model, String obj_name, String subGraphObj){
 		if (subGraphObj != null && !StringUtils.isEmpty(subGraphObj)){
-			Objective subGraphObjective = new Objective();
+			Objective subGraphObjective = null;
 			List<Objective> objectives = model.getObjectives();
 			for (int i=0; i < objectives.size(); i ++){
 				if (objectives.get(i).getLabel().equals(subGraphObj.trim())){
+					subGraphObjective = new Objective();
 					subGraphObjective= objectives.get(i);
 				}
 			}
@@ -31,10 +32,11 @@ public class ModelConstructor {
 	} 
 	void addModelInfoValueObjective (Model model, String obj_name, String infoValueObj){
 		if (infoValueObj != null && !StringUtils.isEmpty(infoValueObj)){
-			Objective infoValueObjective = new Objective();
+			Objective infoValueObjective = null;
 			List<Objective> objectives = model.getObjectives();
 			for (int i=0; i < objectives.size(); i ++){
 				if (objectives.get(i).getLabel().equals(infoValueObj.trim())){
+					infoValueObjective = new Objective();
 					infoValueObjective= objectives.get(i);
 				}
 			}
@@ -256,7 +258,7 @@ public class ModelConstructor {
 			throw new RuntimeException ("Only exponential, determistic and geometric distributions can have one parameter list. Check the documentation for details.");
 		}else if (distributionArguments.size() != 2 && (distribution.toString().equals(ParameterDistribution.NORMAL.toString())
 				|| distribution.toString().equals(ParameterDistribution.BINOMIAL.toString()) ||distribution.toString().equals(ParameterDistribution.UNIFORM.toString())
-				|| distribution.toString().equals(ParameterDistribution.NORMAL_CI.toString())) ){
+				|| distribution.toString().equals(ParameterDistribution.NORMALCI.toString())) ){
 			throw new RuntimeException ("Only normal, uniform , normal_CI and binomial distributions can have two parameter list. Check the documentation for details.");
 		}else if (distributionArguments.size() != 3 && distribution.toString().equals(ParameterDistribution.TRIANGULAR.toString())){
 			throw new RuntimeException ("Distibution error: only triangualr distribution can have three parameter list. Check the documentation for details.");
@@ -290,7 +292,7 @@ public class ModelConstructor {
 			TriangularDistribution tr = new TriangularDistribution(lower, mode, upper,simulation);
 			param.setDistribution(tr);
 			param.setDefinition(tr);
-		}else if (distribution.toString().equals(ParameterDistribution.NORMAL_CI.toString())){
+		}else if (distribution.toString().equals(ParameterDistribution.NORMALCI.toString())){
 			double a = distributionArguments.get(0).convertToDouble();
 			double b = distributionArguments.get(1).convertToDouble();
 			NormalCIDistribution ncid = new NormalCIDistribution(a,b,simulation);

@@ -1,8 +1,5 @@
 package radar.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class ExponentialDistribution extends Distribution {
 
 	private double mean_ ;

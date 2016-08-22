@@ -1,8 +1,10 @@
 package radar.model;
-
+/**
+ * @author Saheed A. Busari and Emmanuel Letier
+ */
 enum ParameterDistribution {
 	NORMAL,
-	NORMAL_CI,
+	NORMALCI,
 	GEOMETRIC,
 	EXPONENTIAL,
 	RANDOM,

@@ -15,7 +15,7 @@ import radar.exception.CyclicDependencyException;
 	/**
 	 * Traverses an expression recursively until reaching the leaf quality variables to get all solutions.
 	 * @param m semantic model obtained from parsing.
-	 * @return a set of solutions constructed while traversing a binary expression up to the leaf quality variables.
+	 * @return a set of solutions constructed while traversing a binary expression from the leaf quality variables up to the point of calling expression.
 	 */
 	public abstract SolutionSet getAllSolutions(Model m);
 	QualityVariable parent_;

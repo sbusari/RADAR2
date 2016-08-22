@@ -1,0 +1,46 @@
+Optimisation           Analysis 
+---------------------- 
+        
+Objective:             MaxENB
+  
+Objective:             MinLP
+   
+SolutionSpace:         2
+       
+Minimal SolutionSet:   2
+       
+Shortlisted:           2
+       
+Runtime(s):            0
+       
+ID Architecture choice ENB                LP     Optimal
+ 
+1  As-is               1.9646121971063149 0.2347 Yes
+     
+2  Refactoring         1.0001170554125438 0.0    Yes
+     
+
+Information Value Analysis 
+                     
+-------------------------- 
+
+                    
+Objective:                 ENB
+                  
+EVTPI:                     0.6695455902319931
+
+  
+Parameter                  EVPPI 
+               
+----------                 ----- 
+
+              
+Benefit[As-is]             0.5679368785093524
+   
+Benefit[Refactoring]       6.599363245773926E-4
+ 
+Cost[As-is]                0.14447491504086107
+  
+Cost[Refactoring]          6.799486791120302E-4
+ 
+

@@ -13,6 +13,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 	private List<String> edges; 
 	private Map<AND_Refinement, Integer> andRefDecisionID;
 	Objective subGraphObjective;
+	boolean addObjectiveLabel = true;
 	public RefinementGraphGenerator(Objective subGraphObj){
 		visited = new ArrayList<ModelVisitorElement>();
 		andRefDecisionID = new LinkedHashMap<AND_Refinement, Integer>();
@@ -21,7 +22,10 @@ class RefinementGraphGenerator implements ModelVisitor {
 		dotString += "digraph G { \n";
 		dotString += "rankdir = BT \n";
 	}
-	String getDotString(){
+	String getDotString(Model m){
+		for (String undefinedVar : m.getUndefinedQualityVariables()){
+			dotString += undefinedVar + " [shape = plaintext, fontcolor =red]";
+		}
 		dotString += "}";
 		return dotString;
 	}
@@ -29,25 +33,31 @@ class RefinementGraphGenerator implements ModelVisitor {
 	public void visit(Model m) {
 
 	}
-
 	@Override
 	public void visit(Objective obj) {
-		
 		if (!visited.contains(obj)){
 			// when subgraph is specified, we do not want the objective to show, it starts from the quality variable.
-			if (subGraphObjective != null
-					&& !subGraphObjective.getQualityVariable().getLabel().equals(obj.getQualityVariable().getLabel())){
-				String objDotString = obj.getLabel() + " [shape = box] \n";
-				dotString +=  objDotString;
-				QualityVariable qvReferTo = obj.getQualityVariable();
-				// no edge when objective name equals var it refers to.
-				if (!obj.getLabel().equals(qvReferTo.getLabel())){
-					String childDotString = qvReferTo.getLabel() + "->" +  "\""+  obj.getLabel() +  "\"" + "\n";
-					dotString +=  childDotString;
-				}
-				visited.add(obj);
+			String objDotString = obj.getLabel() + " [shape = box] \n";
+			QualityVariable qvReferTo = obj.getQualityVariable();
+			if (subGraphObjective != null){
+					if (!subGraphObjective.getQualityVariable().getLabel().equals(obj.getQualityVariable().getLabel())){
+						dotString +=  objDotString;
+						// no edge when objective name equals var it refers to.
+						if (!obj.getLabel().equals(qvReferTo.getLabel())){
+							String childDotString = qvReferTo.getLabel() + "->" +  "\""+  obj.getLabel() +  "\"" + "\n";
+							dotString +=  childDotString;
+						}
+					}
 			}
-			
+			else{
+					dotString +=  objDotString;
+					// no edge when objective name equals var it refers to.
+					if (!obj.getLabel().equals(qvReferTo.getLabel())){
+						String childDotString = qvReferTo.getLabel() + "->" +  "\""+  obj.getLabel() +  "\"" + "\n";
+						dotString +=  childDotString;
+					}
+			}
+			visited.add(obj);
 		}
 	}
 
@@ -110,8 +120,8 @@ class RefinementGraphGenerator implements ModelVisitor {
 		}
 		return result;
 	}
-	// this does not include decisions betwee quality variables
-	@Override
+	// this include decisions betwee quality variables
+/*	@Override
 	public void visit(AND_Refinement andRef) {
 		if (!visited.contains(andRef) ){
 			String refID = "AndRef" + refCounter;
@@ -149,9 +159,9 @@ class RefinementGraphGenerator implements ModelVisitor {
 			visited.add(andRef);
 			
 		}
-	}
+	}*/
 	// this does not include decisions betwee quality variables
-/*	@Override
+	@Override
 	public void visit(AND_Refinement andRef) {
 		if (!visited.contains(andRef) ){
 			String refID = "AndRef" + refCounter;
@@ -172,7 +182,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 			visited.add(andRef);
 			
 		}
-	}*/
+	}
 	@Override
 	public void visit(OR_Refinement orRef) {
 

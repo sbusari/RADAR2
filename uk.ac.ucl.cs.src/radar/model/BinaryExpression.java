@@ -135,14 +135,15 @@ class BinaryExpression extends ArithmeticExpression {
 	/**
 	 * Traverses the operands of a binary expression recursively until reaching the leaf quality variables.
 	 * @param m parsed decison model.
-	 * @return a set of solutions constructed while traversing a binary expression up to the leaf quality variables.
+	 * @return a set of solutions constructed while traversing a binary expression from the leaf quality variables to the point of the calling binary expression.
 	 */
 	@Override
 	public SolutionSet getAllSolutions(Model m) {
 		SolutionSet results = new SolutionSet();
 		SolutionSet leftSolution= leftExpr_.getAllSolutions(m);
 		SolutionSet rightSolution= rightExpr_.getAllSolutions(m);
-		results = leftSolution.merge(rightSolution);
+		results = results.merge(leftSolution);
+		results = results.merge(rightSolution);
 		return results;
 	}
 	/**

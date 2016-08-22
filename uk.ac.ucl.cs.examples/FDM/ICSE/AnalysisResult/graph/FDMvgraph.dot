@@ -1,0 +1,82 @@
+digraph G { 
+rankdir = BT 
+"BaseLineFinancialLoss"[shape = box, style = rounded] 
+"AverageFraudValue"[shape = box, style = rounded] 
+"NbrAccounts"[shape = box, style = rounded] 
+"CompromisedAccountRatio"[shape = box, style = rounded] 
+"NbrCompromisedAccounts"[shape = box, style = rounded] 
+AndRef0[shape = point] 
+AndRef0->"NbrCompromisedAccounts"
+"NbrAccounts"->AndRef0 [dir = none] 
+"CompromisedAccountRatio"->AndRef0 [dir = none] 
+AndRef1[shape = point] 
+AndRef1->"ContinuousAlertThreshold"
+"ContinuousAlertThreshold[high]"->AndRef1 [dir = none] 
+AndRef2[shape = point] 
+AndRef2->"ContinuousAlertThreshold"
+"ContinuousAlertThreshold[medium]"->AndRef2 [dir = none] 
+AndRef3[shape = point] 
+AndRef3->"ContinuousAlertThreshold"
+"ContinuousAlertThreshold[low]"->AndRef3 [dir = none] 
+"ContinuousAlertThreshold"[shape = box, style = rounded] 
+AndRef4[shape = point] 
+AndRef4->"ContinuousTrueAlertRate"
+"ContinuousAlertThreshold"->AndRef4 [dir = none] 
+AndRef5[shape = point] 
+AndRef5->"ContinuousTrueAlertRate"
+"ContinuousTrueAlertRate[rule-based]"->AndRef5 [dir = none] 
+"ContinuousTrueAlertRate"[shape = box, style = rounded] 
+AndRef6[shape = point] 
+AndRef6->"NbrFraudBeforeDetection"
+"ContinuousTrueAlertRate"->AndRef6 [dir = none] 
+"NbrFraudPerCompromisedAccountPerDay"[shape = box, style = rounded] 
+AndRef7[shape = point] 
+AndRef7->"BatchAlertThreshold"
+"BatchAlertThreshold[high]"->AndRef7 [dir = none] 
+AndRef8[shape = point] 
+AndRef8->"BatchAlertThreshold"
+"BatchAlertThreshold[medium]"->AndRef8 [dir = none] 
+AndRef9[shape = point] 
+AndRef9->"BatchAlertThreshold"
+"BatchAlertThreshold[low]"->AndRef9 [dir = none] 
+"BatchAlertThreshold"[shape = box, style = rounded] 
+AndRef10[shape = point] 
+AndRef10->"BatchTrueAlertRate"
+"BatchAlertThreshold"->AndRef10 [dir = none] 
+AndRef11[shape = point] 
+AndRef11->"BatchTrueAlertRate"
+"BatchTrueAlertRate[rule-based]"->AndRef11 [dir = none] 
+"BatchTrueAlertRate"[shape = box, style = rounded] 
+AndRef12[shape = point] 
+AndRef12->"NbrFraudBeforeDetection"
+"NbrFraudPerCompromisedAccountPerDay"->AndRef12 [dir = none] 
+"BatchTrueAlertRate"->AndRef12 [dir = none] 
+"NbrFraudBeforeDetection"[shape = box, style = rounded] 
+AndRef13[shape = point] 
+AndRef13->"NbrFraudPerAccountBeforeBlocked"
+"NbrFraudBeforeDetection"->AndRef13 [dir = none] 
+"NbrFraudBeforeDetection"[shape = box, style = rounded] 
+"NbrFraudPerCompromisedAccountPerDay"[shape = box, style = rounded] 
+"InvestigationDelay"[shape = box, style = rounded] 
+"NbrFraudDuringInvestigation"[shape = box, style = rounded] 
+AndRef14[shape = point] 
+AndRef14->"NbrFraudDuringInvestigation"
+"NbrFraudPerCompromisedAccountPerDay"->AndRef14 [dir = none] 
+"InvestigationDelay"->AndRef14 [dir = none] 
+AndRef15[shape = point] 
+AndRef15->"NbrFraudPerAccountBeforeBlocked"
+"NbrFraudBeforeDetection"->AndRef15 [dir = none] 
+"NbrFraudDuringInvestigation"->AndRef15 [dir = none] 
+"NbrFraudPerAccountBeforeBlocked"[shape = box, style = rounded] 
+"FinancialLoss"[shape = box, style = rounded] 
+AndRef16[shape = point] 
+AndRef16->"FinancialLoss"
+"AverageFraudValue"->AndRef16 [dir = none] 
+"NbrCompromisedAccounts"->AndRef16 [dir = none] 
+"NbrFraudPerAccountBeforeBlocked"->AndRef16 [dir = none] 
+"Benefit"[shape = box, style = rounded] 
+AndRef17[shape = point] 
+AndRef17->"Benefit"
+"BaseLineFinancialLoss"->AndRef17 [dir = none] 
+"FinancialLoss"->AndRef17 [dir = none] 
+}

@@ -43,7 +43,8 @@ public class ModelSolver {
 		// Evaluate objectives for all solutions
 		int i =0;
 		for (Solution s: allSolutions){
-			result.addEvaluation(s, m.evaluate(objectives, s));	
+			//result.addEvaluation(s, m.evaluate(objectives, s));	
+			result.addEvaluation(s, new Simulator().evaluate(objectives, s,m));	
 			System.out.println("Solution index "+ i);
 			i++;
 		}
@@ -52,7 +53,7 @@ public class ModelSolver {
 		Map<Solution, double[]> evaluatedSolutions = m.addMaximisationSign(result.getEvaluatedSolutions());
 		
 		// Shortlists Pareto-optimal solutions
-		result.addShortlist(new Pareto().getParetoSet(evaluatedSolutions));
+		result.addShortlist(new Optimiser().getParetoSet(evaluatedSolutions));
 		
 		long end = System.currentTimeMillis();
 		long runTime = (end - start) / 1000;
@@ -61,7 +62,7 @@ public class ModelSolver {
 		// Computes Value of Information
 		Objective infoValueObjective = m.getInfoValueObjective();
 		
-		if (infoValueObjective != null){
+		if (infoValueObjective != null ){
 			List<String> paramNames = m.getParameters();
 			List<Parameter> parameters = Model.getParameterList(paramNames, m);
 			m.computeInformationValue(result,infoValueObjective, result.getShortListSolutions(), parameters);

@@ -517,7 +517,9 @@ public class RADAR_GUI {
 	void parse (){
 		try {
 			semanticModel = loadModel();
-			parsed =true;
+			if (semanticModel != null){
+				parsed =true;
+			}
 		} catch (Exception e) {
 			parsed =false;
 			String err = e.getMessage();
@@ -575,13 +577,6 @@ public class RADAR_GUI {
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 	
 	}
-	/*void resetResultTableModel (){
-		JTable  solutionTable = modelResultFrame.getSolutionTable();
-		DefaultTableModel solutionTableModel = (DefaultTableModel) solutionTable.getModel();
-		solutionTableModel.setNumRows(0);
-		JTable optimisationTable = modelResultFrame.getOptimisationAnalysisTable();
-		JTable infoValueTable = modelResultFrame.getInfoValueTable();
-	}*/
 	void loadResultInFrame (){
 		if (result == null  || result.getShortListObjectives().size() <= 0){
 			JOptionPane.showMessageDialog(null, "No results found!");
@@ -613,19 +608,19 @@ public class RADAR_GUI {
 			// analyse model
 			result = ModelSolver.solve(semanticModel);
 			String analysisResult = result.analysisToString();
-			String modelResultPath = textOutputDirectory.getText() +"/" + semanticModel.getModelName() ;
+			String modelResultPath = textOutputDirectory.getText() +"/" + semanticModel.getModelName() + "/ICSE/AnalysisResult/" ;
 			
-			Helper.printResults (modelResultPath + "/" , analysisResult, semanticModel.getModelName() +".out", false);
+			Helper.printResults (modelResultPath , analysisResult, semanticModel.getModelName() +".out", false);			
 			
 			// generate graphs
 			if (chckbxVariable.isSelected()){
 				String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
-				Helper.printResults (modelResultPath + "/graph/", variableGraph, "vgraph.dot", false);
+				Helper.printResults (modelResultPath + "graph/", variableGraph, semanticModel.getModelName() +"vgraph.dot", false);
 				
 			}
 			if (chckbxDecision.isSelected()){
 				String decisionGraph = semanticModel.generateDecisionDiagram(result.getAllSolutions());
-				Helper.printResults (modelResultPath + "/graph/", decisionGraph, "dgraph.dot", false);
+				Helper.printResults (modelResultPath + "graph/", decisionGraph, semanticModel.getModelName() + "dgraph.dot", false);
 				
 			}
 			if (chckbxPareto.isSelected()){
@@ -687,14 +682,9 @@ public class RADAR_GUI {
 			nbr_Simulation = Integer.parseInt(textNbrSimulation.getText());
 			subGraphObjective = textSubgraphObj.getText();
 			infoValueObjective = textInfoValueObj.getText();
-			/*if (!infoValueObjectiveExist()){
-				throw new RuntimeException("Information value objective does not exist in the model.");
-			}
-			if (!subGraphObjectiveExist()){
-				throw new RuntimeException("Subgraph objective does not exist in the model.");
-			}*/
 			semanticModel = new Parser().parseUIModel(textModelArea.getText(), nbr_Simulation, infoValueObjective,subGraphObjective);
 		}catch (RuntimeException re){
+			parsed = false;
 			String err = re.getMessage();
 			JOptionPane.showMessageDialog(null, err);
 		}

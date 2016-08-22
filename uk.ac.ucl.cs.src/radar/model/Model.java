@@ -19,6 +19,7 @@ public class Model implements ModelVisitorElement {
 		parameters_ =  new ArrayList<String>();
 		decisions_ = new LinkedHashMap<String, Decision>();
 		visitedQualityVariableStack_ = new LinkedHashMap<String,QualityVariable>();
+		undefinedQualityVariable_ = new ArrayList<String>();
 	}
 	private String modelName_;
 	private Map<String, Objective> objectives_;
@@ -29,7 +30,7 @@ public class Model implements ModelVisitorElement {
 	private Objective subgraphObjective;
 	private int noOfSimulation_;
 	private Map<String, QualityVariable> visitedQualityVariableStack_;
-
+	private List<String> undefinedQualityVariable_;
 	public void setModelName(String modelName ){
 		modelName_ =modelName;
 	}
@@ -264,7 +265,7 @@ public class Model implements ModelVisitorElement {
 	public String generateDOTRefinementGraph(ModelVisitorElement e, Model m, Objective subGraphObjective){
 		RefinementGraphGenerator graphGenerator = new RefinementGraphGenerator(subGraphObjective);
 		e.accept(graphGenerator,m);
-		return graphGenerator.getDotString();
+		return graphGenerator.getDotString(m);
 	}
 
 	// 
@@ -307,10 +308,16 @@ public class Model implements ModelVisitorElement {
 	*/
 	public String generateDecisionDiagram(List<Solution> allSolutions){
 		int idCounter =0;
+		Map<Decision, Integer> decisionIDs = new LinkedHashMap<Decision, Integer>();
 		List<String> edges = new ArrayList<String>();
 		String result = "digraph G { \n";
 		for(Decision d: this.getDecisions()){
 			Integer dID = idCounter++;
+			if (!decisionIDs.containsKey(d)){
+				decisionIDs.put(d, dID);
+			}else{
+				dID = decisionIDs.get(d);
+			}
 			String dShape =  "\"" + dID +  "\""  + "[label=\"" + d.getDecisionLabel() +"\", shape = polygon, sides =8 ]"; 
 			result +=  dShape;
 			for(String option: d.getOptions()){
@@ -318,7 +325,7 @@ public class Model implements ModelVisitorElement {
 				String optionShape = "\"" + optionID +  "\""  + "[label=\"" + option +"\"]"; 
 				result +=  optionShape;
 				
-				String newLine = "\"" + dID + "\"" + " -> " + "\"" + optionID + "\"" + "[arrowhead= odot]"+ "\n";
+				String newLine = "\"" + dID + "\"" + " -> " + "\"" + optionID + "\"" + "\n";
 				if (!edges.contains(newLine)){
 					result = result + newLine;
 					edges.add(newLine);
@@ -326,9 +333,14 @@ public class Model implements ModelVisitorElement {
 				for (Decision d1: this.getDecisions()){
 					if(this.isDependent(d1, d, option,allSolutions)){
 						Integer d1ID = idCounter++;
+						if (!decisionIDs.containsKey(d1)){
+							decisionIDs.put(d1, d1ID);
+						}else{
+							d1ID = decisionIDs.get(d1);
+						}
 						String d1Shape =  "\"" + d1ID +  "\""  + "[label=\"" + d1.getDecisionLabel() +"\", shape = polygon, sides =8 ]"; 
 						result +=  d1Shape;
-						newLine = "\"" + optionID + "\"" + " -> " + "\"" + d1ID + "\"" + "[arrowhead= dot]"+ "\n";
+						newLine = "\"" + optionID + "\"" + " -> " + "\"" + d1ID + "\"" + "\n";
 						if (!edges.contains(newLine)){
 							result = result + newLine;
 							edges.add(newLine);
@@ -375,5 +387,11 @@ public class Model implements ModelVisitorElement {
 			}
 		}
 		return evaluatedSolutions;
+	}
+	void addUndefinedQualityVariable (String undefinedQualityVariable){
+		undefinedQualityVariable_.add(undefinedQualityVariable);
+	}
+	List<String> getUndefinedQualityVariables (){
+		return undefinedQualityVariable_;
 	}
 }

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * @author Saheed Busari and Emmanuel Letier
+ */
 class Number extends ArithmeticExpression {
 
 	private double value_;
@@ -17,8 +19,8 @@ class Number extends ArithmeticExpression {
 	
 	@Override
 	public double[] simulate(Solution s) {
-		// in the case where a deterministic distribution has expr as argument, we have already handled that during parsing
-		// this is just for a binary expression that has a number.
+		// Expr in the argument of a deterministic distribution have been handled that during parsing
+		// Here, we handle a binary expression that has a number as an operand.
 		int simulationNo = s.getSemanticModel().getNbr_Simulation();
 		double [] sim = new double [simulationNo];
 		for (int i = 0; i < sim.length; ++i) {

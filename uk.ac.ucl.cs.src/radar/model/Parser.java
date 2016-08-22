@@ -11,20 +11,36 @@ import radar.parser.error.handler.ModelParserErrorStrategy;
 import radar.parser.generated.ModelLexer;
 import radar.parser.generated.ModelParser;
 import radar.utilities.Helper;
-
+/**
+ * @author Saheed A. Busari and Emmanuel Letier
+ */
 public class Parser {
 	Model semanticmodel_;
 	int nbr_simulation_;
 	public Parser(){}
+	 /**
+	 * Sets the semantic model obtained after parsng the decision model.
+	 * @param model the semantic model obtained after parsing.
+	 */
 	public void setSemanticModel (Model model){
 		semanticmodel_ =model;
 	}
+	 /**
+	 * @return the semantic model obtained after parsing.
+	 */
 	public Model getSemanticModel(){
 		return semanticmodel_;
 	}
-	public void setSimulationRun (int simulation){
-		nbr_simulation_ =simulation;
+	 /**
+	 * Sets the number of simulation to be run.
+	 * @param nbrSimulation the number of simulation.
+	 */
+	public void setSimulationRun (int nbrSimulation){
+		nbr_simulation_ =nbrSimulation;
 	}
+	 /**
+	 * @return the number of simulation.
+	 */
 	public int getSimulationRun(){
 		return nbr_simulation_;
 	}
@@ -46,7 +62,7 @@ public class Parser {
 	        //parser.setErrorHandler(new ModelParserErrorStrategy());
 	        ParseTree tree = parser.model(); 
 	        if (errorListener.getErrorMsg() != "") {
-				throw new RuntimeException(errorListener.getErrorMsg() + "\nPossible resolution hints:\n1. Remove extraneous and unrecognised tokens within expressions. \n2. Ensure model keywords are written according to RADAR syntax. \n3. The equality signs '=' must be used when defining a quality variable. \n4 Add semicolon at the end of each statement.");
+				throw new RuntimeException(errorListener.getErrorMsg() + "\nPossible resolution hints:\n1. Remove extraneous and unrecognised tokens within expressions. \n2. Ensure model keywords are written according to RADAR syntax. \n3. The equality signs '=' must be used when defining a quality variable. \n4 Add semicolon at the end of each statement and ensure quality variable names do not start with a number.");
 			}
 			visitor.visit(tree);
 		}
@@ -55,7 +71,7 @@ public class Parser {
 		}
 		catch(RuntimeException e){
 			if (errorListener.getErrorMsg() != "") {
-				throw new RuntimeException(errorListener.getErrorMsg() + "\nPossible resolution hints:\n1. Remove extraneous and unrecognised tokens within expressions. \n2. Ensure model keywords are written according to RADAR syntax. \n3. The equality signs '=' must be used when defining a quality variable. ");
+				throw new RuntimeException(errorListener.getErrorMsg() + "\nPossible resolution hints:\n1. Remove extraneous and unrecognised tokens within expressions. \n2. Ensure model keywords are written according to RADAR syntax. \n3. The equality signs '=' must be used when defining a quality variable. \n4 Add semicolon at the end of each statement and ensure quality variable names do not start with a number. ");
 			}else{
 				throw new RuntimeException( e.getMessage());
 			}

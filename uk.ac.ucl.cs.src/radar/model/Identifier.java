@@ -1,9 +1,7 @@
 package radar.model;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import radar.exception.CyclicDependencyException;
 import radar.exception.ModelException;
@@ -40,16 +38,18 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 	@Override
 	public double[] simulate(Solution s) {
 		Map<String, QualityVariable> qvList = s.getSemanticModel().getQualityVariables();
-		
-		if (id_.equals("ContinuousTrueAlertRate")){
-			System.out.println("QV: "+ id_);
-		}
 		QualityVariable qv = qvList.get(id_);
 		if (qv ==null){
-			throw new RuntimeException ("Quality variable " + id_ + " is not defined in the model.");
+			double [] sim = new double [s.getSemanticModel().getNbr_Simulation()];
+			for (int i = 0; i < sim.length; ++i) {
+				sim[i] =0;
+			}
+			s.getSemanticModel().addUndefinedQualityVariable(id_);
+			return sim;
+			//throw new RuntimeException ("Quality variable " + id_ + " is not defined in the model. Check it is well spelt.");
+		}else{
+			return qv.simulate(s);
 		}
-		double [] result = qv.simulate(s);
-		return result;
 	}
 	/**
 	 * Returns the parent of an identifier.
@@ -72,9 +72,13 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 	 */
 	@Override
 	public void accept(ModelVisitor visitor, Model m) {
-		
+		//undefinedQualityVariable_
 		QualityVariable qv = m.getQualityVariables().get(id_);
-		qv.accept(visitor, m);
+		// undefined quality variable (e.g due to wrong spelling) within an arithmtic expression could give null.
+		if (qv != null){
+			qv.accept(visitor, m);
+		}
+		
 	}
 	/**
 	 * @return a quality variable instance of an identifier.
@@ -93,6 +97,11 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 	@Override
 	public SolutionSet getAllSolutions(Model m) {
 		QualityVariable qv = m.getQualityVariables().get(id_);
+		if (qv == null){
+			m.addUndefinedQualityVariable(id_);
+			return new SolutionSet();
+			//throw new RuntimeException ("Quality variable " + id_ + " is not defined in the model. Check it is well spelt.");
+		}
 		SolutionSet solutions = qv.getDefinition().getAllSolutions(m);
 		return solutions;
 	}
@@ -104,22 +113,27 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 	@Override
 	public void getCyclicDependentVariables(Model m) throws CyclicDependencyException {
 		QualityVariable qv = m.getQualityVariables().get(id_);
-		for (String child : qv.getChildren()){
-			if (parent_.getLabel().equals(child)){
-				throw new RuntimeException ("Cyclic dependency in the model between " + parent_.getLabel() + " and " + id_);
-			}
-			// is the child (NB) of qv(A) is already on stack, get that child and check if any of its child is not qv(A)
-			if (isQualityVariableVisited(child, m)){
-				List<String> grandChildren =  m.getQualityVariables().get(child).getChildren();
-				for (String grandChild : grandChildren){
-					if (id_.equals(grandChild)){
-						throw new CyclicDependencyException( "Cyclic dependency in the model between " + id_ + " and " + grandChild + "\n");
+		if (qv != null){
+			for (String child : qv.getChildren()){
+				if (parent_.getLabel().equals(child)){
+					throw new RuntimeException ("Cyclic dependency in the model between " + parent_.getLabel() + " and " + id_);
+				}
+				// is the child (NB) of qv(A) is already on stack, get that child and check if any of its child is not qv(A)
+				if (isQualityVariableVisited(child, m)){
+					List<String> grandChildren =  m.getQualityVariables().get(child).getChildren();
+					for (String grandChild : grandChildren){
+						if (id_.equals(grandChild)){
+							throw new CyclicDependencyException( "Cyclic dependency in the model between " + id_ + " and " + grandChild + "\n");
+						}
 					}
 				}
+				
 			}
-			
+			m.addVisitedQualityVariable(qv);
+		}else{
+			//throw new RuntimeException ("Quality variable " + id_ + " is not defined in the model. Check it is well spelt.");
 		}
-		m.addVisitedQualityVariable(qv);
+		
 	}
 	/**
 	 * @param m parsed decison model.

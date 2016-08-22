@@ -10,9 +10,22 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Locale;
+
+import javax.imageio.ImageIO;
 
 public class Helper {
 
+	public static void writeImageToFolder (String directory, BufferedImage image, String imageFormat, String imageName) throws IOException{
+		File resultFile;
+		resultFile = new File(directory);
+		if (!resultFile.exists()) {
+			new File(directory).mkdirs();
+			System.out.println("Creating " + directory);
+		}
+        ImageIO.write(image, imageFormat, new File( directory + imageName  + "." + imageFormat.toLowerCase(Locale.ENGLISH)));
+		
+	}
 	public static void writeToAFile (String path,String content) throws IOException{
 		FileOutputStream fos   = new FileOutputStream(path) ;
 	      OutputStreamWriter osw = new OutputStreamWriter(fos)    ;
@@ -34,11 +47,6 @@ public class Helper {
 	      bw.write(expResult);
 	      bw.write("\n");
 	      bw.close();
-	      
-	      /*FileWriter fileWritter = new FileWriter(directory + fileName,append);
-	      fileWritter.write(expResult);
-	      fileWritter.write("\n");
-	      fileWritter.close();*/
 	}
 	@SuppressWarnings("resource")
 	public static String readFile(String fileName) {

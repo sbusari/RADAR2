@@ -67,20 +67,6 @@ public class RADAR_CMD {
         }
         cmd.run(cmd);
     }
-	
-/*	private Model parseModel (String modelPath,int nbr_simulation, String infoValueObjective, String subGraphObjective){
-		Model semanticModel = null;
-		try {
-			String model = Helper.readFile(modelPath);
-			Parser parser  = new Parser(model,nbr_simulation,infoValueObjective,subGraphObjective );
-			semanticModel = parser.getSemanticModel();
-		}
-		catch (RuntimeException re){
-			throw new RuntimeException( "Error: "+ re.getMessage());
-		}
-		
-		return semanticModel;
-	}*/
 
 	AnalysisData populateExperimentData () throws Exception{
 		AnalysisData result = new AnalysisData();
@@ -135,24 +121,27 @@ public class RADAR_CMD {
     		// analyse model
     		AnalysisResult result = ModelSolver.solve(semanticModel);
 			String analysisResult = result.analysisToString();
-			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/" , analysisResult, dataInput.getProblemName() +".out", false);
+			
+			String modelResultPath = dataInput.getOutputDirectory() + dataInput.getProblemName() + "/ICSE/AnalysisResult/";
+			
+			Helper.printResults (modelResultPath , analysisResult, dataInput.getProblemName() +".out", false);
 			
 			// generate graphs
 			
 			String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
 			String decisionGraph = semanticModel.generateDecisionDiagram(result.getAllSolutions());
-			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", variableGraph, "vgraph.dot", false);
-			Helper.printResults (dataInput.getOutputDirectory() + dataInput.getProblemName()+ "/graph/", decisionGraph, "dgraph.dot", false);
+			
+			Helper.printResults (modelResultPath + "graph/", variableGraph,  dataInput.getProblemName() + "vgraph.dot", false);
+			Helper.printResults (modelResultPath + "graph/", decisionGraph, dataInput.getProblemName() + "dgraph.dot", false);
 			
 			
     		if (pareto == true){
-    			String imageOutput = dataInput.getOutputDirectory() + dataInput.getProblemName() + "/";
     			if (result.getShortListObjectives().get(0).length == 2){
 					TwoDPlotter twoDPlot = new TwoDPlotter();
-					twoDPlot.plot(semanticModel,imageOutput, result);
+					twoDPlot.plot(semanticModel,modelResultPath, result);
 				}else if (result.getShortListObjectives().get(0).length == 3){
-					ScatterPlot3D sc3D2= new ScatterPlot3D( );
-					sc3D2.plot(semanticModel, imageOutput, result);;
+					ScatterPlot3D sc3D= new ScatterPlot3D( );
+					sc3D.plot(semanticModel, modelResultPath, result);;
 ;				}
     		}
     		System.out.println("Finished!");
