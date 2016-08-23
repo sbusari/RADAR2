@@ -12,6 +12,7 @@ class Optimiser {
 	 /**
 	 * @param s1 objective values for the first solution.
 	 * @param s2 objective values for the second solution.
+	 * @param objMargins objective margins to reduce simulation error.
 	 * @return -1 if solution 1 dominates solution 2, and 1 if solution 2 dominates solution 1, and 0 if neither solutions dominated each other.
 	 */
 	int dominate (double[] s1, double [] s2, double [] objMargins){
@@ -46,6 +47,8 @@ class Optimiser {
 	    return 1;    // solution2 dominate 
 	}
 	 /**
+	  * @param evaluatedSolutions list of simulated solutions and their objective values.
+	  * @param objs model objectives.
 	 * @return the set of all non-domimated (pareto optimal) solutions for the decision model.
 	 */
 	public  Map<Solution, double[]> getParetoSet (Map<Solution, double[]> evaluatedSolutions, List<Objective> objs){

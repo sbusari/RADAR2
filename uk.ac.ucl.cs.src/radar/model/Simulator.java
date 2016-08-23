@@ -12,6 +12,7 @@ import java.util.List;
 	 * Evaluates model objectives through monte-carlo simulation.
 	 * @param s a solution to be simulated through monte-carlo simulation.
 	 * @param objectives model objectives to simulate
+	 * @param m semantic model obtained from parsing.
 	 * @return an array of simulated objective values.
 	 */
 	public double[] evaluate (List<Objective> objectives, Solution s, Model m){

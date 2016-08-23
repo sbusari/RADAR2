@@ -9,6 +9,7 @@ public class ModelSolver {
 	/**
 	 * Solves the model and saves the analysis results. 
 	 * @param m semantic model obtained during parsing.
+	 * @return analysis result.
 	 */
 	public static AnalysisResult solve(Model m){
 
