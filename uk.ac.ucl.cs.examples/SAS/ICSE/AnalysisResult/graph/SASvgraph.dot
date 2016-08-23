@@ -725,4 +725,60 @@ AndRef178->"NB"
 "DevelopmentTime_Preference"->AndRef178 [dir = none] 
 "DeploymentTime_weight"->AndRef178 [dir = none] 
 "DeploymentTime_Preference"->AndRef178 [dir = none] 
+ENB [shape = box] 
+NB->"ENB"
+"BatteryUsage_must"[shape = box, style = rounded] 
+"BatteryUsage_Failure"[shape = box, style = rounded] 
+AndRef179[shape = point] 
+AndRef179->"BatteryUsage_Failure"
+"BatteryUsage"->AndRef179 [dir = none] 
+"BatteryUsage_must"->AndRef179 [dir = none] 
+"ResponseTime_must"[shape = box, style = rounded] 
+"ResponseTime_Failure"[shape = box, style = rounded] 
+AndRef180[shape = point] 
+AndRef180->"ResponseTime_Failure"
+"ResponseTime"->AndRef180 [dir = none] 
+"ResponseTime_must"->AndRef180 [dir = none] 
+"Reliability_must"[shape = box, style = rounded] 
+"Reliability_Failure"[shape = box, style = rounded] 
+AndRef181[shape = point] 
+AndRef181->"Reliability_Failure"
+"Reliability"->AndRef181 [dir = none] 
+"Reliability_must"->AndRef181 [dir = none] 
+"RampUpTime_must"[shape = box, style = rounded] 
+"RampUpTime_Failure"[shape = box, style = rounded] 
+AndRef182[shape = point] 
+AndRef182->"RampUpTime_Failure"
+"RampUpTime"->AndRef182 [dir = none] 
+"RampUpTime_must"->AndRef182 [dir = none] 
+"Cost_must"[shape = box, style = rounded] 
+"Cost_Failure"[shape = box, style = rounded] 
+AndRef183[shape = point] 
+AndRef183->"Cost_Failure"
+"Cost"->AndRef183 [dir = none] 
+"Cost_must"->AndRef183 [dir = none] 
+"DevelopmentTime_must"[shape = box, style = rounded] 
+"DevelopmentTime_Failure"[shape = box, style = rounded] 
+AndRef184[shape = point] 
+AndRef184->"DevelopmentTime_Failure"
+"DevelopmentTime"->AndRef184 [dir = none] 
+"DevelopmentTime_must"->AndRef184 [dir = none] 
+"DeploymentTime_must"[shape = box, style = rounded] 
+"DeploymentTime_Failure"[shape = box, style = rounded] 
+AndRef185[shape = point] 
+AndRef185->"DeploymentTime_Failure"
+"DeploymentTime"->AndRef185 [dir = none] 
+"DeploymentTime_must"->AndRef185 [dir = none] 
+"GoalFailure"[shape = box, style = rounded] 
+AndRef186[shape = point] 
+AndRef186->"GoalFailure"
+"BatteryUsage_Failure"->AndRef186 [dir = none] 
+"ResponseTime_Failure"->AndRef186 [dir = none] 
+"Reliability_Failure"->AndRef186 [dir = none] 
+"RampUpTime_Failure"->AndRef186 [dir = none] 
+"Cost_Failure"->AndRef186 [dir = none] 
+"DevelopmentTime_Failure"->AndRef186 [dir = none] 
+"DeploymentTime_Failure"->AndRef186 [dir = none] 
+Risk [shape = box] 
+GoalFailure->"Risk"
 }

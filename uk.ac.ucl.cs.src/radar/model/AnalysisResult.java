@@ -144,6 +144,12 @@ public class AnalysisResult {
 		runtime = time;
 	}
 	/**
+	 * @return analysis run time.
+	 */
+	public long getRunTime (){
+		return runtime;
+	}
+	/**
 	 * Adds specified subgraph objective to analysis result.
 	 * @param subGraphObj subgraph objective that restrict the variable dependency graph to a particular objective.
 	
@@ -249,7 +255,7 @@ public class AnalysisResult {
 			String infoAnalysis =informationValueResultToString();
 			analysisResult.append (infoAnalysis);
 		}
-		System.out.println ("Analysis result: \n"+analysisResult.toString());
+		//System.out.println ("Analysis result: \n"+analysisResult.toString());
 		return analysisResult.toString();
 	}
 	String getSolutionTableRow (int index, int offset, Map<Solution, double[]> solutions, boolean isOptimal ){
@@ -387,6 +393,22 @@ public class AnalysisResult {
 			count++;
 		}
 		return decision.toString();
+	}
+	public  String getReferenceObjectives () {
+		String record = "";
+		for (int index = 0; index < shortlist.size(); index++) {
+			record += optimalObjectiveToString (index, " ", shortlist);
+			record += "\n";
+		}
+		return record;
+	}
+	public String getReferenceDecisions (){
+		String record = "";
+		for (int index = 0; index < shortlist.size(); index++) {
+			record += optimalDecisionsToString (index, " ",  shortlist);
+			record += "\n";
+		}
+		return record;
 	}
 	
 

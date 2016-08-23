@@ -74,10 +74,6 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 	}
 	@Override
 	public SolutionSet getAllSolutions(Model m){
-		System.out.println("qv:"+  label_);
-		if (label_.equals("BaseLinesLoss")){
-			System.out.println("BaseLinesLoss");
-		}
 		Expression expr = this.definition_;
 		return expr.getAllSolutions(m);
 		

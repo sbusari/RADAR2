@@ -53,7 +53,7 @@ public class ModelSolver {
 		Map<Solution, double[]> evaluatedSolutions = m.addMaximisationSign(result.getEvaluatedSolutions());
 		
 		// Shortlists Pareto-optimal solutions
-		result.addShortlist(new Optimiser().getParetoSet(evaluatedSolutions));
+		result.addShortlist(new Optimiser().getParetoSet(evaluatedSolutions, objectives));
 		
 		long end = System.currentTimeMillis();
 		long runTime = (end - start) / 1000;

@@ -26,6 +26,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 		for (String undefinedVar : m.getUndefinedQualityVariables()){
 			dotString += undefinedVar + " [shape = plaintext, fontcolor =red]";
 		}
+		
 		dotString += "}";
 		return dotString;
 	}
@@ -65,7 +66,6 @@ class RefinementGraphGenerator implements ModelVisitor {
 	public void visit(Statistic stat) {
 		
 	}
-	
 	@Override
 	public void visit(QualityVariable var) {
 		if (!visited.contains(var)){
@@ -73,7 +73,8 @@ class RefinementGraphGenerator implements ModelVisitor {
 			dotString +=  varDotString;
 			// we do not want a qv whose parent is objective to be added here
 			// implement the same for unary
-			if (var.getDefinition() != null && var.getDefinition().getParent() != null && (var.getDefinition() instanceof BinaryExpression || var.getDefinition() instanceof UnaryExpression) ){ 
+			if (var.getDefinition() != null && var.getDefinition().getParent() != null 
+					&& (var.getDefinition() instanceof BinaryExpression || var.getDefinition() instanceof UnaryExpression) ){ 
 				String refID = "AndRef" + refCounter;
 				refCounter++;
 				dotString += refID + "[shape = point] \n";
@@ -108,6 +109,20 @@ class RefinementGraphGenerator implements ModelVisitor {
 			visited.add(var);
 		}
 	}
+	
+	// for generating only AND/OR refinements.
+/*	@Override
+	public void visit(QualityVariable var) {
+		if (!visited.contains(var)){
+			if (var.getDefinition() != null && var.getDefinition().getParent() != null 
+					&& (var.getDefinition() instanceof OR_Refinement) ){ 
+				String varDotString =  "\""+ var.getLabel() +  "\"" + "[shape = box, style = rounded] \n";
+				dotString +=  varDotString;
+				
+			}
+			visited.add(var);
+		}
+	}*/
 	/*
 	 * gets ANDRefinemnet decision ID if ANDRefinement parent already visited by another ANDRefinement that share the same parent.
 	 */
@@ -120,7 +135,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 		}
 		return result;
 	}
-	// this include decisions betwee quality variables
+	// this include decisions between quality variables
 /*	@Override
 	public void visit(AND_Refinement andRef) {
 		if (!visited.contains(andRef) ){
@@ -171,6 +186,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 			String andDotString = refID + "->" +  "\""+  parentLabel +  "\"" + "\n";
 			for (QualityVariable child : andRef.getChildren()){
 				String childLabel = child.getLabel();
+				dotString += "\"" +  childLabel + "\"" + "[shape = box, style = rounded] \n";
 				String childDotString =  "\""+ childLabel + "\"" + "->" + refID + " [dir = none] \n";
 				if (!edges.contains(childDotString)){
 					andDotString += childDotString;

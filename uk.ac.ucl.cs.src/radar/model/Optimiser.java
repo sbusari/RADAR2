@@ -14,7 +14,7 @@ class Optimiser {
 	 * @param s2 objective values for the second solution.
 	 * @return -1 if solution 1 dominates solution 2, and 1 if solution 2 dominates solution 1, and 0 if neither solutions dominated each other.
 	 */
-	int dominate (double[] s1, double [] s2){
+	int dominate (double[] s1, double [] s2, double [] objMargins){
 	    int dominate1 = 0 ; //dominate1 : Solution 1 domainates solution 2 for an objective
 	    int dominate2 = 0 ; //dominate2 : Solution 2 domainates solution 1 for an objective
 	    int result;     
@@ -22,9 +22,10 @@ class Optimiser {
 	    for (int i = 0; i < s1.length; i++) {
 	    	value1 = s1[i];
 	    	value2 = s2[i];
-	    	if (value1 < value2) {
+	    	double margin = objMargins [i];
+	    	if (value1 < value2 + margin ) {
 	    		result = -1;
-	    	} else if (value1 > value2 )  {
+	    	} else if (value1 > value2 + margin  )  {
 	    		result = 1;
 	    	} else {
 	    		result = 0;
@@ -47,9 +48,13 @@ class Optimiser {
 	 /**
 	 * @return the set of all non-domimated (pareto optimal) solutions for the decision model.
 	 */
-	public  Map<Solution, double[]> getParetoSet (Map<Solution, double[]> evaluatedSolutions){
+	public  Map<Solution, double[]> getParetoSet (Map<Solution, double[]> evaluatedSolutions, List<Objective> objs){
 		
-		Map<Solution, double[]> paretoSet = new LinkedHashMap<Solution, double[]>();
+		Map<Solution, double[]> result = new LinkedHashMap<Solution, double[]>();
+		double [] objMargins = new double [objs.size()];
+		for (int i = 0; i < objs.size() ; i ++){
+			objMargins[i] =objs.get(i).getMargin();
+		}
 		List<Solution> solutions = new ArrayList<Solution>(evaluatedSolutions.keySet());
 		List<double[]> objectiveValues = new ArrayList<double[]> (evaluatedSolutions.values());
 		boolean [] isPareto =  new boolean[evaluatedSolutions.size()];
@@ -59,7 +64,7 @@ class Optimiser {
 			int j = i+1;
 			while (isPareto[i] && j < objectiveValues.size()){
 				int dominate =0;
-				dominate = dominate(objectiveValues.get(i),objectiveValues.get(j));
+				dominate = dominate(objectiveValues.get(i),objectiveValues.get(j), objMargins);
 		        if (dominate == -1){
 		        	 isPareto[j] = Boolean.FALSE; 
 		        }else if (dominate == 1){	
@@ -71,9 +76,9 @@ class Optimiser {
 		}
 		for (int k =0 ; k < isPareto.length; k++){
 			if(isPareto[k]){
-				paretoSet.put(solutions.get(k),objectiveValues.get(k));
+				result.put(solutions.get(k),objectiveValues.get(k));
 			}
 		}
-		return paretoSet;
+		return result;
 	}
 }

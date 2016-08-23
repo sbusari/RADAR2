@@ -244,4 +244,74 @@ AndRef43->"Utility"
 "NotificationsFrequency_Utility"->AndRef43 [dir = none] 
 "Performance_weight"->AndRef43 [dir = none] 
 "Performance_Utility"->AndRef43 [dir = none] 
+ExpectedUtility [shape = box] 
+Utility->"ExpectedUtility"
+AndRef44[shape = point] 
+AndRef44->"Cost_OrderReassignment"
+"Cost_OrderReassignment[Current: not possible to reassign order]"->AndRef44 [dir = none] 
+AndRef45[shape = point] 
+AndRef45->"Cost_OrderReassignment"
+"Cost_OrderReassignment[Allow Order Reassignment]"->AndRef45 [dir = none] 
+"Cost_OrderReassignment"[shape = box, style = rounded] 
+AndRef46[shape = point] 
+AndRef46->"Cost_ForcedOrderCompletion"
+"Cost_ForcedOrderCompletion[Current: not possible to force order completion]"->AndRef46 [dir = none] 
+AndRef47[shape = point] 
+AndRef47->"Cost_ForcedOrderCompletion"
+"Cost_ForcedOrderCompletion[Allow Forced Order Completion]"->AndRef47 [dir = none] 
+"Cost_ForcedOrderCompletion"[shape = box, style = rounded] 
+AndRef48[shape = point] 
+AndRef48->"Cost_OrderPersistenceStrategy"
+"Cost_OrderPersistenceStrategy[Current: store when processed]"->AndRef48 [dir = none] 
+AndRef49[shape = point] 
+AndRef49->"Cost_OrderPersistenceStrategy"
+"Cost_OrderPersistenceStrategy[Store as soon as received]"->AndRef49 [dir = none] 
+"Cost_OrderPersistenceStrategy"[shape = box, style = rounded] 
+AndRef50[shape = point] 
+AndRef50->"Cost_OrderSegmentation"
+"Cost_OrderSegmentation[Current: no order segmentation]"->AndRef50 [dir = none] 
+AndRef51[shape = point] 
+AndRef51->"Cost_OrderSegmentation"
+"Cost_OrderSegmentation[Orders are segmented]"->AndRef51 [dir = none] 
+"Cost_OrderSegmentation"[shape = box, style = rounded] 
+AndRef52[shape = point] 
+AndRef52->"Cost_HungOrderRecovery"
+"Cost_HungOrderRecovery[Current: no order retry]"->AndRef52 [dir = none] 
+AndRef53[shape = point] 
+AndRef53->"Cost_HungOrderRecovery"
+"Cost_HungOrderRecovery[Allow Order Retry]"->AndRef53 [dir = none] 
+"Cost_HungOrderRecovery"[shape = box, style = rounded] 
+AndRef54[shape = point] 
+AndRef54->"Cost_FailedOrderNotification"
+"Cost_FailedOrderNotification[Current: no notification]"->AndRef54 [dir = none] 
+AndRef55[shape = point] 
+AndRef55->"Cost_FailedOrderNotification"
+"Cost_FailedOrderNotification[User notified of failed order]"->AndRef55 [dir = none] 
+"Cost_FailedOrderNotification"[shape = box, style = rounded] 
+AndRef56[shape = point] 
+AndRef56->"Cost_OrderTracking"
+"Cost_OrderTracking[Current: order level]"->AndRef56 [dir = none] 
+AndRef57[shape = point] 
+AndRef57->"Cost_OrderTracking"
+"Cost_OrderTracking[Granule-level order tracking]"->AndRef57 [dir = none] 
+"Cost_OrderTracking"[shape = box, style = rounded] 
+AndRef58[shape = point] 
+AndRef58->"Cost_AvailableUserInformation"
+"Cost_AvailableUserInformation[Current: no link to user info]"->AndRef58 [dir = none] 
+AndRef59[shape = point] 
+AndRef59->"Cost_AvailableUserInformation"
+"Cost_AvailableUserInformation[Link to user information]"->AndRef59 [dir = none] 
+"Cost_AvailableUserInformation"[shape = box, style = rounded] 
+"Cost"[shape = box, style = rounded] 
+AndRef60[shape = point] 
+AndRef60->"Cost"
+"Cost_OrderReassignment"->AndRef60 [dir = none] 
+"Cost_ForcedOrderCompletion"->AndRef60 [dir = none] 
+"Cost_OrderPersistenceStrategy"->AndRef60 [dir = none] 
+"Cost_OrderSegmentation"->AndRef60 [dir = none] 
+"Cost_HungOrderRecovery"->AndRef60 [dir = none] 
+"Cost_FailedOrderNotification"->AndRef60 [dir = none] 
+"Cost_OrderTracking"->AndRef60 [dir = none] 
+"Cost_AvailableUserInformation"->AndRef60 [dir = none] 
+Cost [shape = box] 
 }

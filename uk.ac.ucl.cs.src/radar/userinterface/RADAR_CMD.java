@@ -1,5 +1,4 @@
 package radar.userinterface;
-import java.util.Locale;
 
 import radar.model.AnalysisResult;
 import radar.model.AnalysisData;
@@ -103,15 +102,14 @@ public class RADAR_CMD {
 		return semanticModel;
 		
 	}
-	public void run(RADAR_CMD cmdParam) {
-    	
-    	try {
+	void analyseRadarModel (int simulation){
+		try {
     		// populate model and algorithm data
     		AnalysisData dataInput = populateExperimentData();
 
     		// get sematic model from model file
     		Model semanticModel = loadModel ();
-    		semanticModel.setNbr_Simulation(nbr_Simulation);
+    		semanticModel.setNbr_Simulation(simulation);
     		
     		// update experiemnt data with semantic model and information value objective.
     		dataInput.setProblemName(semanticModel.getModelName());
@@ -150,6 +148,11 @@ public class RADAR_CMD {
     		System.out.print("Error: ");
     		System.out.println(e.getMessage());
     	}
+	}
+	public void run(RADAR_CMD cmdParam) {
+    	
+		analyseRadarModel (nbr_Simulation);
+    	
     	
 		
     }

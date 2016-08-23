@@ -92,7 +92,7 @@ public class TestSuite {
 		for (Solution s: solutions){
 			evaluatedSolutions.put(s, semantic_model.evaluate(semantic_model.getObjectives(), s));	
 		}
-		Map<Solution, double[]> optimalSolutions = new Optimiser().getParetoSet(evaluatedSolutions);
+		Map<Solution, double[]> optimalSolutions = new Optimiser().getParetoSet(evaluatedSolutions, semantic_model.getObjectives());
 		assertTrue(optimalSolutions.size() > 0);
 
 	}
@@ -119,7 +119,7 @@ public class TestSuite {
 		for (Solution s: solutions){
 			result.addEvaluation(s, semantic_model.evaluate(semantic_model.getObjectives(), s));	
 		}
-		result.addShortlist(new Optimiser().getParetoSet(result.getEvaluatedSolutions()));
+		result.addShortlist(new Optimiser().getParetoSet(result.getEvaluatedSolutions(),semantic_model.getObjectives()));
 		Objective infoValueObjective = semantic_model.getInfoValueObjective();
 		List<String> paramNames = null;
 		List<Parameter> parameters = null;

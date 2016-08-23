@@ -23,7 +23,7 @@ AverageFraudValue = normalCI(100, 1000);
 
 NbrFraudPerAccountBeforeBlocked = decision("blocking policy"){
     "block first"          : NbrFraudBeforeDetection;
-    "investigage first"    : NbrFraudBeforeDetection + NbrFraudDuringInvestigation;
+    "investigate first"    : NbrFraudBeforeDetection + NbrFraudDuringInvestigation;
 }
 
 NbrFraudBeforeDetection = decision("processing type"){
@@ -42,10 +42,10 @@ ContinuousTrueAlertRate = decision("fraud detection method"){
 	"rule-based" :  deterministic(0.75);
 }
 
-ContinuousAlertThreshold = decision("threshold level"){
-	"high"   : triangular(0.85, 0.9, 0.95);
-	"medium" : triangular(0.75, 0.8, 0.85);
-	"low"    : triangular(0.65, 0.7, 0.75);
+ContinuousAlertThreshold = decision("alert threshold"){
+	"high"   : triangular(0.75, 0.85, 0.95);
+	"medium" : triangular(0.65, 0.75, 0.85);
+	"low"    : triangular(0.55, 0.65, 0.75);
 }
 
 BatchTrueAlertRate = decision("fraud detection method"){
@@ -53,10 +53,10 @@ BatchTrueAlertRate = decision("fraud detection method"){
 	"rule-based" :  deterministic(0.80);
 }
 
-BatchAlertThreshold = decision("threshold level"){
-	"high"   : triangular(0.9, 0.95, 1);
-	"medium" : triangular(0.8, 0.85, 0.9);
-	"low"    : triangular(0.7, 0.75, 0.8);
+BatchAlertThreshold = decision("alert threshold"){
+	"high"   : triangular(0.75, 0.85, 0.95);
+	"medium" : triangular(0.65, 0.75, 0.85);
+	"low"    : triangular(0.55, 0.65, 0.75);
 }
 
 
@@ -64,7 +64,7 @@ BatchAlertThreshold = decision("threshold level"){
 
 InvestigationCost = NbrAlerts * CostPerAlert; 
     
-CostPerAlert = normal(50, 10) ;
+CostPerAlert = normalCI(5, 50) ;
 
 NbrAlerts = NbrTrueAlerts + NbrFalseAlerts ;
     
@@ -88,11 +88,10 @@ ContinuousTrueNegativeRate = decision("fraud detection method"){
 	"rule-based" :  deterministic(0.99);
 }
 
-ContinuousClassierTrueNegativeRate = decision("threshold level"){
-	"high"   : triangular(0.995, 0.999, 1);
-	"medium" : triangular(0.95, 0.99, 0.995);
-	"low"   : triangular(0.85, 0.9, 0.95);
-
+ContinuousClassierTrueNegativeRate = decision("alert threshold"){
+	"high"   : triangular(0.8, 0.85, 0.9);
+	"medium" : triangular(0.85, 0.99, 0.995);
+	"low"    : triangular(0.99, 0.999, 0.9999);
 }
 
 BatchTrueNegativeRate = decision("fraud detection method"){
@@ -100,10 +99,10 @@ BatchTrueNegativeRate = decision("fraud detection method"){
 	"rule-based" :  deterministic(0.995);
 }
 
-BatchClassifierTrueNegativeRate = decision("threshold level"){
-	"high"   : triangular(0.995, 0.999, 1);
-	"medium" : triangular(0.99, 0.995, 0.999);
-	"low"    : triangular(0.95, 0.99, 0.995);
+BatchClassifierTrueNegativeRate = decision("alert threshold"){
+	"high"   : triangular(0.85, 0.90, 0.95);
+	"medium" : triangular(0.95, 0.99, 0.995);
+	"low"    : triangular(0.995, 0.999, 0.9999);
 }
 
 NbrFraud = NbrAccounts * CompromisedAccountRatio * NbrFraudPerCompromisedAccountPerDay;

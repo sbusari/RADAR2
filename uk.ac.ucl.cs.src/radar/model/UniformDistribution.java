@@ -1,8 +1,5 @@
 package radar.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class UniformDistribution extends Distribution {
 
 	private double lower_, upper_;
