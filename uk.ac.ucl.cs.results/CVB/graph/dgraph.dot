@@ -1,4 +1,0 @@
-digraph G { 
-"0"[label="system type", shape = polygon, sides =8 ]"1"[label="As-is"]"0" -> "1"[arrowhead= odot]
-"2"[label="Refactoring"]"0" -> "2"[arrowhead= odot]
-}
