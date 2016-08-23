@@ -15,7 +15,7 @@ public class RADAR_Performance {
     		//Integer []simArray = new Integer [] {1000, 10000, 100000, 1000000};
     		Integer []simArray = new Integer [] {1000, 10000};
     		for (String m : models ){
-    			for (int i =0; i < 3; i++){
+    			for (int i =0; i < 2; i++){
         			for (Integer sim : simArray){
         				String modelPath = outputDir + m +"/" + m + ".rdr";
         				new RADAR_Performance().analyseRadarModel (modelPath,sim,outputDir);
