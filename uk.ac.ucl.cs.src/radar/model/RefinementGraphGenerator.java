@@ -136,7 +136,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 		return result;
 	}
 	// this include decisions between quality variables
-/*	@Override
+	@Override
 	public void visit(AND_Refinement andRef) {
 		if (!visited.contains(andRef) ){
 			String refID = "AndRef" + refCounter;
@@ -174,9 +174,9 @@ class RefinementGraphGenerator implements ModelVisitor {
 			visited.add(andRef);
 			
 		}
-	}*/
+	}
 	// this does not include decisions betwee quality variables
-	@Override
+/*	@Override
 	public void visit(AND_Refinement andRef) {
 		if (!visited.contains(andRef) ){
 			String refID = "AndRef" + refCounter;
@@ -198,7 +198,7 @@ class RefinementGraphGenerator implements ModelVisitor {
 			visited.add(andRef);
 			
 		}
-	}
+	}*/
 	@Override
 	public void visit(OR_Refinement orRef) {
 

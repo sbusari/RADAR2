@@ -2,13 +2,17 @@ digraph G {
 rankdir = BT 
 "Probability_InsidersLeak"[shape = box, style = rounded] 
 AndRef0[shape = point] 
-AndRef0->"Nbr_DocsOnSharedDrive"
+1[label="Document Sharing Policy", shape = polygon, sides =8]1->"Nbr_DocsOnSharedDrive"
+"Nbr_DocsOnSharedDrive[Neutral]"[shape = box, style = rounded] 
+AndRef0->1
 "Nbr_DocsOnSharedDrive[Neutral]"->AndRef0 [dir = none] 
 AndRef1[shape = point] 
-AndRef1->"Nbr_DocsOnSharedDrive"
+1[label="Document Sharing Policy", shape = polygon, sides =8]"Nbr_DocsOnSharedDrive[Recommend Email]"[shape = box, style = rounded] 
+AndRef1->1
 "Nbr_DocsOnSharedDrive[Recommend Email]"->AndRef1 [dir = none] 
 AndRef2[shape = point] 
-AndRef2->"Nbr_DocsOnSharedDrive"
+1[label="Document Sharing Policy", shape = polygon, sides =8]"Nbr_DocsOnSharedDrive[Recommend External Media]"[shape = box, style = rounded] 
+AndRef2->1
 "Nbr_DocsOnSharedDrive[Recommend External Media]"->AndRef2 [dir = none] 
 "Nbr_DocsOnSharedDrive"[shape = box, style = rounded] 
 "SharedDriveLeakRange"[shape = box, style = rounded] 
@@ -19,20 +23,27 @@ AndRef3->"Nbr_DocsLeakedByInsiders"
 "Nbr_DocsOnSharedDrive"->AndRef3 [dir = none] 
 "SharedDriveLeakRange"->AndRef3 [dir = none] 
 AndRef4[shape = point] 
-AndRef4->"Nbr_OfficeIntrusions"
+5[label="Building entry security", shape = polygon, sides =8]5->"Nbr_OfficeIntrusions"
+"Nbr_OfficeIntrusions[not guarded]"[shape = box, style = rounded] 
+AndRef4->5
 "Nbr_OfficeIntrusions[not guarded]"->AndRef4 [dir = none] 
 AndRef5[shape = point] 
-AndRef5->"Nbr_OfficeIntrusions"
+5[label="Building entry security", shape = polygon, sides =8]"Nbr_OfficeIntrusions[guarded]"[shape = box, style = rounded] 
+AndRef5->5
 "Nbr_OfficeIntrusions[guarded]"->AndRef5 [dir = none] 
 "Nbr_OfficeIntrusions"[shape = box, style = rounded] 
 AndRef6[shape = point] 
-AndRef6->"Nbr_DocsOnExternalMedia"
+7[label="Document Sharing Policy", shape = polygon, sides =8]7->"Nbr_DocsOnExternalMedia"
+"Nbr_DocsOnExternalMedia[Neutral]"[shape = box, style = rounded] 
+AndRef6->7
 "Nbr_DocsOnExternalMedia[Neutral]"->AndRef6 [dir = none] 
 AndRef7[shape = point] 
-AndRef7->"Nbr_DocsOnExternalMedia"
+7[label="Document Sharing Policy", shape = polygon, sides =8]"Nbr_DocsOnExternalMedia[Recommend Email]"[shape = box, style = rounded] 
+AndRef7->7
 "Nbr_DocsOnExternalMedia[Recommend Email]"->AndRef7 [dir = none] 
 AndRef8[shape = point] 
-AndRef8->"Nbr_DocsOnExternalMedia"
+7[label="Document Sharing Policy", shape = polygon, sides =8]"Nbr_DocsOnExternalMedia[Recommend External Media]"[shape = box, style = rounded] 
+AndRef8->7
 "Nbr_DocsOnExternalMedia[Recommend External Media]"->AndRef8 [dir = none] 
 "Nbr_DocsOnExternalMedia"[shape = box, style = rounded] 
 "Nbr_DocsPerMedia"[shape = box, style = rounded] 

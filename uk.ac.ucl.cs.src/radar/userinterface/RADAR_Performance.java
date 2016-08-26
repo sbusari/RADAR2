@@ -12,8 +12,7 @@ public class RADAR_Performance {
 		try {
     		String outputDir= "/Users/INTEGRALSABIOLA/Documents/JavaProject/RADAR/uk.ac.ucl.cs.examples/";
     		String [] models = new String [] {"CBA", "FDM", "BSPDM", "ECS", "SAS"};
-    		//Integer []simArray = new Integer [] {1000, 10000, 100000, 1000000};
-    		Integer []simArray = new Integer [] {1000, 10000};
+    		Integer []simArray = new Integer [] {1000, 10000, 100000, 1000000};
     		for (String m : models ){
     			for (int i =0; i < 2; i++){
         			for (Integer sim : simArray){

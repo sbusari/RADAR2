@@ -58,6 +58,7 @@ import javax.swing.ScrollPaneConstants;
 import org.apache.commons.lang3.StringUtils;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.UIManager;
 
 public class RADAR_GUI {
 
@@ -72,6 +73,7 @@ public class RADAR_GUI {
 	private boolean isBoardEnabled;
 	private boolean parsed;
 	private String openedFilePath;
+	private String solvedModel;
 	private DefaultTableModel decisionTableModel;
 	private ModelResultFrame modelResultFrame;
 	private TutorialFrame tutorialFrame;
@@ -118,6 +120,11 @@ public class RADAR_GUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -385,7 +392,9 @@ public class RADAR_GUI {
 						solve();
 						if (modelSolved){
 							loadResultInFrame();
+							solvedModel = textModelArea.getText();
 						}
+						
 						
 	                }
 					modelParsed= true;
@@ -406,7 +415,11 @@ public class RADAR_GUI {
 					JOptionPane.showMessageDialog(null, "You need to write a new decision model or select from existing decision models.");
 					return;
 				}
-				if (semanticModel != null && modelParsed == true){
+				// also check that there is no changes to the model, otherwise, we parse again.
+				if (!solvedModel.equals(textModelArea.getText())){
+					parse();
+				}
+				if (semanticModel != null && modelParsed == true) {
 					solve();
 				}else{
 					String analysisMsg = allAnalysisSettingValid();
@@ -526,6 +539,7 @@ public class RADAR_GUI {
 			JOptionPane.showMessageDialog(null, err);
 		}
 	}
+	
 	void loadSolutionTable (DefaultTableModel solutionTableModel){
 		List<String> solutions= result.solutionTable();
 		for (int i =0; i < solutions.size(); i ++){
@@ -602,15 +616,18 @@ public class RADAR_GUI {
 		modelResultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 	}
+	
 	void solve (){
 		
 		try {
 			// analyse model
 			result = ModelSolver.solve(semanticModel);
 			String analysisResult = result.analysisToString();
+			String analysisResultToCSV = result.analysisResultToCSV();
 			String modelResultPath = textOutputDirectory.getText() +"/" + semanticModel.getModelName() + "/ICSE/AnalysisResult/" ;
 			
-			Helper.printResults (modelResultPath , analysisResult, semanticModel.getModelName() +".out", false);			
+			Helper.printResults (modelResultPath , analysisResult, semanticModel.getModelName() +".out", false);
+			Helper.printResults (modelResultPath , analysisResultToCSV, semanticModel.getModelName() +".csv", false);
 			
 			// generate graphs
 			if (chckbxVariable.isSelected()){
@@ -635,6 +652,7 @@ public class RADAR_GUI {
 			}
 			System.out.println("Finished!");
 			modelSolved =true;
+			solvedModel = textModelArea.getText();
 		
 		} 
 		catch (IOException e) {
@@ -729,7 +747,7 @@ public class RADAR_GUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1200, 800);
+		frame.setBounds(100, 100, 1200, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("RADAR- Requirements engineering And Architecture Decisions Analyser");
 		
@@ -950,7 +968,6 @@ public class RADAR_GUI {
 		
 		chckbxPareto = new JCheckBox("Pareto Optimal");
 		chckbxPareto.setEnabled(false);
-		chckbxPareto.setSelected(true);
 		
 		btnFindDirectory = new JButton("Find");
 		btnFindDirectory.setEnabled(false);

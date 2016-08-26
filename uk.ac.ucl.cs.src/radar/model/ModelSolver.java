@@ -1,4 +1,5 @@
 package radar.model;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class ModelSolver {
 		}catch (Exception e){
 			throw new RuntimeException (e.getMessage());
 		}
-		
+		System.out.println("Finished checking cyclic dependecies");
 		// get all decisions
 		List<Decision> decisions = m.getDecisions();
 		
@@ -42,33 +43,39 @@ public class ModelSolver {
 		result.addSubGraphObejctive(m.getSubGraphObjective());
 		
 		// Evaluate objectives for all solutions
+		System.out.println("Evaluation and computation of optimal solutions to begin");
 		int i =0;
 		for (Solution s: allSolutions){
 			//result.addEvaluation(s, m.evaluate(objectives, s));	
 			result.addEvaluation(s, new Simulator().evaluate(objectives, s,m));	
-			System.out.println("Solution index "+ i);
+			
 			i++;
 		}
-
+		
 		// add -ve sign for maximisaiton
 		Map<Solution, double[]> evaluatedSolutions = m.addMaximisationSign(result.getEvaluatedSolutions());
 		
 		// Shortlists Pareto-optimal solutions
 		result.addShortlist(new Optimiser().getParetoSet(evaluatedSolutions, objectives));
+		System.out.println("Optimal solutions computed");
 		
 		long end = System.currentTimeMillis();
 		long runTime = (end - start) / 1000;
 		result.addRunTime(runTime);
 		
+		result.addNumberOfVariables(m.getQualityVariables().size());
+		result.addNumberOfDecisions(m.getDecisions().size());
+		
 		// Computes Value of Information
 		Objective infoValueObjective = m.getInfoValueObjective();
+		List<String> paramNames = m.getParameters();
+		List<Parameter> parameters = Model.getParameterList(paramNames, m);
+		int nbrParam = parameters.size();
 		
 		if (infoValueObjective != null ){
-			List<String> paramNames = m.getParameters();
-			List<Parameter> parameters = Model.getParameterList(paramNames, m);
-			m.computeInformationValue(result,infoValueObjective, result.getShortListSolutions(), parameters);
+			InformationValueAnalyser.computeInformationValue(result,infoValueObjective, result.getShortListSolutions(), parameters);;
 		}
-		
+		result.addNumberOfParameters(nbrParam);
 		result.addSubGraphObejctive(m.getSubGraphObjective());
 		result.addEviObjective(infoValueObjective);
 		//

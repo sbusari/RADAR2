@@ -3,17 +3,23 @@ rankdir = BT
 "HungRequestsRatio_weight"[shape = box, style = rounded] 
 "HungRequestRatio_current"[shape = box, style = rounded] 
 AndRef0[shape = point] 
-AndRef0->"ReassignedHungRequestRatio"
+1[label="Order Reassignment", shape = polygon, sides =8]1->"ReassignedHungRequestRatio"
+"ReassignedHungRequestRatio[Current: not possible to reassign order]"[shape = box, style = rounded] 
+AndRef0->1
 "ReassignedHungRequestRatio[Current: not possible to reassign order]"->AndRef0 [dir = none] 
 AndRef1[shape = point] 
-AndRef1->"ReassignedHungRequestRatio"
+1[label="Order Reassignment", shape = polygon, sides =8]"ReassignedHungRequestRatio[Allow Order Reassignment]"[shape = box, style = rounded] 
+AndRef1->1
 "ReassignedHungRequestRatio[Allow Order Reassignment]"->AndRef1 [dir = none] 
 "ReassignedHungRequestRatio"[shape = box, style = rounded] 
 AndRef2[shape = point] 
-AndRef2->"ForcedHungRequestRatio"
+3[label="Forced Order Completion", shape = polygon, sides =8]3->"ForcedHungRequestRatio"
+"ForcedHungRequestRatio[Current: not possible to force order completion]"[shape = box, style = rounded] 
+AndRef2->3
 "ForcedHungRequestRatio[Current: not possible to force order completion]"->AndRef2 [dir = none] 
 AndRef3[shape = point] 
-AndRef3->"ForcedHungRequestRatio"
+3[label="Forced Order Completion", shape = polygon, sides =8]"ForcedHungRequestRatio[Allow Forced Order Completion]"[shape = box, style = rounded] 
+AndRef3->3
 "ForcedHungRequestRatio[Allow Forced Order Completion]"->AndRef3 [dir = none] 
 "ForcedHungRequestRatio"[shape = box, style = rounded] 
 "HungRequestRatio"[shape = box, style = rounded] 
@@ -42,10 +48,13 @@ AndRef6->"LostRequestsRatio_Utility"
 "LostRequestsRatio_best"->AndRef6 [dir = none] 
 "FailedOrderRatio_weight"[shape = box, style = rounded] 
 AndRef7[shape = point] 
-AndRef7->"FailedOrderRatio"
+8[label="Order Persistence Strategy", shape = polygon, sides =8]8->"FailedOrderRatio"
+"FailedOrderRatio[Current: store when processed]"[shape = box, style = rounded] 
+AndRef7->8
 "FailedOrderRatio[Current: store when processed]"->AndRef7 [dir = none] 
 AndRef8[shape = point] 
-AndRef8->"FailedOrderRatio"
+8[label="Order Persistence Strategy", shape = polygon, sides =8]"FailedOrderRatio[Store as soon as received]"[shape = box, style = rounded] 
+AndRef8->8
 "FailedOrderRatio[Store as soon as received]"->AndRef8 [dir = none] 
 "FailedOrderRatio"[shape = box, style = rounded] 
 "FailedOrderRatio_worst"[shape = box, style = rounded] 
@@ -59,17 +68,23 @@ AndRef9->"FailedOrderRatio_Utility"
 "HungOrdersRatio_weight"[shape = box, style = rounded] 
 "HungOrdersRatio_current"[shape = box, style = rounded] 
 AndRef10[shape = point] 
-AndRef10->"SkippedHungOrderRatio"
+11[label="Order Segmentation", shape = polygon, sides =8]11->"SkippedHungOrderRatio"
+"SkippedHungOrderRatio[Current: no order segmentation]"[shape = box, style = rounded] 
+AndRef10->11
 "SkippedHungOrderRatio[Current: no order segmentation]"->AndRef10 [dir = none] 
 AndRef11[shape = point] 
-AndRef11->"SkippedHungOrderRatio"
+11[label="Order Segmentation", shape = polygon, sides =8]"SkippedHungOrderRatio[Orders are segmented]"[shape = box, style = rounded] 
+AndRef11->11
 "SkippedHungOrderRatio[Orders are segmented]"->AndRef11 [dir = none] 
 "SkippedHungOrderRatio"[shape = box, style = rounded] 
 AndRef12[shape = point] 
-AndRef12->"RetriedHungOrderRatio"
+13[label="Hung Order Recovery", shape = polygon, sides =8]13->"RetriedHungOrderRatio"
+"RetriedHungOrderRatio[Current: no order retry]"[shape = box, style = rounded] 
+AndRef12->13
 "RetriedHungOrderRatio[Current: no order retry]"->AndRef12 [dir = none] 
 AndRef13[shape = point] 
-AndRef13->"RetriedHungOrderRatio"
+13[label="Hung Order Recovery", shape = polygon, sides =8]"RetriedHungOrderRatio[Allow Order Retry]"[shape = box, style = rounded] 
+AndRef13->13
 "RetriedHungOrderRatio[Allow Order Retry]"->AndRef13 [dir = none] 
 "RetriedHungOrderRatio"[shape = box, style = rounded] 
 "HungOrdersRatio"[shape = box, style = rounded] 
@@ -88,10 +103,13 @@ AndRef15->"HungOrdersRatio_Utility"
 "HungOrdersRatio_best"->AndRef15 [dir = none] 
 "LostOrdersRatio_weight"[shape = box, style = rounded] 
 AndRef16[shape = point] 
-AndRef16->"LostOrdersRatio"
+17[label="Order Persistence Strategy", shape = polygon, sides =8]17->"LostOrdersRatio"
+"LostOrdersRatio[Current: store when processed]"[shape = box, style = rounded] 
+AndRef16->17
 "LostOrdersRatio[Current: store when processed]"->AndRef16 [dir = none] 
 AndRef17[shape = point] 
-AndRef17->"LostOrdersRatio"
+17[label="Order Persistence Strategy", shape = polygon, sides =8]"LostOrdersRatio[Store as soon as received]"[shape = box, style = rounded] 
+AndRef17->17
 "LostOrdersRatio[Store as soon as received]"->AndRef17 [dir = none] 
 "LostOrdersRatio"[shape = box, style = rounded] 
 "LostOrdersRatio_worst"[shape = box, style = rounded] 
@@ -104,17 +122,23 @@ AndRef18->"LostOrdersRatio_Utility"
 "LostOrdersRatio_best"->AndRef18 [dir = none] 
 "HelpNeededByUsers_weight"[shape = box, style = rounded] 
 AndRef19[shape = point] 
-AndRef19->"HelpNeededPerLostOrder"
+20[label="Failed Order Notification", shape = polygon, sides =8]20->"HelpNeededPerLostOrder"
+"HelpNeededPerLostOrder[Current: no notification]"[shape = box, style = rounded] 
+AndRef19->20
 "HelpNeededPerLostOrder[Current: no notification]"->AndRef19 [dir = none] 
 AndRef20[shape = point] 
-AndRef20->"HelpNeededPerLostOrder"
+20[label="Failed Order Notification", shape = polygon, sides =8]"HelpNeededPerLostOrder[User notified of failed order]"[shape = box, style = rounded] 
+AndRef20->20
 "HelpNeededPerLostOrder[User notified of failed order]"->AndRef20 [dir = none] 
 "HelpNeededPerLostOrder"[shape = box, style = rounded] 
 AndRef21[shape = point] 
-AndRef21->"HelpNeededForTrackingGranularity"
+22[label="Order Tracking", shape = polygon, sides =8]22->"HelpNeededForTrackingGranularity"
+"HelpNeededForTrackingGranularity[Current: order level]"[shape = box, style = rounded] 
+AndRef21->22
 "HelpNeededForTrackingGranularity[Current: order level]"->AndRef21 [dir = none] 
 AndRef22[shape = point] 
-AndRef22->"HelpNeededForTrackingGranularity"
+22[label="Order Tracking", shape = polygon, sides =8]"HelpNeededForTrackingGranularity[Granule-level order tracking]"[shape = box, style = rounded] 
+AndRef22->22
 "HelpNeededForTrackingGranularity[Granule-level order tracking]"->AndRef22 [dir = none] 
 "HelpNeededForTrackingGranularity"[shape = box, style = rounded] 
 "HelpNeededByUsers"[shape = box, style = rounded] 
@@ -134,24 +158,33 @@ AndRef24->"HelpNeededByUsers_Utility"
 "FailureInfoGivenToUsers_weight"[shape = box, style = rounded] 
 "RatioUsersNotGettingInfo_current"[shape = box, style = rounded] 
 AndRef25[shape = point] 
-AndRef25->"NotificationOrderEffect"
+26[label="Failed Order Notification", shape = polygon, sides =8]26->"NotificationOrderEffect"
+"NotificationOrderEffect[Current: no notification]"[shape = box, style = rounded] 
+AndRef25->26
 "NotificationOrderEffect[Current: no notification]"->AndRef25 [dir = none] 
 AndRef26[shape = point] 
-AndRef26->"NotificationOrderEffect"
+26[label="Failed Order Notification", shape = polygon, sides =8]"NotificationOrderEffect[User notified of failed order]"[shape = box, style = rounded] 
+AndRef26->26
 "NotificationOrderEffect[User notified of failed order]"->AndRef26 [dir = none] 
 "NotificationOrderEffect"[shape = box, style = rounded] 
 AndRef27[shape = point] 
-AndRef27->"OrderTrackingGranularityEffect"
+28[label="Order Tracking", shape = polygon, sides =8]28->"OrderTrackingGranularityEffect"
+"OrderTrackingGranularityEffect[Current: order level]"[shape = box, style = rounded] 
+AndRef27->28
 "OrderTrackingGranularityEffect[Current: order level]"->AndRef27 [dir = none] 
 AndRef28[shape = point] 
-AndRef28->"OrderTrackingGranularityEffect"
+28[label="Order Tracking", shape = polygon, sides =8]"OrderTrackingGranularityEffect[Granule-level order tracking]"[shape = box, style = rounded] 
+AndRef28->28
 "OrderTrackingGranularityEffect[Granule-level order tracking]"->AndRef28 [dir = none] 
 "OrderTrackingGranularityEffect"[shape = box, style = rounded] 
 AndRef29[shape = point] 
-AndRef29->"UserInformationEffect"
+30[label="Available User Information", shape = polygon, sides =8]30->"UserInformationEffect"
+"UserInformationEffect[Current: no link to user info]"[shape = box, style = rounded] 
+AndRef29->30
 "UserInformationEffect[Current: no link to user info]"->AndRef29 [dir = none] 
 AndRef30[shape = point] 
-AndRef30->"UserInformationEffect"
+30[label="Available User Information", shape = polygon, sides =8]"UserInformationEffect[Link to user information]"[shape = box, style = rounded] 
+AndRef30->30
 "UserInformationEffect[Link to user information]"->AndRef30 [dir = none] 
 "UserInformationEffect"[shape = box, style = rounded] 
 "RatioUsersNotGettingInfo"[shape = box, style = rounded] 
@@ -175,10 +208,13 @@ AndRef33->"FailureInfoGivenToUsers_Utility"
 "FailureInfoGivenToUsers_best"->AndRef33 [dir = none] 
 "LimitOnOrders_weight"[shape = box, style = rounded] 
 AndRef34[shape = point] 
-AndRef34->"LimitOnOrders"
+35[label="Order Chunking", shape = polygon, sides =8]35->"LimitOnOrders"
+"LimitOnOrders[Current: no oder chunking]"[shape = box, style = rounded] 
+AndRef34->35
 "LimitOnOrders[Current: no oder chunking]"->AndRef34 [dir = none] 
 AndRef35[shape = point] 
-AndRef35->"LimitOnOrders"
+35[label="Order Chunking", shape = polygon, sides =8]"LimitOnOrders[Order Chunking]"[shape = box, style = rounded] 
+AndRef35->35
 "LimitOnOrders[Order Chunking]"->AndRef35 [dir = none] 
 "LimitOnOrders"[shape = box, style = rounded] 
 "LimitOnOrders_worst"[shape = box, style = rounded] 
@@ -191,10 +227,13 @@ AndRef36->"LimitOnOrders_Utility"
 "LimitOnOrders_best"->AndRef36 [dir = none] 
 "NotificationsFrequency_weight"[shape = box, style = rounded] 
 AndRef37[shape = point] 
-AndRef37->"NotificationsFrequency"
+38[label="Order Bundling", shape = polygon, sides =8]38->"NotificationsFrequency"
+"NotificationsFrequency[No Order Bundling]"[shape = box, style = rounded] 
+AndRef37->38
 "NotificationsFrequency[No Order Bundling]"->AndRef37 [dir = none] 
 AndRef38[shape = point] 
-AndRef38->"NotificationsFrequency"
+38[label="Order Bundling", shape = polygon, sides =8]"NotificationsFrequency[Order Bundling]"[shape = box, style = rounded] 
+AndRef38->38
 "NotificationsFrequency[Order Bundling]"->AndRef38 [dir = none] 
 "NotificationsFrequency"[shape = box, style = rounded] 
 "NotificationsFrequency_worst"[shape = box, style = rounded] 
@@ -207,10 +246,13 @@ AndRef39->"NotificationsFrequency_Utility"
 "NotificationsFrequency_best"->AndRef39 [dir = none] 
 "Performance_weight"[shape = box, style = rounded] 
 AndRef40[shape = point] 
-AndRef40->"Performance"
+41[label="Order Bundling", shape = polygon, sides =8]41->"Performance"
+"Performance[No Order Bundling]"[shape = box, style = rounded] 
+AndRef40->41
 "Performance[No Order Bundling]"->AndRef40 [dir = none] 
 AndRef41[shape = point] 
-AndRef41->"Performance"
+41[label="Order Bundling", shape = polygon, sides =8]"Performance[Order Bundling]"[shape = box, style = rounded] 
+AndRef41->41
 "Performance[Order Bundling]"->AndRef41 [dir = none] 
 "Performance"[shape = box, style = rounded] 
 "Performance_worst"[shape = box, style = rounded] 
@@ -244,74 +286,4 @@ AndRef43->"Utility"
 "NotificationsFrequency_Utility"->AndRef43 [dir = none] 
 "Performance_weight"->AndRef43 [dir = none] 
 "Performance_Utility"->AndRef43 [dir = none] 
-ExpectedUtility [shape = box] 
-Utility->"ExpectedUtility"
-AndRef44[shape = point] 
-AndRef44->"Cost_OrderReassignment"
-"Cost_OrderReassignment[Current: not possible to reassign order]"->AndRef44 [dir = none] 
-AndRef45[shape = point] 
-AndRef45->"Cost_OrderReassignment"
-"Cost_OrderReassignment[Allow Order Reassignment]"->AndRef45 [dir = none] 
-"Cost_OrderReassignment"[shape = box, style = rounded] 
-AndRef46[shape = point] 
-AndRef46->"Cost_ForcedOrderCompletion"
-"Cost_ForcedOrderCompletion[Current: not possible to force order completion]"->AndRef46 [dir = none] 
-AndRef47[shape = point] 
-AndRef47->"Cost_ForcedOrderCompletion"
-"Cost_ForcedOrderCompletion[Allow Forced Order Completion]"->AndRef47 [dir = none] 
-"Cost_ForcedOrderCompletion"[shape = box, style = rounded] 
-AndRef48[shape = point] 
-AndRef48->"Cost_OrderPersistenceStrategy"
-"Cost_OrderPersistenceStrategy[Current: store when processed]"->AndRef48 [dir = none] 
-AndRef49[shape = point] 
-AndRef49->"Cost_OrderPersistenceStrategy"
-"Cost_OrderPersistenceStrategy[Store as soon as received]"->AndRef49 [dir = none] 
-"Cost_OrderPersistenceStrategy"[shape = box, style = rounded] 
-AndRef50[shape = point] 
-AndRef50->"Cost_OrderSegmentation"
-"Cost_OrderSegmentation[Current: no order segmentation]"->AndRef50 [dir = none] 
-AndRef51[shape = point] 
-AndRef51->"Cost_OrderSegmentation"
-"Cost_OrderSegmentation[Orders are segmented]"->AndRef51 [dir = none] 
-"Cost_OrderSegmentation"[shape = box, style = rounded] 
-AndRef52[shape = point] 
-AndRef52->"Cost_HungOrderRecovery"
-"Cost_HungOrderRecovery[Current: no order retry]"->AndRef52 [dir = none] 
-AndRef53[shape = point] 
-AndRef53->"Cost_HungOrderRecovery"
-"Cost_HungOrderRecovery[Allow Order Retry]"->AndRef53 [dir = none] 
-"Cost_HungOrderRecovery"[shape = box, style = rounded] 
-AndRef54[shape = point] 
-AndRef54->"Cost_FailedOrderNotification"
-"Cost_FailedOrderNotification[Current: no notification]"->AndRef54 [dir = none] 
-AndRef55[shape = point] 
-AndRef55->"Cost_FailedOrderNotification"
-"Cost_FailedOrderNotification[User notified of failed order]"->AndRef55 [dir = none] 
-"Cost_FailedOrderNotification"[shape = box, style = rounded] 
-AndRef56[shape = point] 
-AndRef56->"Cost_OrderTracking"
-"Cost_OrderTracking[Current: order level]"->AndRef56 [dir = none] 
-AndRef57[shape = point] 
-AndRef57->"Cost_OrderTracking"
-"Cost_OrderTracking[Granule-level order tracking]"->AndRef57 [dir = none] 
-"Cost_OrderTracking"[shape = box, style = rounded] 
-AndRef58[shape = point] 
-AndRef58->"Cost_AvailableUserInformation"
-"Cost_AvailableUserInformation[Current: no link to user info]"->AndRef58 [dir = none] 
-AndRef59[shape = point] 
-AndRef59->"Cost_AvailableUserInformation"
-"Cost_AvailableUserInformation[Link to user information]"->AndRef59 [dir = none] 
-"Cost_AvailableUserInformation"[shape = box, style = rounded] 
-"Cost"[shape = box, style = rounded] 
-AndRef60[shape = point] 
-AndRef60->"Cost"
-"Cost_OrderReassignment"->AndRef60 [dir = none] 
-"Cost_ForcedOrderCompletion"->AndRef60 [dir = none] 
-"Cost_OrderPersistenceStrategy"->AndRef60 [dir = none] 
-"Cost_OrderSegmentation"->AndRef60 [dir = none] 
-"Cost_HungOrderRecovery"->AndRef60 [dir = none] 
-"Cost_FailedOrderNotification"->AndRef60 [dir = none] 
-"Cost_OrderTracking"->AndRef60 [dir = none] 
-"Cost_AvailableUserInformation"->AndRef60 [dir = none] 
-Cost [shape = box] 
 }

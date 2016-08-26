@@ -11,13 +11,19 @@ Minimal SolutionSet:   2
        
 Shortlisted:           2
        
+Nbr. Variables:        3
+       
+Nbr. Parameters:       4
+       
+Nbr. Decisions:        1
+       
 Runtime(s):            0
        
 ID Architecture choice ENB                LP     Optimal
  
-1  As-is               2.0242408306867183 0.2269 Yes
+1  As-is               1.9710761803052617 0.2368 Yes
      
-2  Refactoring         0.9994926466523695 0.0    Yes
+2  Refactoring         1.0005033959226661 0.0    Yes
      
 
 Information Value Analysis 
@@ -27,7 +33,7 @@ Information Value Analysis
                     
 Objective:                 ENB
                   
-EVTPI:                     0.6575429554896766
+EVTPI:                     0.6675624392978519
 
   
 Parameter                  EVPPI 
@@ -35,12 +41,12 @@ Parameter                  EVPPI
 ----------                 ----- 
 
               
-Benefit[As-is]             0.5541608676309999
-   
-Benefit[Refactoring]       0.0
-                  
-Cost[As-is]                0.15680629990704986
-  
-Cost[Refactoring]          6.595404326787957E-4
+Benefit[As-is]             0.565770452921196
+    
+Benefit[Refactoring]       3.375242567593695E-5
  
+Cost[As-is]                0.14900923586720283
+  
+Cost[Refactoring]          5.27693397944784E-5
+  
 

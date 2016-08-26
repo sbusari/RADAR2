@@ -56,14 +56,14 @@ public class ModelResultFrame extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-						.addComponent(SolutionsPanel, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-						.addComponent(optimisationResultScrollPane, GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE))
+						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
+						.addComponent(optimisationResultScrollPane, GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE))
 					.addContainerGap())
+				.addComponent(SolutionsPanel, GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -73,7 +73,7 @@ public class ModelResultFrame extends JFrame {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(SolutionsPanel, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
 		);
 		
 		infoValueTable = new JTable();

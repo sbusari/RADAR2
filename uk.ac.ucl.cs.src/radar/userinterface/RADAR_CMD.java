@@ -34,8 +34,11 @@ public class RADAR_CMD {
 	@Parameter(names = "--solve", description = "Solves the decision model using exhaustive search. ")
 	public boolean solve = false;
 	
-	@Parameter(names = "--decision", description = "Displays the model decisions and their corresponding options.")
+	@Parameter(names = "--decision", description = "Generates the model decision dependency graph.")
 	public boolean decision = false;
+	
+	@Parameter(names = "--variable", description = "Generates the model AND/OR variable depenedency graph.")
+	public boolean variable = false;
 	
 	
 	@Parameter(names = "--nbr_simulation", description = "Number of simulation run. Input <sample size> .")
@@ -56,7 +59,7 @@ public class RADAR_CMD {
 	public boolean pareto = false;
 	
    
-	public static void main(String[]args) {
+	public static void main(String[]args) throws Exception {
     	RADAR_CMD cmd = new RADAR_CMD();
     	JCommander jcommander = new JCommander(cmd, args);
     	jcommander.setProgramName("Radar");
@@ -82,7 +85,7 @@ public class RADAR_CMD {
 	Model loadModel () throws Exception{
 		//4. when parse is specified quickly parse and write a message that the model is parsed.
 		Model semanticModel =null;
-		if (parse == true || decision == true){
+		if (parse == true || solve == true){
 			InputValidator.validateModelPath(model);
     		InputValidator.validateOutputPath(output);
     		try {
@@ -106,32 +109,34 @@ public class RADAR_CMD {
 		try {
     		// populate model and algorithm data
     		AnalysisData dataInput = populateExperimentData();
-
     		// get sematic model from model file
     		Model semanticModel = loadModel ();
+    		
     		semanticModel.setNbr_Simulation(simulation);
     		
     		// update experiemnt data with semantic model and information value objective.
     		dataInput.setProblemName(semanticModel.getModelName());
     		InputValidator.objectiveExist(semanticModel, infoValueObjective);
     		InputValidator.objectiveExist(semanticModel, subGraphObjective);
-
+    		
+    		String modelResultPath = dataInput.getOutputDirectory() + dataInput.getProblemName() + "/ICSE/AnalysisResult/";
     		// analyse model
     		AnalysisResult result = ModelSolver.solve(semanticModel);
 			String analysisResult = result.analysisToString();
-			
-			String modelResultPath = dataInput.getOutputDirectory() + dataInput.getProblemName() + "/ICSE/AnalysisResult/";
-			
+			String analysisResultToCSV = result.analysisResultToCSV();
 			Helper.printResults (modelResultPath , analysisResult, dataInput.getProblemName() +".out", false);
+			Helper.printResults (modelResultPath , analysisResultToCSV, semanticModel.getModelName() +".csv", false);
 			
 			// generate graphs
+			if (decision == true){
+				String decisionGraph = semanticModel.generateDecisionDiagram(result.getAllSolutions());
+				Helper.printResults (modelResultPath + "graph/", decisionGraph, dataInput.getProblemName() + "dgraph.dot", false);
+			}
 			
-			String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
-			String decisionGraph = semanticModel.generateDecisionDiagram(result.getAllSolutions());
-			
-			Helper.printResults (modelResultPath + "graph/", variableGraph,  dataInput.getProblemName() + "vgraph.dot", false);
-			Helper.printResults (modelResultPath + "graph/", decisionGraph, dataInput.getProblemName() + "dgraph.dot", false);
-			
+			if (variable == true){
+				String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
+				Helper.printResults (modelResultPath + "graph/", variableGraph,  dataInput.getProblemName() + "vgraph.dot", false);
+			}
 			
     		if (pareto == true){
     			if (result.getShortListObjectives().get(0).length == 2){
@@ -149,11 +154,13 @@ public class RADAR_CMD {
     		System.out.println(e.getMessage());
     	}
 	}
-	public void run(RADAR_CMD cmdParam) {
-    	
-		analyseRadarModel (nbr_Simulation);
-    	
-    	
+	public void run(RADAR_CMD cmdParam) throws Exception {
+		if (solve == false && parse == true){
+			Model semanticModel = loadModel ();
+			System.out.println("Model was parsed succesfully.");
+		}else if (solve == true){
+			analyseRadarModel (nbr_Simulation);
+		}
 		
     }
 

@@ -11,21 +11,27 @@ Minimal SolutionSet:   6
                                 
 Shortlisted:           2
                                 
+Nbr. Variables:        23
+                               
+Nbr. Parameters:       11
+                               
+Nbr. Decisions:        2
+                                
 Runtime(s):            0
                                 
 ID Building entry security Document Sharing Policy  ExpectedCostOfDisclosures RiskOfCatastrophicDisclosures Optimal
  
-1  not guarded             Recommend Email          906.298255000657          0.0                           Yes
+1  not guarded             Recommend Email          915.421104994325          0.0                           Yes
      
-2  guarded                 Recommend Email          906.298255000657          0.0                           Yes
+2  guarded                 Recommend Email          915.421104994325          0.0                           Yes
      
-3  guarded                 Recommend External Media 1057585.4900641702        0.3071                        No
+3  guarded                 Recommend External Media 1069715.83018919          0.3073                        No
       
-4  not guarded             Recommend External Media 3127226.7445163187        0.6513                        No
+4  not guarded             Recommend External Media 3196514.3050295115        0.6569                        No
       
-5  not guarded             Neutral                  2945.469328752139         0.0                           No
+5  not guarded             Neutral                  2975.1185912315545        0.0                           No
       
-6  guarded                 Neutral                  2945.469328752139         0.0                           No
+6  guarded                 Neutral                  2975.1185912315545        0.0                           No
       
 
 Information Value Analysis          

@@ -35,6 +35,12 @@ public class AnalysisResult {
 	private int solutionSpace;
 	
 	private long runtime;
+	
+	private int nbrVariables;
+	
+	private int nbrOfDecision;
+	
+	private int nbrParameters;
 
 	// mapping from parameter's label to parameter's evppi
 	private Map<String, Double> evppi;
@@ -150,6 +156,45 @@ public class AnalysisResult {
 		return runtime;
 	}
 	/**
+	 * Adds the number of quality variables to analysis result.
+	 * @param nbrVar execution analysis run time.
+	 */
+	void addNumberOfVariables (int nbrVar){
+		nbrVariables = nbrVar;
+	}
+	/**
+	 * @return the number of quality variables.
+	 */
+	public int getNumberOfVariables (){
+		return nbrVariables;
+	}
+	/**
+	 * Adds the number of model parameters to analysis result.
+	 * @param nbrParam execution analysis run time.
+	 */
+	void addNumberOfParameters (int nbrParam){
+		nbrParameters = nbrParam;
+	}
+	/**
+	 * @return the number of quality variables.
+	 */
+	public int getNumberOfParameters (){
+		return nbrParameters;
+	}
+	/**
+	 * Adds the number of decisions to analysis result.
+	 * @param time execution analysis run time.
+	 */
+	void addNumberOfDecisions (int nbrDecision){
+		nbrOfDecision = nbrDecision;
+	}
+	/**
+	 * @return the number of quality variables.
+	 */
+	public int getNumberOfDecisions (){
+		return nbrOfDecision;
+	}
+	/**
 	 * Adds specified subgraph objective to analysis result.
 	 * @param subGraphObj subgraph objective that restrict the variable dependency graph to a particular objective.
 	
@@ -210,6 +255,9 @@ public class AnalysisResult {
 		tableBuilder.addRow ("SolutionSpace:", solutionSpace +"\n");
 		tableBuilder.addRow ("Minimal SolutionSet:", value.size() +"\n");
 		tableBuilder.addRow ("Shortlisted:", shortlist.size() +"\n");
+		tableBuilder.addRow ("Nbr. Variables:", nbrVariables + "\n");
+		tableBuilder.addRow ("Nbr. Parameters:", nbrParameters + "\n");
+		tableBuilder.addRow ("Nbr. Decisions:", nbrOfDecision + "\n");
 		tableBuilder.addRow ("Runtime(s):", runtime +"\n");
 		return tableBuilder.toString();
 	}
@@ -217,11 +265,14 @@ public class AnalysisResult {
 		List<String> result = new ArrayList<String> ();
 		for(int j=0; j < objectives.size(); j++){
 			String optimisationDirection = objectives.get(j).getIsMinimisation() ? "Min" : "Max";
-			result.add ("Objective ,"+optimisationDirection + objectives.get(j).getLabel() +"\n");
+			result.add ("Objective ,"+optimisationDirection + objectives.get(j).getLabel());
 		}
 		result.add ("SolutionSpace ," + solutionSpace);
 		result.add ("Minimal SolutionSet ,"+ value.size());
 		result.add ("Shortlisted ,"+ shortlist.size() );
+		result.add ("Nbr. Variables ," + nbrVariables  );
+		result.add ("Nbr. Parameters ," + nbrParameters  );
+		result.add ("Nbr. Decisions ," + nbrOfDecision  );
 		result.add ("Runtime(s) ,"+ runtime);
 		return result;
 	}
@@ -229,8 +280,8 @@ public class AnalysisResult {
 		List<String> result = new ArrayList<String> ();
 		if (eviObjective != null){
 			result.add ("Objective,"+ eviObjective.getLabel());
-			result.add("EVTPI," + evtpi );
-			result.add ("Parameter,"+ "EVPPI \n");
+			result.add("EVTPI," + evtpi + "\n" );
+			result.add ("Parameter,"+ "EVPPI");
 			for (Map.Entry<String, Double> entry: evppi.entrySet()){
 				result.add(entry.getKey()+ ","+entry.getValue() );
 			}
@@ -257,6 +308,27 @@ public class AnalysisResult {
 		}
 		//System.out.println ("Analysis result: \n"+analysisResult.toString());
 		return analysisResult.toString();
+	}
+	public String analysisResultToCSV (){
+		StringBuilder resultToPrint = new StringBuilder ();
+		resultToPrint.append("Optimisation Analysis, \n");
+		List<String> optimisationDetail= optimisationAnalysisDetails();
+		for (String optDetail :optimisationDetail ){
+			resultToPrint.append(optDetail + "\n");
+		}
+		resultToPrint.append("\n");
+		resultToPrint.append(generateSolutionHeader(",") + "\n");
+		List<String> solutions= solutionTable();
+		for (String sol :solutions ){
+			resultToPrint.append(sol);
+		}
+		resultToPrint.append("\n");
+		resultToPrint.append ("Information Value Analysis, \n");
+		List<String> infoValueDetail= infoValueDetails();
+		for (String infoVal :infoValueDetail ){
+			resultToPrint.append(infoVal + "\n");
+		}
+		return resultToPrint.toString();
 	}
 	String getSolutionTableRow (int index, int offset, Map<Solution, double[]> solutions, boolean isOptimal ){
 		String row = "";
