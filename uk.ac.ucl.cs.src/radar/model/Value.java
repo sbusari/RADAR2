@@ -1,6 +1,8 @@
 package radar.model;
 
-
+/**
+ * @author Saheed Busari and Emmanuel Letier
+ */
 public class Value {
 
     public static Value VOID = new Value(new Object());

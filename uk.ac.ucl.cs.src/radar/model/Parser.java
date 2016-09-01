@@ -44,9 +44,24 @@ public class Parser {
 	public int getSimulationRun(){
 		return nbr_simulation_;
 	}
+	/**
+	 * Constructs the parser with model, simulation number, information value objective and subgraph objective.
+	 * @param modelString decision model to be parsed.
+	 * @param nbr_simulation the number of simulation.
+	 * @param infoValueObjective the objective to be used in computing information value.
+	 * @param subGraphObjective the objective used to restrict the generation of a AND/OR graph to a particular objective.
+	 */
 	public Parser(String modelString, int nbr_simulation, String infoValueObjective,String subGraphObjective){
 		parse(modelString,nbr_simulation, infoValueObjective, subGraphObjective);
 	}
+	/**
+	 * instantiate a visitor and then visits the model parse tree to create a semantic model of the decision problem.
+	 * @param inputString decision model to be parsed.
+	 * @param nbr_simulation the number of simulation.
+	 * @param infoValueObjective the objective to be used in computing information value.
+	 * @param subGraphObjective the objective used to restrict the generation of a AND/OR graph to a particular objective.
+	 * @return a visitor with generated semantic model.
+	 */
 	public Visitor runVisitor (String inputString, int nbr_simulation,  String infoValueObjective,String subGraphObjective) {
 		Visitor visitor = new Visitor(nbr_simulation, infoValueObjective, subGraphObjective);
 		String model = inputString + "\n\n\n";
@@ -78,11 +93,25 @@ public class Parser {
 		}
 		return visitor;
 	}
+	/**
+	 * parse the decision model and generate the semantic model using a visitor .
+	 * @param inputString decision model to be parsed.
+	 * @param nbr_simulation the number of simulation.
+	 * @param infoValueObjective the objective to be used in computing information value.
+	 * @param subGraphObjective the objective used to restrict the generation of a AND/OR graph to a particular objective.
+	 */
 	void parse(String inputString, int nbr_simulation,  String infoValueObjective,String subGraphObjective)  {
 		Visitor visitor = runVisitor (inputString,nbr_simulation, infoValueObjective, subGraphObjective);	
 		Model semanticModel = visitor.getSemanticModel();
 		setSemanticModel(semanticModel);
 	}
+	/**
+	 * @param modelPath path where the decision model is stored.
+	 * @param nbr_simulation the number of simulation.
+	 * @param infoValueObjective the objective to be used in computing information value.
+	 * @param subGraphObjective the objective used to restrict the generation of a AND/OR graph to a particular objective.
+	 * @return a semantic model obtained after parsing.
+	 */
 	public Model parseCommandLineModel (String modelPath,int nbr_simulation, String infoValueObjective, String subGraphObjective){
 		Model semanticModel = null;
 		try {
@@ -96,6 +125,13 @@ public class Parser {
 		
 		return semanticModel;
 	}
+	/**
+	 * @param model decision model to be parsed.
+	 * @param nbr_simulation the number of simulation.
+	 * @param infoValueObjective the objective to be used in computing information value.
+	 * @param subGraphObjective the objective used to restrict the generation of a AND/OR graph to a particular objective.
+	 * @return a semantic model obtained after parsing.
+	 */
 	public Model parseUIModel (String model,int nbr_simulation, String infoValueObjective, String subGraphObjective){
 		Model semanticModel = null;
 		try {

@@ -10,12 +10,12 @@ Nbr. Decisions ,2
 Runtime(s) ,0
 
 ID,Building entry security,Document Sharing Policy,ExpectedCostOfDisclosures,RiskOfCatastrophicDisclosures,Optimal
-1,not guarded,Recommend Email,915.421104994325,0.0,Yes
-2,guarded,Recommend Email,915.421104994325,0.0,Yes
-3,guarded,Recommend External Media,1069715.83018919,0.3073,No
-4,not guarded,Recommend External Media,3196514.3050295115,0.6569,No
-5,not guarded,Neutral,2975.1185912315545,0.0,No
-6,guarded,Neutral,2975.1185912315545,0.0,No
+1,not guarded,Recommend Email,903.7001721876119,0.0,Yes
+2,guarded,Recommend Email,903.7001721876119,0.0,Yes
+3,guarded,Recommend External Media,1052645.4132220382,0.2985,No
+4,not guarded,Recommend External Media,3181382.229694668,0.6464,No
+5,not guarded,Neutral,2937.025559609734,0.0,No
+6,guarded,Neutral,2937.025559609734,0.0,No
 
 Information Value Analysis, 
 Objective,ExpectedCostOfDisclosures

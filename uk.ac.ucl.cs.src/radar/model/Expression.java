@@ -34,7 +34,7 @@ import radar.exception.CyclicDependencyException;
 		parent_ = parent;
 	}
 	/**
-	 * Visits the children of an expression to generate the variable dependency graph.
+	 * Visits the children of an expression to generate the AND/OR variable dependency graph.
 	 * @param m semantic model obtained from parsing.
 	 *@param visitor model visitor
 	 */

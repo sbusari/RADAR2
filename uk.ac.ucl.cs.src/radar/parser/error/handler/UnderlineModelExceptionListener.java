@@ -15,9 +15,6 @@ public class UnderlineModelExceptionListener extends BaseErrorListener {
 		String err = underlineError(recognizer,(Token)offendingSymbol,
                 line, charPositionInLine);
 	    System.err.println("Syntax error at line "+line+":"+charPositionInLine+" "+msg + ". Check the input below: " + "\n" + err);
-	    
-	    //System.err.println("=====================");
-	    //System.err.println(err);
 	}
 
 	protected String underlineError(Recognizer recognizer,

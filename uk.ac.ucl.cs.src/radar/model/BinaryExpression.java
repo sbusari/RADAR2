@@ -102,8 +102,7 @@ class BinaryExpression extends ArithmeticExpression {
 		return combinedSim;
 	}
 	/**
-	 * Returns a list of quality variables that that defines a binary expression.
-	 * @return a list of quality variables.
+	 * @return a list of quality variables that defines a binary expression.
 	 */
 	@Override
 	List<QualityVariable> getQualityVariable() {
@@ -115,7 +114,6 @@ class BinaryExpression extends ArithmeticExpression {
 		return result;
 	}
 	/**
-	 * Returns the parent of an AND_Refinement.
 	 * @return a quality variable that is a parent of an AND_Refinement.
 	 */
 	@Override

@@ -72,7 +72,7 @@ class AND_Refinement extends Expression {
 	/**
 	 * Traverses the model recursively from a AND_refinement to its children and to the leaf quality variables of the model.
 	 * @param m semantic model obtained from parsing.
-	 * @return solutions constructed from the leaf quality variables of the decision model up to the point of the calling AND_Refinement, where solutions are merged.
+	 * @return solutions constructed recursively from the leaf quality variables of the decision model up to the point of the calling AND_Refinement, where solutions are merged.
 	 */
 	public SolutionSet getAllSolutions(Model m){
 		SolutionSet result = new SolutionSet();
@@ -92,7 +92,7 @@ class AND_Refinement extends Expression {
 		return result;
 	}
 	/**
-	 * Visits the children of AND_Refinement to generate the variable dependency graph.
+	 * Visits the children of AND_Refinement to generate the AND/OR variable dependency graph.
 	 * @param m semantic model obtained from parsing.
 	 *@param visitor model visitor
 	 */

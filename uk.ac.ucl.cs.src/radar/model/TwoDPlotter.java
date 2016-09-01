@@ -30,17 +30,20 @@ import radar.utilities.Helper;
 
 public class TwoDPlotter extends JFrame {
 	public TwoDPlotter(){} 
+	/**
+     *Plots the scatter plot
+     * @param semanticModel semantic model obtained from parsing.
+     * @param outputpath output directory where the results is stored.
+     * @param results results of model analysis.
+     */
 	public void plot2 (Model semanticModel, String outputpath, AnalysisResult results){
-		float[][] dataset =  new float[2][];
 		XYSeriesCollection result= new XYSeriesCollection();
 	    
 		XYSeries series = new XYSeries("Objective Function Values");
-		int i =0;
 		for (Map.Entry<Solution, double[]> entry: results.getEvaluatedSolutions().entrySet()){
 			float x = (float) (entry.getValue()[0]);
 			float y = (float) (entry.getValue()[1]);
 			series.add(x, y);
-			i++;
 		}
 		result.addSeries(series);
 		
@@ -52,6 +55,12 @@ public class TwoDPlotter extends JFrame {
         frame.pack();
         frame.setVisible(true);
 	}
+	/**
+     *Plots the scatter plot
+     * @param semanticModel semantic model obtained from parsing.
+     * @param outputpath output directory where the results is stored.
+     * @param results results of model analysis.
+     */
 	public void plot (Model semanticModel,String outputpath, AnalysisResult results){
 		try{
 			String chartTitle = "Pareto front for the " + semanticModel.getModelName();
@@ -93,7 +102,6 @@ public class TwoDPlotter extends JFrame {
 			float y = analysis_result.getObjectives().get(0).getIsMinimisation() == true?v_1: -1*v_1;
 			series.add(x, y);
 		}
-		
 		XYSeries series2 = new XYSeries("Dominated Solutions");
 		for (int i =0; i < analysis_result.getEvaluatedObjectives().size(); i ++){
 			float v_0 = (float) analysis_result.getEvaluatedObjectives().get(i)[1];
@@ -108,6 +116,7 @@ public class TwoDPlotter extends JFrame {
 		
 		return result;
 	}
+	
 	private ChartPanel createDemoPanel(String title, XYDataset dataset,String Xlabel, String Ylabel) {
 	        JFreeChart jfreechart = ChartFactory.createScatterPlot(
 	            title, Xlabel, Ylabel, dataset,

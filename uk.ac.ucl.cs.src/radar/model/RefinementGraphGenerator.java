@@ -14,6 +14,10 @@ class RefinementGraphGenerator implements ModelVisitor {
 	private Map<AND_Refinement, Integer> andRefDecisionID;
 	Objective subGraphObjective;
 	boolean addObjectiveLabel = true;
+	/**
+	 * Constructs a Refinement Graph Generator.
+	 * @param subGraphObj subgraph objective used to restrict the genration of a goal graph to a particular objective.
+	 */
 	public RefinementGraphGenerator(Objective subGraphObj){
 		visited = new ArrayList<ModelVisitorElement>();
 		andRefDecisionID = new LinkedHashMap<AND_Refinement, Integer>();
@@ -22,6 +26,10 @@ class RefinementGraphGenerator implements ModelVisitor {
 		dotString += "digraph G { \n";
 		dotString += "rankdir = BT \n";
 	}
+	/**
+	 *@param m semantic model obtained from parsing.
+	 *@return the DOT format of the AND/OR goal graph.
+	 */
 	String getDotString(Model m){
 		for (String undefinedVar : m.getUndefinedQualityVariables()){
 			dotString += undefinedVar + " [shape = plaintext, fontcolor =red]";
@@ -30,10 +38,18 @@ class RefinementGraphGenerator implements ModelVisitor {
 		dotString += "}";
 		return dotString;
 	}
+	/**
+	 * Implementation of the Model visitor to deal with specifics of what to do when we visit a Model instance.
+	 * @param m semantic model obtained after parsing.
+	 */
 	@Override
 	public void visit(Model m) {
 
 	}
+	/**
+	 * Implementation of the Objective visitor to deal with specifics of what to do when we visit an Objective instance.
+	 * @param obj objective to visit.
+	 */
 	@Override
 	public void visit(Objective obj) {
 		if (!visited.contains(obj)){
@@ -61,11 +77,18 @@ class RefinementGraphGenerator implements ModelVisitor {
 			visited.add(obj);
 		}
 	}
-
+	/**
+	 * Implementation of the Statistic visitor to deal with specifics of what to do when we visit an Statistic instance.
+	 * @param stat statistic to visit.
+	 */
 	@Override
 	public void visit(Statistic stat) {
 		
 	}
+	/**
+	 * Implementation of the QualityVariable visitor to deal with specifics of what to do when we visit an QualityVariable instance.
+	 * @param var qualityVariable to visit.
+	 */
 	@Override
 	public void visit(QualityVariable var) {
 		if (!visited.contains(var)){
@@ -109,9 +132,8 @@ class RefinementGraphGenerator implements ModelVisitor {
 			visited.add(var);
 		}
 	}
-	
-	// for generating only AND/OR refinements.
-/*	@Override
+	/*for generating only AND/OR refinements.
+	@Override
 	public void visit(QualityVariable var) {
 		if (!visited.contains(var)){
 			if (var.getDefinition() != null && var.getDefinition().getParent() != null 
@@ -136,6 +158,10 @@ class RefinementGraphGenerator implements ModelVisitor {
 		return result;
 	}
 	// this include decisions between quality variables
+	/**
+	 * Implementation of the AND_Refinement visitor to deal with specifics of what to do when we visit an AND_Refinement instance.
+	 * @param andRef AND_refinement to visit.
+	 */
 	@Override
 	public void visit(AND_Refinement andRef) {
 		if (!visited.contains(andRef) ){
@@ -199,6 +225,10 @@ class RefinementGraphGenerator implements ModelVisitor {
 			
 		}
 	}*/
+	/**
+	 * Implementation of the OR_Refinement visitor to deal with specifics of what to do when we visit an OR_Refinement instance.
+	 * @param orRef OR_Refinement to visit.
+	 */
 	@Override
 	public void visit(OR_Refinement orRef) {
 

@@ -25,4 +25,8 @@ AndRef4[shape = point]
 AndRef4->"NB"
 "Benefit"->AndRef4 [dir = none] 
 "Cost"->AndRef4 [dir = none] 
+ENB [shape = box] 
+NB->"ENB"
+LP [shape = box] 
+NB->"LP"
 }

@@ -78,7 +78,6 @@ public class ModelSolver {
 		result.addNumberOfParameters(nbrParam);
 		result.addSubGraphObejctive(m.getSubGraphObjective());
 		result.addEviObjective(infoValueObjective);
-		//
 		return result;
 	}
 }

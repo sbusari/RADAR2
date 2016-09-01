@@ -9,7 +9,7 @@ import java.util.List;
  class Simulator {
 	 public Simulator(){}
 	 /**
-	 * Evaluates model objectives through monte-carlo simulation.
+	 * Evaluates and simulates model objectives through monte-carlo simulation.
 	 * @param s a solution to be simulated through monte-carlo simulation.
 	 * @param objectives model objectives to simulate
 	 * @param m semantic model obtained from parsing.

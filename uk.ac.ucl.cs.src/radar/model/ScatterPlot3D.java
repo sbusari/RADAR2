@@ -52,6 +52,7 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 
+import radar.exception.CyclicDependencyException;
 import radar.utilities.Helper;
 
 import com.orsoncharts.Chart3D;
@@ -150,9 +151,16 @@ public class ScatterPlot3D extends JFrame {
 		}
         return s;
     }
-    public void plot (Model semanticModel, String outputpath, AnalysisResult analysis_result) throws IOException{
+    /**
+     *Plots the scatter plot
+     * @param semanticModel semantic model obtained from parsing.
+     * @param outputpath output directory where the results is stored.
+     * @param analysisResult results of model analysis.
+     * @throws IOException when file not found.
+     */
+    public void plot (Model semanticModel, String outputpath, AnalysisResult analysisResult) throws IOException{
 
-		Chart3D chart =createChart(semanticModel, createDataset(analysis_result));
+		Chart3D chart =createChart(semanticModel, createDataset(analysisResult));
 		Chart3DPanel chartPanel = new Chart3DPanel(chart) ;
         chartPanel.setPreferredSize(new Dimension(700, 500));
         this.add(chartPanel, BorderLayout.CENTER);

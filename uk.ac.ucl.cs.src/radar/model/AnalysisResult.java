@@ -183,7 +183,7 @@ public class AnalysisResult {
 	}
 	/**
 	 * Adds the number of decisions to analysis result.
-	 * @param time execution analysis run time.
+	 * @param nbrDecision the number of decisions.
 	 */
 	void addNumberOfDecisions (int nbrDecision){
 		nbrOfDecision = nbrDecision;
@@ -309,6 +309,10 @@ public class AnalysisResult {
 		//System.out.println ("Analysis result: \n"+analysisResult.toString());
 		return analysisResult.toString();
 	}
+	/**
+	 * Returns analysis results in csv format. Includes optimisation analysis result, pareto optimal solutions and information value results.
+	 *@return analysis results converted to String.
+	 */
 	public String analysisResultToCSV (){
 		StringBuilder resultToPrint = new StringBuilder ();
 		resultToPrint.append("Optimisation Analysis, \n");
@@ -430,6 +434,9 @@ public class AnalysisResult {
 		}
 		return record;
 	}
+	/**
+	 * @return the formatted information value results to string.
+	 */
 	public  String informationValueResultToString(){
 		TableBuilder result = new TableBuilder();
 		result.addRow ("Information Value Analysis", "\n");
@@ -443,6 +450,9 @@ public class AnalysisResult {
 		}
 		return result.toString();
 	}
+	/**
+	 * @return the formatted model decisions to CSV.
+	 */
 	public String decisionsToCSV ( ){
 		StringBuilder decision = new StringBuilder ();
 		int count =1;

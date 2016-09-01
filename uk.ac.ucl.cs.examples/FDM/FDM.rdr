@@ -2,14 +2,8 @@ Model FDM ;
 
 // Objectives
 
-Objective Max EBenefit= EV(Benefit);
+Objective Max FraudDetectionBenefit = EV(Benefit);
 Objective Min InvestigationLoad = percentile(NbrAlerts, 95);
-//Objective Min ENrbAlerts = EV(NbrAlerts);
-// Objective Max ENB= EV(NB);
-// Objective Min LP = Pr(NB<0);
-// Objective Min LossAtRisk = percentile(FinancialLoss, 95);
-// Objective Min EFL = EV(FinancialLoss);
-// Objective Min EIC =  EV(InvestigationCost);
 
 NB = Benefit - InvestigationCost;
 

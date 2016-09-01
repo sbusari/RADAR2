@@ -1,8 +1,5 @@
 package radar.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class DeterministicDistribution extends Distribution {
 
 	private double value_;

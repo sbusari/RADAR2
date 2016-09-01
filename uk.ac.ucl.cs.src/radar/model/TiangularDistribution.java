@@ -1,8 +1,4 @@
 package radar.model;
-
-import java.util.ArrayList;
-import java.util.List;
-
 class TriangularDistribution extends Distribution {
 
 	private double lower_, mode_, upper_;
