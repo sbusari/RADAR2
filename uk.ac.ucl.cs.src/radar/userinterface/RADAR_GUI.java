@@ -104,16 +104,6 @@ public class RADAR_GUI {
 	private JSeparator separator_8;
 	private JMenuItem itemTutorial;
 	private JSeparator separator_2;
-	private JMenu caseStudyMenu;
-	private JMenuItem itemCBA;
-	private JMenuItem itemFDM;
-	private JMenuItem itemBSPDM;
-	private JMenuItem itemECS;
-	private JMenuItem itemSAS;
-	private JSeparator separator_5;
-	private JSeparator separator_7;
-	private JSeparator separator_9;
-	private JSeparator separator_10;
 	
 
 	/**
@@ -177,7 +167,7 @@ public class RADAR_GUI {
 	private void viewTutorial (){
 		itemTutorial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				new TutorialFrame();
 			}
 		});
 	}
@@ -771,7 +761,7 @@ public class RADAR_GUI {
 		separator_2 = new JSeparator();
 		radarMenu.add(separator_2);
 		
-		itemTutorial = new JMenuItem("Guided Tour");
+		itemTutorial = new JMenuItem("How to Use");
 	
 		radarMenu.add(itemTutorial);
 		
@@ -826,36 +816,6 @@ public class RADAR_GUI {
 		itemSolveModel = new JMenuItem("Solve Model");
 		
 		fileMenu.add(itemSolveModel);
-		
-		caseStudyMenu = new JMenu("Case Study");
-		menuBar.add(caseStudyMenu);
-		
-		itemCBA = new JMenuItem("System Architecture Refactoring");
-		caseStudyMenu.add(itemCBA);
-		
-		separator_5 = new JSeparator();
-		caseStudyMenu.add(separator_5);
-		
-		itemFDM = new JMenuItem("Fraud Detection System");
-		caseStudyMenu.add(itemFDM);
-		
-		separator_7 = new JSeparator();
-		caseStudyMenu.add(separator_7);
-		
-		itemBSPDM = new JMenuItem("Building Security System");
-		caseStudyMenu.add(itemBSPDM);
-		
-		separator_9 = new JSeparator();
-		caseStudyMenu.add(separator_9);
-		
-		itemECS = new JMenuItem("NASA System");
-		caseStudyMenu.add(itemECS);
-		
-		separator_10 = new JSeparator();
-		caseStudyMenu.add(separator_10);
-		
-		itemSAS = new JMenuItem("Emergency Response System");
-		caseStudyMenu.add(itemSAS);
 		
 		modelBoard = new JPanel();
 		modelBoard.setBorder(new TitledBorder(null, "Model Board", TitledBorder.LEADING, TitledBorder.TOP, null, null));

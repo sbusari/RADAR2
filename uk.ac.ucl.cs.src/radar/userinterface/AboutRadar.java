@@ -35,21 +35,17 @@ public class AboutRadar {
 	        styleSheet.addRule("pre {font : 10px monaco; color : black; background-color : #fafafa; }");
 
 	        // create some simple html as a string
-	        String htmlString = "<html>\n"
-	                          + "<body>\n"
-	                          + "<h1>RADAR: Requirements and Architecture Decision Analyser</h1>\n"
-	                          + "<h2><a href=\"http://www0.cs.ucl.ac.uk/staff/S.Busari/\">Saheed Busari</a> and <a href=\"http://letier.cs.ucl.ac.uk/\">Emmanuel Letier</a></h2>"
-	                          + "<p>Uncertainty and conflicting objectives make many software requirements and architecture decisions particularly hard."
-	                          + "Quantitative probabilistic models allow software architects to analyse such decisions using stochastic simulation and multi- objective optimisation, "
-	                          + "but the difficulty of elaborating the models is an obstacle to the wider adoption of such techniques. To reduce this obstacle, the paper presents a novel "
-	                          + "modelling language and analysis tool, called RADAR, intended to facilitate requirements and architecture decision analysis. The language has relations to "
-	                          + "quantitative AND/OR goal models used in requirements engineering and to feature models used in software product lines. It, however, simplifies such models to a "
-	                          + "minimum set of language constructs essential for decision analysis. The paper presents RADAR’ modelling language, automated support for decision analysis, and our"
-	                          + "experience applying the language and tool to four real-world examples.</p>\n"
-	                          + "<p> Before we decribe the tool...</p>\n"
-	                          + "<p></p>\n"
-	                          + "</body>\n";
 	        
+	        String htmlString = "<html>\n"
+                    			+ "<body>\n"
+                    			+ "<h1>RADAR: Requirements and Architecture Decision Analyser</h1>\n"
+                    			+ "<h2><a href=\"http://www0.cs.ucl.ac.uk/staff/S.Busari/\">Saheed Busari</a> and <a href=\"http://letier.cs.ucl.ac.uk/\">Emmanuel Letier</a></h2>"
+	        					+"<p align =\"justify\">RADAR is a lightweight modelling language and decision analysis tool to support multi-objective decision under uncertainty in software requirements engineering and architectural design.</p>"
+	        					+"<p>Build ID: 20160828-1159 </p>"
+	        					+"<p>Version Nunmber: v1.0 </p>"
+	        					+"<p>Webpage: http://www0.cs.ucl.ac.uk/staff/S.Busari/RADAR/ </p>"
+	        					+"<p>Contact email: <a href=\"mailto:{saheed.busari.13, e.letier}@ucl.ac.uk\">{saheed.busari.13, e.letier}@ucl.ac.uk</a></p>"
+	        					+"</body>\n";
 	        // create a document, set it on the jeditorpane, then add the html
 	        Document doc = kit.createDefaultDocument();
 	        jEditorPane.setDocument(doc);
