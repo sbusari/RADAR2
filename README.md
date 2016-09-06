@@ -1,11 +1,12 @@
 # Requirements and Architecture Decision AnalyseR
 
 RADAR is a lightweight modelling language and decision analysis tool to support multi-objective decision under uncertainty in software requirements engineering and architectural design. RADAR analysis provides  useful feedback to requirement engineers and software designers about:
-- Which decisions are better than others in their model.
-- What objective values can be attained with with different designs.
-- What tradeoffs can be made between shortlisted solutions.
-- What parameter uncertainty may deserve additional data collection and analysis before making their decision.
-- What parameter uncertainty does not matter to their decision.
+
+  - Which decisions are better than others in their model.
+  - What objective values can be attained with with different designs.
+  - What tradeoffs can be made between shortlisted solutions.
+  - What parameter uncertainty may deserve additional data collection and analysis before making their decision.
+  - What parameter uncertainty does not matter to their decision.
 
 You can find details about RADAR on the [project webpage](http://www0.cs.ucl.ac.uk/staff/S.Busari/RADAR/)
 # Paper
