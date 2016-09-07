@@ -5,8 +5,6 @@ Model FDM ;
 Objective Max FraudDetectionBenefit = EV(Benefit);
 Objective Min InvestigationLoad = percentile(NbrAlerts, 95);
 
-NB = Benefit - InvestigationCost;
-
 Benefit = BaseLineFinancialLoss - FinancialLoss;
 
 BaseLineFinancialLoss = deterministic(500000);
