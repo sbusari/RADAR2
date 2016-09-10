@@ -406,7 +406,11 @@ public class RADAR_GUI {
 					return;
 				}
 				// also check that there is no changes to the model, otherwise, we parse again.
-				if (!solvedModel.equals(textModelArea.getText())){
+				if (solvedModel != null){
+					if ( !solvedModel.equals(textModelArea.getText())){
+						parse();
+					}
+				}else{
 					parse();
 				}
 				if (semanticModel != null && modelParsed == true) {
@@ -522,6 +526,7 @@ public class RADAR_GUI {
 			semanticModel = loadModel();
 			if (semanticModel != null){
 				parsed =true;
+				modelParsed = true;
 			}
 		} catch (Exception e) {
 			parsed =false;
