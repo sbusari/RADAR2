@@ -1,5 +1,7 @@
 package radar.model;
 
+import radar.exception.ParameterDistributionException;
+
 class ExponentialDistribution extends Distribution {
 
 	private double mean_ ;
@@ -20,6 +22,11 @@ class ExponentialDistribution extends Distribution {
 	}
 	@Override
 	public void getCyclicDependentVariables(Model m) {
+	}
+	@Override
+	public double getParamExpressionValue(Model m)
+			throws ParameterDistributionException {
+		throw new RuntimeException ("Exponential distribution cannot be used as an argument for another distribution.");
 	}
 
 }

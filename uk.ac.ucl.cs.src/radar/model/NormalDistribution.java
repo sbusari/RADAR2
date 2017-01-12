@@ -1,5 +1,7 @@
 package radar.model;
 
+import radar.exception.ParameterDistributionException;
+
 class NormalDistribution extends Distribution{
 
 	private double mean_, sd_;
@@ -24,5 +26,10 @@ class NormalDistribution extends Distribution{
 	}
 	@Override
 	public void getCyclicDependentVariables(Model m) {
+	}
+	@Override
+	public double getParamExpressionValue(Model m)
+			throws ParameterDistributionException {
+		throw new RuntimeException ("Normal distribution cannot be used as an argument for another distribution.");
 	}
 }

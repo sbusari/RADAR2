@@ -125,6 +125,18 @@ public class Parser {
 		
 		return semanticModel;
 	}
+	public Model parseModel (String readModel,int nbr_simulation, String infoValueObjective, String subGraphObjective){
+		Model semanticModel = null;
+		try {
+			Parser parser  = new Parser(readModel,nbr_simulation,infoValueObjective,subGraphObjective );
+			semanticModel = parser.getSemanticModel();
+		}
+		catch (RuntimeException re){
+			throw new RuntimeException( "Error: "+ re.getMessage());
+		}
+
+		return semanticModel;
+	}
 	/**
 	 * @param model decision model to be parsed.
 	 * @param nbr_simulation the number of simulation.

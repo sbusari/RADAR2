@@ -25,7 +25,7 @@ quality_var_def				: decision_def 															#qualityVariableDecision
 
 decision_def				:'decision'  decision_body 				#decisionXOR
 							;
-					
+									
 decision_body				: '(' decision_Name= StringLiteral ')' '{' (option_name ':' option_def ';' NEWLINE?)+'}'
 							;
 							
@@ -33,12 +33,12 @@ decision_body				: '(' decision_Name= StringLiteral ')' '{' (option_name ':' opt
 option_name					: (NEWLINE|WS|SINGLESPACE)* StringLiteral (NEWLINE|WS|SINGLESPACE)*
 							;
 
-option_def					:(NEWLINE|WS|SINGLESPACE)* arithmetic_expr (NEWLINE|WS|SINGLESPACE)*					#optionExpression
- 							|(NEWLINE|WS|SINGLESPACE)* parameter_def  (NEWLINE|WS|SINGLESPACE)*						#optionParameter
+option_def					:(NEWLINE|WS|SINGLESPACE)*  arithmetic_expr  (NEWLINE|WS|SINGLESPACE)* 	#optionExpression
+ 							|(NEWLINE|WS|SINGLESPACE)* parameter_def  (NEWLINE|WS|SINGLESPACE)*							#optionParameter
  							;
 
 							
-parameter_def				: distribution '(' (distribution_arg ( ',' distribution_arg ) *)? ')'																																			
+parameter_def				: distribution  '(' (distribution_arg ( ',' distribution_arg ) *)? ')'																																			
 							;
 		
 											

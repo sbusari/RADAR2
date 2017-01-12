@@ -1,5 +1,7 @@
 package radar.model;
 
+import radar.exception.ParameterDistributionException;
+
 class BinomialDistribution extends Distribution {
 	private double prob_; 
 	private int trials_ ;
@@ -21,6 +23,11 @@ class BinomialDistribution extends Distribution {
 	}
 	@Override
 	public void getCyclicDependentVariables(Model m) {
+	}
+	@Override
+	public double getParamExpressionValue(Model m)
+			throws ParameterDistributionException {
+		throw new RuntimeException ("Binomial distribution cannot be used as an argument for another distribution.");
 	}
 
 

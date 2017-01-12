@@ -1,10 +1,14 @@
 package radar.model;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+
+import radar.exception.IdenfierAsParameterException;
+import radar.exception.ParameterDistributionException;
 
 
 public class ModelConstructor {
@@ -264,73 +268,217 @@ public class ModelConstructor {
 			throw new RuntimeException ("Distibution error: only triangualr distribution can have three parameter list. Check the documentation for details.");
 		}else{}
 	}
-	private void checkDistributionArgumentIsNumber (Value distribution, List<Value> distributionArguments){
+	private void checkDistributionArgumentIsNumber (Value distribution, List<Value> distributionArguments, Model currentModel){
+		String idName ="";
 		if (distributionArguments != null && distributionArguments.size() >0){
 			for (int i =0; i < distributionArguments.size(); i ++){
 				try{
-					Double.parseDouble(distributionArguments.get(i).toString());
-				}catch (Exception e ){
-					throw new RuntimeException ("Arguments parameter for distribution " + distribution.toString() + " must be a number");
+					if (distributionArguments.get(i).getExpression() instanceof UnaryExpression){
+						UnaryExpression exprToParse = (UnaryExpression)distributionArguments.get(i).getExpression();
+						//((Number)exprToParse.getExpression()).getValue() instanceof Double)
+					}else if (distributionArguments.get(i).getExpression() instanceof BinaryExpression){
+						BinaryExpression bexprToParse = (BinaryExpression)distributionArguments.get(i).getExpression();
+						String a  = "" +bexprToParse;
+					}else if  (distributionArguments.get(i).getExpression() instanceof Identifier){
+						Identifier id = (Identifier)distributionArguments.get(i).getExpression();
+						idName = id.getID();
+						double id_value = id.getParamExpressionValue(currentModel);
+					}
+					else{
+						Double.parseDouble(distributionArguments.get(i).toString());
+					}
+				}
+				catch (ParameterDistributionException idexp){
+					throw new RuntimeException (idexp.getMessage());
+				}
+				catch (Exception e ){
+					throw new RuntimeException ("Arguments parameter for distribution " + distribution.toString() + " should be a number");
 				}
 			}
 		}
 	}
-	public  Value addDistribution (Value distribution, List<Value> distributionArguments){
+	double getValueFromIdentifierExpression(Identifier id , Model m) throws ParameterDistributionException{
+		return id.getParamExpressionValue(m);
+	}
+	double getValueFromBinaryExpression (BinaryExpression bexpr, Model m){
+		Double result =null;
+		try {
+			double left = bexpr.getLeftExpression().getParamExpressionValue(m);
+			double right = bexpr.getRightExpression().getParamExpressionValue(m);
+			switch(bexpr.getBinaryOperator().toString()){
+			case "+": result = left + right; break;
+			case "-": result = left - right; break;
+			case "/": result = left / right; break;
+			case "*": result = left * right; break;
+			default: throw new RuntimeException ("Expressions within a distribution can only take operators: +, -, * and /");
+		}
+		} catch (ParameterDistributionException e) {
+			throw new RuntimeException (e.getMessage());
+		}
+		return result;
+	}
+	static double getValueFromUnaryExpression(UnaryExpression uexpr){
+		Number n = (Number)uexpr.getExpression();
+		double result = n.getValue();
+		//String op = uexpr.getUnaryOperator().getUnaryOperatorValue();
+		if (uexpr.getUnaryOperator().equals(UnaryOperator.NEG)){ //(op.equals("-")){
+			result = -1* n.getValue();
+		}
+		if (uexpr.getUnaryOperator().equals(UnaryOperator.NOT)){
+			result = 1- n.getValue();
+		}
+		return result;
+	}
+	/**
+	 * This method returns the value of an arithmetric expression in a distribution parameter. Used by the visitor to compute such value
+	 * @param distributionArgument
+	 * @param m
+	 * @return
+	 */
+	public Double convertParameterExpressionsToNumber (Value distributionArgument, Model m ){
+		Double result = null;
+		try {
+			Expression expr = distributionArgument.getExpression();
+			if (expr instanceof UnaryExpression ){
+				result = getValueFromUnaryExpression((UnaryExpression)expr);
+			}
+			else if (expr instanceof BinaryExpression ){
+				result = getValueFromBinaryExpression((BinaryExpression)expr, m);
+			}else if (expr instanceof Identifier){
+				result = getValueFromIdentifierExpression((Identifier)expr, m);
+			}
+			else{
+				result = distributionArgument.convertToDouble();
+			}
+		}catch (ParameterDistributionException e) {
+			throw new RuntimeException(e.getMessage()) ;
+		}
+		return result;
+	}
+	/**
+	 * This method returns the values of all arithmetric expressions in a distribution parameter simultneously. Used when constructing each probability distribution
+	 * @param distributionArguments
+	 * @param m
+	 * @return
+	 */
+	public List<Double> convertParameterExpressionsToNumbers (List<Value> distributionArguments, Model m ){
+		List<Double> result = new ArrayList<Double>();
+		try {
+			for (int i =0; i < distributionArguments.size(); i++){
+				Expression expr = distributionArguments.get(i).getExpression();
+				if (expr instanceof UnaryExpression ){
+					result.add(getValueFromUnaryExpression((UnaryExpression)expr));
+				}
+				else if (expr instanceof BinaryExpression ){
+					result.add(getValueFromBinaryExpression((BinaryExpression)expr, m));
+				}else if (expr instanceof Identifier){
+					result.add(getValueFromIdentifierExpression((Identifier)expr, m));
+				}else{
+					result.add(distributionArguments.get(i).convertToDouble());
+				}
+			}
+		}catch (ParameterDistributionException e) {
+			throw new RuntimeException(e.getMessage()) ;
+		}catch (Exception e){
+			throw new RuntimeException(e.getMessage()) ;
+		}
+		return result;
+	}
+	public  Value addDistribution (Value distribution, List<Value> distributionArguments, Model currentModel){
+		// current model is the updated model so far.
 		Parameter param =new Parameter ();
 		validateDistributionArgumentCount(distribution,distributionArguments);
-		checkDistributionArgumentIsNumber(distribution,distributionArguments);
-		if (distribution.toString().equals(ParameterDistribution.NORMAL.toString())){
-			double mean = distributionArguments.get(0).convertToDouble();
-			double sd = distributionArguments.get(1).convertToDouble();
+		checkDistributionArgumentIsNumber(distribution,distributionArguments,currentModel);
+		List<Double> paramValues = convertParameterExpressionsToNumbers(distributionArguments,currentModel);
+		if (distribution.toString().equals(ParameterDistribution.NORMAL.toString())){			
+			double mean = paramValues.get(0);
+			double sd = paramValues.get(1);		
+			// did this check for  a unary expression incase there is a negative sign before it.
+			//double mean = (distributionArguments.get(0).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(0).getExpression()): distributionArguments.get(0).convertToDouble();;
+			//double sd = (distributionArguments.get(1).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(1).getExpression()): distributionArguments.get(1).convertToDouble();;			
 			NormalDistribution nd = new NormalDistribution(mean,sd,simulation);
 			param.setDistribution(nd);
 			param.setDefinition(nd);
-		}else if (distribution.toString().equals(ParameterDistribution.TRIANGULAR.toString())){
-			double lower = distributionArguments.get(0).convertToDouble();
-			double mode = distributionArguments.get(1).convertToDouble();
-			double upper = distributionArguments.get(2).convertToDouble();
+			
+		}else if (distribution.toString().equals(ParameterDistribution.TRIANGULAR.toString())){			
+			double lower = paramValues.get(0);
+			double mode =  paramValues.get(1);
+			double upper = paramValues.get(2);			
+			// did this check for  a unary expression incase there is a negative sign before it.
+			//double lower = (distributionArguments.get(0).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(0).getExpression()): distributionArguments.get(0).convertToDouble();
+			//double mode = (distributionArguments.get(1).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(1).getExpression()):distributionArguments.get(1).convertToDouble();
+			//double upper = (distributionArguments.get(2).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(2).getExpression()):distributionArguments.get(2).convertToDouble();			
+			if(mode > upper){
+				throw new RuntimeException ("Mode value of a triangualr distribution  cannot be gerater than the upper limit valuer.");
+			}
+			if(lower > upper){
+				throw new RuntimeException ("Lower limit of a triangualr distribution  cannot be gerater than the upper limit valuer.");
+			}
 			TriangularDistribution tr = new TriangularDistribution(lower, mode, upper,simulation);
 			param.setDistribution(tr);
 			param.setDefinition(tr);
-		}else if (distribution.toString().equals(ParameterDistribution.NORMALCI.toString())){
-			double a = distributionArguments.get(0).convertToDouble();
-			double b = distributionArguments.get(1).convertToDouble();
+			
+		}else if (distribution.toString().equals(ParameterDistribution.NORMALCI.toString())){		
+			double a = paramValues.get(0);
+			double b = paramValues.get(1);			
+			// did this check for  a unary expression incase there is a negative sign before it.
+			//double a = (distributionArguments.get(0).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(0).getExpression()): distributionArguments.get(0).convertToDouble();
+			//double b = (distributionArguments.get(1).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(1).getExpression()): distributionArguments.get(1).convertToDouble();;
 			NormalCIDistribution ncid = new NormalCIDistribution(a,b,simulation);
 			param.setDistribution(ncid);
 			param.setDefinition(ncid);
 		}else if (distribution.toString().equals(ParameterDistribution.UNIFORM.toString())){
-			double lower = distributionArguments.get(0).convertToDouble();
-			double upper = distributionArguments.get(1).convertToDouble();
+			
+			double lower = paramValues.get(0);
+			double upper = paramValues.get(1);
+			//double lower = (distributionArguments.get(0).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(0).getExpression()): distributionArguments.get(0).convertToDouble();;
+			//double upper = (distributionArguments.get(1).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(1).getExpression()): distributionArguments.get(1).convertToDouble();
+			if(lower > upper){
+				throw new RuntimeException ("Lower limit of a uniform distribution  cannot be gerater than the upper limit valuer.");
+			}
 			UniformDistribution und = new UniformDistribution(lower,upper,simulation);
 			param.setDistribution(und);
 			param.setDefinition(und);
 		}else if (distribution.toString().equals(ParameterDistribution.DETERMINISTIC.toString())){
-			double value = distributionArguments.get(0).convertToDouble();
+			
+			double value =paramValues.get(0);
+			
+			// did this check for  a unary expression incase there is a negative sign before it.
+			//double value = (distributionArguments.get(0).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(0).getExpression()): distributionArguments.get(0).convertToDouble();
 			DeterministicDistribution dt = new DeterministicDistribution(value,simulation);
 			param.setDistribution(dt);
 			param.setDefinition(dt);
 		}
 		else if (distribution.toString().equals(ParameterDistribution.EXPONENTIAL.toString())){
-			double mean = distributionArguments.get(0).convertToDouble();
+			double mean =paramValues.get(0);
+			
+			// did this check for  a unary expression incase there is a negative sign before it.
+			//double mean = (distributionArguments.get(0).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(0).getExpression()): distributionArguments.get(0).convertToDouble();
 			ExponentialDistribution expd = new ExponentialDistribution(mean,simulation);
 			param.setDistribution(expd);
 			param.setDefinition(expd);
 		}else if (distribution.toString().equals(ParameterDistribution.GEOMETRIC.toString())){
-			double prob = distributionArguments.get(0).convertToDouble();
+			
+			double prob = paramValues.get(0);
+			// did this check for  a unary expression incase there is a negative sign before it.
+			//double prob = (distributionArguments.get(0).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(0).getExpression()): distributionArguments.get(0).convertToDouble();
 			GeometricDistribution geod = new GeometricDistribution(prob,simulation);
 			param.setDistribution(geod);
 			param.setDefinition(geod);
 		}
 		else if (distribution.toString().equals(ParameterDistribution.BINOMIAL.toString())){
-			double trial = distributionArguments.get(0).convertToDouble();
-			double prob = distributionArguments.get(1).convertToDouble();
+			double trial = paramValues.get(0);
+			double prob  = paramValues.get(1);
+			
+			//double trial = (distributionArguments.get(0).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(0).getExpression()):distributionArguments.get(0).convertToDouble();
+			//double prob = (distributionArguments.get(1).getExpression() instanceof UnaryExpression)? getValueFromunaryExpression((UnaryExpression)distributionArguments.get(1).getExpression()):distributionArguments.get(1).convertToDouble();
 			BinomialDistribution bid = new BinomialDistribution((int)trial,prob, simulation);
 			param.setDistribution(bid);
-			param.setDistribution(bid);
-		}else if (distribution.toString().equals(ParameterDistribution.RANDOM.toString())){;
+			param.setDefinition(bid);
+		}else if (distribution.toString().equals(ParameterDistribution.RANDOM.toString())){
 			RandomDistribution rd = new RandomDistribution(simulation);
 			param.setDistribution(rd);
-			param.setDistribution(rd);
+			param.setDefinition(rd);
 		}
 		return new Value(param);
 	}
@@ -424,7 +572,7 @@ public class ModelConstructor {
 		numeric.setValue(exprValue);
 		return new Value(numeric);
 	}
-	public  double findExponent (Value base, Value power){
+	public  double findExponent2 (Value base, Value power){
 		Double exprBase = null; 
 		Double exprPower =null; 
 		try{
@@ -452,6 +600,37 @@ public class ModelConstructor {
 				}else if (op.equals(UnaryOperator.POS)){
 					exprPower = power_no.getValue();
 				}
+			}else{
+				exprPower = Double.parseDouble( power.toString());
+			}
+			
+		}catch(Exception e){
+			throw new RuntimeException ("Incorrect syntax for exponential arithmetic_expr. Ensure numbers are separated from key words and other string literals. \n  Check documentation for details.");
+		}
+		double exponent = Math.pow(exprBase,exprPower); 
+		return exponent;
+	}
+	public  double findExponent (Value base, Value power, Model currentModel){
+		Double exprBase = null; 
+		Double exprPower =null; 
+		try{
+			// check if it is a unary expression and get the number ffrom it.
+			if (base.getExpression() instanceof UnaryExpression){
+				exprBase = getValueFromUnaryExpression((UnaryExpression)base.getExpression());
+			}else if (base.getExpression() instanceof BinaryExpression ){
+				exprBase = (getValueFromBinaryExpression((BinaryExpression)base.getExpression(), currentModel));
+			}else if (base.getExpression() instanceof Identifier){
+				exprBase = (getValueFromIdentifierExpression((Identifier)base.getExpression(), currentModel));
+			}else{
+				exprBase = Double.parseDouble(base.toString());
+			}
+			
+			if (power.getExpression() instanceof UnaryExpression){
+				exprPower = getValueFromUnaryExpression((UnaryExpression)power.getExpression());
+			}else if (power.getExpression() instanceof BinaryExpression ){
+				exprPower = (getValueFromBinaryExpression((BinaryExpression)base.getExpression(), currentModel));
+			}else if (power.getExpression() instanceof Identifier){
+				exprPower = (getValueFromIdentifierExpression((Identifier)base.getExpression(), currentModel));
 			}else{
 				exprPower = Double.parseDouble( power.toString());
 			}

@@ -1,6 +1,7 @@
 package radar.model;
 
 import radar.exception.CyclicDependencyException;
+import radar.exception.ParameterDistributionException;
 
 /**
  * @author Saheed Busari and Emmanuel Letier
@@ -45,6 +46,7 @@ import radar.exception.CyclicDependencyException;
 	 * @throws CyclicDependencyException if there exist a cyclic dependency between quality variables.
 	 */
 	public abstract void getCyclicDependentVariables (Model m)throws CyclicDependencyException ;
+	public abstract double getParamExpressionValue (Model m) throws ParameterDistributionException;
 	public Expression() {}
 	
 }

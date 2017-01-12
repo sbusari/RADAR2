@@ -1,15 +1,18 @@
 package radar.model;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 final class Solution {
 
 	private final Map<Decision, String> selection;
+	private  Map<Decision, List<String>> nonmutual_selection;
 	private Model sematicModel;
 	
 	Solution(){
 		selection = new LinkedHashMap<Decision, String>();
+		nonmutual_selection = new LinkedHashMap<Decision, List<String>>();
 	}
 	/**
 	 * Constructs a solution with a mapping of decisions and selected options.
@@ -18,6 +21,14 @@ final class Solution {
 	Solution(Map<Decision, String> mapping){
 		selection = mapping;
 	}
+	/**
+	 * Constructs a solution with a mapping of decisions and selected options.
+	 * @param mapping a mapping between decision and selected option.
+	 */
+	/*Solution(Map<Decision, List<String>> mapping){
+		selection = mapping;
+		nonmutual_selection = mapping;
+	}*/
 	/**
 	 * Adds a decision and corresponding selected option to a solution instance.
 	 * @param d decision.

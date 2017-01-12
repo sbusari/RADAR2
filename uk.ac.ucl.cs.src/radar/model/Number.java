@@ -46,4 +46,8 @@ class Number extends ArithmeticExpression {
 	@Override
 	public void getCyclicDependentVariables(Model m) {
 	}
+	@Override
+	public double getParamExpressionValue(Model m) {
+		return value_;
+	}
 }

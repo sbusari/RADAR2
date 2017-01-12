@@ -1,5 +1,7 @@
 package radar.model;
 
+import radar.exception.ParameterDistributionException;
+
 class UniformDistribution extends Distribution {
 
 	private double lower_, upper_;
@@ -21,6 +23,11 @@ class UniformDistribution extends Distribution {
 	}
 	@Override
 	public void getCyclicDependentVariables(Model m) {
+	}
+	@Override
+	public double getParamExpressionValue(Model m)
+			throws ParameterDistributionException {
+		throw new RuntimeException ("Uniform distribution cannot be used as an argument for another distribution.");
 	}
 
 }

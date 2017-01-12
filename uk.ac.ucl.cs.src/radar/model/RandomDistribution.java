@@ -1,4 +1,7 @@
 package radar.model;
+
+import radar.exception.ParameterDistributionException;
+
 class RandomDistribution extends Distribution {
 	int N;
 	public RandomDistribution (){
@@ -16,5 +19,10 @@ class RandomDistribution extends Distribution {
 	}
 	@Override
 	public void getCyclicDependentVariables(Model m) {
+	}
+	@Override
+	public double getParamExpressionValue(Model m)
+			throws ParameterDistributionException {
+		throw new RuntimeException ("Random distribution cannot be used as an argument for another distribution.");
 	}
 }

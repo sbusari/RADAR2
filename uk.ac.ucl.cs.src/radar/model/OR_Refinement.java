@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import radar.exception.CyclicDependencyException;
+import radar.exception.ParameterDistributionException;
 /**
  * @author Saheed A. Busari and Emmanuel Letier
  */
@@ -14,6 +15,7 @@ public class OR_Refinement extends Expression {
 	private Decision decision_;
 	private Map<String, AND_Refinement> definition_;
 	QualityVariable parent_;
+	private boolean mutuallyExclusiveOptions_;
 	public OR_Refinement(){
 		definition_ = new LinkedHashMap<String, AND_Refinement>();
 	}
@@ -27,6 +29,17 @@ public class OR_Refinement extends Expression {
 		String option = s.selection(decision_);
 		AND_Refinement and_ref = definition_.get(option);
 		return and_ref.simulate(s);
+	}
+	public double[] simulate2(Solution s) {
+		// get the list of options attached to a decision (implement this in solution class)
+		// initialise a 1 dim array (One[]) whose values are just 1.
+		// for each option get the AND-Refinement{
+		//	AND_Refinement and_ref = definition_.get(option);
+		//  double [] ans = and_ref.simulate(s)
+		//  One[i] = One[i] * ans[i];
+		// }
+		// return One[];
+		return new double[]{0};
 	}
 	/**
 	 * Sets the decision for the OR_Refinement.
@@ -101,6 +114,37 @@ public class OR_Refinement extends Expression {
 		}
 		return result;
 	}
+	public SolutionSet getAllSolutions2(Model m){
+		SolutionSet result = new SolutionSet();
+		if (mutuallyExclusiveOptions_ == true){
+			for (String option: this.decision_.getOptions()){
+				AND_Refinement ref = definition_.get(option);
+				SolutionSet solutions = ref.getAllSolutions(m);
+				 if (solutions.isEmpty()){
+	                Solution s = new Solution();
+	                s = s.addDecision(this.decision_, option);
+	                result.add(s);
+		         }else {
+	                for(Solution s: solutions.set()){
+	                    s = s.addDecision(this.decision_, option);
+	                    result.add(s);
+	                }
+		         }
+			}
+		}else{
+			// get the size of the options
+			// generate the bit array for selecting an option
+			// for each row A of the 2 X 2 matrix  
+			//     Initialise main solution set SS
+			//     for each element in A
+			//         Initialise a solution S
+			//         for each option to be selected
+			//			 get the AND-Ref and its solution set ss
+			//           S.add(ss)
+			//	   SS.add(S);
+		}
+		return result;
+	}
 	/**
 	 * Visits the children of OR_Refinement to generate the variable dependency graph.
 	 * @param visitor model visitor
@@ -130,6 +174,11 @@ public class OR_Refinement extends Expression {
 		for (AND_Refinement andRef : getAndrefinements()){
 			andRef.getCyclicDependentVariables(m);
 		}
+	}
+	@Override
+	public double getParamExpressionValue(Model m)
+			throws ParameterDistributionException {
+		throw new RuntimeException ("And-Refinement variable cannot be used as an argument for another distribution.");
 	}
 	
 }

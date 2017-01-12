@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import radar.exception.CyclicDependencyException;
+import radar.exception.ParameterDistributionException;
 
 public class QualityVariable extends ArithmeticExpression implements ModelVisitorElement {
 
@@ -169,6 +170,11 @@ public class QualityVariable extends ArithmeticExpression implements ModelVisito
 	@Override
 	public void getCyclicDependentVariables(Model m) throws CyclicDependencyException {
 		definition_.getCyclicDependentVariables(m);
+	}
+	@Override
+	public double getParamExpressionValue(Model m) throws ParameterDistributionException {
+		return definition_.getParamExpressionValue(m);
+		
 	}
 
 

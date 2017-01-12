@@ -107,6 +107,11 @@ class UnaryExpression extends ArithmeticExpression {
 	public void getCyclicDependentVariables(Model m) throws CyclicDependencyException {
 		expr_.getCyclicDependentVariables(m);
 	}
+	@Override
+	public double getParamExpressionValue(Model m) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 
 

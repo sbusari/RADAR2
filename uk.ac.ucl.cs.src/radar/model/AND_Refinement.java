@@ -113,6 +113,11 @@ class AND_Refinement extends Expression {
 	public void getCyclicDependentVariables(Model m) throws CyclicDependencyException {
 		 definition_.getCyclicDependentVariables(m);
 	}
+	@Override
+	public double getParamExpressionValue(Model m) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 
 }

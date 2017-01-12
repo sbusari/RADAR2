@@ -1,5 +1,7 @@
 package radar.model;
 
+import radar.exception.ParameterDistributionException;
+
 
 class GeometricDistribution extends Distribution {
 	private double prob_ ;
@@ -21,5 +23,10 @@ class GeometricDistribution extends Distribution {
 	}
 	@Override
 	public void  getCyclicDependentVariables(Model m) {
+	}
+	@Override
+	public double getParamExpressionValue(Model m)
+			throws ParameterDistributionException {
+		throw new RuntimeException ("Geometric distribution cannot be used as an argument for another distribution.");
 	}
 }

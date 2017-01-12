@@ -1,4 +1,7 @@
 package radar.model;
+
+import radar.exception.ParameterDistributionException;
+
 class TriangularDistribution extends Distribution {
 
 	private double lower_, mode_, upper_;
@@ -19,6 +22,11 @@ class TriangularDistribution extends Distribution {
 	}
 	@Override
 	public void getCyclicDependentVariables(Model m) {
+	}
+	@Override
+	public double getParamExpressionValue(Model m)
+			throws ParameterDistributionException {
+		throw new RuntimeException ("Triangular distribution cannot be used as an argument for another distribution.");
 	}
 	
 }

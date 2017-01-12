@@ -203,6 +203,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 	@Override 
 	public Value visitOptionParameter(ModelParser.OptionParameterContext ctx) {
 		Value option_param_def_expr = visit(ctx.parameter_def());
+		
 		return  option_param_def_expr;
 	}
 	@Override 
@@ -218,7 +219,10 @@ public class Visitor extends ModelBaseVisitor<Value> {
 				distributionArgument.add(visit(arg));
 			}
 		}
-		Value param_def_expr =  modelConstructor.addDistribution(distribution, distributionArgument) ;
+		// model updted so far with QVs only, to be used in checking that expressions within a distribution are valid.
+		Model tempModel = new Model();
+		modelConstructor.addQualityVariablesToModel(tempModel, qv_list );
+		Value param_def_expr =  modelConstructor.addDistribution(distribution, distributionArgument, tempModel) ;
 		return param_def_expr;
 	}
 	@Override public Value visitDistribution(ModelParser.DistributionContext ctx) {
@@ -314,7 +318,12 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		Value rightOperand =  visit (ctx.arithmetic_expr(1));
 		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "/",arith_expr_Parent);
 		if (argumentHasExpr == true){
-			computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() / rightOperand.convertToDouble());
+			Model tempModel = new Model();
+			modelConstructor.addQualityVariablesToModel(tempModel, qv_list );
+			double leftValue = modelConstructor.convertParameterExpressionsToNumber(leftOperand, tempModel);
+			double rightValue = modelConstructor.convertParameterExpressionsToNumber(rightOperand, tempModel);
+			computedArgumentExpression = String.valueOf(leftValue / rightValue);
+			//computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() / rightOperand.convertToDouble());
 		}
 		return expValue;
 	}
@@ -323,7 +332,12 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		Value rightOperand =  visit (ctx.arithmetic_expr(1));
 		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "*",arith_expr_Parent);
 		if (argumentHasExpr == true){
-			computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() * rightOperand.convertToDouble());
+			Model tempModel = new Model();
+			modelConstructor.addQualityVariablesToModel(tempModel, qv_list );
+			double leftValue = modelConstructor.convertParameterExpressionsToNumber(leftOperand, tempModel);
+			double rightValue = modelConstructor.convertParameterExpressionsToNumber(rightOperand, tempModel);
+			computedArgumentExpression = String.valueOf(leftValue * rightValue);
+			//computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() * rightOperand.convertToDouble());
 		}
 		return expValue;
 	}
@@ -332,7 +346,12 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		Value rightOperand =  visit (ctx.arithmetic_expr(1));
 		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "+",arith_expr_Parent);
 		if (argumentHasExpr == true){
-			computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() + rightOperand.convertToDouble());
+			Model tempModel = new Model();
+			modelConstructor.addQualityVariablesToModel(tempModel, qv_list );
+			double leftValue = modelConstructor.convertParameterExpressionsToNumber(leftOperand, tempModel);
+			double rightValue = modelConstructor.convertParameterExpressionsToNumber(rightOperand, tempModel);
+			computedArgumentExpression = String.valueOf(leftValue + rightValue);
+			//computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() + rightOperand.convertToDouble());
 		}
 		return expValue;
 	}
@@ -341,7 +360,12 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		Value rightOperand =  visit (ctx.arithmetic_expr(1));
 		Value expValue = modelConstructor.addBinaryExpression (leftOperand,rightOperand, "-",arith_expr_Parent);
 		if (argumentHasExpr == true){
-			computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() - rightOperand.convertToDouble());
+			Model tempModel = new Model();
+			modelConstructor.addQualityVariablesToModel(tempModel, qv_list );
+			double leftValue = modelConstructor.convertParameterExpressionsToNumber(leftOperand, tempModel);
+			double rightValue = modelConstructor.convertParameterExpressionsToNumber(rightOperand, tempModel);
+			computedArgumentExpression = String.valueOf(leftValue - rightValue);
+			//computedArgumentExpression = String.valueOf(leftOperand.convertToDouble() - rightOperand.convertToDouble());
 		}
 		
 		return expValue;
@@ -350,7 +374,11 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		Double arithmetic_expr = null;
 		Value base = visit (ctx.arithmetic_expr(0));
 		Value power = visit (ctx.arithmetic_expr(1));
-		arithmetic_expr= modelConstructor.findExponent(base,power);
+		//======
+		Model tempModel = new Model();
+		modelConstructor.addQualityVariablesToModel(tempModel, qv_list );
+		//=====
+		arithmetic_expr= modelConstructor.findExponent(base,power,tempModel);
 		Value value = modelConstructor.addNumberExpression(String.valueOf(arithmetic_expr) );
 		if (argumentHasExpr == true){
 			computedArgumentExpression = arithmetic_expr.toString();

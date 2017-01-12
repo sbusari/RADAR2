@@ -1,5 +1,4 @@
 package radar.model;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +32,10 @@ public class ModelSolver {
 		long start = System.currentTimeMillis();
 		
 		// get all solutions
+		System.out.println("Generating design space.");
 		List<Solution> allSolutions = m.getAllSolutions().list(); 
 		result.addAllSolutions(allSolutions);
+		
 		
 		// solution space
 		result.addSolutionSpace(m.getSolutionSpace());
@@ -71,13 +72,14 @@ public class ModelSolver {
 		List<String> paramNames = m.getParameters();
 		List<Parameter> parameters = Model.getParameterList(paramNames, m);
 		int nbrParam = parameters.size();
-		
+		System.out.println("Information value to be computed");
 		if (infoValueObjective != null ){
 			InformationValueAnalyser.computeInformationValue(result,infoValueObjective, result.getShortListSolutions(), parameters);;
 		}
 		result.addNumberOfParameters(nbrParam);
 		result.addSubGraphObejctive(m.getSubGraphObjective());
 		result.addEviObjective(infoValueObjective);
+		System.out.println("Information value computed");
 		return result;
 	}
 }

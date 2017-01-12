@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import radar.exception.CyclicDependencyException;
+import radar.exception.ParameterDistributionException;
 
 /**
  * @author Saheed Busari and Emmanuel Letier
@@ -153,6 +154,20 @@ class BinaryExpression extends ArithmeticExpression {
 	public void getCyclicDependentVariables(Model m) throws CyclicDependencyException {
 		leftExpr_.getCyclicDependentVariables(m);
 		rightExpr_.getCyclicDependentVariables(m);
+	}
+	@Override
+	public double getParamExpressionValue(Model m) throws ParameterDistributionException { 
+		double left = this.getLeftExpression().getParamExpressionValue(m);
+		double right = this.getRightExpression().getParamExpressionValue(m);
+		double result =0;
+		switch (this.bop_.getBinaryOperatorValue()){
+			case "+" : result= left + right; break;
+			case "-" :  result= left -right; break;
+			case "*" : result= left * right;break;
+			case "/" : result = left / right;break;
+			default : return 0;
+		}
+		return result;
 	}
 
 	

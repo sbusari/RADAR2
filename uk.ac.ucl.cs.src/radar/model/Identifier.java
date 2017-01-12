@@ -5,6 +5,7 @@ import java.util.Map;
 
 import radar.exception.CyclicDependencyException;
 import radar.exception.ModelException;
+import radar.exception.ParameterDistributionException;
 /**
  * @author Saheed Busari and Emmanuel Letier
  * This class holds the name of a quality varibale within an expression.
@@ -146,5 +147,13 @@ class Identifier extends ArithmeticExpression implements ModelVisitorElement {
 			return true;
 		}
 		return result;
+	}
+	@Override
+	public double getParamExpressionValue(Model m) throws ParameterDistributionException {
+		QualityVariable qv = m.getQualityVariables().get(id_);
+		if (qv ==null){
+			throw new ParameterDistributionException ("Variable "+ id_ +" must be initialised before using it as a parameter in a distribution.");
+		}
+		return qv.getParamExpressionValue(m);
 	}
 }

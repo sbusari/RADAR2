@@ -1,5 +1,7 @@
 package radar.model;
 
+import radar.exception.ParameterDistributionException;
+
 class DeterministicDistribution extends Distribution {
 
 	private double value_;
@@ -14,6 +16,11 @@ class DeterministicDistribution extends Distribution {
 	}
 	@Override
 	public void getCyclicDependentVariables(Model m) {
+	}
+	@Override
+	public double getParamExpressionValue(Model m)
+			throws ParameterDistributionException {
+		return value_;
 	}
 
 
