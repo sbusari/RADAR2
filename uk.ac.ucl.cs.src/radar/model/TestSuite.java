@@ -2,6 +2,7 @@ package radar.model;
 
 import static org.junit.Assert.*;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -67,7 +68,7 @@ public class TestSuite {
 	public void solutionSpace() {
 		Parser parser = new Parser (modelString,10000, "",""); 
 		Model semantic_model = parser.getSemanticModel();
-		int solutionSpace = semantic_model.getSolutionSpace();
+		long solutionSpace = semantic_model.getSolutionSpace();
 		assertTrue(solutionSpace > 0);
 
 	}

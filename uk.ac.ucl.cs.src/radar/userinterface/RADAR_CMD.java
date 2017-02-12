@@ -28,31 +28,31 @@ public class RADAR_CMD {
 	public String model = null;
 	
 	@Parameter(names = "--parse", description = "Parses the decision model to check for syntax error.")
-	private boolean parse = false;
+	private boolean parse = true;
 	
 	
 	@Parameter(names = "--solve", description = "Solves the decision model using exhaustive search. ")
-	public boolean solve = false;
+	public boolean solve = true;
 	
 	@Parameter(names = "--decision", description = "Generates the model decision dependency graph.")
-	public boolean decision = false;
+	public boolean decision = true;
 	
 	@Parameter(names = "--variable", description = "Generates the model AND/OR variable depenedency graph.")
-	public boolean variable = false;
+	public boolean variable = true;
 	
 	
 	@Parameter(names = "--nbr_simulation", description = "Number of simulation run. Input <sample size> .")
 	public Integer nbr_Simulation = 10000;
 	
 	@Parameter(names = "--problem-name", description = "Name of the experiment. Input <experiment name>  ")
-	public String expName = "";
+	public String expName = "Testing";
 		
 	// a list needs an arity, but because we do not know the arity we enforce every thing in a quoted string separated by comma.
 	@Parameter(names ="--infoValueObjective", description = "Computes evtpi and evppi. Input is an objective name. An example usage of this command is: --infoValueObjective 'FinancialLoss' ")
-	private String infoValueObjective = null;
+	private String infoValueObjective = "ENB";
 	
 	@Parameter(names ="--subGraphObjective", description = "Generates AND/OR subgraph for the specified objective only. Input is an objective name. An example usage of this command is: --subGraphObjective 'InvestigationCost' ")
-	private String subGraphObjective = null;
+	private String subGraphObjective = "ENB";
 	
 	
 	@Parameter(names ="--pareto", description = "Displays the pareto plots.")
@@ -105,23 +105,24 @@ public class RADAR_CMD {
 		return semanticModel;
 		
 	}
-	void analyseRadarModel (int simulation){
+	void analyseRadarModel (int nbr_simulation){
 		try {
     		// populate model and algorithm data
     		AnalysisData dataInput = populateExperimentData();
     		// get sematic model from model file
     		Model semanticModel = loadModel ();
     		
-    		semanticModel.setNbr_Simulation(simulation);
+    		semanticModel.setNbr_Simulation(nbr_simulation);
     		
     		// update experiemnt data with semantic model and information value objective.
     		dataInput.setProblemName(semanticModel.getModelName());
     		InputValidator.objectiveExist(semanticModel, infoValueObjective);
     		InputValidator.objectiveExist(semanticModel, subGraphObjective);
     		
-    		String modelResultPath = dataInput.getOutputDirectory() + dataInput.getProblemName() + "/ICSE/AnalysisResult/";
+    		String modelResultPath = dataInput.getOutputDirectory() + dataInput.getProblemName() + "/ICSE/AnalysisResult/" + nbr_simulation +"/";
     		// analyse model
     		AnalysisResult result = ModelSolver.solve(semanticModel);
+    		
 			String analysisResult = result.analysisToString();
 			String analysisResultToCSV = result.analysisResultToCSV();
 			Helper.printResults (modelResultPath , analysisResult, dataInput.getProblemName() +".out", false);
@@ -159,7 +160,12 @@ public class RADAR_CMD {
 			Model semanticModel = loadModel ();
 			System.out.println("Model was parsed succesfully.");
 		}else if (solve == true){
-			analyseRadarModel (nbr_Simulation);
+			Integer [] simulations = {10000};
+			for (int i =0; i < simulations.length; i++){
+				nbr_Simulation = simulations[i];
+				analyseRadarModel (nbr_Simulation);
+			}
+			//analyseRadarModel (nbr_Simulation);
 		}
 		
     }

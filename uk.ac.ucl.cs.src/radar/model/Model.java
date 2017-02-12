@@ -1,5 +1,6 @@
 package radar.model;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -148,8 +149,8 @@ public class Model implements ModelVisitorElement {
 	/**
 	 * @return the number of all possible solutions for the decision model.
 	 */
-	public int getSolutionSpace (){
-		int result =1;
+	public long getSolutionSpace(){
+		long result =1;
 		for (Map.Entry<String , Decision> entry: this.decisions_.entrySet()){
 			result *= entry.getValue().getOptions().size();
 		}

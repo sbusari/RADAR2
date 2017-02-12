@@ -1,4 +1,4 @@
-package radar.userinterface;
+package radar.scale.test;
 import radar.model.AnalysisResult;
 import radar.model.Model;
 import radar.model.ModelSolver;

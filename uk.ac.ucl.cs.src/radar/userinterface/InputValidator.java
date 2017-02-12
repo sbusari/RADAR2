@@ -36,7 +36,7 @@ public class InputValidator {
 		if (outputPath != null){
 			File modelFile = new File (outputPath.trim());
     		if (!modelFile.exists()){
-    			throw new Exception ("Warning: "+ "output file "+ outputPath+ " does not exist."); 
+    			throw new Exception ("Warning: "+ "file "+ outputPath+ " does not exist."); 
     		}
 		}
 	}

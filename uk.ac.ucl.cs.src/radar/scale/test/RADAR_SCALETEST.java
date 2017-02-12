@@ -1,6 +1,8 @@
-package radar.userinterface;
+package radar.scale.test;
 
+import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import radar.model.AnalysisData;
 import radar.model.AnalysisResult;
@@ -10,6 +12,7 @@ import radar.model.Parser;
 import radar.model.ScatterPlot3D;
 import radar.model.SyntheticModelGenerator;
 import radar.model.TwoDPlotter;
+import radar.userinterface.InputValidator;
 import radar.utilities.Helper;
 
 public class RADAR_SCALETEST {
@@ -18,8 +21,15 @@ public class RADAR_SCALETEST {
 	int min_nbr_options_;
 	int max_nbr_options_;
 	int nbr_decisions_;
-	String modelName_;
+	String modelName_ = "Test";
+	String testResultName_ = "ScaleTest";
+	String output; //"/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE";
+	String outputPath; // = output + "/" + modelName_ + "/ICSE/AnalysisResult/" ;
+	String modelResultPath; // =output + "/" + modelName_ + "/ICSE/AnalysisResult/" ;
+	String modelType = "simple";
+	int nbr_model_instance = 10;
 	Random rn = new Random();
+	AnalysisResult analysis_result;
 	int getRandom (int min, int max){
 		
 		int range = max - min + 1;
@@ -32,7 +42,17 @@ public class RADAR_SCALETEST {
 		
 		rst.infoValueObjective = "OF0";
 		rst.subGraphObjective = "OF0";
-		rst.output = "/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/";
+		//rst.output = "/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/";
+		rst.modelName_ = args[0];
+		rst.modelType = args[1];
+		rst.output = args[2];
+		rst.outputPath = rst.output + "/" + rst.modelName_ + "/ICSE/AnalysisResult/" ;
+		rst.modelResultPath = rst.output + "/" + rst.modelName_ + "/ICSE/AnalysisResult/" ;
+		try{
+			rst.nbr_model_instance =Integer.parseInt(args[3]);
+		}catch(Exception e){
+			
+		}
 		
 		// the number of simulation
 		int small_sim = 10000; //rst.getRandom(5000,10000);
@@ -82,6 +102,29 @@ public class RADAR_SCALETEST {
 		int[] objective_Array = new int[]{small_min_objective, medium_min_objective, large_min_objective,x_large_min_objective };
 
 		
+		/*try {
+			TimeUnit.SECONDS.timedJoin(
+				    new Thread() {
+				      public void run() {
+				    	  for (int l =7; l < 10; l++){
+				  			rst.max_nbr_options_ = 10;
+				  			rst.min_nbr_options_ = 10;
+				  			rst.min_nbr_variables_ = 15;
+				  			rst.nbr_decisions_ = l;
+				  			rst.nbr_objectives_ = 2;
+				  			rst.modelName_ = "Test";
+				  			rst.nbr_Simulation = 10000;
+				  			rst.analyseRadarModel(rst.nbr_Simulation, l+"2-5-10-10-10-Test");
+				  		}
+				    	  System.out.print("test");
+				    	  
+				      }
+				    },
+				    10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		
 		// why not use uniform distribution
 		/*for (int i = 0; i <  objective_Array.length; i++){
@@ -100,26 +143,49 @@ public class RADAR_SCALETEST {
 				}
 			}
 		}*/
-		
-		for (int i = 0; i <  1; i++){
-			for (int j =0; j < 1 ; j ++){
-				for (int k =0;  k < 1; k++){
-					for (int l =0; l < 1; l++){
-						rst.max_nbr_options_ = 20;
-						rst.min_nbr_options_ = 15;
-						rst.min_nbr_variables_ = 1500;
-						rst.nbr_decisions_ = 50;
-						rst.nbr_objectives_ = 2;
-						rst.modelName_ = "Test";
-						rst.nbr_Simulation = 10000;
-						rst.analyseRadarModel(rst.nbr_Simulation, "2-5-10-10-10-Test");
-					}
-				}
+		try {
+			
+			StringBuilder result = new StringBuilder ();
+			//result.append("ExperimentParameters, Design Space, Runtime Results, , , \n");
+			//result.append ("ExperimentParameters , Solution Space, Design Space, Design Space Time, Simulation Time, Optimisation Time, Information Value Time, Total time \n");
+			Helper.printResults (rst.outputPath, "ExperimentParameters , Solution Space, Design Space, Design Space Time, Simulation Time, Optimisation Time, Information Value Time, Total time \n", rst.testResultName_ +".csv", true);
+			
+			for (int l =0; l < rst.nbr_model_instance; l++){
+				rst.min_nbr_options_ = rst.getRandom(2,5);
+				rst.max_nbr_options_ = rst.min_nbr_options_;
+				rst.min_nbr_variables_ = 8;
+				rst.nbr_decisions_ = rst.getRandom(2,10);
+				rst.nbr_objectives_ = rst.getRandom(2,5);
+				rst.nbr_Simulation = 10000;
+				
+				String experimentParam = "Instance: " + l + " Obj(" + rst.nbr_objectives_ + ") Option(" + rst.min_nbr_options_ + ") Decision(" + rst.nbr_decisions_ + ")";
+				System.out.println("Param: "+ experimentParam);
+				String analysis_runtimes = rst.analyseRadarModel(rst.nbr_Simulation, experimentParam );
+				//experimentParam + "," + rst.analysis_result.getSolutionSpace() + ","+ rst.analysis_result.getAllSolutions().size()+ "," +analysis_runtimes 
+				Helper.printResults (rst.outputPath, experimentParam + "," + rst.analysis_result.getSolutionSpace() + ","+ rst.analysis_result.getAllSolutions().size()+ "," +analysis_runtimes , rst.testResultName_ +".csv", true);
+				//result.append(experimentParam + "," + rst.analysis_result.getSolutionSpace() + ","+ rst.analysis_result.getAllSolutions().size()+ "," +analysis_runtimes );
+			
 			}
+		} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 		}
 		
+		
+		/*for (int l =7; l < 10; l++){
+			rst.max_nbr_options_ = 10;
+			rst.min_nbr_options_ = 10;
+			rst.min_nbr_variables_ = 15;
+			rst.nbr_decisions_ = l;
+			rst.nbr_objectives_ = 2;
+			rst.modelName_ = "Test";
+			rst.nbr_Simulation = 10000;
+			rst.analyseRadarModel(rst.nbr_Simulation, l+"2-5-10-10-10-Test");
+		}*/
+		System.out.print("finished");		
+		
 	}
-	String output;
+	
 	int nbr_Simulation;
 	private String infoValueObjective;
 	private String subGraphObjective;
@@ -145,7 +211,7 @@ public class RADAR_SCALETEST {
 		smg.setModelName(modelName_);
 		smg.setNbrDecisions(nbr_decisions_);
 		smg.setNbrObjectives(nbr_objectives_);
-		testmodel = smg.generate();
+		testmodel = smg.generate(modelType);
 		Helper.printResults (resultpath , testmodel, modelName +".radar", false);
 		System.out.print(testmodel);
 		InputValidator.validateOutputPath(output);
@@ -156,15 +222,13 @@ public class RADAR_SCALETEST {
 		}
 		return semanticModel;
 	}
-	void analyseRadarModel (int simulation, String expID){
+	String analyseRadarModel (int simulation, String expID){
+		String runtime = "";
 		try {
     		// populate model and algorithm data
     		AnalysisData dataInput = populateExperimentData();
-
-    		String modelResultPath = dataInput.getOutputDirectory() + modelName_ + "/ICSE/AnalysisResult/" + expID + "/"
-    				+ "";
     		// get sematic model from model file
-    		Model semanticModel = loadModel (modelResultPath, dataInput.getProblemName());
+    		Model semanticModel = loadModel (modelResultPath + expID + "/", dataInput.getProblemName());
     		
     		
     		semanticModel.setNbr_Simulation(simulation);
@@ -175,30 +239,33 @@ public class RADAR_SCALETEST {
     		InputValidator.objectiveExist(semanticModel, subGraphObjective);
     		
     		// analyse model
-    		AnalysisResult result = ModelSolver.solve(semanticModel);
-			String analysisResult = result.analysisToString();
-			String analysisResultToCSV = result.analysisResultToCSV();
-			Helper.printResults (modelResultPath , analysisResult, dataInput.getProblemName() +".out", false);
+    		analysis_result = ModelSolver.solve(semanticModel);
+			String analysisResult = analysis_result.analysisToString();
+			String analysisResultToCSV = analysis_result.analysisResultToCSV();
+			//Helper.printResults (modelResultPath , analysisResult, dataInput.getProblemName() +".out", false);
 			Helper.printResults (modelResultPath , analysisResultToCSV, semanticModel.getModelName() +".csv", false);
 			
+			runtime = analysis_result.analysisRuntimeAndMemoryToCSV();
+			
 			// generate graphs
-			if (true){
-				String decisionGraph = semanticModel.generateDecisionDiagram(result.getAllSolutions());
+			boolean generatePlots = false;
+			if (generatePlots){
+				String decisionGraph = semanticModel.generateDecisionDiagram(analysis_result.getAllSolutions());
 				Helper.printResults (modelResultPath + "graph/", decisionGraph, dataInput.getProblemName() + "dgraph.dot", false);
 			}
 			
-			if (true){
-				String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
+			if (generatePlots){
+				String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, analysis_result.getSubGraphObjective());
 				Helper.printResults (modelResultPath + "graph/", variableGraph,  dataInput.getProblemName() + "vgraph.dot", false);
 			}
 			
-    		if (true){
-    			if (result.getShortListObjectives().get(0).length == 2){
+    		if (generatePlots){
+    			if (analysis_result.getShortListObjectives().get(0).length == 2){
 					TwoDPlotter twoDPlot = new TwoDPlotter();
-					twoDPlot.plot(semanticModel,modelResultPath, result);
-				}else if (result.getShortListObjectives().get(0).length == 3){
+					twoDPlot.plot(semanticModel,modelResultPath, analysis_result);
+				}else if (analysis_result.getShortListObjectives().get(0).length == 3){
 					ScatterPlot3D sc3D= new ScatterPlot3D( );
-					sc3D.plot(semanticModel, modelResultPath, result);;
+					sc3D.plot(semanticModel, modelResultPath, analysis_result);;
 ;				}
     		}
     		System.out.println("Finished!");
@@ -207,6 +274,7 @@ public class RADAR_SCALETEST {
     		System.out.print("Error: ");
     		System.out.println(e.getMessage());
     	}
+		return runtime;
 	}
 	
 

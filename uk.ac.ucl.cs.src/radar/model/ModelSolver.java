@@ -29,14 +29,15 @@ public class ModelSolver {
 		// instantiate the result object
 		AnalysisResult result = new AnalysisResult(objectives,decisions);
 		
+		//long StartBeforeUsedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 		long start = System.currentTimeMillis();
 		
 		// get all solutions
 		System.out.println("Generating design space.");
 		List<Solution> allSolutions = m.getAllSolutions().list(); 
+		
+	
 		result.addAllSolutions(allSolutions);
-		
-		
 		// solution space
 		result.addSolutionSpace(m.getSolutionSpace());
 
@@ -45,11 +46,12 @@ public class ModelSolver {
 		
 		// Evaluate objectives for all solutions
 		System.out.println("Evaluation and computation of optimal solutions to begin");
+		
+
 		int i =0;
 		for (Solution s: allSolutions){
 			//result.addEvaluation(s, m.evaluate(objectives, s));	
 			result.addEvaluation(s, new Simulator().evaluate(objectives, s,m));	
-			
 			i++;
 		}
 		
@@ -58,11 +60,8 @@ public class ModelSolver {
 		
 		// Shortlists Pareto-optimal solutions
 		result.addShortlist(new Optimiser().getParetoSet(evaluatedSolutions, objectives));
-		System.out.println("Optimal solutions computed");
 		
-		long end = System.currentTimeMillis();
-		long runTime = (end - start) / 1000;
-		result.addRunTime(runTime);
+		System.out.println("Optimal solutions computed");
 		
 		result.addNumberOfVariables(m.getQualityVariables().size());
 		result.addNumberOfDecisions(m.getDecisions().size());
@@ -76,6 +75,11 @@ public class ModelSolver {
 		if (infoValueObjective != null ){
 			InformationValueAnalyser.computeInformationValue(result,infoValueObjective, result.getShortListSolutions(), parameters);;
 		}
+		
+		long end = System.currentTimeMillis();
+		long runTime = (end - start) / 1000;
+		result.addRunTime(runTime);
+		
 		result.addNumberOfParameters(nbrParam);
 		result.addSubGraphObejctive(m.getSubGraphObjective());
 		result.addEviObjective(infoValueObjective);

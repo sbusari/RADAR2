@@ -32,9 +32,10 @@ public class AnalysisResult {
 
 	private double evtpi;
 	
-	private int solutionSpace;
+	private long solutionSpace;
+	//private BigInteger solutionSpace;
 	
-	private long runtime;
+	private long totalRuntime;
 	
 	private int nbrVariables;
 	
@@ -139,22 +140,29 @@ public class AnalysisResult {
 	 * Adds the model solution space to analysis result.
 	 * @param solnSpace solution space
 	 */
-	void addSolutionSpace (int solnSpace){
+	void addSolutionSpace (long solnSpace){
 		solutionSpace = solnSpace;
+	}
+	public long getSolutionSpace (){
+		return solutionSpace;
 	}
 	/**
 	 * Adds the model analysis runtime to analysis result.
 	 * @param time execution analysis run time.
 	 */
+	/**
+	 * @param time
+	 */
 	void addRunTime (long time){
-		runtime = time;
+		totalRuntime = time;
 	}
 	/**
 	 * @return analysis run time.
 	 */
 	public long getRunTime (){
-		return runtime;
+		return totalRuntime;
 	}
+	
 	/**
 	 * Adds the number of quality variables to analysis result.
 	 * @param nbrVar execution analysis run time.
@@ -253,12 +261,13 @@ public class AnalysisResult {
 			tableBuilder.addRow (new String []{"Objective: ",optimisationDirection + objectives.get(j).getLabel() +"\n" });
 		}
 		tableBuilder.addRow ("SolutionSpace:", solutionSpace +"\n");
-		tableBuilder.addRow ("Minimal SolutionSet:", value.size() +"\n");
+		//tableBuilder.addRow ("Minimal SolutionSet:", value.size() +"\n");
+		tableBuilder.addRow ("Design Sapce:", allSolutions.size() +"\n");
 		tableBuilder.addRow ("Shortlisted:", shortlist.size() +"\n");
 		tableBuilder.addRow ("Nbr. Variables:", nbrVariables + "\n");
 		tableBuilder.addRow ("Nbr. Parameters:", nbrParameters + "\n");
 		tableBuilder.addRow ("Nbr. Decisions:", nbrOfDecision + "\n");
-		tableBuilder.addRow ("Runtime(s):", runtime +"\n");
+		tableBuilder.addRow ("Total Runtime(s):", totalRuntime +"\n");
 		return tableBuilder.toString();
 	}
 	public List<String> optimisationAnalysisDetails (){
@@ -268,12 +277,13 @@ public class AnalysisResult {
 			result.add ("Objective ,"+optimisationDirection + objectives.get(j).getLabel());
 		}
 		result.add ("SolutionSpace ," + solutionSpace);
-		result.add ("Minimal SolutionSet ,"+ value.size());
+		//result.add ("Minimal SolutionSet ,"+ value.size());
+		result.add ("Design Space ,"+ allSolutions.size());
 		result.add ("Shortlisted ,"+ shortlist.size() );
 		result.add ("Nbr. Variables ," + nbrVariables  );
 		result.add ("Nbr. Parameters ," + nbrParameters  );
 		result.add ("Nbr. Decisions ," + nbrOfDecision  );
-		result.add ("Runtime(s) ,"+ runtime);
+		result.add ("Total Runtime(s) ,"+ totalRuntime);
 		return result;
 	}
 	public List<String> infoValueDetails (){
@@ -308,6 +318,12 @@ public class AnalysisResult {
 		}
 		//System.out.println ("Analysis result: \n"+analysisResult.toString());
 		return analysisResult.toString();
+	}
+	public String analysisRuntimeAndMemoryToCSV (){
+		StringBuilder resultToPrint = new StringBuilder ();
+		resultToPrint.append("Runtime Results, , , \n");
+		
+		return resultToPrint.toString();
 	}
 	/**
 	 * Returns analysis results in csv format. Includes optimisation analysis result, pareto optimal solutions and information value results.

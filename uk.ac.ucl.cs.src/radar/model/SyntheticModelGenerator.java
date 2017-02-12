@@ -11,10 +11,13 @@ import javax.swing.JOptionPane;
 
 import org.apache.commons.lang3.StringUtils;
 
+import radar.userinterface.InputValidator;
+import radar.utilities.Config;
 import radar.utilities.Helper;
 
 public class SyntheticModelGenerator {
 
+	String outputPath_;
 	int nbr_decisions_;
 	// used to track if all decisions have been used in the model
 	int decision_counter_;
@@ -38,7 +41,7 @@ public class SyntheticModelGenerator {
 	String[] opt_dir = new String[]{"Max", "Min"};
 	String[] obj_statistic = new String[]{"EV", "Pr"};
 	String[] var_symbols = new String[]{"X", "Y", "Z", "V", "T", "H", "M", "L", "N", "R", "S", "Q", "P"};
-	
+	String modelType_ ="simple";
 	public SyntheticModelGenerator(){
 		modelVariables_ = new LinkedHashMap<String, String>();
 		variableDefinition_ = new LinkedHashMap<String, String>();
@@ -66,8 +69,6 @@ public class SyntheticModelGenerator {
 		return decision_var;
 	}
 	String getExpression(int index, String var_symbol, String left_expr ){
-		//generate boolean value to be used to know the selection of AndRef: Parameter : ORRef. e.g. 0 0 1
-		//char[] radarVariableDefinitionIndex = getRadarVariableDefinitionIndex();
 		StringBuilder sb = new StringBuilder();
 		String and_var = "";
 		String param_def = "";
@@ -93,11 +94,16 @@ public class SyntheticModelGenerator {
 			variableDefinition_.put(or_ref, "or_def");
 			sb.append(or_ref);
 			// define the current variable here
-			X_def = "decision(" + getDecisionName() + "){\n";
+			String decisionName = getDecisionName();
+			X_def = "decision(" + decisionName  + "){\n";
 			int nbr_random_option = getRandom(min_nbr_options_,max_nbr_options_);
 			for (int i =0; i < nbr_random_option; i++){
-				//X_def += "\t \"Option" + i +" : "+ generateRandomParameterEstimation()+ "\n";
-				X_def += "\t \"Option" + i +"\" : "+ generateRandomExpression(var_symbol)+ " \n";
+				if(modelType_.equals("simple")){
+					X_def += "\t \"O" + getDecisionID(decisionName) + "_"+ i +"\" : "+ generateRandomParameterEstimation()+ " \n";
+				}else{
+					X_def += "\t \"O" + getDecisionID(decisionName) + "_" + i +"\" : "+ generateRandomExpression(var_symbol)+ " \n";
+				}
+				
 			}
 			X_def += "}";
 			nbr_decisions_--;
@@ -106,27 +112,21 @@ public class SyntheticModelGenerator {
 		
 		// refine the equation to remove last oprator incase the number of decisions is reached and execution does not brack the XOR.
 		String sb_toString= sb.toString();
-		System.out.print("check: " + sb_toString );
+		//System.out.print("check: " + sb_toString );
 		String operators = "+/*-";
 		String lastChar = sb_toString.trim().substring(sb_toString.length()-1);
 		if (operators.contains(lastChar)){
-			System.out.print("length: " + sb_toString.length() +"\n");
 			sb_toString = sb_toString.substring(0,sb_toString.length()-2);
 		}
-		/*if (sb_toString != null && sb_toString.length() > 0 && sb_toString.trim().charAt(sb_toString.length()-1) == '+' || sb_toString.trim().charAt(sb_toString.length()-1) == '-' || sb_toString.trim().charAt(sb_toString.length()-1) == '*' 
-				|| sb_toString.trim().charAt(sb_toString.length()-1) == '/'   ){
-			System.out.print("length: " + sb_toString.length() +"\n");
-			sb_toString = sb_toString.substring(0,sb_toString.length()-1);
-		}*/
-		System.out.print(", outcome: " + sb_toString +"\n");
-		//modelVariables_.put(left_expr, sb.toString() + ";");
 		modelVariables_.put(left_expr, sb_toString + ";");
 		// add the or refinement expressions to the global variable
 		for (Map.Entry<String, String> entry: orRefModelVariables_.entrySet()){
 			modelVariables_.put(entry.getKey(), entry.getValue());
 		}
 		if(param_def != ""){modelVariables_.put(param_def,generateRandomParameterEstimation());}
-		if (X_def != "" ){modelVariables_.put(or_ref, X_def);}	
+		if (X_def != "" ){
+			modelVariables_.put(or_ref, X_def);
+		}	
 		return sb.toString() + ";";
 	}
 	String generateRandomExpression(String var_symbol){
@@ -145,10 +145,15 @@ public class SyntheticModelGenerator {
 			int rand = getRandom(0,decisionNames_.size()-1);
 			return decisionNames_.get(rand);
 		}else{
-			String decisionName = "\"D" + decision_counter_-- + "\"";
+			String decisionName = "\"D_" + decision_counter_-- + "\"";
 			decisionNames_.add(decisionName);
 			return decisionName;
 		}
+	}
+	int getDecisionID(String decisionName){
+		String ID = decisionName.split("[_]")[1];
+		String trimmedID = ID.replace("\"", "");
+		return Integer.parseInt(trimmedID);
 	}
 	int getRandom (int min, int max){
 		
@@ -172,9 +177,14 @@ public class SyntheticModelGenerator {
 	void generateObjectiveModel (String var_symbol){
 		while (nbr_decisions_ > 0 || min_nbr_variables_ > 0)	{	
 			String left_expr = var_symbol + loopCounter_;
-			String right_expr = getExpression(loopCounter_, var_symbol, left_expr );
-			//modelVariables_.put(left_expr, right_expr);
-			variableDefinition_.put(left_expr, "and_def");
+			// added this section to avoid the left_expr overriding similar variables previously obtained from getExpression method
+			// e.g.  A new X3 overriding an existing X3 that may be AND, OR or Param Estimation.
+			if (!modelVariables_.containsKey(left_expr)){
+				String right_expr = getExpression(loopCounter_, var_symbol, left_expr );
+				//modelVariables_.put(left_expr, right_expr);
+				//System.out.println("" + left_expr + " = " + right_expr + ";");
+				variableDefinition_.put(left_expr, "and_def");
+			}
 			loopCounter_++;
 		}
 	}
@@ -182,10 +192,11 @@ public class SyntheticModelGenerator {
 		
 		String or_ref = var_symbol + (++var_index_);
 		variableDefinition_.put(or_ref, "or_def");
-		String X_def = "decision(" + getDecisionName() + "){\n";
+		String decisionName =  getDecisionName();
+		String X_def = "decision(" + decisionName + "){\n";
 		int nbr_random_option = getRandom(min_nbr_options_,max_nbr_options_);
 		for (int i =0; i < nbr_random_option; i++){
-			X_def += "\t \"Option" + i +"\" : "+ generateRandomParameterEstimation()+ " \n";
+			X_def += "\t \"O" + getDecisionID(decisionName)+ "_" + i +"\" : "+ generateRandomParameterEstimation()+ " \n";
 		}
 		X_def += "}";
 		nbr_decisions_--;
@@ -208,25 +219,34 @@ public class SyntheticModelGenerator {
 		return arith_def_left + " " + getRandomOperator() + " " + arith_def_right + ";";
 	}
 	String generateRandomParameterEstimation (){	
-		String result = "normalCI(" + getRandom(0,10) + "," + getRandom(0,10) + ");"; 
+		String result = "normalCI(" + getRandom(0,3) + "," + getRandom(4,10) + ");"; 
 		int rand =  getRandom(0,2);
 		switch (rand){
 			case 0: result =  "normalCI(" + getRandom(0,5) + "," + getRandom(6,10) + ");"; break;
-			case 1: result =  "normal(" + getRandom(0,5) + "," + getRandom(6,10) + ");"; break;
-			case 2: result =  "triangular(" + getRandom(0,3) + "," + getRandom(4,7) + "," + getRandom(8,10) + ");"; break;
-			default : result = "normal" + getRandom(0,10) + "," + getRandom(0,10) + ");";
+			case 1: result =  "normal(" + getRandom(10,20) + "," + getRandom(21,30) + ");"; break;
+			case 2: result =  "triangular(" + getRandom(50,100) + "," + getRandom(101,150) + "," + getRandom(151,200) + ");"; break;
+			default : result = "normal(" + getRandom(0,5) + "," + getRandom(5,10) + ");";
 		}
 		return result;	
 	}
 	
-	String generateRadarModel (){
+	String generateRadarModel (String modelType){
 		
 		// determine the minimum number of variables for each objective
-		int obj_min_nbr_var = min_nbr_variables_/nbr_objectives_;
-		int obj_decision = nbr_decisions_/nbr_objectives_;
-		
-		// determine the no of decisions each objective can take
+		int obj_min_nbr_var =0;
+		int obj_decision =0;
+		obj_min_nbr_var = min_nbr_variables_/nbr_objectives_;
+		obj_decision = nbr_decisions_/nbr_objectives_;
 		decision_counter_ = nbr_decisions_;
+		if (obj_decision <= 0){
+			obj_decision = nbr_decisions_;
+		}
+		// added this condition to cater for when the nbr of decisions cannot be divided equally amomg the objectives
+		if (nbr_decisions_ > nbr_objectives_ && nbr_decisions_%nbr_objectives_ > 0){
+			obj_decision += nbr_decisions_%nbr_objectives_;
+		}
+		modelType_ = modelType;
+		
 		StringBuilder model =  new StringBuilder();
 		model.append("Model " + modelName_ + "; \n" );
 		for (int i =0; i < nbr_objectives_; i ++){
@@ -257,19 +277,40 @@ public class SyntheticModelGenerator {
 		obj_def += "Objective " + opt_dir[getRandom(0,1)] + " OF" +  index + " = " + obj_statistic[getRandom(0,1)] + "(" + var_symbols[index] +"0" + ");";	
 		return obj_def;
 	}
-	
 	public static void main(String[]args) throws Exception {
-    	SyntheticModelGenerator smg = new SyntheticModelGenerator();
-    	smg.max_nbr_options_ = 10;
-    	smg.min_nbr_options_ = 2;
-    	smg.min_nbr_variables_ = 10;
-    	smg.nbr_decisions_ = 10;
-    	smg.nbr_objectives_ = 4;
-    	smg.modelName_ = "Test";
-    	System.out.print(smg.generateRadarModel());
-    }
-	public String generate(){
-		return this.generateRadarModel();
+		try{
+			SyntheticModelGenerator smg = new SyntheticModelGenerator();
+	    	InputValidator.validateOutputPath(args[0]);
+	    	String model_Settings_Path =  args[0];
+	    	Config conf =  new Config();
+	    	String outputPath = conf.getConfig(model_Settings_Path, "OUTPUT_PATH") ;
+	    	if (outputPath.trim().charAt(outputPath.length()-1) != '/'){
+	    		outputPath= outputPath.trim() +"/";
+			}
+	    	InputValidator.validateOutputPath(smg.outputPath_);
+	    	smg.outputPath_ = outputPath;
+	    	String modelType = "simple";
+	    	smg.modelName_ = conf.getConfig(model_Settings_Path, "MODELNAME", "SyntheticModel");
+	    	smg.nbr_objectives_ = Integer.parseInt(conf.getConfig(model_Settings_Path, "NUMBER_OF_OBJECTIVES", "2"));
+	    	smg.nbr_decisions_ = Integer.parseInt(conf.getConfig(model_Settings_Path, "NUMBER_OF_DECISION", "2"));
+	    	smg.max_nbr_options_ = Integer.parseInt(conf.getConfig(model_Settings_Path, "MAX_OPTION_PER_DECISION", "3"));
+	    	smg.min_nbr_options_ = Integer.parseInt(conf.getConfig(model_Settings_Path, "MIN_OPTION_PER_DECISION", "2"));
+	    	smg.min_nbr_variables_ = Integer.parseInt(conf.getConfig(model_Settings_Path, "MIN_NUMBER_OF_VARIABLES", "5"));
+	    	String hasDependency = conf.getConfig(model_Settings_Path, "HAS_DEPENDENCY", "TRUE");
+	    	
+	    	if (hasDependency.equals("TRUE")){modelType =  "complex";}
+	    	else{ modelType = "simple";}
+	    	String syntheticModel = smg.generateRadarModel(modelType);
+	    	Helper.printResults (smg.outputPath_ , syntheticModel, smg.modelName_  +".rdr", false);
+	    	System.out.print("Generated the synthetic model.\nCheck the synthetic model in the following path: " + smg.outputPath_);
+	    	System.exit(0);
+		}
+		catch(Exception e){
+			System.out.print(e.getMessage());
+		}
+	}	    
+	public String generate(String modelType){
+		return this.generateRadarModel(modelType);
 	}
 	public void setMaxNbrOptions(int max_nbr_options){
 		max_nbr_options_ = max_nbr_options;
