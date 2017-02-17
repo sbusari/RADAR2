@@ -1,0 +1,736 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1em}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+<title>RADAR</title>
+
+</head>
+<body>
+<h2>Analysis result for NASA ECS</h2>
+<table class="table table-bordered table-hover table-condensed">
+<tbody><tr><td>Optimisation Analysis</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Objective </td>
+<td>MaxExpectedUtility</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Objective </td>
+<td>MinCost</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>SolutionSpace </td>
+<td>1024</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Minimal SolutionSet </td>
+<td>1024</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Shortlisted </td>
+<td>33</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Variables </td>
+<td>75</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Parameters </td>
+<td>11</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Decisions </td>
+<td>10</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Runtime(s) </td>
+<td>2</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>ID</td>
+<td>Order Reassignment</td>
+<td>Forced Order Completion</td>
+<td>Order Persistence Strategy</td>
+<td>Order Segmentation</td>
+<td>Hung Order Recovery</td>
+<td>Failed Order Notification</td>
+<td>Order Tracking</td>
+<td>Available User Information</td>
+<td>Order Chunking</td>
+<td>Order Bundling</td>
+<td>ExpectedUtility</td>
+<td>Cost</td>
+</tr>
+<tr><td>1</td>
+<td>Current: not possible to reassign order</td>
+<td>Current: not possible to force order completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.35429264</td>
+<td>3687.114892</td>
+</tr>
+<tr><td>2</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Granule-level order tracking</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.69651487</td>
+<td>2186.319942</td>
+</tr>
+<tr><td>3</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.88318153</td>
+<td>1510.418841</td>
+</tr>
+<tr><td>4</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.95429264</td>
+<td>4487.265338</td>
+</tr>
+<tr><td>5</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-65.97651487</td>
+<td>3787.318577</td>
+</tr>
+<tr><td>6</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Granule-level order tracking</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.47029264</td>
+<td>2486.276777</td>
+</tr>
+<tr><td>7</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-72.02651487</td>
+<td>600.1639298</td>
+</tr>
+<tr><td>8</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-63.55429264</td>
+<td>4287.128492</td>
+</tr>
+<tr><td>9</td>
+<td>Current: not possible to reassign order</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-73.39429264</td>
+<td>499.9602443</td>
+</tr>
+<tr><td>10</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.99429264</td>
+<td>1300.110691</td>
+</tr>
+<tr><td>11</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-63.75429264</td>
+<td>4087.275413</td>
+</tr>
+<tr><td>12</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Granule-level order tracking</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.64095931</td>
+<td>2396.628092</td>
+</tr>
+<tr><td>13</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Granule-level order tracking</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.45429264</td>
+<td>5673.431425</td>
+</tr>
+<tr><td>14</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-71.39429264</td>
+<td>699.9839196</td>
+</tr>
+<tr><td>15</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.84318153</td>
+<td>4697.573489</td>
+</tr>
+<tr><td>16</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-70.39429264</td>
+<td>899.9501696</td>
+</tr>
+<tr><td>17</td>
+<td>Current: not possible to reassign order</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-75.62651487</td>
+<td>200.0034088</td>
+</tr>
+<tr><td>18</td>
+<td>Current: not possible to reassign order</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Current: no order segmentation</td>
+<td>Current: no order retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-81.62651487</td>
+<td>0</td>
+</tr>
+<tr><td>19</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-72.62651487</td>
+<td>599.9933341</td>
+</tr>
+<tr><td>20</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-64.97651487</td>
+<td>3987.284827</td>
+</tr>
+<tr><td>21</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-71.02651487</td>
+<td>800.1301799</td>
+</tr>
+<tr><td>22</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Granule-level order tracking</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.44318153</td>
+<td>5883.739575</td>
+</tr>
+<tr><td>23</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-66.57651487</td>
+<td>3787.147982</td>
+</tr>
+<tr><td>24</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Granule-level order tracking</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.45918153</td>
+<td>2696.584928</td>
+</tr>
+<tr><td>25</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-68.79429264</td>
+<td>1100.087015</td>
+</tr>
+<tr><td>26</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-65.35429264</td>
+<td>3887.138567</td>
+</tr>
+<tr><td>27</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-64.35429264</td>
+<td>4087.104817</td>
+</tr>
+<tr><td>28</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Granule-level order tracking</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.62095931</td>
+<td>5583.78274</td>
+</tr>
+<tr><td>29</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-62.75429264</td>
+<td>4287.241663</td>
+</tr>
+<tr><td>30</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-69.59429264</td>
+<td>1099.973845</td>
+</tr>
+<tr><td>31</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Granule-level order tracking</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.67651487</td>
+<td>5373.474589</td>
+</tr>
+<tr><td>32</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-69.79429264</td>
+<td>900.1207654</td>
+</tr>
+<tr><td>33</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-73.62651487</td>
+<td>400.0270841</td>
+</tr>
+</tbody></table>
+</body>
+</html>

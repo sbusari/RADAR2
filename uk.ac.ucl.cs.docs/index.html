@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+	align:justify
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+.container {
+    display:inline-block;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1em}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+<title>RADAR</title>
+
+</head>
+<body>
+<h1>RADAR - The Requirements and Architecture Decision AnalyseR</h1>
+
+<p align ="justify">RADAR is a lightweight modelling language and automated decision analysis tool to support multi-objective decision under uncertainty in requirements engineering and software  architecture.</p>
+RADAR analysis provides useful feedback to requirement engineers and software designers about:
+<ul> 
+<li> Which decisions are better than others in the decision model of a particular software intensive system.</li>
+<li> What objective values can be attained with different designs.</li>
+<li> What tradeoffs can be made between shortlisted designs (solutions).</li>
+<li> What parameter uncertainty may deserve additional data collection and analysis before making their decision.</li>
+<li> What parameter uncertainty does not matter to their decision.</li>
+</ul>
+
+<h2>Papers</h2>
+
+<p align ="justify">The modelling language and decision analysis support tool are described in the following paper which has been accepted for publication at ICSE17:</p>
+
+<blockquote><p><a href="radar_icse17.pdf">RADAR: A Lightweight Tool for Requirements and Architecture Decision Analysis</a>, accepted in ICSE17. </br> Authors: <a href="http://www0.cs.ucl.ac.uk/staff/s.busari/">Saheed A. Busari</a> and
+                           	 <a href="http://letier.cs.ucl.ac.uk/">Emmanuel Letier</a></blockquote>
+
+<p align ="justify">The scalability analysis of RADAR desision support tool is described in the paper below:</p>
+
+
+<blockquote><p><a href="RadarScalability.pdf">Scalability Analysis of the RADAR Decision Support Tool</a>. </br> Authors: <a href="http://www0.cs.ucl.ac.uk/staff/s.busari/">Saheed A. Busari</a> and
+                           	 <a href="http://letier.cs.ucl.ac.uk/">Emmanuel Letier</a></blockquote>
+
+<h2>Download</h2>
+<p align ="justify">The RADAR tool is available and can be downloaded <a href="RADAR.jar" class="button">here</a>, and all model examples used in the paper can be downloaded <a href="ModelExamples.zip" class="button">here</a>.</p>
+<p align ="justify"> We have also made  the  <a href="https://github.com/sbusari/RADAR"> source code </a>of the tool available in GitHub. The tool is implemented in Java and uses <a "http://www.antlr.org/"> ANTLR </a> to generate model parser, generates diagrams in <a href="http://www.graphviz.org/Documentation/dotguide.pdf"> DOT format </a>, and uses <a href ="http://graphviz.org/"> Graphviz </a> (also available in <a href ="http://webgraphviz.com/"> browser </a>) to visualise the diagrams. </p>
+
+
+<h2> How to Use RADAR </h2>
+
+<p>RADAR is a self-contained jar file. Simply download the file to your computer and double click to launch the application (needs <a  href ="http://www.oracle.com/technetwork/java/javase/downloads/index.html"> JRE 1.7</a> or later versions). Once the application is launched successfully, a window appears with three panels as shown in figure 1:
+<ul align ="justify">
+<li><strong>Model Board </strong> where modellers can write their own models and also load existing models for review.</li>	
+<li><strong>Analysis Settings</strong> for specifying parameters for model analysis. Examples of these parameters includes: 
+<ol>
+<li>The number of Monte-Carlo simulation run. </li>
+<li>Output directory where model analysis results are stored. </li>
+<li>Information value objective to be used for computing the expected value of total and partial perfect information (evtpi and evppi) </li>
+<li>Sub-graph objective for restricting the AND/OR graph to a single specified objective </li>
+<li>Some checkboxes used to indicate users' preferences on whether the tool should generate AND/OR dependency graph, decision dependency graph and the Pareto front. </li>
+</ol></li>
+<li><strong>Decisions</strong> which displays all specified model decisions and their corresponding options once the model has been parsed successfully.</li>
+</ul>
+
+<p><strong>To analyse an existing model</strong>, the following steps can be followed:</p>
+<ol align ="justify">
+<li>Enable the model board by either clicking <strong>enable model board </strong> under the Radar menu or clicking the <strong>write model</strong> under the Action menu.</li> 
+<li>Open the RADAR file (we recommend starting with the first example below i.e. refactoring cost-benefit analysis) by simply clicking on the file menu and then click  <strong>open</strong> to load the existing model on the model board as shown in figure 1. if successful, you will see the model displayed in the model board. At this point, users can edit the model and save changes by clicking on <strong>save</strong> under the file menu. </li> 
+<li>Go to the Action menu and  click  <strong>parse model </strong> to check that the specified model conforms to RADAR syntaxes defined in the paper. If not, an error message is displayed. If successful, you will be prompted to either continue with analysing the model or you could decide to further review the model and later analyse the model by clicking <strong>analyse model</strong> under the Action menu. Note that before parsing the model, you will be required to specify the output directory, which stores model analysis results. </li>
+<li> If you click continue with model analysis, RADAR analyses the model as described in the paper, and the analysis results, such as the optimisation analysis, Pareto front (if checkbox is enabled) and information value analysis (if the information value objective is specified), are displayed in another window as shown in figure 2. </li>
+</ol>
+
+<p> RADAR also saves the following in the specified output directory: </p>
+<ul align ="justify">
+<li>The model analysis results in .csv and .out extensions.</li>
+<li>The AND/OR variable dependency graph (which helps to communicate and validate traceability links between technical
+software characteristics) and decisions dependency graph (which helps to visualise the dependencies between decisions and options, and also to view a potentially large design space in terms of a smaller set of
+decisions and options). These graphs are saved in <a href="http://www.graphviz.org/Documentation/dotguide.pdf"> DOT format </a> and can be viewed using <a href ="http://graphviz.org/">Graphviz</a> (also available in <a href ="http://webgraphviz.com/"> browser</a>). </li>
+<li>The Pareto front plot (in .PNG format) which is the set of optimal solutions that show the trade-off that can be made between the multiple and conflicting objectives.   </li>
+</ul>
+
+<div class="container">
+    <div style="float:left;width:49%">
+       <a href ="radar_home.jpg"> <img src="radar_home.jpg"> </a>
+ 	<p align ="center">Figure 1</p>
+    </div>
+    <div style="float:right;width:49%">
+         <a href ="radar_analysis.jpg"><img src="radar_analysis.jpg"></a>
+	<p align ="center">Figure 2</p>
+    </div>
+</div>
+
+
+<p align ="justify"><strong>To analyse your own model</strong>, simply follow the same steps after having edited your model in the tool or using an external text editor.</p>
+
+For any question, email: <a href="mailto:{saheed.busari.13, e.letier}@ucl.ac.uk">{saheed.busari.13, e.letier}@ucl.ac.uk</a>
+
+
+<h2>Examples</h2>
+
+<p align ="justify">We have applied the tool to the following examples.</p>
+
+<table>
+<thead>
+<tr>
+<th> Example </th>
+<th> Brief Description </th>
+<th> Report </th>
+<th> Radar File </th>
+<th>  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Refactoring cost-benefit analysis </td>
+<td> The small example used in the paper to introduce the language and decision analysis method </td>
+<td><a href="refactoring_result.html">refactoring</td>
+<td><a href="CBA.rdr">refactoring.rdr </td>
+</tr>
+<tr>
+<td> Plastic card fraud detection system </td>
+<td> The running example used in the paper to illustrate the language and analysis functions. The problem consists in selecting among alternative design for a fraud detection system so as to minimise financial loss due to fraud and minimise the number of fraud alerts to be investigated manually </td>
+<td> <a href="fds_report.html">fraud-detection</a> </td>
+<td> <a href="FDM.rdr">fraud-detection.rdr</a></td>
+</tr>
+<tr>
+<td> Document sharing security policy </td>
+<td>  This example analyses security policy decisions for an organisation concerned with leaks of confidential information. The analysis extends previous models developed by Tristan Caulfield and David Pym for a real organistion.
+</td>
+<td> <a href="bspdm_report.html">sharing-policy</a> </td>
+<td> <a href="BSPDM.rdr">sharing-policy.rdr</a> </td>
+</tr>
+<tr>
+<td> Emergency Response System </td>
+<td>  This example illustrates the use of RADAR on an architecture decision problem used in previous publications (see the report for details). The design space for this model includes 6912 solutions and takes around 2 minutes to analyse.
+</td>
+<td> <a href="sas_report.html">emergency-response</a> </td>
+<td> <a href="SAS.rdr">emergency-response.rdr</a> </td>
+</tr>
+<tr>
+<td> Satellite Image Processing</td>
+<td>  This example was first introduce to illustrate the CBAM architecture decision method (see report for full references). We show here how to analyse this problem in RADAR and compare RADAR's approach to CBAM.
+</td>
+<td> <a href="ecs_report.html">nasa-ecs</a> </td>
+<td> <a href="ECS.rdr">nasa-ecs.rdr</a> </td>
+</tr>
+</tbody>
+</table>
+
+<p> We have also applied RADAR on different <a href="SyntheticModels.zip" class="button">synthetic models</a> to understand the scalability of the tool. The synthetic models are generated using a model generator that generates random syntactically valid RADAR models with a given number of objectives, decisions,  number of options per decisions and minimum number of model variables. To create a synthetic model of a specific size, download the model generator jar file
+ and run the command below:</p>
+
+<div class="code">
+	<strong>java -jar ./Downloads/SytheticModelGenerator.jar ./Downloads/SyntheticModel.properties</strong>
+</div>
+<p>In  the command above, <a href="SyntheticModelGenerator.jar">SytheticModelGenerator.jar</a> is the program that generates the synthetic model and <a href="SyntheticModel.properties" class="button">SyntheticModel.properties</a> stores values for the RADAR model constructs, such as the number of objectives, decisions,  number of options per decisions and minimum number of model variables. The file <a href="SyntheticModel.rdr">SytheticModel.rdr</a> contains a synthetic RADAR model with decision dependency and has 2 objectives, minimum of 10 model variables, 4 decisions with their corresponding options ranging between 2 and 3.</p>
+
+<p> The RADAR files can be opened and analysed in the tool following the steps outlined above. </p>
+
+<!--<h2>Synthetic Model Generator</h2>-->
+
+
+
+<h2>Roadmap</h2>
+
+Radar is an early prototype that we are constantly improving. Our current development goals include:
+
+<ul align ="justify">
+<li>Applying RADAR to additional examples.</li>	
+<li>Extending the language to support decisions with non-mutually exclusive options.</li>
+<li>Various improvements to the user interface: syntax highlighting, better error messages, and fully integrated graphic generation.</li>
+<li>Provide fully documented API for use of Radar by external tools.</li>
+<li>Facilitating generation of decision analysis report by embedding RADAR model fragments and analysis results within markdown documents.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,26 @@
+Optimisation Analysis 
+============================ 
+
+Objective: 		MaxENB
+Objective: 		MinLP
+SolutionSpace: 			2
+Evaluated: 			2
+Shortlisted: 			2
+Runtime(s): 			0
+
+ID 	system type	ENB	LP	Optimal
+1	New	2.0357429154567996	0.2289	Yes
+2	Legacy	1.0008453695618638	0.0	Yes
+
+Information Value Analysis 
+===============================
+
+Objective: 			ENB
+EVTPI: 			 0.6550532021798317
+
+Parameter 			 EVPPI 
+Benefit[New]: 			 0.5552019055087447
+Benefit[Legacy]: 			 2.843671858872021E-4
+Cost[New]: 			 0.1555643123558168
+Cost[Legacy]: 			 9.533237548819962E-4
+

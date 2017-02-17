@@ -1,0 +1,728 @@
+digraph G { 
+rankdir = BT 
+"BatteryUsage_weight" [shape = oval] 
+AndRef0[shape = point] 
+AndRef0->"BatteryUsage_LocationFinding"
+"BatteryUsage_LocationFinding[GPS]"->AndRef0 [dir = none] 
+AndRef1[shape = point] 
+AndRef1->"BatteryUsage_LocationFinding"
+"BatteryUsage_LocationFinding[radio triangulation]"->AndRef1 [dir = none] 
+"BatteryUsage_LocationFinding" [shape = oval] 
+AndRef2[shape = point] 
+AndRef2->"BatteryUsage_FileSharing"
+"BatteryUsage_FileSharing[OpenIntent]"->AndRef2 [dir = none] 
+AndRef3[shape = point] 
+AndRef3->"BatteryUsage_FileSharing"
+"BatteryUsage_FileSharing[In house]"->AndRef3 [dir = none] 
+"BatteryUsage_FileSharing" [shape = oval] 
+AndRef4[shape = point] 
+AndRef4->"BatteryUsage_ReportSyncing"
+"BatteryUsage_ReportSyncing[Explicit]"->AndRef4 [dir = none] 
+AndRef5[shape = point] 
+AndRef5->"BatteryUsage_ReportSyncing"
+"BatteryUsage_ReportSyncing[Implicit]"->AndRef5 [dir = none] 
+"BatteryUsage_ReportSyncing" [shape = oval] 
+AndRef6[shape = point] 
+AndRef6->"BatteryUsage_ChatProtocol"
+"BatteryUsage_ChatProtocol[XMPP (Open Fire)]"->AndRef6 [dir = none] 
+AndRef7[shape = point] 
+AndRef7->"BatteryUsage_ChatProtocol"
+"BatteryUsage_ChatProtocol[In house]"->AndRef7 [dir = none] 
+"BatteryUsage_ChatProtocol" [shape = oval] 
+AndRef8[shape = point] 
+AndRef8->"BatteryUsage_MapAccess"
+"BatteryUsage_MapAccess[On Demand (Google)]"->AndRef8 [dir = none] 
+AndRef9[shape = point] 
+AndRef9->"BatteryUsage_MapAccess"
+"BatteryUsage_MapAccess[Cache on server]"->AndRef9 [dir = none] 
+AndRef10[shape = point] 
+AndRef10->"BatteryUsage_MapAccess"
+"BatteryUsage_MapAccess[Preloaded (ESRI)]"->AndRef10 [dir = none] 
+"BatteryUsage_MapAccess" [shape = oval] 
+AndRef11[shape = point] 
+AndRef11->"BatteryUsage_HardwarePlatform"
+"BatteryUsage_HardwarePlatform[Nexus I (HTC)]"->AndRef11 [dir = none] 
+AndRef12[shape = point] 
+AndRef12->"BatteryUsage_HardwarePlatform"
+"BatteryUsage_HardwarePlatform[Droid (Motorola)]"->AndRef12 [dir = none] 
+"BatteryUsage_HardwarePlatform" [shape = oval] 
+AndRef13[shape = point] 
+AndRef13->"BatteryUsage_Connectivity"
+"BatteryUsage_Connectivity[Wifi]"->AndRef13 [dir = none] 
+AndRef14[shape = point] 
+AndRef14->"BatteryUsage_Connectivity"
+"BatteryUsage_Connectivity[3G on Nexus I]"->AndRef14 [dir = none] 
+AndRef15[shape = point] 
+AndRef15->"BatteryUsage_Connectivity"
+"BatteryUsage_Connectivity[3G on Droid]"->AndRef15 [dir = none] 
+AndRef16[shape = point] 
+AndRef16->"BatteryUsage_Connectivity"
+"BatteryUsage_Connectivity[Bluetooth]"->AndRef16 [dir = none] 
+"BatteryUsage_Connectivity" [shape = oval] 
+AndRef17[shape = point] 
+AndRef17->"BatteryUsage_DataBase"
+"BatteryUsage_DataBase[MySQL]"->AndRef17 [dir = none] 
+AndRef18[shape = point] 
+AndRef18->"BatteryUsage_DataBase"
+"BatteryUsage_DataBase[sqLite]"->AndRef18 [dir = none] 
+"BatteryUsage_DataBase" [shape = oval] 
+AndRef19[shape = point] 
+AndRef19->"BatteryUsage_ArchitecturalPattern"
+"BatteryUsage_ArchitecturalPattern[Peer-to-peer]"->AndRef19 [dir = none] 
+AndRef20[shape = point] 
+AndRef20->"BatteryUsage_ArchitecturalPattern"
+"BatteryUsage_ArchitecturalPattern[Client-Server]"->AndRef20 [dir = none] 
+AndRef21[shape = point] 
+AndRef21->"BatteryUsage_ArchitecturalPattern"
+"BatteryUsage_ArchitecturalPattern[Push-based]"->AndRef21 [dir = none] 
+"BatteryUsage_ArchitecturalPattern" [shape = oval] 
+AndRef22[shape = point] 
+AndRef22->"BatteryUsage_DataExchangeFormat"
+"BatteryUsage_DataExchangeFormat[XML]"->AndRef22 [dir = none] 
+AndRef23[shape = point] 
+AndRef23->"BatteryUsage_DataExchangeFormat"
+"BatteryUsage_DataExchangeFormat[Compressed XML]"->AndRef23 [dir = none] 
+AndRef24[shape = point] 
+AndRef24->"BatteryUsage_DataExchangeFormat"
+"BatteryUsage_DataExchangeFormat[Unformatted data]"->AndRef24 [dir = none] 
+"BatteryUsage_DataExchangeFormat" [shape = oval] 
+"BatteryUsage" [shape = oval] 
+AndRef25[shape = point] 
+AndRef25->"BatteryUsage"
+"BatteryUsage_LocationFinding"->AndRef25 [dir = none] 
+"BatteryUsage_FileSharing"->AndRef25 [dir = none] 
+"BatteryUsage_ReportSyncing"->AndRef25 [dir = none] 
+"BatteryUsage_ChatProtocol"->AndRef25 [dir = none] 
+"BatteryUsage_MapAccess"->AndRef25 [dir = none] 
+"BatteryUsage_HardwarePlatform"->AndRef25 [dir = none] 
+"BatteryUsage_Connectivity"->AndRef25 [dir = none] 
+"BatteryUsage_DataBase"->AndRef25 [dir = none] 
+"BatteryUsage_ArchitecturalPattern"->AndRef25 [dir = none] 
+"BatteryUsage_DataExchangeFormat"->AndRef25 [dir = none] 
+"BatteryUsage_best" [shape = oval] 
+"BatteryUsage_worst" [shape = oval] 
+"BatteryUsage_Preference" [shape = oval] 
+AndRef26[shape = point] 
+AndRef26->"BatteryUsage_Preference"
+"BatteryUsage"->AndRef26 [dir = none] 
+"BatteryUsage_best"->AndRef26 [dir = none] 
+"BatteryUsage_worst"->AndRef26 [dir = none] 
+"ResponseTime_weight" [shape = oval] 
+AndRef27[shape = point] 
+AndRef27->"ResponseTime_LocationFinding"
+"ResponseTime_LocationFinding[GPS]"->AndRef27 [dir = none] 
+AndRef28[shape = point] 
+AndRef28->"ResponseTime_LocationFinding"
+"ResponseTime_LocationFinding[radio triangulation]"->AndRef28 [dir = none] 
+"ResponseTime_LocationFinding" [shape = oval] 
+AndRef29[shape = point] 
+AndRef29->"ResponseTime_FileSharing"
+"ResponseTime_FileSharing[OpenIntent]"->AndRef29 [dir = none] 
+AndRef30[shape = point] 
+AndRef30->"ResponseTime_FileSharing"
+"ResponseTime_FileSharing[In house]"->AndRef30 [dir = none] 
+"ResponseTime_FileSharing" [shape = oval] 
+AndRef31[shape = point] 
+AndRef31->"ResponseTime_ReportSyncing"
+"ResponseTime_ReportSyncing[Explicit]"->AndRef31 [dir = none] 
+AndRef32[shape = point] 
+AndRef32->"ResponseTime_ReportSyncing"
+"ResponseTime_ReportSyncing[Implicit]"->AndRef32 [dir = none] 
+"ResponseTime_ReportSyncing" [shape = oval] 
+AndRef33[shape = point] 
+AndRef33->"ResponseTime_ChatProtocol"
+"ResponseTime_ChatProtocol[XMPP (Open Fire)]"->AndRef33 [dir = none] 
+AndRef34[shape = point] 
+AndRef34->"ResponseTime_ChatProtocol"
+"ResponseTime_ChatProtocol[In house]"->AndRef34 [dir = none] 
+"ResponseTime_ChatProtocol" [shape = oval] 
+AndRef35[shape = point] 
+AndRef35->"ResponseTime_MapAccess"
+"ResponseTime_MapAccess[On Demand (Google)]"->AndRef35 [dir = none] 
+AndRef36[shape = point] 
+AndRef36->"ResponseTime_MapAccess"
+"ResponseTime_MapAccess[Cache on server]"->AndRef36 [dir = none] 
+AndRef37[shape = point] 
+AndRef37->"ResponseTime_MapAccess"
+"ResponseTime_MapAccess[Preloaded (ESRI)]"->AndRef37 [dir = none] 
+"ResponseTime_MapAccess" [shape = oval] 
+AndRef38[shape = point] 
+AndRef38->"ResponseTime_HardwarePlatform"
+"ResponseTime_HardwarePlatform[Nexus I (HTC)]"->AndRef38 [dir = none] 
+AndRef39[shape = point] 
+AndRef39->"ResponseTime_HardwarePlatform"
+"ResponseTime_HardwarePlatform[Droid (Motorola)]"->AndRef39 [dir = none] 
+"ResponseTime_HardwarePlatform" [shape = oval] 
+AndRef40[shape = point] 
+AndRef40->"ResponseTime_Connectivity"
+"ResponseTime_Connectivity[Wifi]"->AndRef40 [dir = none] 
+AndRef41[shape = point] 
+AndRef41->"ResponseTime_Connectivity"
+"ResponseTime_Connectivity[3G on Nexus I]"->AndRef41 [dir = none] 
+AndRef42[shape = point] 
+AndRef42->"ResponseTime_Connectivity"
+"ResponseTime_Connectivity[3G on Droid]"->AndRef42 [dir = none] 
+AndRef43[shape = point] 
+AndRef43->"ResponseTime_Connectivity"
+"ResponseTime_Connectivity[Bluetooth]"->AndRef43 [dir = none] 
+"ResponseTime_Connectivity" [shape = oval] 
+AndRef44[shape = point] 
+AndRef44->"ResponseTime_DataBase"
+"ResponseTime_DataBase[MySQL]"->AndRef44 [dir = none] 
+AndRef45[shape = point] 
+AndRef45->"ResponseTime_DataBase"
+"ResponseTime_DataBase[sqLite]"->AndRef45 [dir = none] 
+"ResponseTime_DataBase" [shape = oval] 
+AndRef46[shape = point] 
+AndRef46->"ResponseTime_ArchitecturalPattern"
+"ResponseTime_ArchitecturalPattern[Peer-to-peer]"->AndRef46 [dir = none] 
+AndRef47[shape = point] 
+AndRef47->"ResponseTime_ArchitecturalPattern"
+"ResponseTime_ArchitecturalPattern[Client-Server]"->AndRef47 [dir = none] 
+AndRef48[shape = point] 
+AndRef48->"ResponseTime_ArchitecturalPattern"
+"ResponseTime_ArchitecturalPattern[Push-based]"->AndRef48 [dir = none] 
+"ResponseTime_ArchitecturalPattern" [shape = oval] 
+AndRef49[shape = point] 
+AndRef49->"ResponseTime_DataExchangeFormat"
+"ResponseTime_DataExchangeFormat[XML]"->AndRef49 [dir = none] 
+AndRef50[shape = point] 
+AndRef50->"ResponseTime_DataExchangeFormat"
+"ResponseTime_DataExchangeFormat[Compressed XML]"->AndRef50 [dir = none] 
+AndRef51[shape = point] 
+AndRef51->"ResponseTime_DataExchangeFormat"
+"ResponseTime_DataExchangeFormat[Unformatted data]"->AndRef51 [dir = none] 
+"ResponseTime_DataExchangeFormat" [shape = oval] 
+"ResponseTime" [shape = oval] 
+AndRef52[shape = point] 
+AndRef52->"ResponseTime"
+"ResponseTime_LocationFinding"->AndRef52 [dir = none] 
+"ResponseTime_FileSharing"->AndRef52 [dir = none] 
+"ResponseTime_ReportSyncing"->AndRef52 [dir = none] 
+"ResponseTime_ChatProtocol"->AndRef52 [dir = none] 
+"ResponseTime_MapAccess"->AndRef52 [dir = none] 
+"ResponseTime_HardwarePlatform"->AndRef52 [dir = none] 
+"ResponseTime_Connectivity"->AndRef52 [dir = none] 
+"ResponseTime_DataBase"->AndRef52 [dir = none] 
+"ResponseTime_ArchitecturalPattern"->AndRef52 [dir = none] 
+"ResponseTime_DataExchangeFormat"->AndRef52 [dir = none] 
+"ResponseTime_worst" [shape = oval] 
+"ResponseTime_best" [shape = oval] 
+"ResponseTime_Preference" [shape = oval] 
+AndRef53[shape = point] 
+AndRef53->"ResponseTime_Preference"
+"ResponseTime"->AndRef53 [dir = none] 
+"ResponseTime_worst"->AndRef53 [dir = none] 
+"ResponseTime_best"->AndRef53 [dir = none] 
+"Reliability_weight" [shape = oval] 
+AndRef54[shape = point] 
+AndRef54->"Reliability_LocationFinding"
+"Reliability_LocationFinding[GPS]"->AndRef54 [dir = none] 
+AndRef55[shape = point] 
+AndRef55->"Reliability_LocationFinding"
+"Reliability_LocationFinding[radio triangulation]"->AndRef55 [dir = none] 
+"Reliability_LocationFinding" [shape = oval] 
+AndRef56[shape = point] 
+AndRef56->"Reliability_FileSharing"
+"Reliability_FileSharing[OpenIntent]"->AndRef56 [dir = none] 
+AndRef57[shape = point] 
+AndRef57->"Reliability_FileSharing"
+"Reliability_FileSharing[In house]"->AndRef57 [dir = none] 
+"Reliability_FileSharing" [shape = oval] 
+AndRef58[shape = point] 
+AndRef58->"Reliability_ReportSyncing"
+"Reliability_ReportSyncing[Explicit]"->AndRef58 [dir = none] 
+AndRef59[shape = point] 
+AndRef59->"Reliability_ReportSyncing"
+"Reliability_ReportSyncing[Implicit]"->AndRef59 [dir = none] 
+"Reliability_ReportSyncing" [shape = oval] 
+AndRef60[shape = point] 
+AndRef60->"Reliability_ChatProtocol"
+"Reliability_ChatProtocol[XMPP (Open Fire)]"->AndRef60 [dir = none] 
+AndRef61[shape = point] 
+AndRef61->"Reliability_ChatProtocol"
+"Reliability_ChatProtocol[In house]"->AndRef61 [dir = none] 
+"Reliability_ChatProtocol" [shape = oval] 
+AndRef62[shape = point] 
+AndRef62->"Reliability_MapAccess"
+"Reliability_MapAccess[On Demand (Google)]"->AndRef62 [dir = none] 
+AndRef63[shape = point] 
+AndRef63->"Reliability_MapAccess"
+"Reliability_MapAccess[Cache on server]"->AndRef63 [dir = none] 
+AndRef64[shape = point] 
+AndRef64->"Reliability_MapAccess"
+"Reliability_MapAccess[Preloaded (ESRI)]"->AndRef64 [dir = none] 
+"Reliability_MapAccess" [shape = oval] 
+AndRef65[shape = point] 
+AndRef65->"Reliability_HardwarePlatform"
+"Reliability_HardwarePlatform[Nexus I (HTC)]"->AndRef65 [dir = none] 
+AndRef66[shape = point] 
+AndRef66->"Reliability_HardwarePlatform"
+"Reliability_HardwarePlatform[Droid (Motorola)]"->AndRef66 [dir = none] 
+"Reliability_HardwarePlatform" [shape = oval] 
+AndRef67[shape = point] 
+AndRef67->"Reliability_Connectivity"
+"Reliability_Connectivity[Wifi]"->AndRef67 [dir = none] 
+AndRef68[shape = point] 
+AndRef68->"Reliability_Connectivity"
+"Reliability_Connectivity[3G on Nexus I]"->AndRef68 [dir = none] 
+AndRef69[shape = point] 
+AndRef69->"Reliability_Connectivity"
+"Reliability_Connectivity[3G on Droid]"->AndRef69 [dir = none] 
+AndRef70[shape = point] 
+AndRef70->"Reliability_Connectivity"
+"Reliability_Connectivity[Bluetooth]"->AndRef70 [dir = none] 
+"Reliability_Connectivity" [shape = oval] 
+AndRef71[shape = point] 
+AndRef71->"Reliability_DataBase"
+"Reliability_DataBase[MySQL]"->AndRef71 [dir = none] 
+AndRef72[shape = point] 
+AndRef72->"Reliability_DataBase"
+"Reliability_DataBase[sqLite]"->AndRef72 [dir = none] 
+"Reliability_DataBase" [shape = oval] 
+AndRef73[shape = point] 
+AndRef73->"Reliability_ArchitecturalPattern"
+"Reliability_ArchitecturalPattern[Peer-to-peer]"->AndRef73 [dir = none] 
+AndRef74[shape = point] 
+AndRef74->"Reliability_ArchitecturalPattern"
+"Reliability_ArchitecturalPattern[Client-Server]"->AndRef74 [dir = none] 
+AndRef75[shape = point] 
+AndRef75->"Reliability_ArchitecturalPattern"
+"Reliability_ArchitecturalPattern[Push-based]"->AndRef75 [dir = none] 
+"Reliability_ArchitecturalPattern" [shape = oval] 
+AndRef76[shape = point] 
+AndRef76->"Reliability_DataExchangeFormat"
+"Reliability_DataExchangeFormat[XML]"->AndRef76 [dir = none] 
+AndRef77[shape = point] 
+AndRef77->"Reliability_DataExchangeFormat"
+"Reliability_DataExchangeFormat[Compressed XML]"->AndRef77 [dir = none] 
+AndRef78[shape = point] 
+AndRef78->"Reliability_DataExchangeFormat"
+"Reliability_DataExchangeFormat[Unformatted data]"->AndRef78 [dir = none] 
+"Reliability_DataExchangeFormat" [shape = oval] 
+"Reliability" [shape = oval] 
+AndRef79[shape = point] 
+AndRef79->"Reliability"
+"Reliability_LocationFinding"->AndRef79 [dir = none] 
+"Reliability_FileSharing"->AndRef79 [dir = none] 
+"Reliability_ReportSyncing"->AndRef79 [dir = none] 
+"Reliability_ChatProtocol"->AndRef79 [dir = none] 
+"Reliability_MapAccess"->AndRef79 [dir = none] 
+"Reliability_HardwarePlatform"->AndRef79 [dir = none] 
+"Reliability_Connectivity"->AndRef79 [dir = none] 
+"Reliability_DataBase"->AndRef79 [dir = none] 
+"Reliability_ArchitecturalPattern"->AndRef79 [dir = none] 
+"Reliability_DataExchangeFormat"->AndRef79 [dir = none] 
+"Reliability_worst" [shape = oval] 
+"Reliability_best" [shape = oval] 
+"Reliability_Preference" [shape = oval] 
+AndRef80[shape = point] 
+AndRef80->"Reliability_Preference"
+"Reliability"->AndRef80 [dir = none] 
+"Reliability_worst"->AndRef80 [dir = none] 
+"Reliability_best"->AndRef80 [dir = none] 
+"RampUpTime_weight" [shape = oval] 
+AndRef81[shape = point] 
+AndRef81->"RampUpTime_LocationFinding"
+"RampUpTime_LocationFinding[GPS]"->AndRef81 [dir = none] 
+AndRef82[shape = point] 
+AndRef82->"RampUpTime_LocationFinding"
+"RampUpTime_LocationFinding[radio triangulation]"->AndRef82 [dir = none] 
+"RampUpTime_LocationFinding" [shape = oval] 
+AndRef83[shape = point] 
+AndRef83->"RampUpTime_FileSharing"
+"RampUpTime_FileSharing[OpenIntent]"->AndRef83 [dir = none] 
+AndRef84[shape = point] 
+AndRef84->"RampUpTime_FileSharing"
+"RampUpTime_FileSharing[In house]"->AndRef84 [dir = none] 
+"RampUpTime_FileSharing" [shape = oval] 
+AndRef85[shape = point] 
+AndRef85->"RampUpTime_ReportSyncing"
+"RampUpTime_ReportSyncing[Explicit]"->AndRef85 [dir = none] 
+AndRef86[shape = point] 
+AndRef86->"RampUpTime_ReportSyncing"
+"RampUpTime_ReportSyncing[Implicit]"->AndRef86 [dir = none] 
+"RampUpTime_ReportSyncing" [shape = oval] 
+AndRef87[shape = point] 
+AndRef87->"RampUpTime_ChatProtocol"
+"RampUpTime_ChatProtocol[XMPP (Open Fire)]"->AndRef87 [dir = none] 
+AndRef88[shape = point] 
+AndRef88->"RampUpTime_ChatProtocol"
+"RampUpTime_ChatProtocol[In house]"->AndRef88 [dir = none] 
+"RampUpTime_ChatProtocol" [shape = oval] 
+AndRef89[shape = point] 
+AndRef89->"RampUpTime_MapAccess"
+"RampUpTime_MapAccess[On Demand (Google)]"->AndRef89 [dir = none] 
+AndRef90[shape = point] 
+AndRef90->"RampUpTime_MapAccess"
+"RampUpTime_MapAccess[Cache on server]"->AndRef90 [dir = none] 
+AndRef91[shape = point] 
+AndRef91->"RampUpTime_MapAccess"
+"RampUpTime_MapAccess[Preloaded (ESRI)]"->AndRef91 [dir = none] 
+"RampUpTime_MapAccess" [shape = oval] 
+AndRef92[shape = point] 
+AndRef92->"RampUpTime_HardwarePlatform"
+"RampUpTime_HardwarePlatform[Nexus I (HTC)]"->AndRef92 [dir = none] 
+AndRef93[shape = point] 
+AndRef93->"RampUpTime_HardwarePlatform"
+"RampUpTime_HardwarePlatform[Droid (Motorola)]"->AndRef93 [dir = none] 
+"RampUpTime_HardwarePlatform" [shape = oval] 
+AndRef94[shape = point] 
+AndRef94->"RampUpTime_Connectivity"
+"RampUpTime_Connectivity[Wifi]"->AndRef94 [dir = none] 
+AndRef95[shape = point] 
+AndRef95->"RampUpTime_Connectivity"
+"RampUpTime_Connectivity[3G on Nexus I]"->AndRef95 [dir = none] 
+AndRef96[shape = point] 
+AndRef96->"RampUpTime_Connectivity"
+"RampUpTime_Connectivity[3G on Droid]"->AndRef96 [dir = none] 
+AndRef97[shape = point] 
+AndRef97->"RampUpTime_Connectivity"
+"RampUpTime_Connectivity[Bluetooth]"->AndRef97 [dir = none] 
+"RampUpTime_Connectivity" [shape = oval] 
+AndRef98[shape = point] 
+AndRef98->"RampUpTime_DataBase"
+"RampUpTime_DataBase[MySQL]"->AndRef98 [dir = none] 
+AndRef99[shape = point] 
+AndRef99->"RampUpTime_DataBase"
+"RampUpTime_DataBase[sqLite]"->AndRef99 [dir = none] 
+"RampUpTime_DataBase" [shape = oval] 
+AndRef100[shape = point] 
+AndRef100->"RampUpTime_ArchitecturalPattern"
+"RampUpTime_ArchitecturalPattern[Peer-to-peer]"->AndRef100 [dir = none] 
+AndRef101[shape = point] 
+AndRef101->"RampUpTime_ArchitecturalPattern"
+"RampUpTime_ArchitecturalPattern[Client-Server]"->AndRef101 [dir = none] 
+AndRef102[shape = point] 
+AndRef102->"RampUpTime_ArchitecturalPattern"
+"RampUpTime_ArchitecturalPattern[Push-based]"->AndRef102 [dir = none] 
+"RampUpTime_ArchitecturalPattern" [shape = oval] 
+AndRef103[shape = point] 
+AndRef103->"RampUpTime_DataExchangeFormat"
+"RampUpTime_DataExchangeFormat[XML]"->AndRef103 [dir = none] 
+AndRef104[shape = point] 
+AndRef104->"RampUpTime_DataExchangeFormat"
+"RampUpTime_DataExchangeFormat[Compressed XML]"->AndRef104 [dir = none] 
+AndRef105[shape = point] 
+AndRef105->"RampUpTime_DataExchangeFormat"
+"RampUpTime_DataExchangeFormat[Unformatted data]"->AndRef105 [dir = none] 
+"RampUpTime_DataExchangeFormat" [shape = oval] 
+"RampUpTime" [shape = oval] 
+AndRef106[shape = point] 
+AndRef106->"RampUpTime"
+"RampUpTime_LocationFinding"->AndRef106 [dir = none] 
+"RampUpTime_FileSharing"->AndRef106 [dir = none] 
+"RampUpTime_ReportSyncing"->AndRef106 [dir = none] 
+"RampUpTime_ChatProtocol"->AndRef106 [dir = none] 
+"RampUpTime_MapAccess"->AndRef106 [dir = none] 
+"RampUpTime_HardwarePlatform"->AndRef106 [dir = none] 
+"RampUpTime_Connectivity"->AndRef106 [dir = none] 
+"RampUpTime_DataBase"->AndRef106 [dir = none] 
+"RampUpTime_ArchitecturalPattern"->AndRef106 [dir = none] 
+"RampUpTime_DataExchangeFormat"->AndRef106 [dir = none] 
+"RampUpTime_worst" [shape = oval] 
+"RampUpTime_best" [shape = oval] 
+"RampUpTime_Preference" [shape = oval] 
+AndRef107[shape = point] 
+AndRef107->"RampUpTime_Preference"
+"RampUpTime"->AndRef107 [dir = none] 
+"RampUpTime_worst"->AndRef107 [dir = none] 
+"RampUpTime_best"->AndRef107 [dir = none] 
+"Cost_weight" [shape = oval] 
+AndRef108[shape = point] 
+AndRef108->"Cost_LocationFinding"
+"Cost_LocationFinding[GPS]"->AndRef108 [dir = none] 
+AndRef109[shape = point] 
+AndRef109->"Cost_LocationFinding"
+"Cost_LocationFinding[radio triangulation]"->AndRef109 [dir = none] 
+"Cost_LocationFinding" [shape = oval] 
+AndRef110[shape = point] 
+AndRef110->"Cost_FileSharing"
+"Cost_FileSharing[OpenIntent]"->AndRef110 [dir = none] 
+AndRef111[shape = point] 
+AndRef111->"Cost_FileSharing"
+"Cost_FileSharing[In house]"->AndRef111 [dir = none] 
+"Cost_FileSharing" [shape = oval] 
+AndRef112[shape = point] 
+AndRef112->"Cost_ReportSyncing"
+"Cost_ReportSyncing[Explicit]"->AndRef112 [dir = none] 
+AndRef113[shape = point] 
+AndRef113->"Cost_ReportSyncing"
+"Cost_ReportSyncing[Implicit]"->AndRef113 [dir = none] 
+"Cost_ReportSyncing" [shape = oval] 
+AndRef114[shape = point] 
+AndRef114->"Cost_ChatProtocol"
+"Cost_ChatProtocol[XMPP (Open Fire)]"->AndRef114 [dir = none] 
+AndRef115[shape = point] 
+AndRef115->"Cost_ChatProtocol"
+"Cost_ChatProtocol[In house]"->AndRef115 [dir = none] 
+"Cost_ChatProtocol" [shape = oval] 
+AndRef116[shape = point] 
+AndRef116->"Cost_MapAccess"
+"Cost_MapAccess[On Demand (Google)]"->AndRef116 [dir = none] 
+AndRef117[shape = point] 
+AndRef117->"Cost_MapAccess"
+"Cost_MapAccess[Cache on server]"->AndRef117 [dir = none] 
+AndRef118[shape = point] 
+AndRef118->"Cost_MapAccess"
+"Cost_MapAccess[Preloaded (ESRI)]"->AndRef118 [dir = none] 
+"Cost_MapAccess" [shape = oval] 
+AndRef119[shape = point] 
+AndRef119->"Cost_HardwarePlatform"
+"Cost_HardwarePlatform[Nexus I (HTC)]"->AndRef119 [dir = none] 
+AndRef120[shape = point] 
+AndRef120->"Cost_HardwarePlatform"
+"Cost_HardwarePlatform[Droid (Motorola)]"->AndRef120 [dir = none] 
+"Cost_HardwarePlatform" [shape = oval] 
+AndRef121[shape = point] 
+AndRef121->"Cost_Connectivity"
+"Cost_Connectivity[Wifi]"->AndRef121 [dir = none] 
+AndRef122[shape = point] 
+AndRef122->"Cost_Connectivity"
+"Cost_Connectivity[3G on Nexus I]"->AndRef122 [dir = none] 
+AndRef123[shape = point] 
+AndRef123->"Cost_Connectivity"
+"Cost_Connectivity[3G on Droid]"->AndRef123 [dir = none] 
+AndRef124[shape = point] 
+AndRef124->"Cost_Connectivity"
+"Cost_Connectivity[Bluetooth]"->AndRef124 [dir = none] 
+"Cost_Connectivity" [shape = oval] 
+AndRef125[shape = point] 
+AndRef125->"Cost_DataBase"
+"Cost_DataBase[MySQL]"->AndRef125 [dir = none] 
+AndRef126[shape = point] 
+AndRef126->"Cost_DataBase"
+"Cost_DataBase[sqLite]"->AndRef126 [dir = none] 
+"Cost_DataBase" [shape = oval] 
+AndRef127[shape = point] 
+AndRef127->"Cost_ArchitecturalPattern"
+"Cost_ArchitecturalPattern[Peer-to-peer]"->AndRef127 [dir = none] 
+AndRef128[shape = point] 
+AndRef128->"Cost_ArchitecturalPattern"
+"Cost_ArchitecturalPattern[Client-Server]"->AndRef128 [dir = none] 
+AndRef129[shape = point] 
+AndRef129->"Cost_ArchitecturalPattern"
+"Cost_ArchitecturalPattern[Push-based]"->AndRef129 [dir = none] 
+"Cost_ArchitecturalPattern" [shape = oval] 
+AndRef130[shape = point] 
+AndRef130->"Cost_DataExchangeFormat"
+"Cost_DataExchangeFormat[XML]"->AndRef130 [dir = none] 
+AndRef131[shape = point] 
+AndRef131->"Cost_DataExchangeFormat"
+"Cost_DataExchangeFormat[Compressed XML]"->AndRef131 [dir = none] 
+AndRef132[shape = point] 
+AndRef132->"Cost_DataExchangeFormat"
+"Cost_DataExchangeFormat[Unformatted data]"->AndRef132 [dir = none] 
+"Cost_DataExchangeFormat" [shape = oval] 
+"Cost" [shape = oval] 
+AndRef133[shape = point] 
+AndRef133->"Cost"
+"Cost_LocationFinding"->AndRef133 [dir = none] 
+"Cost_FileSharing"->AndRef133 [dir = none] 
+"Cost_ReportSyncing"->AndRef133 [dir = none] 
+"Cost_ChatProtocol"->AndRef133 [dir = none] 
+"Cost_MapAccess"->AndRef133 [dir = none] 
+"Cost_HardwarePlatform"->AndRef133 [dir = none] 
+"Cost_Connectivity"->AndRef133 [dir = none] 
+"Cost_DataBase"->AndRef133 [dir = none] 
+"Cost_ArchitecturalPattern"->AndRef133 [dir = none] 
+"Cost_DataExchangeFormat"->AndRef133 [dir = none] 
+"Cost_worst" [shape = oval] 
+"Cost_best" [shape = oval] 
+"Cost_Preference" [shape = oval] 
+AndRef134[shape = point] 
+AndRef134->"Cost_Preference"
+"Cost"->AndRef134 [dir = none] 
+"Cost_worst"->AndRef134 [dir = none] 
+"Cost_best"->AndRef134 [dir = none] 
+"DevelopmentTime_weight" [shape = oval] 
+AndRef135[shape = point] 
+AndRef135->"DevelopmentTime_LocationFinding"
+"DevelopmentTime_LocationFinding[GPS]"->AndRef135 [dir = none] 
+AndRef136[shape = point] 
+AndRef136->"DevelopmentTime_LocationFinding"
+"DevelopmentTime_LocationFinding[radio triangulation]"->AndRef136 [dir = none] 
+"DevelopmentTime_LocationFinding" [shape = oval] 
+AndRef137[shape = point] 
+AndRef137->"DevelopmentTime_FileSharing"
+"DevelopmentTime_FileSharing[OpenIntent]"->AndRef137 [dir = none] 
+AndRef138[shape = point] 
+AndRef138->"DevelopmentTime_FileSharing"
+"DevelopmentTime_FileSharing[In house]"->AndRef138 [dir = none] 
+"DevelopmentTime_FileSharing" [shape = oval] 
+AndRef139[shape = point] 
+AndRef139->"DevelopmentTime_ReportSyncing"
+"DevelopmentTime_ReportSyncing[Explicit]"->AndRef139 [dir = none] 
+AndRef140[shape = point] 
+AndRef140->"DevelopmentTime_ReportSyncing"
+"DevelopmentTime_ReportSyncing[Implicit]"->AndRef140 [dir = none] 
+"DevelopmentTime_ReportSyncing" [shape = oval] 
+AndRef141[shape = point] 
+AndRef141->"DevelopmentTime_ChatProtocol"
+"DevelopmentTime_ChatProtocol[XMPP (Open Fire)]"->AndRef141 [dir = none] 
+AndRef142[shape = point] 
+AndRef142->"DevelopmentTime_ChatProtocol"
+"DevelopmentTime_ChatProtocol[In house]"->AndRef142 [dir = none] 
+"DevelopmentTime_ChatProtocol" [shape = oval] 
+AndRef143[shape = point] 
+AndRef143->"DevelopmentTime_MapAccess"
+"DevelopmentTime_MapAccess[On Demand (Google)]"->AndRef143 [dir = none] 
+AndRef144[shape = point] 
+AndRef144->"DevelopmentTime_MapAccess"
+"DevelopmentTime_MapAccess[Cache on server]"->AndRef144 [dir = none] 
+AndRef145[shape = point] 
+AndRef145->"DevelopmentTime_MapAccess"
+"DevelopmentTime_MapAccess[Preloaded (ESRI)]"->AndRef145 [dir = none] 
+"DevelopmentTime_MapAccess" [shape = oval] 
+AndRef146[shape = point] 
+AndRef146->"DevelopmentTime_DataBase"
+"DevelopmentTime_DataBase[MySQL]"->AndRef146 [dir = none] 
+AndRef147[shape = point] 
+AndRef147->"DevelopmentTime_DataBase"
+"DevelopmentTime_DataBase[sqLite]"->AndRef147 [dir = none] 
+"DevelopmentTime_DataBase" [shape = oval] 
+AndRef148[shape = point] 
+AndRef148->"DevelopmentTime_ArchitecturalPattern"
+"DevelopmentTime_ArchitecturalPattern[Peer-to-peer]"->AndRef148 [dir = none] 
+AndRef149[shape = point] 
+AndRef149->"DevelopmentTime_ArchitecturalPattern"
+"DevelopmentTime_ArchitecturalPattern[Client-Server]"->AndRef149 [dir = none] 
+AndRef150[shape = point] 
+AndRef150->"DevelopmentTime_ArchitecturalPattern"
+"DevelopmentTime_ArchitecturalPattern[Push-based]"->AndRef150 [dir = none] 
+"DevelopmentTime_ArchitecturalPattern" [shape = oval] 
+AndRef151[shape = point] 
+AndRef151->"DevelopmentTime_DataExchangeFormat"
+"DevelopmentTime_DataExchangeFormat[XML]"->AndRef151 [dir = none] 
+AndRef152[shape = point] 
+AndRef152->"DevelopmentTime_DataExchangeFormat"
+"DevelopmentTime_DataExchangeFormat[Compressed XML]"->AndRef152 [dir = none] 
+AndRef153[shape = point] 
+AndRef153->"DevelopmentTime_DataExchangeFormat"
+"DevelopmentTime_DataExchangeFormat[Unformatted data]"->AndRef153 [dir = none] 
+"DevelopmentTime_DataExchangeFormat" [shape = oval] 
+"DevelopmentTime" [shape = oval] 
+AndRef154[shape = point] 
+AndRef154->"DevelopmentTime"
+"DevelopmentTime_LocationFinding"->AndRef154 [dir = none] 
+"DevelopmentTime_FileSharing"->AndRef154 [dir = none] 
+"DevelopmentTime_ReportSyncing"->AndRef154 [dir = none] 
+"DevelopmentTime_ChatProtocol"->AndRef154 [dir = none] 
+"DevelopmentTime_MapAccess"->AndRef154 [dir = none] 
+"DevelopmentTime_DataBase"->AndRef154 [dir = none] 
+"DevelopmentTime_ArchitecturalPattern"->AndRef154 [dir = none] 
+"DevelopmentTime_DataExchangeFormat"->AndRef154 [dir = none] 
+"DevelopmentTime_worst" [shape = oval] 
+"DevelopmentTime_best" [shape = oval] 
+"DevelopmentTime_Preference" [shape = oval] 
+AndRef155[shape = point] 
+AndRef155->"DevelopmentTime_Preference"
+"DevelopmentTime"->AndRef155 [dir = none] 
+"DevelopmentTime_worst"->AndRef155 [dir = none] 
+"DevelopmentTime_best"->AndRef155 [dir = none] 
+"DeploymentTime_weight" [shape = oval] 
+AndRef156[shape = point] 
+AndRef156->"DeploymentTime_LocationFinding"
+"DeploymentTime_LocationFinding[GPS]"->AndRef156 [dir = none] 
+AndRef157[shape = point] 
+AndRef157->"DeploymentTime_LocationFinding"
+"DeploymentTime_LocationFinding[radio triangulation]"->AndRef157 [dir = none] 
+"DeploymentTime_LocationFinding" [shape = oval] 
+AndRef158[shape = point] 
+AndRef158->"DeploymentTime_FileSharing"
+"DeploymentTime_FileSharing[OpenIntent]"->AndRef158 [dir = none] 
+AndRef159[shape = point] 
+AndRef159->"DeploymentTime_FileSharing"
+"DeploymentTime_FileSharing[In house]"->AndRef159 [dir = none] 
+"DeploymentTime_FileSharing" [shape = oval] 
+AndRef160[shape = point] 
+AndRef160->"DeploymentTime_ReportSyncing"
+"DeploymentTime_ReportSyncing[Explicit]"->AndRef160 [dir = none] 
+AndRef161[shape = point] 
+AndRef161->"DeploymentTime_ReportSyncing"
+"DeploymentTime_ReportSyncing[Implicit]"->AndRef161 [dir = none] 
+"DeploymentTime_ReportSyncing" [shape = oval] 
+AndRef162[shape = point] 
+AndRef162->"DeploymentTime_ChatProtocol"
+"DeploymentTime_ChatProtocol[XMPP (Open Fire)]"->AndRef162 [dir = none] 
+AndRef163[shape = point] 
+AndRef163->"DeploymentTime_ChatProtocol"
+"DeploymentTime_ChatProtocol[In house]"->AndRef163 [dir = none] 
+"DeploymentTime_ChatProtocol" [shape = oval] 
+AndRef164[shape = point] 
+AndRef164->"DeploymentTime_MapAccess"
+"DeploymentTime_MapAccess[On Demand (Google)]"->AndRef164 [dir = none] 
+AndRef165[shape = point] 
+AndRef165->"DeploymentTime_MapAccess"
+"DeploymentTime_MapAccess[Cache on server]"->AndRef165 [dir = none] 
+AndRef166[shape = point] 
+AndRef166->"DeploymentTime_MapAccess"
+"DeploymentTime_MapAccess[Preloaded (ESRI)]"->AndRef166 [dir = none] 
+"DeploymentTime_MapAccess" [shape = oval] 
+AndRef167[shape = point] 
+AndRef167->"DeploymentTime_Connectivity"
+"DeploymentTime_Connectivity[Wifi]"->AndRef167 [dir = none] 
+AndRef168[shape = point] 
+AndRef168->"DeploymentTime_Connectivity"
+"DeploymentTime_Connectivity[3G on Nexus I]"->AndRef168 [dir = none] 
+AndRef169[shape = point] 
+AndRef169->"DeploymentTime_Connectivity"
+"DeploymentTime_Connectivity[3G on Droid]"->AndRef169 [dir = none] 
+AndRef170[shape = point] 
+AndRef170->"DeploymentTime_Connectivity"
+"DeploymentTime_Connectivity[Bluetooth]"->AndRef170 [dir = none] 
+"DeploymentTime_Connectivity" [shape = oval] 
+AndRef171[shape = point] 
+AndRef171->"DeploymentTime_DataBase"
+"DeploymentTime_DataBase[MySQL]"->AndRef171 [dir = none] 
+AndRef172[shape = point] 
+AndRef172->"DeploymentTime_DataBase"
+"DeploymentTime_DataBase[sqLite]"->AndRef172 [dir = none] 
+"DeploymentTime_DataBase" [shape = oval] 
+AndRef173[shape = point] 
+AndRef173->"DeploymentTime_ArchitecturalPattern"
+"DeploymentTime_ArchitecturalPattern[Peer-to-peer]"->AndRef173 [dir = none] 
+AndRef174[shape = point] 
+AndRef174->"DeploymentTime_ArchitecturalPattern"
+"DeploymentTime_ArchitecturalPattern[Client-Server]"->AndRef174 [dir = none] 
+AndRef175[shape = point] 
+AndRef175->"DeploymentTime_ArchitecturalPattern"
+"DeploymentTime_ArchitecturalPattern[Push-based]"->AndRef175 [dir = none] 
+"DeploymentTime_ArchitecturalPattern" [shape = oval] 
+"DeploymentTime" [shape = oval] 
+AndRef176[shape = point] 
+AndRef176->"DeploymentTime"
+"DeploymentTime_LocationFinding"->AndRef176 [dir = none] 
+"DeploymentTime_FileSharing"->AndRef176 [dir = none] 
+"DeploymentTime_ReportSyncing"->AndRef176 [dir = none] 
+"DeploymentTime_ChatProtocol"->AndRef176 [dir = none] 
+"DeploymentTime_MapAccess"->AndRef176 [dir = none] 
+"DeploymentTime_Connectivity"->AndRef176 [dir = none] 
+"DeploymentTime_DataBase"->AndRef176 [dir = none] 
+"DeploymentTime_ArchitecturalPattern"->AndRef176 [dir = none] 
+"DeploymentTime_worst" [shape = oval] 
+"DeploymentTime_best" [shape = oval] 
+"DeploymentTime_Preference" [shape = oval] 
+AndRef177[shape = point] 
+AndRef177->"DeploymentTime_Preference"
+"DeploymentTime"->AndRef177 [dir = none] 
+"DeploymentTime_worst"->AndRef177 [dir = none] 
+"DeploymentTime_best"->AndRef177 [dir = none] 
+"NB" [shape = oval] 
+AndRef178[shape = point] 
+AndRef178->"NB"
+"BatteryUsage_weight"->AndRef178 [dir = none] 
+"BatteryUsage_Preference"->AndRef178 [dir = none] 
+"ResponseTime_weight"->AndRef178 [dir = none] 
+"ResponseTime_Preference"->AndRef178 [dir = none] 
+"Reliability_weight"->AndRef178 [dir = none] 
+"Reliability_Preference"->AndRef178 [dir = none] 
+"RampUpTime_weight"->AndRef178 [dir = none] 
+"RampUpTime_Preference"->AndRef178 [dir = none] 
+"Cost_weight"->AndRef178 [dir = none] 
+"Cost_Preference"->AndRef178 [dir = none] 
+"DevelopmentTime_weight"->AndRef178 [dir = none] 
+"DevelopmentTime_Preference"->AndRef178 [dir = none] 
+"DeploymentTime_weight"->AndRef178 [dir = none] 
+"DeploymentTime_Preference"->AndRef178 [dir = none] 
+}

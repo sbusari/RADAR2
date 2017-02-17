@@ -1,0 +1,415 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+.container {
+    display:inline-block;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1em}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+<title>RADAR</title>
+
+</head>
+<body id="preview" align ="justify">
+<h1><a id="Building_Security_Policy_Decisions_0"></a>Analysis of the Building Security Policy Decisions</h1>
+<p><em>Saheed. A. Busari and Emmanuel Letier</em></p>
+<p>RADAR is a lightweight modelling language and tool for analysing software requirements and architecture decisions (Busari and Letier, 2016). This report presents an application of RADAR to the analysis of of the building security policy decisions for an organisation.</p>
+<p>Our analysis is motivated by and based on previous studies of improving security policy decisions with models (T.Caulfield., 2015) and of modelling and simulating systems security policy (T.Caulfield., 2015).</p>
+
+<h2><a id="Problem_Description"></a>Problem Description</h2>
+<p>This example models and analyses security policy decisions for an organisation concerned with leaks of confidential information. The full problem is described in (T.Caulfield., 2015).</p>
+<p>The organisation is concerned about its employees’ habit of sharing documents through a globally shared drive. Stroring files on the shared drive facilitates the employees’ work but increases the risk and extent of insiders’ leaks. The organisation is considering recommending its employees to share documents through emails or portable media devices instead of using the shared drive.</p>
+<p>The organisation is also concerned by theft of documents stored on portable media devices (USB, CD). The model considers only theft of such devices inside the organisation premises. To prevent thieves entering the building, its entrance is equipped with automated gates where employees have to swipe their access card to enter the building. Because of tailgating risks, the organisation is considering adding a security guard to reinforce security at the building entrance.</p>
+
+<div class="container">
+	<div style="float:right">
+        	 <a href ="fdm_graphs/BSPDMDecisions.jpg"><img src="fdm_graphs/BSPDMDecisions.jpg"></a>
+	<p align ="center">Design Decisions</p>
+    </div>
+</div>
+
+<h2><a id="Optimisation_Objectives"></a>Modelling the Optimisation Objectives</h2>
+<p>The primary decision objectives are related to the uncertain costs associated to the disclosure of confidential documents:</p>
+<pre><code>Objective Min ExpectedCostOfDisclosures = EV(Cost_of_Disclosures);
+Objective Min RiskOfCatastrophicDisclosures = Pr(Cost_of_Disclosure &gt; 10^6);
+</code></pre>
+
+<h2><a id="Costs_of_Disclosures_17"></a>Modelling Costs of Disclosures</h2>
+<p>We assume three categories of confidential documents (high, medium, and low confidentiality) with different costs to the organisation if they are leaked. Our model assumnes that the cost of document disclosure is a function of number of leaked confidential  documents and the cost of the leaked documents:</p>
+<pre><code>Cost_of_Disclosures = 
+    Nbr_HighConfidentialityLeaks * Cost_HighConfidentialityLeak
+    + Nbr_MediumConfidentialityLeaks * Cost_MediumConfidentialityLeak
+    + Nbr_LowConfidentialityLeaks * Cost_LowConfidentialityLeak;
+  
+</code></pre>
+<p>The number of leaked confidential documents is the product of the  number of leaked documents multiplied by the ratio of confidential documents leaked. </p>
+<pre><code>      
+Nbr_HighConfidentialityLeaks = Nbr_LeakedDoc * Ratio_HighConfientialityDocs;
+Nbr_MediumConfidentialityLeaks = Nbr_LeakedDoc * Ratio_MediumConfientialityDocs;
+Nbr_LowConfidentialityLeaks = Nbr_LeakedDoc * Ratio_LowConfientialityDocs;
+</code></pre>
+<p>Each document category is present in uncertain quantity and has uncertain cost of disclosure:</p>
+<pre><code>Ratio_HighConfidentialityDocs = uniform(0.5%, 2%);
+Ratio_MediumConfidentialityDocs =uniform(4%, 10%);
+Ratio_LowConfidentialityDocs = uniform(30%, 60%);
+    
+Cost_HighConfidentialityLeak = normalCI(0.5*10^6, 5*10^6);
+Cost_MediumConfidentialityLeak = normalCI(10^4, 5*10^4);
+Cost_LowConfidentialityLeak = normalCI(10^2, 10^4);
+</code></pre>
+
+
+<h2><a id="Documents_Leaks_53"></a>Modelling  Documents Leaks</h2>
+<p>Documents can be leaked by insiders or stolen by outsiders who managed to gain access to the building.</p>
+<pre><code>Nbr_LeakedDoc = 
+        Nbr_DocsLeakedByInsiders + Nbr_DocsStolenByOutsiders
+                        
+</code></pre>
+
+<h3><a id="Insiders_Leaks_63"></a>Modelling  Insiders' Leaks</h3>
+<p>The number of documents leaked by an insider is a function of the probability of an insider leak, <code>Probability_InsidersLeak</code> , the number of documents on shared drive, <code>Nbr_DocsOnSharedDrive</code> and the <code>SharedDriveLeakRange</code>, which is the portion of documents on the shared drive that are leaked by insider when a leaks occurs. </p>
+<pre><code>Nbr_DocsLeakedByInsiders = 
+       Probability_InsidersLeak * 
+       Nbr_DocsOnSharedDrive * 
+       SharedDriveLeakRange;
+       
+Probability_InsidersLeak = deterministic(10^-3);
+SharedDriveLeakRange = triangular(10%, 50%, 100%);
+</code></pre>
+
+<h3><a id="Attackers_Intrusions_77"></a>Modelling  Attackers' Intrusions</h3>
+<p>The attackers’ intrusion model attempts to predict the number of documents stolen by outsiders over a year based on whether or not the building security gates are guarded or not. The number of documents stolen over a year depends on the number of intrusions during the year and the number of documents stolen during each intrusion, which depends on the number of external media in use and the number of documents stored in each media.</p>
+<pre><code>Nbr_DocsStolenByOutsiders = 
+        Nbr_OfficeIntrustions
+        * Nbr_DocsStolenPerIntrusion;
+        
+Nbr_OfficeIntrusions = decision(&quot;Building entry security&quot;){
+        &quot;not guarded&quot;   : triangular(0, 3, 6);
+        &quot;guarded&quot;       : triangular(0, 1, 2);
+}
+
+Nbr_DocsStolenPerIntrusion = 
+        Nbr_ExternalMediaStolenPerIntrusion *
+        Nbr_DocsPerExternalMedia
+        
+Nbr_ExternalMediaStolenPerIntrusion = 
+        Nbr_ExternalMediaInUse *
+        Percentage_MediaStolenPerInstrusion
+                
+Percentage_MediaStolenPerInstrusion = 
+        triangular(0, 1%, 10%);
+
+</code></pre>
+<h2><a id="Documents_Sharing_104"></a>Modelling  Documents Sharing</h2>
+<p>The number of documents on the shared drive and on external media depends on the organisation’s document sharing policy:</p>
+<pre><code>Nbr_DocsOnSharedDrive = decision(&quot;Document Sharing Policy&quot;){
+            &quot;Neutral&quot;: deterministic(143);
+            &quot;Recommend Email&quot;:deterministic(44);
+            &quot;Recommend External Media&quot;: deterministic(91);
+} 
+
+Nbr_DocsOnExternalMedia = decision(&quot;Document Sharing Policy&quot;){
+            &quot;Neutral&quot;: deterministic(0);
+            &quot;Recommend Email&quot;:deterministic(0);
+            &quot;Recommend External Media&quot;: deterministic(52);
+}
+
+Nbr_ExternalMediaInUse = Nbr_DocsOnExternalMedia / Nbr_DocsPerMedia;
+
+Nbr_DocsPerMedia = triangular(0, 5, 10) ;
+
+    
+</code></pre>
+<p>Data about the number of documents on shared drive and on external media come from Table 1 in [2], and the AND/OR graph for the cost of disclosue is shown in figure 1.</p>
+<div class="container">
+	<div style="float:right">
+        	 <a href ="fdm_graphs/CostOfDisclosureAndOrGraph.jpg"><img src="fdm_graphs/CostOfDisclosureAndOrGraph.jpg"></a>
+	<p align ="center">Figure 1: Cost of Disclosure AND/OR Graph</p>
+    </div>
+</div>
+
+<h2>Analysis Results </h2>
+<h3><a id="Optimisation_Analysis_248"></a>Optimisation Analysis</h3>
+<p>Here is a summary of the modelling and analysis information: </p>
+<table class="table table-bordered table-hover table-condensed" align ="center">
+<tbody>
+<tr><td>Objective </td>
+<td><strong>Min</strong>ExpectedCostOfDisclosures</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Objective </td>
+<td><strong>Min</strong>RiskOfCatastrophicDisclosures</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>SolutionSpace </td>
+<td>6</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Minimal SolutionSet </td>
+<td>6</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Shortlisted </td>
+<td>2</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Variables </td>
+<td>23</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Parameters </td>
+<td>11</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Decisions </td>
+<td>2</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Runtime(s) </td>
+<td>0</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+<p>The model analysis generates the following solutions:</p>
+<table class="table table-bordered table-hover table-condensed"><tr><td style="font-weight:bold">ID</td>
+<td style="font-weight:bold">Building entry security</td>
+<td style="font-weight:bold">Document Sharing Policy</td>
+<td style="font-weight:bold">ExpectedCostOfDisclosures</td>
+<td style="font-weight:bold">RiskOfCatastrophicDisclosures</td>
+<td style="font-weight:bold">Optimal</td>
+</tr>
+<tr><td>1</td>
+<td>not guarded</td>
+<td>Recommend Email</td>
+<td>904</td>
+<td>0</td>
+<td>Yes</td>
+</tr>
+<tr><td>2</td>
+<td>guarded</td>
+<td>Recommend Email</td>
+<td>904</td>
+<td>0</td>
+<td>Yes</td>
+</tr>
+<tr><td>3</td>
+<td>guarded</td>
+<td>Recommend External Media</td>
+<td>1052645</td>
+<td>0.2985</td>
+<td>No</td>
+</tr>
+<tr><td>4</td>
+<td>not guarded</td>
+<td>Recommend External Media</td>
+<td>3181382</td>
+<td>0.6464</td>
+<td>No</td>
+</tr>
+<tr><td>5</td>
+<td>not guarded</td>
+<td>Neutral</td>
+<td>2937</td>
+<td>0</td>
+<td>No</td>
+</tr>
+<tr><td>6</td>
+<td>guarded</td>
+<td>Neutral</td>
+<td>2937</td>
+<td>0</td>
+<td>No</td>
+</tr>
+
+</tbody></table>
+
+<!--<p><img src="BSPDM.png" alt="Figure 4: Building Security Policy model pareto front">Figure 4: Building Security Policy model pareto front</p>-->
+<div class="container">
+	<div style="float:right">
+        	 <a href ="BSPDM.png"><img src="BSPDM.png"></a>
+	<p align ="center">Figure 4: Building Security Policy model pareto front</p>
+    </div>
+</div>
+<p>These results show that the two shortlisted solutions (those that are Pareto optimal) include <code>recommend email</code> as document sharing policy. This means that, in our model, the option share documents by email outperforms both the neutral and external media in both objectives. </p>
+<p>When the <code>recommend email</code> option is selected, the shortlist includes both the <code>guard</code> and  <code>not guarded</code> options of the building entry security decision; each combination representing a different tradeoffs between minimising the expected cost of disclose, <code>ExpectedCostOfDisclosures</code> and minising the risk of catastrophic disclosure, <code>RiskOfCatastrophicDisclosures</code>..</p>
+<p>To visualise such tradeoffs, RADAR generates the graph in Fig. 4 plotting the objective values for the shortlised solutions (shown squares at the top of the graph) and all other non shortlisted ones (shown as circles).</p>
+<h3><a id=" Information_Value_Analysis_248"></a> Information Value Analysis</h3>
+<p>Analysing information value gives the following results that show that the information value for all model parameters is very low:</p>
+<p>EVTPI = 0</p>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>EVPPI</th>
+</tr>
+</thead>
+<tr><td>Ratio_HighConfidentialityDocs</td>
+<td>0</td>
+</tr>
+<tr><td>Ratio_MediumConfidentialityDocs</td>
+<td>0</td>
+</tr>
+<tr><td>Ratio_LowConfidentialityDocs</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_HighConfidentialityLeak</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_MediumConfidentialityLeak</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_LowConfidentialityLeak</td>
+<td>0</td>
+</tr>
+<tr><td>SharedDriveLeakRange</td>
+<td>0</td>
+</tr>
+<tr><td>Nbr_OfficeIntrusions[not guarded]</td>
+<td>0</td>
+</tr>
+<tr><td>Nbr_OfficeIntrusions[guarded]</td>
+<td>0</td>
+</tr>
+<tr><td>Percentage_MediaStolenPerInstrusion</td>
+<td>0</td>
+</tr>
+<tr><td>Nbr_DocsPerMedia</td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+
+
+<h3>References</h3>
+<ol>
+<li>
+<p>Saheed A. Busari and Emmanuel Letier, &quot;<a href="radar_icse17">RADAR: A lightweight tool for requirements and architecture decision analysis</a>,&quot; in submission, August 2016</p>
+</li>
+<li><p> T. Caulfield and D. Pym, “Improving Security Policy Decisions with Models, in IEEE Security &amp; Privacy, vol. 13, no. 5, pp. 34-41, Sept.-Oct. 2015.</p></li>
+<li><p> T. Caulfield and D. Pym, “Modelling and simulating systems security policy, in Poc. of the 8th International Conference on Simulation Tools and Techniques (SIMUTools '15), pp. 9-18, Brussels, Belgium, 2015.</p></li>
+
+</ol>
+</body></html>

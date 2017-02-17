@@ -1,0 +1,1099 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+.container {
+    display:inline-block;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1em}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+<title>RADAR</title>
+
+</head>
+<body id="preview" align ="justify">
+<!--<h1><a id="NASA_ECS_Model_0"></a>NASA ECS Model</h1> -->
+<h1><a id="Analysis_of_NASA_System_0"></a>Analysis of NASA's Earth Observing System Data Information (EOSDIS) Core System- The ECS Project</h1>
+<p><em>Saheed. A. Busari and Emmanuel Letier</em></p>
+<p>RADAR is a lightweight modelling language and tool for analysing software requirements and architecture decisions (Busari and Letier, 2016). This report presents an application of RADAR to the analysis of the NASA's Earth Observing System Data Information (EOSDIS) Core System, also known as the ECS Project. </p>
+<p>Our analysis is motivated by and based on previous study in the 2002 SEI report on "Making Architecture Design Decisions: An Economic Approach"  (Kazman et al., 2002). Our model objectives, decisions and data were obtained from 2002 SEI report.</p>
+
+<h2><a id="Problem_Description_8"></a>Problem Description</h2>
+<p>The ECS is a large scale distributed data information system used in managing and distributing huge volumes of climate related data in different forms around the world, 24 hours each day. This system collects and manages more than 1000 gigabytes of data, every day, from several satellites using various sensors (Kazman et al., 2001,Kazman et al., 2002 ). </p>
+
+<p>As reported by Kazman et al., 2002, the ECS went through a maintenance phase and a planning process of boosting its capabilities. However, the ECS project manager had limited annual budget to maintain and enhance the functionality of the system. In a bid to achieve this goal, proir analysis, using the ATAM methodology, was performed to identify a set of architectural strategies, which we call decisions in our model (as shown in figure 1), to be made in enhancing the system. The manager is faced with selecting among the set of decisions that give maximum utilty in  the project and also minimise the project cost.  </p>
+
+<p>Note: The Cost Benefit Analysis Method (CBAM) (Kazman et al., 2001,Kazman et al., 2002) was used in the 2002 SEI report, and it estimates individual impact of architectural strategies on utility, but not their combined impacts. However, our model analyses the interaction between architectural strategies ( i.e the combined impact of architectural strategies), and allows the selection of more than one  architectural strategy.</p>
+
+<div class="container">
+	<div style="float:right">
+        	 <a href ="fdm_graphs/ECSDecisions.jpg"><img src="fdm_graphs/ECSDecisions.jpg"></a>
+	<p align ="center">Figure 1: Design Decisions (click on the image to zoom in)</p>
+    </div>
+</div>
+
+<h2><a id="Modelling_the_Optimisation_Objectives_27"></a>Optimisation Objectives</h2>
+<pre><code>Objective Max ExpectedUtility = EV(Utility);
+Objective Min Cost;
+</code></pre>
+
+<h2><a id="Utility_Model_6"></a>Modelling Utility</h2>
+<pre><code>      
+Utility =   HungRequestsRatio_weight * HungRequestsRatio_Utility +
+            LostRequestsRatio_weight * LostRequestsRatio_Utility +
+            FailedOrderRatio_weight * FailedOrderRatio_Utility +
+            HungOrdersRatio_weight * HungOrdersRatio_Utility +
+            LostOrdersRatio_weight * LostOrdersRatio_Utility +
+            HelpNeededByUsers_weight * HelpNeededByUsers_Utility +
+            FailureInfoGivenToUsers_weight * FailureInfoGivenToUsers_Utility +
+            LimitOnOrders_weight * LimitOnOrders_Utility +
+            NotificationsFrequency_weight * NotificationsFrequency_Utility +
+            Performance_weight * Performance_Utility
+  
+HungRequestsRatio_weight = deterministic(10);
+LostRequestsRatio_weight = deterministic(15);
+FailedOrderRatio_weight = deterministic(15);
+HungOrdersRatio_weight = deterministic(10);
+LostOrdersRatio_weight = deterministic(15);
+HelpNeededByUsers_weight = deterministic(10);
+FailureInfoGivenToUsers_weight = deterministic(5);
+LimitOnOrders_weight  = deterministic(5);
+NotificationsFrequency_weight = deterministic(10);
+Performance_weight = deterministic(5);
+</code></pre>
+
+<h3><a id="Hung_Request_Ratio_6"></a>Hung Request Ratio Utility</h3>
+<pre><code>
+HungRequestRatio_Utility = (HungRequestRatio - HungRequestRatio_worst)/(HungRequestRatio_best - HungRequestRatio_worst)
+HungRequestRatio_best =deterministic(0);
+HungRequestRatio_worst = deterministic(10%);
+</code></pre>
+
+
+<h3><a id="Requests_Ratio_Utility_6"></a>Lost Requests Ratio Utility</h3>
+<pre><code>
+LostRequestsRatio_Utility = (LostRequestsRatio - LostRequestsRatio_worst)/(LostRequestsRatio_best - LostRequestsRatio_worst)
+LostRequestsRatio_best = deterministic(0);
+LostRequestsRatio_worst = deterministic(5%);
+</code></pre>
+
+
+<h3><a id=">Failed_Order_Ratio_Utility_6"></a>Failed Order Ratio Utility</h3>
+<pre><code>
+FailedOrderRatio_Utility = (FailedOrderRatio - FailedOrderRatio_worst)/(FailedOrderRatio_best - FailedOrderRatio_worst)
+FailedOrderRatio_best =deterministic(0);
+FailedOrderRatio_worst = deterministic(10%);
+</code></pre>
+
+
+<h3><a id=">Hung_Order_Ratio_Utility_6"></a>Hung Orders Ratio Utility</h3>
+<pre><code>
+HungOrdersRatio_Utility = (HungOrdersRatio - HungOrdersRatio_worst)/(HungOrdersRatio_best - HungOrdersRatio_worst)
+HungOrdersRatio_best = deterministic(0);
+HungOrdersRatio_worst = deterministic(10%);
+</code></pre>
+
+
+<h3><a id=">Lost _Order_Ratio_Utility_6"></a>Lost Orders Ratio Utility</h3>
+<pre><code>
+LostOrdersRatio_Utility = (LostOrdersRatio - LostOrdersRatio_worst)/(LostOrdersRatio_best - LostOrdersRatio_worst)
+LostOrdersRatio_best =deterministic(0);
+LostOrdersRatio_worst = deterministic(10%);
+</code></pre>
+
+
+<h3><a id=">Help _Order_Ratio_Utility_6"></a>Help Needed By Users Utility</h3>
+<pre><code>
+HelpNeededByUsers_Utility = (HelpNeededByUsers - HelpNeededByUsers_worst)/(HelpNeededByUsers_best - HelpNeededByUsers_worst)
+HelpNeededByUsers_best = deterministic(0);
+HelpNeededByUsers_worst = deterministic(50%);
+</code></pre>
+
+
+<h3><a id=">Failure_Infor_Ratio_Utility_6"></a>Failure Info Given To Users Utility</h3>
+<pre><code>
+FailureInfoGivenToUsers_Utility = (FailureInfoGivenToUsers - FailureInfoGivenToUsers_worst)/(FailureInfoGivenToUsers_best - FailureInfoGivenToUsers_worst)
+FailureInfoGivenToUsers_best = deterministic(100%);
+FailureInfoGivenToUsers_worst = deterministic(10%);
+</code></pre>
+
+
+<h3><a id=">Limit_Infor_Ratio_Utility_6"></a>Limit On Orders Utility</h3>
+<pre><code>
+LimitOnOrders_Utility = (LimitOnOrders - LimitOnOrders_worst)/(LimitOnOrders_best - LimitOnOrders_worst)
+LimitOnOrders_best = deterministic(0%);
+LimitOnOrders_worst = deterministic(50%);
+</code></pre>
+
+
+<h3><a id=">Notifications_Infor_Ratio_Utility_6"></a>Notifications Frequency Utility</h3>
+<pre><code>
+NotificationsFrequency_Utility = (NotificationsFrequency - NotificationsFrequency_worst)/(NotificationsFrequency_best - NotificationsFrequency_worst)
+NotificationsFrequency_best = deterministic(1);
+NotificationsFrequency_worst = deterministic(1/1000);
+</code></pre>
+
+
+<h3><a id=">Performance_Info_Ratio_Utility_6"></a>Performance Utility</h3>
+<pre><code>
+Performance_Utility = (Performance - Performance_worst)/(Performance_best - Performance_worst)
+Performance_best = deterministic(90%);
+Performance_worst =  deterministic(50%);
+</code></pre>
+
+<div class="container">
+	<div style="float:right">
+        	 <a href ="fdm_graphs/ECS_UtilityAnOrGraph.jpg"><img src="fdm_graphs/ECS_UtilityAnOrGraph.jpg"></a>
+	<p align ="center">Figure 2: Utility AND/OR graph: click on the image to zoom in</p>
+    </div>
+</div>
+
+
+
+<h2><a id="Quality_Attributes_Models_83"></a> Modelling Quality Attributes</h2>
+<h3><a id="Hung_Request_Ratio_85"></a>Hung Request Ratio</h3>
+<pre><code>HungRequestRatio = HungRequestRatio_current 
+                    * (1 - ReassignedHungRequestRatio) 
+                    * (1 - ForcedHungRequestRatio)
+                    
+HungRequestRatio_current = deterministic(5%);
+                    
+ReassignedHungRequestRatio = decision(&quot;Order Reassignment&quot;){
+        &quot;Current: not possible to reassign order&quot; : deterministic(0);
+        &quot;Allow Order Reassignment&quot;: deterministic(60%);
+}   
+
+ForcedHungRequestRatio = decision(&quot;Forced Order Completion&quot;){
+        &quot;Current: not possible to force order completion&quot; : deterministic(0);
+        &quot;Allow Forced Order Completion&quot;: deterministic(40%);
+}                   
+</code></pre>
+<h3><a id="Lost_Request_Ratio_105"></a>Lost Request Ratio</h3>
+<pre><code>LostRequestRatio = triangular(0, 0.5, 1);
+</code></pre>
+<h3><a id="Failed_Order_Ratio_111"></a>Failed Order Ratio</h3>
+<pre><code>FailedOrderRatio = decision(&quot;Order Persistence Strategy&quot;){
+        &quot;Current: store when processed&quot; :  deterministic(5%);
+        &quot;Store as soon as received&quot;      : deterministic(2%);
+}
+
+</code></pre>
+<h3><a id="Hung_Orders_Ratio_121"></a>Hung Orders Ratio</h3>
+<pre><code>
+HungOrdersRatio = HungOrdersRatio_current *
+                    (1 - SkippedHungOrderRatio) *
+                    (1 - RetriedHungOrderRatio)
+
+HungOrdersRatio_current = deterministic(10%);
+                    
+SkippedHungOrderRatio = decision(&quot;Order Segmentation&quot;){
+        &quot;Current: no order segmentation&quot; : deterministic(0);
+        &quot;Orders are segmented&quot;            : deterministic(60%);
+}
+
+RetriedHungOrderRatio = decision(&quot;Hung Order Recovery&quot;){
+        &quot;Current: no order retry&quot;   : deterministic(0);
+        &quot;Allow Order Retry&quot;         : deterministic(40%);
+}
+
+
+</code></pre>
+<h3><a id="Lost_Orders_Ratio_142"></a>Lost Orders Ratio</h3>
+<pre><code>LostOrdersRatio = decision(&quot;Order Persistence Strategy&quot;){
+        &quot;Current: store when processed&quot; : deterministic(1%);
+        &quot;Store as soon as received&quot;      : deterministic(0%);
+}
+</code></pre>
+<h3><a id="Help_Needed_by_Users_151"></a>Help Needed by Users</h3>
+<pre><code>HelpNeededByUsers = LostOrdersRatio * HelpNeededPerLostOrder * HelpNeededForTrackingGranularity
+
+HelpNeededPerLostOrder = decision(&quot;Failed Order Notification&quot;){
+        &quot;Current: no notification&quot;:deterministic(25%);
+        &quot;User notified of failed order&quot;:deterministic(20%);
+}
+
+HelpNeededForTrackingGranularity = decision(Order Tracking){
+        &quot;Current: order level&quot;          : deterministic(1);
+        &quot;Granule-level order tracking&quot;  : deterministic(40%)
+ }
+</code></pre>
+<h3><a id="Failure_Information_167"></a>Failure Information</h3>
+<pre><code>FailureInfoGivenToUsers = 1- RatioUsersNotGettingInfo
+RatioUsersNotGettingInfo = RatioUsersNotGettingInfo_current * 
+                            (1 - NotificationOrderEffect) * 
+                            (1 - OrderTrackingGranularityEffect) *
+                            (1 - UserInformationEffect)
+                            
+RatioUsersNotGettingInfo_current = deterministic(50%);
+
+NotificationOrderEffect = decision(&quot;Failed Order Notification&quot;){
+        &quot;Current: no notification&quot;: deterministic(0);
+        &quot;User notified of failed order&quot;:  deterministic(80%);
+}
+
+OrderTrackingGranularityEffect = decision(Order Tracking){
+        &quot;Current: order level&quot;          : deterministic(0);
+        &quot;Granule-level order tracking&quot;  : deterministic(90%);
+ }
+ 
+UserInformationEffect = decision(&quot;Available User Information&quot;){
+        &quot;Current: no link to user info&quot;     : deterministic(0);
+        &quot;Link to user information&quot;          : deterministic(20%);
+}
+</code></pre>
+<h3><a id="Limit_on_Order_195"></a>Limit on Order</h3>
+<pre><code>LimitOnOrders = decision(&quot;Order Chunking&quot;){
+        &quot;Current: no oder chunking&quot;: deterministic(30%);
+        &quot;Order Chunking&quot;            : deterministic(15%);
+}
+</code></pre>
+<h3><a id="Notification_Frequency_204"></a>Notification Frequency</h3>
+<pre><code>NotificationFrequency = decision(&quot;Order Bundling&quot;){
+        &quot;No Order Bundling&quot; : deterministic(1);
+        &quot;Order Bundling&quot;    : deterministic(0.01);
+}
+</code></pre>
+<h3><a id="Performance_213"></a>Performance</h3>
+<pre><code>Performance = decision(&quot;Order Bundling&quot;){
+        &quot;No Order Bundling&quot; : deterministic(60%);
+        &quot;Order Bundling&quot;    : deterministic(55%);
+}
+</code></pre>
+<h2><a id="Cost_Model_222"></a>Modelling  Cost </h2>
+<pre><code>
+Cost = Cost_OrderReassignment +
+        Cost_ForcedOrderCompletion +
+        Cost_OrderPersistenceStrategy +
+        Cost_OrderSegmentation +
+        Cost_HungOrderRecovery +
+        Cost_FailedOrderNotification +
+        Cost_OrderTracking +
+        Cost_AvailableUserInformation +         
+
+Cost_OrderReassignment = decision(&quot;Order Reassignment&quot;){
+        &quot;Current: not possible to reassign order&quot; : deterministic(0);
+        &quot;Allow Order Reassignment&quot;:  triangular(360, 400, 440);
+}   
+
+Cost_ForcedOrderCompletion = decision(&quot;Forced Order Completion&quot;){
+        &quot;Current: not possible to force order completion&quot; : deterministic(0);
+        &quot;Allow Forced Order Completion&quot;:  triangular(180, 200, 220);
+}
+
+Cost_OrderPersistenceStrategy = decision(&quot;Order Persistence Strategy&quot;){
+        &quot;Current: store when processed&quot; : deterministic(0);
+        &quot;Store as soon as received&quot;      : triangular(1200, 1200, 7150);
+}
+
+Cost_OrderSegmentation = decision(&quot;Order Segmentation&quot;){
+        &quot;Current: no order segmentation&quot; :  deterministic(0);
+        &quot;Orders are segmented&quot;       : triangular(180, 200, 220);
+}
+
+Cost_HungOrderRecovery = decision(&quot;Hung Order Recovery&quot;){
+        &quot;Current: no order retry&quot;   : deterministic(0);
+        &quot;Allow Order Retry&quot;     :triangular(180, 200, 220);
+}
+
+Cost_FailedOrderNotification = decision(&quot;Failed Order Notification&quot;){
+        &quot;Current: no notification&quot;: deterministic(0);
+        &quot;User notified of failed order&quot;: triangular(270, 300, 330);
+}
+
+Cost_OrderTracking = decision(Order Tracking){
+        &quot;Current: order level&quot;      :  deterministic(0);
+        &quot;Granule-level order tracking&quot;  : triangular(900, 1000, 1650);
+}
+
+Cost_AvailableUserInformation = decision(&quot;Available User Information&quot;){
+        &quot;Current: no link to user info&quot;     : deterministic(0);
+        &quot;Link to user information&quot;      :  triangular(90, 100, 440);
+}
+
+Cost_OrderChunking = decision(&quot;Order Chunking&quot;){
+        &quot;Current: no oder chunking&quot; : 0
+        &quot;Order Chunking&quot;        : triangular(360, 400, 440);
+}
+
+Cost_OrderBundling = decision(&quot;Order Bundling&quot;){
+        &quot;No Order Bundling&quot;     :  deterministic(0);
+        &quot;Order Bundling&quot;    :triangular(360, 400, 440);
+}       
+            
+
+</code></pre>
+
+<div class="container">
+	<div style="float:right">
+        	 <a href ="fdm_graphs/ECS_CostAndOrGraph.jpg"><img src="fdm_graphs/ECS_CostAndOrGraph.jpg"></a>
+	<p align ="center">Figure 3: Cost AND/OR graph: click on the image to zoom in</p>
+    </div>
+</div>
+<h2><a id="Analysis_Results_246"></a>Analysis Results</h2>
+<h3><a id="Optimisation_Analysis_248"></a>Optimisation Analysis</h3>
+<p>Here is a summary of the modelling and analysis information: </p>
+
+<table class="table table-bordered table-hover table-condensed">
+<tbody><tr><td>Objective </td>H
+<td><strong>Max</strong>ExpectedUtility</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Objective </td>
+<td><strong>Min</strong>Cost</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>SolutionSpace </td>
+<td>1024</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Minimal SolutionSet </td>
+<td>1024</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Shortlisted </td>
+<td>33</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Variables </td>
+<td>75</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Parameters </td>
+<td>11</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Decisions </td>
+<td>10</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Runtime(s) </td>
+<td>2</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+</tbody></table>
+
+<p>The model analysis generates the following shortlist of Pareto-optimal solutions:</p>
+
+<table class="table table-bordered table-hover table-condensed">
+<tbody>
+<tr><td><strong>ID</strong></td>
+<td><strong>Order Reassignment</strong></td>
+<td><strong>Forced Order Completion</strong></td>
+<td><strong>Order Persistence Strategy</strong></td>
+<td><strong>Order Segmentation</strong></td>
+<td><strong>Hung Order Recovery</strong></td>
+<td><strong>Failed Order Notification</strong></td>
+<td><strong>Order Tracking</strong></td>
+<td><strong>Available User Information</strong></td>
+<td><strong>Order Chunking</strong></td>
+<td><strong>Order Bundling</strong></td>
+<td><strong>ExpectedUtility</strong></td>
+<td><strong>Cost</strong></td>
+</tr>
+<tr><td>1</td>
+<td>Current: not possible to reassign order</td>
+<td>Current: not possible to force order completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.35429264</td>
+<td>3687.114892</td>
+</tr>
+<tr><td>2</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Granule-level order tracking</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.69651487</td>
+<td>2186.319942</td>
+</tr>
+<tr><td>3</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.88318153</td>
+<td>1510.418841</td>
+</tr>
+<tr><td>4</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.95429264</td>
+<td>4487.265338</td>
+</tr>
+<tr><td>5</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-65.97651487</td>
+<td>3787.318577</td>
+</tr>
+<tr><td>6</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Granule-level order tracking</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.47029264</td>
+<td>2486.276777</td>
+</tr>
+<tr><td>7</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-72.02651487</td>
+<td>600.1639298</td>
+</tr>
+<tr><td>8</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-63.55429264</td>
+<td>4287.128492</td>
+</tr>
+<tr><td>9</td>
+<td>Current: not possible to reassign order</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-73.39429264</td>
+<td>499.9602443</td>
+</tr>
+<tr><td>10</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.99429264</td>
+<td>1300.110691</td>
+</tr>
+<tr><td>11</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-63.75429264</td>
+<td>4087.275413</td>
+</tr>
+<tr><td>12</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Granule-level order tracking</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.64095931</td>
+<td>2396.628092</td>
+</tr>
+<tr><td>13</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Granule-level order tracking</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.45429264</td>
+<td>5673.431425</td>
+</tr>
+<tr><td>14</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-71.39429264</td>
+<td>699.9839196</td>
+</tr>
+<tr><td>15</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.84318153</td>
+<td>4697.573489</td>
+</tr>
+<tr><td>16</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-70.39429264</td>
+<td>899.9501696</td>
+</tr>
+<tr><td>17</td>
+<td>Current: not possible to reassign order</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-75.62651487</td>
+<td>200.0034088</td>
+</tr>
+<tr><td>18</td>
+<td>Current: not possible to reassign order</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Current: no order segmentation</td>
+<td>Current: no order retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-81.62651487</td>
+<td>0</td>
+</tr>
+<tr><td>19</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-72.62651487</td>
+<td>599.9933341</td>
+</tr>
+<tr><td>20</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-64.97651487</td>
+<td>3987.284827</td>
+</tr>
+<tr><td>21</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-71.02651487</td>
+<td>800.1301799</td>
+</tr>
+<tr><td>22</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Granule-level order tracking</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.44318153</td>
+<td>5883.739575</td>
+</tr>
+<tr><td>23</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-66.57651487</td>
+<td>3787.147982</td>
+</tr>
+<tr><td>24</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Granule-level order tracking</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-67.45918153</td>
+<td>2696.584928</td>
+</tr>
+<tr><td>25</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-68.79429264</td>
+<td>1100.087015</td>
+</tr>
+<tr><td>26</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-65.35429264</td>
+<td>3887.138567</td>
+</tr>
+<tr><td>27</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-64.35429264</td>
+<td>4087.104817</td>
+</tr>
+<tr><td>28</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Granule-level order tracking</td>
+<td>Link to user information</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.62095931</td>
+<td>5583.78274</td>
+</tr>
+<tr><td>29</td>
+<td>Allow Order Reassignment</td>
+<td>Current: not possible to force order completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-62.75429264</td>
+<td>4287.241663</td>
+</tr>
+<tr><td>30</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-69.59429264</td>
+<td>1099.973845</td>
+</tr>
+<tr><td>31</td>
+<td>Allow Order Reassignment</td>
+<td>Allow Forced Order Completion</td>
+<td>Store as soon as received</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>Current: no notification</td>
+<td>Granule-level order tracking</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-61.67651487</td>
+<td>5373.474589</td>
+</tr>
+<tr><td>32</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Allow Order Retry</td>
+<td>User notified of failed order</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-69.79429264</td>
+<td>900.1207654</td>
+</tr>
+<tr><td>33</td>
+<td>Current: not possible to reassign order</td>
+<td>Allow Forced Order Completion</td>
+<td>Current: store when processed</td>
+<td>Orders are segmented</td>
+<td>Current: no order retry</td>
+<td>Current: no notification</td>
+<td>Current: order level</td>
+<td>Current: no link to user info</td>
+<td>Order Chunking</td>
+<td>No Order Bundling</td>
+<td>-73.62651487</td>
+<td>400.0270841</td>
+</tr>
+</tbody></table>
+<!--<p><img src="ECS.png" alt="Figure 4: ECS pareto front">Figure 4: ECS pareto front</p>-->
+<div class="container">
+	<div style="float:right">
+        	 <a href ="ECS.png"><img src="ECS.png"></a>
+	<p align ="center">Figure 4: ECS pareto front</p>
+    </div>
+</div>
+<p>These results show that all shortlisted solutions include the options <code>Order Chunking </code>, <code>Orders are segmented</code> and <code>No order Bundling</code>. This means that, in our model, these three options, respectively, outperform the options <code>Current: No Order Chunking</code>,  <code>Current: No Order Segmentation</code> and <code>No Order Bundling</code> on both objectives.</p>
+<p>But once these three options are selected, the shortlist includes different combinations of <code>Order Reassignment</code>, <code>Forced Order Completion</code>, <code>Order Persisitence Strategy</code>, <code>Hung Order recovery</code>, <code>Failed Order Notification</code>, <code>Order Tracking</code>, <code>Available User Information</code>; each combination representing a different tradeoffs between maximising <code>ExpectedUtility</code> and minimising <code>Cost</code>.</p>
+<p>To visualise such tradeoffs, RADAR generates the graph in Fig. 4 plotting the objective values for the shortlised solutions (shown squares at the top of the graph) and all other non shortlisted ones (shown as circles).</p>
+
+<h3><a id=" Information_Value_Analysis_248"></a> Information Value Analysis</h3>
+<p>Analysing information value gives the following results that show that the information value for all model parameters is very low:</p>
+
+<p>EVTPI = 0</p>
+<table class="table table-bordered table-hover table-condensed">
+<thead><tr><th title="Field #1">Parameter</th>
+<th title="Field #2">EVPPI</th>
+</tr></thead>
+<tbody><tr><td>LostRequestsRatio</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_OrderReassignment[Allow Order Reassignment]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_ForcedOrderCompletion[Allow Forced Order Completion]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_OrderPersistenceStrategy[Store as soon as received]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_OrderSegmentation[Orders are segmented]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_HungOrderRecovery[Allow Order Retry]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_FailedOrderNotification[User notified of failed order]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_OrderTracking[Granule-level order tracking]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_AvailableUserInformation[Link to user information]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_OrderChunking[Order Chunking]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_OrderBundling[Order Bundling]</td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+<h3>References</h3>
+<ol>
+<li>
+<p>Saheed A. Busari and Emmanuel Letier, &quot;<a href="radar_icse17">RADAR: A lightweight tool for requirements and architecture decision analysis</a>,&quot; in submission, August 2016</p>
+</li>
+<li><p>Kazman, Rick, Jai Asundi, and Mark Klein. "Quantifying the costs and benefits of architectural decisions." Proceedings of the 23rd international conference on Software engineering. IEEE Computer Society, 2001.</p></li>
+<li><p>Moore, Mike, et al. "Quantifying the value of architecture design decisions: lessons from the field." Proceedings of the 25th International Conference on Software Engineering. IEEE Computer Society, 2003.</p></li>
+<li><p>Kazman, Rick, Jai Asundi, and Mark Klien. Making architecture design decisions: An economic approach. No. CMU/SEI-2002-TR-035. CARNEGIE-MELLON UNIV PITTSBURGH PA SOFTWARE ENGINEERING INST, 2002.</p></li>
+</ol>
+</body></html>

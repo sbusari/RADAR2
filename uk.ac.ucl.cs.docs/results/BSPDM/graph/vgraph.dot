@@ -1,0 +1,95 @@
+digraph G { 
+rankdir = BT 
+"Probability_InsidersLeak" [shape = oval] 
+AndRef0[shape = point] 
+AndRef0->"Nbr_DocsOnSharedDrive"
+"Nbr_DocsOnSharedDrive[Neutral]"->AndRef0 [dir = none] 
+AndRef1[shape = point] 
+AndRef1->"Nbr_DocsOnSharedDrive"
+"Nbr_DocsOnSharedDrive[Recommend Email]"->AndRef1 [dir = none] 
+AndRef2[shape = point] 
+AndRef2->"Nbr_DocsOnSharedDrive"
+"Nbr_DocsOnSharedDrive[Recommend External Media]"->AndRef2 [dir = none] 
+"Nbr_DocsOnSharedDrive" [shape = oval] 
+"SharedDriveLeakRange" [shape = oval] 
+"Nbr_DocsLeakedByInsiders" [shape = oval] 
+AndRef3[shape = point] 
+AndRef3->"Nbr_DocsLeakedByInsiders"
+"Probability_InsidersLeak"->AndRef3 [dir = none] 
+"Nbr_DocsOnSharedDrive"->AndRef3 [dir = none] 
+"SharedDriveLeakRange"->AndRef3 [dir = none] 
+AndRef4[shape = point] 
+AndRef4->"Nbr_OfficeIntrusions"
+"Nbr_OfficeIntrusions[not guarded]"->AndRef4 [dir = none] 
+AndRef5[shape = point] 
+AndRef5->"Nbr_OfficeIntrusions"
+"Nbr_OfficeIntrusions[guarded]"->AndRef5 [dir = none] 
+"Nbr_OfficeIntrusions" [shape = oval] 
+AndRef6[shape = point] 
+AndRef6->"Nbr_DocsOnExternalMedia"
+"Nbr_DocsOnExternalMedia[Neutral]"->AndRef6 [dir = none] 
+AndRef7[shape = point] 
+AndRef7->"Nbr_DocsOnExternalMedia"
+"Nbr_DocsOnExternalMedia[Recommend Email]"->AndRef7 [dir = none] 
+AndRef8[shape = point] 
+AndRef8->"Nbr_DocsOnExternalMedia"
+"Nbr_DocsOnExternalMedia[Recommend External Media]"->AndRef8 [dir = none] 
+"Nbr_DocsOnExternalMedia" [shape = oval] 
+"Nbr_DocsPerMedia" [shape = oval] 
+"Nbr_ExternalMediaInUse" [shape = oval] 
+AndRef9[shape = point] 
+AndRef9->"Nbr_ExternalMediaInUse"
+"Nbr_DocsOnExternalMedia"->AndRef9 [dir = none] 
+"Nbr_DocsPerMedia"->AndRef9 [dir = none] 
+"Percentage_MediaStolenPerInstrusion" [shape = oval] 
+"Nbr_ExternalMediaStolenPerIntrusion" [shape = oval] 
+AndRef10[shape = point] 
+AndRef10->"Nbr_ExternalMediaStolenPerIntrusion"
+"Nbr_ExternalMediaInUse"->AndRef10 [dir = none] 
+"Percentage_MediaStolenPerInstrusion"->AndRef10 [dir = none] 
+"Nbr_DocsStolenPerIntrusion" [shape = oval] 
+AndRef11[shape = point] 
+AndRef11->"Nbr_DocsStolenPerIntrusion"
+"Nbr_ExternalMediaStolenPerIntrusion"->AndRef11 [dir = none] 
+"Nbr_DocsOnExternalMedia"->AndRef11 [dir = none] 
+"Nbr_DocsStolenByOutsiders" [shape = oval] 
+AndRef12[shape = point] 
+AndRef12->"Nbr_DocsStolenByOutsiders"
+"Nbr_OfficeIntrusions"->AndRef12 [dir = none] 
+"Nbr_DocsStolenPerIntrusion"->AndRef12 [dir = none] 
+"Nbr_LeakedDoc" [shape = oval] 
+AndRef13[shape = point] 
+AndRef13->"Nbr_LeakedDoc"
+"Nbr_DocsLeakedByInsiders"->AndRef13 [dir = none] 
+"Nbr_DocsStolenByOutsiders"->AndRef13 [dir = none] 
+"Ratio_HighConfidentialityDocs" [shape = oval] 
+"Nbr_HighConfidentialityLeaks" [shape = oval] 
+AndRef14[shape = point] 
+AndRef14->"Nbr_HighConfidentialityLeaks"
+"Nbr_LeakedDoc"->AndRef14 [dir = none] 
+"Ratio_HighConfidentialityDocs"->AndRef14 [dir = none] 
+"Cost_HighConfidentialityLeak" [shape = oval] 
+"Ratio_MediumConfidentialityDocs" [shape = oval] 
+"Nbr_MediumConfidentialityLeaks" [shape = oval] 
+AndRef15[shape = point] 
+AndRef15->"Nbr_MediumConfidentialityLeaks"
+"Nbr_LeakedDoc"->AndRef15 [dir = none] 
+"Ratio_MediumConfidentialityDocs"->AndRef15 [dir = none] 
+"Cost_MediumConfidentialityLeak" [shape = oval] 
+"Ratio_LowConfidentialityDocs" [shape = oval] 
+"Nbr_LowConfidentialityLeaks" [shape = oval] 
+AndRef16[shape = point] 
+AndRef16->"Nbr_LowConfidentialityLeaks"
+"Nbr_LeakedDoc"->AndRef16 [dir = none] 
+"Ratio_LowConfidentialityDocs"->AndRef16 [dir = none] 
+"Cost_LowConfidentialityLeak" [shape = oval] 
+"Cost_of_Disclosures" [shape = oval] 
+AndRef17[shape = point] 
+AndRef17->"Cost_of_Disclosures"
+"Nbr_HighConfidentialityLeaks"->AndRef17 [dir = none] 
+"Cost_HighConfidentialityLeak"->AndRef17 [dir = none] 
+"Nbr_MediumConfidentialityLeaks"->AndRef17 [dir = none] 
+"Cost_MediumConfidentialityLeak"->AndRef17 [dir = none] 
+"Nbr_LowConfidentialityLeaks"->AndRef17 [dir = none] 
+"Cost_LowConfidentialityLeak"->AndRef17 [dir = none] 
+}

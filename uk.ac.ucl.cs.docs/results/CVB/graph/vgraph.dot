@@ -1,0 +1,22 @@
+digraph G { 
+rankdir = BT 
+AndRef0[shape = point] 
+AndRef0->"Benefit"
+"Benefit[New]"->AndRef0 [dir = none] 
+AndRef1[shape = point] 
+AndRef1->"Benefit"
+"Benefit[Legacy]"->AndRef1 [dir = none] 
+"Benefit" [shape = oval] 
+AndRef2[shape = point] 
+AndRef2->"Cost"
+"Cost[New]"->AndRef2 [dir = none] 
+AndRef3[shape = point] 
+AndRef3->"Cost"
+"Cost[Legacy]"->AndRef3 [dir = none] 
+"Cost" [shape = oval] 
+"NB" [shape = oval] 
+AndRef4[shape = point] 
+AndRef4->"NB"
+"Benefit"->AndRef4 [dir = none] 
+"Cost"->AndRef4 [dir = none] 
+}

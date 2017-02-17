@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1em}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+<title>RADAR</title>
+
+</head>
+
+<body id="preview" align = "justify">
+<h1><a id="Optimising_the_Design_of_Plastic_Card_Fraud_Detection_Systems_0"></a>Optimising the Design of Plastic Card Fraud Detection Systems</h1>
+<p>The purpose of a plastic card fraud detection system is to detect when plastic card accounts have been compromised by fraudsters who are using the account to steal funds (Hand et al, 2008).</p>
+<p>Design decisions for fraud detection systems include:</p>
+<ul>
+
+<li> the <i>processing type</i> that can be continuous or batch; continuous processing analyses transactions individually as they arrive, whereas batch processing performs an
+overnight analysis of the transactions that occurred during the day.</li>
+
+<li> the <i>fraud detection method</i> which can be a two-class supervised classification method in which a classifier is trained from samples of past fraudulent and nonfraudulent transactions, or a non-statistical rule-based
+method that flags transactions matching configurations known to be high risk</li>
+
+<li> if the classifier fraud detection method is chosen, the <i>alert threshold </i> defines some threshold above which the classifier should flag a transaction as suspect. A low alert
+threshold means more alerts will be generated and thus a higher ratio of false alerts. </li>
+
+<li>the <i>blocking policy</i> that can include blocking an account as soon as the fraud detection method flags a transaction as suspected fraud, or only blocking the account after the suspected fraud has been confirmed by human investigators </li>
+
+
+</ul>
+<p>These design decisions have impacts on how quickly frauds are detected and compromised accounts blocked and on the cost-effectiveness of the fraud detection system.</p>
+<p>The optimisation of plastic card fraud detection systems includes two main objectives <span class="citation">(Hand, et al.)</span>:</p>
+<ul>
+<li>minimising financial loss</li>
+<li>minimising investigation costs</li>
+</ul>
+<p>Our optimisation model is based on our experience in analysing the scalability of a commercial financial fraud detection system <span class="citation">(Duboc, et al., 2008; Duboc, et al. 2013)</span> and extends a previous analysis of performance criteria for plastic card fraud detection tools (Hand et al., 2008) by modelling the impact of alternative design decisions on the above goals.</p>
+<p>Our model is not perfect. But better approximation of relative importance of false alert and missed fraud than assuming the two class of misclassification to be of equal importance. Better and more useful approximation than qualitative intuition-based evaluation of alternatives with respect to optimisation goals (e.g. i*, QFD, AHP, etc.). An advantage of our model is that it can be validated against real-world data and modified to better fit the data if necessary.</p>
+<h2><a id="Modelling_Financial_Loss_23"></a>Modelling Financial Loss</h2>
+<p>This plastic card fraud detection system analyses transactions <em>after</em> they have been authorised by the bank. Therefore, if the fraud detection system detects a transaction as fraudulent, the bank will still lose the fraudulent transaction amount (unless the bank can prove the fraud is due to negligence from the cardholder or vendor, a concern we will not consider in our model). The purpose of the fraud detection system is to block compromised card accounts as quickly as possible so as to prevent further fraud.</p>
+<p>Following <span class="citation">Hand, et al.</span>, plastic card fraud detection system are thus evaluated by their ability to minimise future financial losses. We model the future financial loss as the product of the number of compromised accounts, the average number of fraudulent transactions that will be authorised on an account before it is blocked, and the average value of a fraudulent transaction:</p>
+<pre><code>FinancialLoss = NbrCompromisedAccounts 
+                * NbrFraudPerAccountBeforeBlocked
+                * AverageFraudValue 
+</code></pre>
+<p>The <code>FinancialLoss</code> is measured in £ per day, <code>NbrCompromisedAccounts</code> in number of accounts per day, and <code>AverageFraudValue</code> in pound.</p>
+<p>The number of compromised accounts is given by the total number of accounts multiplied by the percentage of compromised accounts:</p>
+<pre><code>NbrCompromisedAccounts = NbrAccounts * CompromisedAccountRatio
+</code></pre>
+<p>Both quantities are parameters that can be estimated from past data. For example:</p>
+<pre><code>NbrAccounts = normalCI(0.9 * 10^6, 1.1 * 10^6)
+CompromisedAccountRatio = triangular(0, 0.0001, 0.0003 )
+</code></pre>
+<p>
+<p>The average fraudulent transaction value can also be estimated from past data. For example:</p>
+<pre><code>AverageFraudValue = normalCI(100, 1000)
+</code></pre>
+<p>The average number of frauds on an account before it is blocked, <code>NbrFraudPerAccountBeforeBlocked</code>, depends on the blocking policy. If accounts are blocked as soon as the fraud detection system suspects a fraud, the number of fraud before the account is blocked is the number of fraud before detection. If accounts are blocked only after suspected fraud are confirmed by a fraud investigation, further frauds might occur after detection:</p>
+<pre><code>NbrFraudPerAccountBeforeBlocked = decision(&quot;blocking policy&quot;){
+    &quot;block first&quot;          : NbrFraudBeforeDetection
+    &quot;investigage first&quot;    : NbrFraudBeforeDetection + NbrFraudDuringInvestigation
+}
+</code></pre>
+<p>The average number of frauds before detection, <code>NbrFraudPerAccountBeforeBlocked</code>, depends on the processing type.</p>
+<p>For continuous processing, the mean number of fraud before detection is the infinite series:</p>
+<pre><code>  1 * probability(fraud is detected after 1 fraudulent transactions)
++ 2 * probability(fraud is detected after 2 fraudulent transactions)
++ 3 * probability(fraud is detected after 3 fraudulent transactions)
++ ... 
+</code></pre>
+<p>The probability that a fraudulent transaction is detected is the true alert rate (the ratio of the number of detected fraud over the number of fraud). Factoring the above series yield that for continuous processing</p>
+<pre><code>NbrFraudBeforeDetection = 1/ TrueAlertRate
+</code></pre>
+<p>In batch processing, transactions are analysed at the end of every day. Batch processing thus introduces a delay between a fraudulent transaction and its detections, a delay during which additional fraud might occur, but because transactions are analysed in groups rather than individually, the batch processing may have a better true alert rate than the continuous processing. Assuming that batch processing adds an average delay of half a day to fraud detection, our models assumes that</p>
+<pre><code>NbrFraudBeforeDetection = NbrFraudsPerCompromisedAccountPerDay / 2 * Batch_TrueAlertRate
+</code></pre>
+<p>Thus, the final equation for estimating <code>NbrFraudBeforeDetection</code> is:</p>
+<pre><code>NbrFraudBeforeDetection = decision(&quot;processing type&quot;){
+    &quot;continuous&quot;    :    1 / ContinuousTrueAlertRate
+    &quot;batch&quot;         :    NbrFraudsPerCompromisedAccountPerDay / 2 * BatchTrueAlertRate
+}
+</code></pre>
+<p>The average number of frauds per day per compromised account is a parameter that could be estimated from past data. For example:</p>
+<pre><code>NbrFraudsPerCompromisedAccountPerDay =  normalCI(1, 20)
+</code></pre>
+<p>The average number of fraud per account committed during the investigation period is also proportional to the number of frauds per compromised account per day. Assume the investigation introduces an average delay of 8 hours (1/3 day) before blocking an account, we have:</p>
+<pre><code>NbrFraudDuringInvestigation = NbrFraudsPerCompromisedAccountPerDay * InvestigationDelay
+InvestigationDelay = triangular(1/24, 1/3, 1)
+</code></pre>
+<p>The true alerts rates depend on the fraud detection methods and their parameters. True alerts rates are typically estimated by analysing the performance of the fraud detection method on past data.</p>
+<p>To keep our model simple, we assume the classifier has three settings <code>high</code>, <code>medium</code>, and <code>low</code> that generates high, medium, or low number of alerts; and the rule-based approach has a single fixed true alert rate.</p>
+<p>For the continuous true alert rate:</p>
+<pre><code>ContinuousTrueAlertRate = decision(&quot;fraud detection method&quot;){
+    &quot;continuous_classifier&quot; :  ContinuousAlertThreshold
+    &quot;continuous_rule-based&quot; :   deterministic(0.75)
+}
+
+ContinuousAlertThreshold = decision(&quot;continuous classifier threshold level&quot;){
+    &quot;high&quot;   : triangular(0.75, 0.85, 0.95);
+    &quot;medium&quot; : triangular(0.65, 0.75, 0.85);
+    &quot;low&quot;    : triangular(0.55, 0.65, 0.75);
+}
+</code></pre>
+<p>For the batch true alert rate:</p>
+<pre><code>BatchTrueAlertRate = decision(&quot;fraud detection method&quot;){
+    &quot;batch_classifier&quot; :  BatchAlertThreshold
+    &quot;batch_rule-based&quot; :  deterministic(0.80);
+}
+}
+
+BatchAlertThreshold = decision(&quot;batch classifier threshold level&quot;){
+    &quot;high&quot;   : triangular(0.75, 0.85, 0.95);
+    &quot;medium&quot; : triangular(0.65, 0.75, 0.85);
+    &quot;low&quot;    : triangular(0.55, 0.65, 0.75);
+</code></pre>
+<h2><a id="Modelling_Investigation_Costs_139"></a>Modelling Investigation Costs</h2>
+<p>Our model of investigation costs is simpler. The average investigation cost per day is simply the number of alerts per day multiplied by the average investigation cost per alert:</p>
+<pre><code>InvestigationCost = NbrAlerts * CostPerAlert
+</code></pre>
+<p>We assume the average cost per alert can be estimated. For example:</p>
+<pre><code>CostPerAlert = normalCI(2, 6);
+</code></pre>
+<p>The number of generated alerts is the sum of the number of true alerts and false alerts:</p>
+<pre><code>NbrAlerts = NbrTrueAlerts + NbrFalseAlerts
+</code></pre>
+<p>The number of true and false alerts are functions of the number of accounts, the percentage of compromised accounts, and the true and false alert rates:</p>
+<pre><code>NbrTrueAlerts = NbrFraud * TrueAlertRate
+NbrFalseAlerts = NbrLegitTransactions * TrueNegativeRate
+</code></pre>
+<p>The true alert rate (the ratio of the number true alert over the number of fraud, a.k.a. sensitivity) and true negative rate (the ratio of the number of un-flagged legitimate transactions over the total number of legitimate transactions, a.k.a. specificity) vary with the processing type:</p>
+<pre><code>TrueAlertRate = decision(&quot;processing type&quot;){
+    &quot;continuous&quot; : ContinuousTrueAlertRate
+    &quot;batch&quot;      : BatchTrueAlertRate
+}
+
+TrueNegativeRate = decision(&quot;processing type&quot;){
+    &quot;continuous&quot; : ContinuousTrueNegativeRate
+    &quot;batch&quot;      : BatchTrueNegativeRate
+}   
+</code></pre>
+<p>Models of the continuous and batch true alert rates have already been defined. The models for the continuous and batch true negative rate follow the same structure:</p>
+<pre><code>ContinuousTrueNegativeRate = decision(&quot;fraud detection method&quot;){
+    &quot;continuous_classifier&quot; :  ContinuousClassierTrueNegativeRate
+    &quot;continuous_rule-based&quot; :  deterministic(0.99);
+}
+
+ContinuousClassierTrueNegativeRate = decision(&quot;continuous classifier threshold level&quot;){
+    &quot;high&quot;   : triangular(0.95, 0.99, 0.995);
+    &quot;medium&quot; : triangular(0.99, 0.995, 0.999);
+    &quot;low&quot;    : triangular(0.995, 0.999, 0.9999);
+}
+
+BatchTrueNegativeRate = decision(&quot;fraud detection method&quot;){
+    &quot;batch_classifier&quot; :  BatchClassifierTrueNegativeRate
+    &quot;batch_rule-based&quot; :  deterministic(0.995);
+}
+
+BatchClassifierTrueNegativeRate = decision(&quot;batch classifier threshold level&quot;){
+    &quot;high&quot;   : triangular(0.9, 0.99, 0.995);
+    &quot;medium&quot; : triangular(0.99, 0.995, 0.999);
+    &quot;low&quot;    : triangular(0.995, 0.999, 0.9999);
+}
+</code></pre>
+<p>Finally, the number of fraudulent and legitimate transactions depend on the number of accounts and average number of transactions per account:</p>
+<pre><code>NbrFraud = NbrAccounts * CompromisedAccountRatio * NbrFraudPerCompromisedAccountPerDay
+NbrLegitTransactions = NbrAccounts  * NbrLegitTransactionsPerAccountPerDay
+</code></pre>
+<p>The average number of accounts and compromised account ratio are model parameters that we have already estimated above. The average number of legitimate per account and fraudulent transactions per compromised account per day are also model parameters that could estimated from past data. For example:</p>
+<pre><code>NbrFraudPerCompromisedAccountPerDay  = triangular(0, 3, 10);
+NbrLegitTransactionsPerAccountPerDay =triangular(0, 3, 10);
+</code></pre>
+<p>Now, we define the net benefit the bank gets from making their design decisions :  </p>
+<pre><code>
+NB = Benefit - InvestigationCost;
+Benefit = BaseLineFinancialLoss - FinancialLoss;
+BaseLineFinancialLoss = deterministic(500000);
+</code></pre>
+<p>Therefore, the two main objectives can be defined as follows:</p>
+<pre><code>
+Objective Max EBenefit= EV(Benefit);
+Objective Min InvestigationLoad = percentile(NbrAlerts, 95);
+</code></pre>
+
+
+<div class="references">
+<h2> References </h2>
+<p>Hand, D. J., et al. <em>Hand, D. J., et al. "Performance criteria for plastic card fraud detection tools." Journal of the Operational Research Society 59.7 (2008): 956-962.</em></p>
+<p>Duboc, Leticia, et al. <em> Duboc, L., Letier, E., Rosenblum, D. S., & Wicks, T. (2008, September). A case study in eliciting scalability requirements. In 2008 16th IEEE International Requirements Engineering Conference (pp. 247-252). IEEE.</em></p>
+<p>Duboc, Leticia, et al. <em> Duboc, Leticia, Emmanuel Letier, and David S. Rosenblum. "Systematic elaboration of scalability requirements through goal-obstacle analysis." IEEE transactions on software engineering 39.1 (2013): 119-140.</em></p>
+
+</div>
+</body></html>

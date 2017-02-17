@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>RADAR - NASA Model</title>
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+        <script src="js/jquery-3.1.0.js"></script>        
+        <link href="css/wfmi-style.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/wfmi-style.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" type="text/css" href="css/peachstrap.css">
+        <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Karla' rel='stylesheet' type='text/css'>
+        <script type="text/javascript">
+        	$(document).ready(function(){
+    			$("#example").click(function(){
+    				if ($("#sample").css("display") == "none"){
+    					$("#sample").css("display","block");
+    				}
+        			else {
+        				$("#sample").css("display","none");
+        			}
+    			});
+    			$("#evaluation").click(function(){
+    				if ($("#eval").css("display") == "none"){
+    					$("#eval").css("display","block");
+    				}
+        			else {
+        				$("#eval").css("display","none");
+        			}
+    			});
+			});
+        </script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                            <!--<img id="brand" src="img/Logo_Blue.svg">-->
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html#About" id="side-nav-bar">Overview</a>
+                    </li>
+                     <li>
+                        <a href="index.html#radarLanguage" id="side-nav-bar">Modelling Language</a>
+                    </li>
+                     <li>
+                        <a href="index.html#Analysis" id="side-nav-bar">Model Analysis</a>
+                    </li>
+                   
+                    <li>
+                        <a id="example" href="#Logo">Subject Models</a>
+                        <ul id="sample" style="display: none;">
+                        	<li><a href="sas.html">SAS Model</a></li>
+                        	<li><a href="nasa.html">NASA ECS Model</a></li>
+                        	<li><a href="fds.html">Fraud Detection System</a></li>
+                        	<li><a href="#security.html">Building Security</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a id="evaluation" href="#Buttons">Evaluation</a>
+                        <ul id="eval" style="display: none;">
+                        	<li><a href="index.html#saseval">SAS Model</a></li>
+                        	<li><a href="index.html#nasaeval">NASA ECS Model</a></li>
+                        	<li><a href="index.html#fdseval">Fraud Detection System</a></li>
+                        	<li><a href="index.html#bspdmeval">Building Security</a></li>
+                        </ul>
+                    </li>
+                     
+                    <li>
+                        <a href="index.html#radardownloads">Downloads</a>
+                    </li>
+                    <li>
+                        <a href="index.html#Colours">Tool Documentation</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/sbusari/RADAR" target="_blank">Source Code</a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2 id="nasa">NASA ECS Model</h2>
+                                <p>
+                                	<a href="models/NASA_ECS_CBAM_v1 (1).md" target="_blank"><h4>Download Model</h4></a>
+                                </p>
+                                <pre style="background-color: #FFFFFF; margin: 0; line-height: 125%"># NASA ECS Model
+
+Objectives, decisions and data from 2002 SEI Report &quot;Making Architecture Design Decisions: An Economic Approach&quot;.
+
+Note: CBAM estimate individual impact of architectural strategies on utility but not their combined impacts. Modelling combined impact requires richer application specific model.
+
+## Utility Model
+
+```
+Objective Max ExpectedUtility	
+			
+ExpectedUtility = E(Utility)
+
+Utility = 	HungRequestsRatio.weight * HungRequestsRatio.Utility +
+			LostRequestsRatio.weight * LostRequestsRatio.Utility +
+			FailedOrderRatio.weight * FailedOrderRatio.Utility +
+			HungOrdersRatio.weight * HungOrdersRatio.Utility +
+			LostOrdersRatio.weight * LostOrdersRatio.Utility +
+			HelpNeededByUsers.weight * HelpNeededByUsers.Utility +
+			FailureInfoGivenToUsers.weight * FailureInfoGivenToUsers.Utility +
+			LimitOnOrders.weight * LimitOnOrders.Utility +
+			NotificationsFrequency.weight * NotificationsFrequency.Utility +
+			Performance.weight * Performance.Utility
+
+     
+HungRequestsRatio.weight = parameter(10)
+LostRequestsRatio.weight = parameter(15)
+FailedOrderRatio.weight = parameter(15)
+HungOrdersRatio.weight = parameter(10)
+LostOrdersRatio.weight = parameter(15)
+HelpNeededByUsers.weight = parameter(10)
+FailureInfoGivenToUsers.weight = parameter(5)
+LimitOnOrders.weight  = parameter(5)
+NotificationsFrequency.weight = parameter(10)
+Performance.weight = parameter(5)
+
+// Note: in following equations, should best and worst levels be parameters?
+// A: not parameters because we assume they are fixed, given levels.
+
+HungRequestRatio.Utility = (HungRequestRatio - HungRequestRatio.worst)/(HungRequestRatio.best - HungRequestRatio.worst)
+HungRequestRatio.best = 0
+HungRequestRatio.worst = 0.1
+
+LostRequestsRatio.Utility = (LostRequestsRatio - LostRequestsRatio.worst)/(LostRequestsRatio.best - LostRequestsRatio.worst)
+LostRequestsRatio.best = 0
+LostRequestsRatio.worst = 5<span style="color: #888888">%</span>
+
+FailedOrderRatio.Utility = (FailedOrderRatio - FailedOrderRatio.worst)/(FailedOrderRatio.best - FailedOrderRatio.worst)
+FailedOrderRatio.best = 0
+FailedOrderRatio.worst = 10<span style="color: #888888">%</span>
+
+HungOrdersRatio.Utility = (HungOrdersRatio - HungOrdersRatio.worst)/(HungOrdersRatio.best - HungOrdersRatio.worst)
+HungOrdersRatio.best = 0
+HungOrdersRatio.worst = 10<span style="color: #888888">%</span>
+
+LostOrdersRatio.Utility = (LostOrdersRatio - LostOrdersRatio.worst)/(LostOrdersRatio.best - LostOrdersRatio.worst)
+LostOrdersRatio.best = 0
+LostOrdersRatio.worst = 10<span style="color: #888888">%</span>
+
+HelpNeededByUsers.Utility = (HelpNeededByUsers - HelpNeededByUsers.worst)/(HelpNeededByUsers.best - HelpNeededByUsers.worst)
+HelpNeededByUsers.best = 0
+HelpNeededByUsers.worst = 50<span style="color: #888888">%</span>
+
+FailureInfoGivenToUsers.Utility = (FailureInfoGivenToUsers - FailureInfoGivenToUsers.worst)/(FailureInfoGivenToUsers.best - FailureInfoGivenToUsers.worst)
+FailureInfoGivenToUsers.best = 100<span style="color: #888888">%</span>
+FailureInfoGivenToUsers.worst = 10<span style="color: #888888">%</span>
+
+LimitOnOrders.Utility = (LimitOnOrders - LimitOnOrders.worst)/(LimitOnOrders.best - LimitOnOrders.worst)
+LimitOnOrders.best = 0<span style="color: #888888">%</span>
+LimitOnOrders.worst = 50<span style="color: #888888">%</span>
+
+NotificationsFrequency.Utility = (NotificationsFrequency - NotificationsFrequency.worst)/(NotificationsFrequency.best - NotificationsFrequency.worst)
+NotificationsFrequency.best = 1
+NotificationsFrequency.worst = 1/1000
+
+Performance.Utility = (Performance - Performance.worst)/(Performance.best - Performance.worst)
+Performance.best = 90<span style="color: #888888">%</span>
+Performance.worst = 50<span style="color: #888888">%</span>
+
+
+```
+
+
+## Quality Attributes Models
+
+### Hung Request Ratio
+
+```
+HungRequestRatio = HungRequestRatio.current 
+					* (1 - ReassignedHungRequestRatio) 
+					* (1 - ForcedHungRequestRatio)
+					
+HungRequestRatio.current = parameter(5<span style="color: #888888">%)</span>
+					
+ReassignedHungRequestRatio = decision(&quot;Order Reassignment&quot;)<span style="color: #007020">{</span>
+		&quot;Current: not possible to reassign order&quot; : 0
+		&quot;Allow Order Reassignment&quot;: parameter(60<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>	
+
+ForcedHungRequestRatio = decision(&quot;Forced Order Completion&quot;)<span style="color: #007020">{</span>
+		&quot;Current: not possible to force order completion&quot; : 0
+		&quot;Allow Forced Order Completion&quot;: parameter(40<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>					
+```
+
+### Lost Request Ratio
+
+```
+LostRequestRatio = parameter(triangle(0, 0.5, 1))
+```
+
+### Failed Order Ratio
+
+```
+FailedOrderRatio = decision(&quot;Order Persistence Strategy&quot;)<span style="color: #007020">{</span>
+		&quot;Current: store when processed&quot; : parameter(5<span style="color: #888888">%)</span>
+		&quot;Store as soon as received&quot; 	 : parameter(2<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>
+
+```
+
+### Hung Orders Ratio
+
+```
+
+HungOrdersRatio = HungOrdersRatio.current *
+					(1 - SkippedHungOrderRatio) *
+					(1 - RetriedHungOrderRatio)
+					
+SkippedHungOrderRatio = decision(&quot;Order Segmentation&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no order segmentation&quot; : 0
+		&quot;Orders are segmented&quot;			  : parameter(60<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>
+
+RetriedHungOrderRatio = decision(&quot;Hung Order Recovery&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no order retry&quot; 	: 0
+		&quot;Allow Order Retry&quot;			: parameter(40<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>
+
+
+```
+
+### Lost Orders Ratio
+
+```
+LostOrdersRatio = decision(&quot;Order Persistence Strategy&quot;)<span style="color: #007020">{</span>
+		&quot;Current: store when processed&quot; : parameter(1<span style="color: #888888">%)</span>
+		&quot;Store as soon as received&quot; 	 : parameter(0<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>
+```
+
+### Help Needed by Users
+
+```
+HelpNeededByUsers = LostOrdersRatio * HelpNeededPerLostOrder * HelpNeededForTrackingGranularity
+
+HelpNeededPerLostOrder = decision(&quot;Failed Order Notification&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no notification&quot;: parameter(25<span style="color: #888888">%)</span>
+		&quot;User notified of failed order&quot;: parameter(20<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>
+
+HelpNeededForTrackingGranularity = decision(Order Tracking)<span style="color: #007020">{</span>
+ 		&quot;Current: order level&quot;			: 1
+ 		&quot;Granule-level order tracking&quot;	: parameter(40<span style="color: #888888">%)</span>
+ <span style="color: #007020">}</span>
+```
+
+### Failure Information
+
+```
+FailureInfoGivenToUsers = 1- RatioUsersNotGettingInfo
+RatioUsersNotGettingInfo = RatioUsersNotGettingInfo.current * 
+							(1 - NotificationOrderEffect) * 
+							(1 - OrderTrackingGranularityEffect) *
+							(1 - UserInformationEffect)
+							
+RatioUsersNotGettingInfo.current = parameter(50<span style="color: #888888">%)</span>
+
+NotificationOrderEffect = decision(&quot;Failed Order Notification&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no notification&quot;: 0
+		&quot;User notified of failed order&quot;: parameter(80<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>
+
+OrderTrackingGranularityEffect = decision(Order Tracking)<span style="color: #007020">{</span>
+ 		&quot;Current: order level&quot;			: 0
+ 		&quot;Granule-level order tracking&quot;	: parameter(90<span style="color: #888888">%)</span>
+ <span style="color: #007020">}</span>
+ 
+UserInformationEffect = decision(&quot;Available User Information&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no link to user info&quot;		: 0
+		&quot;Link to user information&quot;			: parameter(20<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>
+```
+
+
+### Limit on Order
+
+```
+LimitOnOrders = decision(&quot;Order Chunking&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no oder chunking&quot;: parameter(30<span style="color: #888888">%)</span>
+		&quot;Order Chunking&quot;			: parameter(15<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>
+```
+
+### Notification Frequency
+
+```
+NotificationFrequency = decision(&quot;Order Bundling&quot;)<span style="color: #007020">{</span>
+		&quot;No Order Bundling&quot; : parameter(1)
+		&quot;Order Bundling&quot;	: paramter(0.01)
+<span style="color: #007020">}</span>
+```
+
+### Performance
+
+```
+Performance = decision(&quot;Order Bundling&quot;)<span style="color: #007020">{</span>
+		&quot;No Order Bundling&quot; : parameter(60<span style="color: #888888">%)</span>
+		&quot;Order Bundling&quot;	: parameter(55<span style="color: #888888">%)</span>
+<span style="color: #007020">}</span>
+```
+
+## Cost Model
+
+```
+Objective Min Cost
+
+Cost = Cost.OrderReassignment +
+		Cost.ForcedOrderCompletion +
+		Cost.OrderPersistenceStrategy +
+		Cost.OrderSegmentation +
+		Cost.HungOrderRecovery +
+		Cost.FailedOrderNotification +
+		Cost.OrderTracking +
+		Cost.AvailableUserInformation +			
+
+Cost.OrderReassignment = decision(&quot;Order Reassignment&quot;)<span style="color: #007020">{</span>
+		&quot;Current: not possible to reassign order&quot; : 0
+		&quot;Allow Order Reassignment&quot;: parameter(triangle(360, 400, 440))
+<span style="color: #007020">}</span>	
+
+Cost.ForcedOrderCompletion = decision(&quot;Forced Order Completion&quot;)<span style="color: #007020">{</span>
+		&quot;Current: not possible to force order completion&quot; : 0
+		&quot;Allow Forced Order Completion&quot;: parameter(triangle(180, 200, 220))
+<span style="color: #007020">}</span>
+
+Cost.OrderPersistenceStrategy = decision(&quot;Order Persistence Strategy&quot;)<span style="color: #007020">{</span>
+		&quot;Current: store when processed&quot; : 0
+		&quot;Store as soon as received&quot; 	 : parameter(triangle(1200, 1200, 7150))
+<span style="color: #007020">}</span>
+
+Cost.OrderSegmentation = decision(&quot;Order Segmentation&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no order segmentation&quot; : 0
+		&quot;Orders are segmented&quot;		 : parameter(triangle(180, 200, 220))
+<span style="color: #007020">}</span>
+
+Cost.HungOrderRecovery = decision(&quot;Hung Order Recovery&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no order retry&quot; 	: 0
+		&quot;Allow Order Retry&quot;		: parameter(triangle(180, 200, 220))
+<span style="color: #007020">}</span>
+
+Cost.FailedOrderNotification = decision(&quot;Failed Order Notification&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no notification&quot;: 0
+		&quot;User notified of failed order&quot;: parameter(triangle(270, 300, 330))
+<span style="color: #007020">}</span>
+
+Cost.OrderTracking = decision(Order Tracking)<span style="color: #007020">{</span>
+ 		&quot;Current: order level&quot;		: 0
+ 		&quot;Granule-level order tracking&quot;	: parameter(triangle(900, 1000, 1650))
+<span style="color: #007020">}</span>
+
+Cost.AvailableUserInformation = decision(&quot;Available User Information&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no link to user info&quot;		: 0
+		&quot;Link to user information&quot;		: parameter(triangle(90, 100, 440))
+<span style="color: #007020">}</span>
+
+Cost.OrderChunking = decision(&quot;Order Chunking&quot;)<span style="color: #007020">{</span>
+		&quot;Current: no oder chunking&quot;	: 0
+		&quot;Order Chunking&quot;		: parameter(triangle(360, 400, 440))
+<span style="color: #007020">}</span>
+
+Cost.OrderBundling = decision(&quot;Order Bundling&quot;)<span style="color: #007020">{</span>
+		&quot;No Order Bundling&quot; 	: 0
+		&quot;Order Bundling&quot;	: parameter(triangle(360, 400, 440))
+<span style="color: #007020">}</span>		
+			
+
+```
+</pre><hr />
+                        </div>
+                    </div>
+                </div>
+           </div>
+                                                    
+                                                                    <!-- /#page-content-wrapper -->
+                                                                
+                                                                <!-- /#wrapper -->
+                                                                <!-- jQuery -->
+                                                                <script src="js/jquery.js"></script>
+                                                                <!-- Bootstrap Core JavaScript -->
+                                                                <script src="js/bootstrap.min.js"></script>
+                                                                <!-- Menu Toggle Script -->
+                                                                <script>
+                                                                $("#menu-toggle").click(function(e) {
+                                                                e.preventDefault();
+                                                                $("#wrapper").toggleClass("toggled");
+                                                                });
+                                                                </script>
+                                                            </body>
+                                                            <script>
+                                                            $(function() {
+                                                            $('a[href*="#"]:not([href="#"])').click(function() {
+                                                            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                                                            var target = $(this.hash);
+                                                            target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                                                            if (target.length) {
+                                                            $('html, body').animate({
+                                                            scrollTop: target.offset().top
+                                                            }, 1000);
+                                                            return false;
+                                                            }
+                                                            }
+                                                            });
+                                                            });
+                                                            </script>
+                                                        </html>

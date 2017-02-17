@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>RADAR</title>
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+        <script src="js/jquery-3.1.0.js"></script>        
+        <link href="css/wfmi-style.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/wfmi-style.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" type="text/css" href="css/peachstrap.css">
+        <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Karla' rel='stylesheet' type='text/css'>
+        <script type="text/javascript">
+        	$(document).ready(function(){
+    			$("#example").click(function(){
+    				if ($("#sample").css("display") == "none"){
+    					$("#sample").css("display","block");
+    				}
+        			else {
+        				$("#sample").css("display","none");
+        			}
+    			});
+    			$("#evaluation").click(function(){
+    				if ($("#eval").css("display") == "none"){
+    					$("#eval").css("display","block");
+    				}
+        			else {
+        				$("#eval").css("display","none");
+        			}
+    			});
+			});
+        </script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                            <!--<img id="brand" src="img/Logo_Blue.svg">-->
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html#About" id="side-nav-bar">Overview</a>
+                    </li>
+                     <li>
+                        <a href="index.html#radarLanguage" id="side-nav-bar">Modelling Language</a>
+                    </li>
+                     <li>
+                        <a href="index.html#Analysis" id="side-nav-bar">Model Analysis</a>
+                    </li>
+                   
+                    <li>
+                        <a id="example" href="#Logo">Subject Models</a>
+                        <ul id="sample" style="display: none;">
+                        	<li><a href="sas.html">SAS Model</a></li>
+                        	<li><a href="nasa.html">NASA ECS Model</a></li>
+                        	<li><a href="fds.html">Fraud Detection System</a></li>
+                        	<li><a href="#security.html">Building Security</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a id="evaluation" href="#Buttons">Evaluation</a>
+                        <ul id="eval" style="display: none;">
+                        	<li><a href="index.html#saseval">SAS Model</a></li>
+                        	<li><a href="index.html#nasaeval">NASA ECS Model</a></li>
+                        	<li><a href="index.html#fdseval">Fraud Detection System</a></li>
+                        	<li><a href="index.html#bspdmeval">Building Security</a></li>
+                        </ul>
+                    </li>
+                     
+                    <li>
+                        <a href="index.html#radardownloads">Downloads</a>
+                    </li>
+                    <li>
+                        <a href="index.html#Colours">Tool Documentation</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/sbusari/RADAR" target="_blank">Source Code</a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2 id='About'>RADAR: A Lightweight Tool for Requirements and Architecture Decision Analysis</h2>
+                            <h6><a href="http://www0.cs.ucl.ac.uk/staff/s.busari/">Saheed A. Busari</a> and
+                           	 <a href="http://letier.cs.ucl.ac.uk/">Emmanuel Letier</a>
+                            </h6>
+                            <hr>
+                            <h3 id='Overview'>Overview</h3>
+                            <p align ="justify">Uncertainty and conflicting objectives make many requirements and architecture decisions particularly hard.
+                            Quantitative probabilistic models allow software architects to analysesuch decisions using stochastic simulation and multi-objective
+                            optimisation, but the difficulty of elaborating the models is an obstacle to the wider adoption of such techniques. To reduce
+                            this obstacle, we present a novel modelling language and analysis tool, called RADAR, intended to facilitate requirements
+                            and architecture decision analysis. The language has relations to quantitative AND/OR goal models used in requirements
+                            engineering and to feature models used in software product lines. It, however, simplifies such models to a minimum set of language
+                            constructs essential for decision analysis. The paper presents RADAR's modelling language, automated support for decision
+                            analysis, and our experience of applying the language and tool to four real-world examples.
+                            </p>
+                            <p align ="justify">
+                            RADAR is a java based tool designed to be similar to simple equations that software architects use for backof-the-envelope calculations. RADAR, however, provides
+                            sophisticated analysis that cannot be performed through backof-the-envelope calculations: it allows analysing uncertainty
+                            through Monte-Carlo simulations, shortlisting Pareto-optimal solutions through multi-objective optimisation, and computing
+                            expected value of information that can be used to decide whether to seek more information or perform a model detailed
+                            analysis before making a decision
+                            </p>
+                            
+                             <p align ="justify">The main contributions of this paper are:
+				    <ul>
+					<li>The <a href="#radarLanguage">RADAR modelling language</a>, that enables decision makers to write domain specific requirements and architecture decision models 
+                            	(which contains elicited stakeholders' goals and quality variables which includes AND-Refinement, OR-Refinements and model 
+                            	parameter estimates elicited either from domain experts or statistical data etc).</li>
+					<li> The <a href="#radarAnalysis">automated analysis technique </a> for analysing uncertainty through Monte-Carlo simulations, shortlisting Pareto-optimal solutions through multi-objective optimisation, and computing
+					expected value of information that can be used to decide whether to seek more information or perform a model detailed analysis before making a decision </li>
+					<li>The open-source <a href="#radarTool">RADAR tool</a>, which we make <a href="https://github.com/gerasimou/EvoChecker" 
+					 target="_blank">freely available</a> &nbsp;
+					    <a href="https://github.com/sbusari/RADAR" target="_blank"><img src="images/github1918.png"/></a></li>
+					<li>An <a href="#evaluation">extensive evaluation</a> of the expressiveness  of the modelling language and applicability of the analysis approach and prototype tool on <a 
+					    href="#systems">four real-world case studies</a> </li>
+				    </ul>
+			</p>		
+                            
+                       
+			
+                            
+                        <hr>
+                        
+                       <h3 id = "radarLanguage"> Modelling Language </h3>
+                       <strong>RADAR</strong> allows decision makers to  explore alternative designs using  <a href="http://www0.cs.ucl.ac.uk/staff/e.letier/publications/goalSim-RE2011.pdf" target="_blank"> <strong><i> quantitative probabilistic models</i> </a>
+                       </strong> which helps to clarify decision problems and adequately captures the stakeholders' goals and correctly predicts the impacts of decisions on these goals. A RADAR model consists of a set of objectives and quality variables definitions:   
+                        <ol>
+				<li>Objective Definition, which  has the form:
+				    <div class="code">
+					<strong>Objective</strong> Name  = (<strong>Min| Max</strong>) Statistic (X)
+					<br/>
+				    </div>   
+				    where Statistic (X) is a statistical measure on a single quality variable X. Statistical measure include:
+				    <div class="code">
+					<strong>EV</strong>(X) meaning expected value of variable X.
+					<br/>
+					<strong>Pr</strong>(X ~ x) meaning the probability that X ~ x, where ~ could be any of &lt;, &gt;, &le;, &ge;, =.
+					<br/>
+					<strong>percentile</strong>(X, i) meaning the the i <sup>th</sup> percentile of X i.e the value of x such taht Pr (X &le; x) = i.
+				    </div> 
+				    <div class="cleaner h10"></div>
+				</li>
+				<li> Quality Variable definitiions , which could be either an AND-refinement, OR-Refinement or parameter estimation: 
+				    <div class="code">
+				    	An <i>AND-Refinement</i> is of the form:
+				    	<br/>
+					&emsp; X = <i>F</i> (<i>X<sub>1</sub>...X<sub>n</sub></i>);
+				</div>
+				where X is a quality variable and   <i>F</i> (<i>X<sub>1</sub>...X<sub>n</sub></i>) is an arithmetic experession or Boolean expression involving quality variables <i>X<sub>1</sub>...X<sub>n</sub></i>.
+				<div class="code">
+					An <i>OR-Refinement</i> has the form: <br/>
+					&emsp;X = <strong>decision</strong> (<i>label</i>){ <br/>
+					&emsp;&emsp;<i>Option<sub>1</sub></i> : <i>Expression<sub>1</sub></i>; <br/>
+					&emsp;&emsp;....<br/>
+					&emsp;&emsp;<i>Option<sub>n</sub></i> : <i>Expression<sub>n</sub></i>; <br/>
+					&emsp; } 
+					
+				</div>
+				where <i>label</i> is the decision name, <i>Option<sub>i</sub></i> are option names and <i> Expression <sub>i</sub></i> is an AND-refinement or parameter estimation defining the value of X if <i>Option<sub>i</sub></i> is selected. </br>  
+				<div class="code">
+					A <i>parameter estimation</i> has the form: </br>
+					&emsp;X = <i>ProbabilityDistribution</i><br/>
+				</div>
+				where <i>ProbabilityDistribution</i> defrines a probability distribution for the quality variable X. Probability distribution include: </br>
+					<div class="code">
+						<strong>uniform</strong>(min, max) representing a uniform distribution between min and max.
+						<br/>
+						<strong>triangular</strong>(min, mode, max) representing a triangular distribution with lower limit min, upper limit max and mode.
+						<br/>
+						<strong>normal</strong>(lowwer, upper)  representing a normal distribution characterised by the lower and upperbounds. </br>
+						<strong>normalCI</strong>(lowwer, upper)  representing a normal distribution characterised by the lower and upperbounds of its 90% confidence interval (i.e lower is the 5th percentile and upper the 95th percentile).</br>
+						<strong>deterministic</strong>(x)  representing that the variable has teh certain value x.
+				      </div>               
+				</li>
+				
+			</ol>
+			
+                      The implementation details of these distributions can be found <a href = "http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/distribution/package-summary.html" >here </a> .
+		    
+		    <hr>
+		      <h3 id='Analysis'>Model Analysis</h3>
+		      <p align ="justify">
+		      Figure 1 depicts the high level architecture of RADAR analysis component. It has three main parts, namely, the simulator, optimiser and information value analyser. Before RADAR performs model analysis, software designers will have to write 
+		      a decision model, in a file with an extension rdr, and according to RADAR's defined syntaxes. RADAR then takes this file as input and then parses it to generate a semantic model, from which model elements (such as objectives, quality variable and parameters) can be interpreted  for analysis. 
+		      The analysis results are stored in a user-specified output directory. This directory consist of a .out and .csv files that store the analysis result, such as, the optimisation analyis and infromation value analysis. It also contains the figure folder, where pareto plot is stored, and a graph folder that stores the AND/OR refinement graph between quality variables
+		       and decision dependency graphs in DOT format, to ve viewed using Graphviz. Below is a brief description of the three main analysis components of RADAR. 
+		     </p>
+		      <ol>
+		      <li>The <strong>Simulator</strong> provides two related functions: (i) given a candidate solution <i>s</i>, it returns the values of all objectives for <i>s</i>; (ii) given a set <i>S</i> of candidate vector <i>X</i> that contains simulations of <i>X</i> and a simulation matrix <i>matrixVarP</i> that contains the simulations for all
+		      model parameters used to compute <i>X</i>.
+		      </li>
+		      <li>The <strong>Optimiser</strong> returns a shortlist of Pareto-optimal solutions together with their objective values for a given decision model.
+		      
+		      </li>
+		      <li>
+		      The <strong>Information Value Analyser</strong>  returns the expected total and partial perfect information ( <a href = ""> EVTPI and the EVPPI </a> ) of all non-deterministic model parameters with respect to the given objective and set of solutions.
+		      </li>
+		      </ol>
+		      <p>
+		    
+		      The <a href="#radardownloads"> tool </a> is implemented in Java. It uses <a href ="http://www.antlr.org/"> ANTLR </a> to generate the model parser and generates diagrams in the DOT format that can be visualised and converted to other formats using Graphviz
+		      </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 id='Logo'>Subject Models</h1>
+                            <div class="logo-text">
+                                <p  align ="justify">We present four real world architecture decision models for four different systems from the literature:
+                                </p>
+                                <ol>
+                                	<li>
+                                		<p  align ="justify">The <a href="sas.html">Situation Awareness System (SAS) Model</a> was developed for a system that supports the deployment of personnel
+                                		in emergency response scenarios such as natural disasters or large scale riots. SAS applications would run on Android devices carried
+                                		by emergency crews and would allow them to share and obtain an assessment of the situation in real-time (e.g., interactive overlay on maps), and to coordinate with one another (e.g., send reports, chat,
+                                		and share video streams. We have developed the SAS model based on the previously identified set of design decisions, options and goals to be achieved by this system by a team of academics and engineers from a government agency.  </p>
+                                		
+                                	
+                                	</li>
+                                	<li>
+                                		The <a href="nasa.html">NASA ECS model</a> objectives, decisions and data obtained from 2002 SEI Report &quot;Making Architecture Design Decisions: An Economic Approach&quot;.
+                                		Note: CBAM estimate individual impact of architectural strategies on utility but not their combined impacts. Modelling combined impact requires richer application specific model.
+
+                                	</li>
+                                	<li>
+                                		The <a href="fds.html">Plastic Card Fraud Detection Model </a> was developed for a system that detects when plastic card accounts have been compromised by fraudsters who are using the account to steal funds.
+                                		Design decisions for fraud detection systems include: </br>
+                                		<ul>
+                                		<li>
+                                			the <strong>processing type</strong> that can be continuous or batch; continuous processing analyses transactions individually, whereas batch processing analyses sets of transactions together;
+                                		</li>
+                                		<li> 
+                                			the <strong>fraud detection method</strong> which can be a *two-class supervised classification method* in which a classifier is trained from past samples of fraudulent and non-fraudulent transactions, or a *non-statistical rule-based method* that flags transactions matching configurations known to be high risk;
+                                		</li>
+                                		<li> 
+                                			When a classifier fraud detection method is chosen, the <strong>alert threshold</strong>  above which the classifier should flag a transaction as suspescted.
+                                		</li>
+                                		<li>
+                                			the <strong>blocking policy</strong> that can include blocking an account as soon as the fraud detection algorithm flags a transaction as fraudulent, or only blocking the account after the suspected fraud has been confirmed by human investigators.
+                                		</li></ul>
+                                		These design decisions have impacts on how quickly frauds are detected and compromised accounts blocked and on the cost-effectiveness of the fraud detection system.
+                                		The optimisation of plastic card fraud detection systems includes two main objectives:
+                                		maximise the expected benefit and minimise investigation load
+                                	</li>
+                                	<li>
+                                		The <a href="security.html">Building Security Policy Decisions Model</a> analyses security policy decisions for an organisation concerned with leaks of confidential information.
+                                		The organisation is concerned about its employees&#39; habit of sharing documents through a globally shared drive. Having files on the shared drive increases the risk and potential damages caused by insiders&#39; leaks.  The organisation is considering recommending its employees to share documents through emails or portable media devices instead of using the shared drive but this recommendation may create other security risk and may not be followed by employees.
+                                		The organisation is also concerned by loss and theft of documents stored on mobile phones, laptops and portable media devices. Theft of mobiles devices and portable media can happen outside and inside the organisation&#39;s building. To prevent thieves entering the building, the building entrance is equipped with automated gates that require employee to swipe their access card to access the building. Some employees, however, let other persons tailgate them when entering the building, for example to let other employees in when they have forgotten their access card. The organisation is considering adding a security guard at the building entrance to prevent tailgating. It is hoped this will reduce the risk of thefts inside the building although the actual impact is uncertain. Preventing all tailgating may annoy employees as they will waste time to enter the building when they have forgotten their access card.
+                                		The primary decision objectives are related to the uncertain costs associated to the disclosure of confidential documents
+                                	</li>
+                                </ol>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                
+               
+                
+                
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3 id="radardownloads" class="section-header">Downloads</h3>
+                            <ul>
+                                	<li>
+                                		Radar executables ( <a href="GUI.zip" class="button"> desktop application </a> and <a href="CMD.zip"> command line application </a> ) accompanied with all example models and the analysis results
+                                	</li>
+                       
+                                	<li>
+                                		<a href="https://github.com/sbusari/RADAR">Source code</a>
+                                	</li>
+                           
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="container-fluid">
+                	
+                    <div class="row">
+                    	<h3 id="saseval" class="section-header">SAS Evaluation and Results</h3>
+                        <div class="col-md-6">
+                            
+                            <table class="table table-bordered table-hover table-condensed">
+								<thead><tr><th title="Field #1">Optimisation Analysis</th>
+								<th title="Field #2"></th></tr></thead>
+								<tbody><tr><td>Objective </td>
+								<td>MaxENB</td>
+								</tr>
+								<tr><td>Objective </td>
+								<td>MinRisk</td>
+								</tr>
+								<tr><td>SolutionSpace </td>
+								<td>6912</td>
+								</tr>
+								<tr><td>Minimal SolutionSet </td>
+								<td>6912</td>
+								</tr>
+								<tr><td>Shortlisted </td>
+								<td>16</td>
+								</tr>
+								<tr><td>Nbr. Variables </td>
+								<td>117</td>
+								</tr>
+								<tr><td>Nbr. Parameters </td>
+								<td>137</td>
+								</tr>
+								<tr><td>Nbr. Decisions </td>
+								<td>10</td>
+								</tr>
+								<tr><td>Runtime(s) </td>
+								<td>108</td>
+								</tr>
+							</tbody></table>
+						</div>
+						<div class="col-md-6">
+							<div class="main-logo-container">
+                                <img src="results/SAS/SAS.png">
+                            </div>
+						</div>
+						<div class="col-lg-12">
+                        <table class="table table-bordered table-hover table-condensed">
+<thead><tr><th title="Field #1">ID</th>
+<th title="Field #2">Location Finding</th>
+<th title="Field #3">File Sharing</th>
+<th title="Field #4">Report Syncing</th>
+<th title="Field #5">Chat Protocol</th>
+<th title="Field #6">Map Access</th>
+<th title="Field #7">Hardware Platform</th>
+<th title="Field #8">Connectivity</th>
+<th title="Field #9">Database</th>
+<th title="Field #10">Architectural Pattern</th>
+<th title="Field #11">Data Exchange Format</th>
+<th title="Field #12">ENB</th>
+<th title="Field #13">Risk</th>
+</tr></thead>
+<tbody><tr><td align="right">1</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>Wifi</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Compressed XML</td>
+<td align="right">16.365393501813838</td>
+<td align="right">0.9996</td>
+</tr>
+<tr><td align="right">2</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td align="right">15.956894974589417</td>
+<td align="right">0.5793</td>
+</tr>
+<tr><td align="right">3</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Explicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td align="right">15.17006869497708</td>
+<td align="right">0.0399</td>
+</tr>
+<tr><td align="right">4</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>XML</td>
+<td align="right">16.23483886852962</td>
+<td align="right">0.9885</td>
+</tr>
+<tr><td align="right">5</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Compressed XML</td>
+<td align="right">16.318676620072647</td>
+<td align="right">0.9985</td>
+</tr>
+<tr><td align="right">6</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>Wifi</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>XML</td>
+<td align="right">16.281555750270837</td>
+<td align="right">0.9967</td>
+</tr>
+<tr><td align="right">7</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Nexus I</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td align="right">15.784466640449592</td>
+<td align="right">0.44</td>
+</tr>
+<tr><td align="right">8</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Push-based</td>
+<td>Unformatted data</td>
+<td align="right">15.499287734747437</td>
+<td align="right">0.4319</td>
+</tr>
+<tr><td align="right">9</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Explicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Nexus I</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td align="right">14.997640360837266</td>
+<td align="right">0.0396</td>
+</tr>
+<tr><td align="right">10</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>3G on Nexus I</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td align="right">15.98765825047021</td>
+<td align="right">0.7535</td>
+</tr>
+<tr><td align="right">11</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Explicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>XML</td>
+<td align="right">15.244820978896515</td>
+<td align="right">0.0629</td>
+</tr>
+<tr><td align="right">12</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Explicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Compressed XML</td>
+<td align="right">15.328658730439583</td>
+<td align="right">0.1068</td>
+</tr>
+<tr><td align="right">13</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>Wifi</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td align="right">16.20680346635135</td>
+<td align="right">0.9451</td>
+</tr>
+<tr><td align="right">14</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td align="right">16.160086584610173</td>
+<td align="right">0.8811</td>
+</tr>
+<tr><td align="right">15</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>Wifi</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td align="right">16.00361185633065</td>
+<td align="right">0.7741</td>
+</tr>
+<tr><td align="right">16</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Explicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td align="right">15.373260304997725</td>
+<td align="right">0.1936</td>
+</tr>
+</tbody></table></div>    
+                        
+                    </div>
+                </div>
+                <hr>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 id="nasaeval" class="section-header">ECS Evaluation and Results</h1>
+                            <p><strong class="text-primary">Optimisation Analysis</strong>  <br />
+								============================ <br />
+
+								Objective: 		MaxExpectedUtility <br />
+								Objective: 		MinCost <br />
+								SolutionSpace: 			1024 <br />
+								Evaluated: 			1024 <br />
+								Shortlisted: 			31 <br />
+								Runtime(s): 			4</p>
+                            <div class="main-logo-container">
+                                <img src="results/ECS/ECS.png">
+                            </div>
+                            <p>
+                            	<strong class="text-primary">Information Value Analysis</strong> <br />
+								===============================<br />
+
+								Objective: 			ExpectedUtility<br />
+								EVTPI: 			 0.0<br />
+
+								Parameter 			 EVPPI <br />
+								LostRequestsRatio: 			 0.0<br />
+								Cost_OrderReassignment[Allow Order Reassignment]: 			 0.0<br />
+								Cost_ForcedOrderCompletion[Allow Forced Order Completion]: 			 0.0<br />
+								Cost_OrderPersistenceStrategy[Store as soon as received]: 			 0.0<br />
+								Cost_OrderSegmentation[Orders are segmented]: 			 0.0<br />
+								Cost_HungOrderRecovery[Allow Order Retry]: 			 0.0<br />
+								Cost_FailedOrderNotification[User notified of failed order]: 			 0.0<br />
+								Cost_OrderTracking[Granule-level order tracking]: 			 0.0<br />
+								Cost_AvailableUserInformation[Link to user information]: 			 0.0<br />
+								Cost_OrderChunking[Order Chunking]: 			 0.0<br />
+								Cost_OrderBundling[Order Bundling]: 			 0.0
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="container-fluid">
+                    <div class="row">
+                    	<h3 id="fdseval" class="section-header">FDM Evaluation and Results</h3>
+                        <div class="col-md-6">
+                            
+                            <table class="table table-bordered table-hover table-condensed">
+<thead><tr><th title="Field #1">Optimisation Analysis</th>
+<th title="Field #2"></th>
+</tr></thead>
+<tbody><tr><td>Objective </td>
+<td>MaxEBenefit</td>
+</tr>
+<tr><td>Objective </td>
+<td>MinInvestigationLoad</td>
+</tr>
+<tr><td>SolutionSpace </td>
+<td>24</td>
+</tr>
+<tr><td>Minimal SolutionSet </td>
+<td>16</td>
+</tr>
+<tr><td>Shortlisted </td>
+<td>4</td>
+</tr>
+<tr><td>Nbr. Variables </td>
+<td>31</td>
+</tr>
+<tr><td>Nbr. Parameters </td>
+<td>19</td>
+</tr>
+<tr><td>Nbr. Decisions </td>
+<td>4</td>
+</tr>
+<tr><td>Runtime(s) </td>
+<td>0</td>
+</tr>
+</tbody></table></div>
+                        <div class="col-md-6">
+                            <div class="main-logo-container">
+                                <img src="results/PCFDM/PCFDM.png">
+                            </div>
+                        </div>
+						<div class="col-lg-12">
+                        	<table class="table table-bordered table-hover table-condensed">
+<thead><tr><th title="Field #1">ID</th>
+<th title="Field #2">blocking policy</th>
+<th title="Field #3">processing type</th>
+<th title="Field #4">fraud detection method</th>
+<th title="Field #5">alert threshold</th>
+<th title="Field #6">EBenefit</th>
+<th title="Field #7">InvestigationLoad</th>
+</tr></thead>
+<tbody><tr><td align="right">1</td>
+<td>block first</td>
+<td>continuous</td>
+<td>rule-based</td>
+<td> </td>
+<td align="right">402798.95036157547</td>
+<td align="right">82708.60817068974</td>
+</tr>
+<tr><td align="right">2</td>
+<td>block first</td>
+<td>continuous</td>
+<td>classifier</td>
+<td>medium</td>
+<td align="right">402516.32357738016</td>
+<td align="right">52139.065695718935</td>
+</tr>
+<tr><td align="right">3</td>
+<td>block first</td>
+<td>continuous</td>
+<td>classifier</td>
+<td>low</td>
+<td align="right">387393.66228363145</td>
+<td align="right">22467.306171476375</td>
+</tr>
+<tr><td align="right">4</td>
+<td>block first</td>
+<td>continuous</td>
+<td>classifier</td>
+<td>high</td>
+<td align="right">414087.0760658442</td>
+<td align="right">232479.28830217614</td>
+</tr>
+</tbody></table>
+                        </div>
+						<div class="col-lg-12">
+							<table class="table table-bordered table-hover table-condensed">
+							<thead><tr><th title="Field #1">Information Value Analysis</th>
+							<th title="Field #2"></th>
+							</tr></thead>
+							<tbody><tr><td>Objective</td>
+							<td>EBenefit</td>
+							</tr>
+							<tr><td>EVTPI</td>
+							<td>219.90460311982315</td>
+							</tr>
+							</tbody></table>
+						</div>
+						<div class="col-lg-12">
+							<table class="table table-bordered table-hover table-condensed">
+								<thead><tr><th title="Field #1">Parameter</th>
+								<th title="Field #2">EVPPI</th>
+								</tr></thead>
+								<tbody><tr><td>AverageFraudValue</td>
+								<td align="right">122.39321326400386</td>
+								</tr>
+								<tr><td>ContinuousAlertThreshold[high]</td>
+								<td align="right">0.9185683226096444</td>
+								</tr>
+								<tr><td>ContinuousAlertThreshold[medium]</td>
+								<td align="right">1.564809853443876</td>
+								</tr>
+								</tbody></table>
+						</div>
+                    </div>
+                </div>
+                <hr>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 id="bspdmeval" class="section-header">BSPDM Evaluation and Results</h1>
+                            <p><strong class="text-primary">Optimisation Analysis</strong>  <br />
+								============================ <br />
+
+								Objective: 		MinExpectedCostOfDisclosures <br />
+								Objective: 		MinRiskOfCatastrophicDisclosures <br />
+								SolutionSpace: 			6 <br />
+								Evaluated: 			6 <br />
+								Shortlisted: 			2 <br />
+								Runtime(s): 			0</p>
+                            <div class="main-logo-container">
+                                <img src="results/BSPDM/BSPDM.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                
+                                    
+                                                <hr>
+                                                
+                                                                        
+                                                                    
+                                                                    <!-- /#page-content-wrapper -->
+                                                                
+                                                                <!-- /#wrapper -->
+                                                                <!-- jQuery -->
+                                                                <script src="js/jquery.js"></script>
+                                                                <!-- Bootstrap Core JavaScript -->
+                                                                <script src="js/bootstrap.min.js"></script>
+                                                                <!-- Menu Toggle Script -->
+                                                                <script>
+                                                                $("#menu-toggle").click(function(e) {
+                                                                e.preventDefault();
+                                                                $("#wrapper").toggleClass("toggled");
+                                                                });
+                                                                </script>
+                                                            </body>
+                                                            <script>
+                                                            $(function() {
+                                                            $('a[href*="#"]:not([href="#"])').click(function() {
+                                                            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                                                            var target = $(this.hash);
+                                                            target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                                                            if (target.length) {
+                                                            $('html, body').animate({
+                                                            scrollTop: target.offset().top
+                                                            }, 1000);
+                                                            return false;
+                                                            }
+                                                            }
+                                                            });
+                                                            });
+                                                            </script>
+                                                        </html>

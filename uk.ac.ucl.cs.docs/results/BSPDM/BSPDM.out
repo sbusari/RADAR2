@@ -1,0 +1,37 @@
+Optimisation Analysis 
+============================ 
+
+Objective: 		MinExpectedCostOfDisclosures
+Objective: 		MinRiskOfCatastrophicDisclosures
+SolutionSpace: 			6
+Evaluated: 			6
+Shortlisted: 			2
+Runtime(s): 			0
+
+ID 	Building entry security	Document Sharing Policy	ExpectedCostOfDisclosures	RiskOfCatastrophicDisclosures	Optimal
+1	not guarded	Recommend Email	907.6287203649437	0.0	Yes
+2	guarded	Recommend Email	907.6287203649437	0.0	Yes
+3	not guarded	Neutral	2949.7933411860736	0.0	No
+4	not guarded	Recommend External Media	3168165.1899512284	0.6494	No
+5	guarded	Neutral	2949.7933411860736	0.0	No
+6	guarded	Recommend External Media	1048179.9913165946	0.3105	No
+
+Information Value Analysis 
+===============================
+
+Objective: 			ExpectedCostOfDisclosures
+EVTPI: 			 0.0
+
+Parameter 			 EVPPI 
+Ratio_HighConfidentialityDocs: 			 0.0
+Ratio_MediumConfidentialityDocs: 			 0.0
+Ratio_LowConfidentialityDocs: 			 0.0
+Cost_HighConfidentialityLeak: 			 0.0
+Cost_MediumConfidentialityLeak: 			 0.0
+Cost_LowConfidentialityLeak: 			 0.0
+SharedDriveLeakRange: 			 0.0
+Nbr_OfficeIntrusions[not guarded]: 			 0.0
+Nbr_OfficeIntrusions[guarded]: 			 0.0
+Percentage_MediaStolenPerInstrusion: 			 0.0
+Nbr_DocsPerMedia: 			 0.0
+

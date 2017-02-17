@@ -1,0 +1,226 @@
+Model ECS;
+
+Objective Max ExpectedUtility;	
+			
+ExpectedUtility = E(Utility);
+
+Utility = 	HungRequestsRatio_weight * HungRequestsRatio_Utility +
+			LostRequestsRatio_weight * LostRequestsRatio_Utility +
+			FailedOrderRatio_weight * FailedOrderRatio_Utility +
+			HungOrdersRatio_weight * HungOrdersRatio_Utility +
+			LostOrdersRatio_weight * LostOrdersRatio_Utility +
+			HelpNeededByUsers_weight * HelpNeededByUsers_Utility +
+			FailureInfoGivenToUsers_weight * FailureInfoGivenToUsers_Utility +
+			LimitOnOrders_weight * LimitOnOrders_Utility +
+			NotificationsFrequency_weight * NotificationsFrequency_Utility +
+			Performance_weight * Performance_Utility;
+
+     
+HungRequestsRatio_weight = parameter(10);
+LostRequestsRatio_weight = parameter(15);
+FailedOrderRatio_weight = parameter(15);
+HungOrdersRatio_weight = parameter(10);
+LostOrdersRatio_weight = parameter(15);
+HelpNeededByUsers_weight = parameter(10);
+FailureInfoGivenToUsers_weight = parameter(5);
+LimitOnOrders_weight  = parameter(5);
+NotificationsFrequency_weight = parameter(10);
+Performance_weight = parameter(5);
+
+// Note: in following equations, should best and worst levels be parameters?
+// A: not parameters because we assume they are fixed, given levels_
+
+HungRequestsRatio_Utility = (HungRequestRatio - HungRequestRatio_worst)/(HungRequestRatio_best - HungRequestRatio_worst);
+HungRequestRatio_best = parameter(0);
+HungRequestRatio_worst = parameter(0.1);
+
+LostRequestsRatio_Utility = (LostRequestsRatio - LostRequestsRatio_worst)/(LostRequestsRatio_best - LostRequestsRatio_worst);
+LostRequestsRatio_best =parameter(0);
+LostRequestsRatio_worst = parameter(5%);
+
+FailedOrderRatio_Utility = (FailedOrderRatio - FailedOrderRatio_worst)/(FailedOrderRatio_best - FailedOrderRatio_worst);
+FailedOrderRatio_best = parameter(0);
+FailedOrderRatio_worst = parameter(10%);
+
+HungOrdersRatio_Utility = (HungOrdersRatio - HungOrdersRatio_worst)/(HungOrdersRatio_best - HungOrdersRatio_worst);
+HungOrdersRatio_best = parameter(0);
+HungOrdersRatio_worst = parameter(10%);
+
+LostOrdersRatio_Utility = (LostOrdersRatio - LostOrdersRatio_worst)/(LostOrdersRatio_best - LostOrdersRatio_worst);
+LostOrdersRatio_best = parameter(0);
+LostOrdersRatio_worst = parameter(10%);
+
+HelpNeededByUsers_Utility = (HelpNeededByUsers - HelpNeededByUsers_worst)/(HelpNeededByUsers_best - HelpNeededByUsers_worst);
+HelpNeededByUsers_best = parameter(0);
+HelpNeededByUsers_worst = parameter(50%);
+
+FailureInfoGivenToUsers_Utility = (FailureInfoGivenToUsers - FailureInfoGivenToUsers_worst)/(FailureInfoGivenToUsers_best - FailureInfoGivenToUsers_worst);
+FailureInfoGivenToUsers_best = parameter(100%);
+FailureInfoGivenToUsers_worst = parameter(10%);
+
+LimitOnOrders_Utility = (LimitOnOrders - LimitOnOrders_worst)/(LimitOnOrders_best - LimitOnOrders_worst);
+LimitOnOrders_best = parameter(0%);
+LimitOnOrders_worst = parameter(50%);
+
+NotificationsFrequency_Utility = (NotificationsFrequency - NotificationsFrequency_worst)/(NotificationsFrequency_best - NotificationsFrequency_worst);
+NotificationsFrequency_best = parameter(1);
+NotificationsFrequency_worst = parameter(1/1000);
+
+Performance_Utility = (Performance - Performance_worst)/(Performance_best - Performance_worst);
+Performance_best =parameter(90%);
+Performance_worst = parameter(50%);
+
+HungRequestRatio = HungRequestRatio_current 
+					* (1 - ReassignedHungRequestRatio) 
+					* (1 - ForcedHungRequestRatio);
+					
+HungRequestRatio_current = parameter(5%);
+					
+ReassignedHungRequestRatio = decision("Order Reassignment"){
+		"Current: not possible to reassign order" : parameter(0);
+		"Allow Order Reassignment": parameter(60%);
+}	
+
+ForcedHungRequestRatio = decision("Forced Order Completion"){
+		"Current: not possible to force order completion" : parameter(0);
+		"Allow Forced Order Completion": parameter(40%);
+}	
+
+LostRequestsRatio = parameter(triangular(0, 0.5, 1));
+
+FailedOrderRatio = decision("Order Persistence Strategy"){
+		"Current: store when processed" : parameter(5%);
+		"Store as soon as received" 	 : parameter(2%);
+}
+
+HungOrdersRatio = HungOrdersRatio_current *
+					(1 - SkippedHungOrderRatio) *
+					(1 - RetriedHungOrderRatio);
+
+HungOrdersRatio_current = parameter(10%);
+					
+SkippedHungOrderRatio = decision("Order Segmentation"){
+		"Current: no order segmentation" : parameter(0);
+		"Orders are segmented"			  : parameter(60%);
+}
+
+RetriedHungOrderRatio = decision("Hung Order Recovery"){
+		"Current: no order retry" 	: parameter(0);
+		"Allow Order Retry"		: parameter(40%);
+}
+
+LostOrdersRatio = decision("Order Persistence Strategy"){
+		"Current: store when processed" : parameter(1%);
+		"Store as soon as received" 	 : parameter(0%);
+}
+
+HelpNeededByUsers = LostOrdersRatio * HelpNeededPerLostOrder * HelpNeededForTrackingGranularity;
+
+HelpNeededPerLostOrder = decision("Failed Order Notification"){
+		"Current: no notification": parameter(25%);
+		"User notified of failed order": parameter(20%);
+}
+
+HelpNeededForTrackingGranularity = decision("Order Tracking"){
+ 		"Current: order level"			: parameter(1);
+ 		"Granule-level order tracking"		: parameter(40%);
+ }
+ 
+FailureInfoGivenToUsers = 1- RatioUsersNotGettingInfo;
+RatioUsersNotGettingInfo = RatioUsersNotGettingInfo_current * 
+							(1 - NotificationOrderEffect) * 
+							(1 - OrderTrackingGranularityEffect) *
+							(1 - UserInformationEffect);
+							
+RatioUsersNotGettingInfo_current = parameter(50%);
+
+NotificationOrderEffect = decision("Failed Order Notification"){
+		"Current: no notification": parameter(0);
+		"User notified of failed order": parameter(80%);
+}
+
+OrderTrackingGranularityEffect = decision("Order Tracking"){
+ 		"Current: order level"			: parameter(0);
+ 		"Granule-level order tracking"	: parameter(90%);
+ }
+ 
+UserInformationEffect = decision("Available User Information"){
+		"Current: no link to user info"		: parameter(0);
+		"Link to user information"			: parameter(20%);
+}
+
+LimitOnOrders = decision("Order Chunking"){
+		"Current: no oder chunking": parameter(30%);
+		"Order Chunking"			: parameter(15%);
+}
+
+NotificationsFrequency = decision("Order Bundling"){
+		"No Order Bundling" : parameter(1);
+		"Order Bundling"	: parameter(0.01);
+}
+
+Performance = decision("Order Bundling"){
+		"No Order Bundling" : parameter(60%);
+		"Order Bundling"	: parameter(55%);
+}
+
+Objective Min Cost;
+
+Cost = Cost_OrderReassignment +
+		Cost_ForcedOrderCompletion +
+		Cost_OrderPersistenceStrategy +
+		Cost_OrderSegmentation +
+		Cost_HungOrderRecovery +
+		Cost_FailedOrderNotification +
+		Cost_OrderTracking +
+		Cost_AvailableUserInformation;		
+
+Cost_OrderReassignment = decision("Order Reassignment"){
+		"Current: not possible to reassign order" : parameter(0);
+		"Allow Order Reassignment": parameter(triangular(360, 400, 440));
+}	
+
+Cost_ForcedOrderCompletion = decision("Forced Order Completion"){
+		"Current: not possible to force order completion" : parameter(0);
+		"Allow Forced Order Completion": parameter(triangular(180, 200, 220));
+}
+
+Cost_OrderPersistenceStrategy = decision("Order Persistence Strategy"){
+		"Current: store when processed" : parameter(0);
+		"Store as soon as received" 	 : parameter(triangular(1200, 1200, 7150));
+}
+
+Cost_OrderSegmentation = decision("Order Segmentation"){
+		"Current: no order segmentation" : parameter(0);
+		"Orders are segmented"		 : parameter(triangular(180, 200, 220));
+}
+
+Cost_HungOrderRecovery = decision("Hung Order Recovery"){
+		"Current: no order retry" 	: parameter(0);
+		"Allow Order Retry"		: parameter(triangular(180, 200, 220));
+}
+
+Cost_FailedOrderNotification = decision("Failed Order Notification"){
+		"Current: no notification": parameter(0);
+		"User notified of failed order": parameter(triangular(270, 300, 330));
+}
+
+Cost_OrderTracking = decision("Order Tracking"){
+ 		"Current: order level"		: parameter(0);
+ 		"Granule-level order tracking"	: parameter(triangular(900, 1000, 1650));
+}
+
+Cost_AvailableUserInformation = decision("Available User Information"){
+		"Current: no link to user info"		: parameter(0);
+		"Link to user information"		: parameter(triangular(90, 100, 440));
+}
+
+Cost_OrderChunking = decision("Order Chunking"){
+		"Current: no oder chunking"	: parameter(0);
+		"Order Chunking"		: parameter(triangular(360, 400, 440));
+}
+
+Cost_OrderBundling = decision("Order Bundling"){
+		"No Order Bundling" 	: parameter(0);
+		"Order Bundling"	: parameter(triangular(360, 400, 440));
+}	

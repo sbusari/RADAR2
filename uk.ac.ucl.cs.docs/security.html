@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>RADAR - Building Security Model</title>
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+        <script src="js/jquery-3.1.0.js"></script>        
+        <link href="css/wfmi-style.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/wfmi-style.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" type="text/css" href="css/peachstrap.css">
+        <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Karla' rel='stylesheet' type='text/css'>
+        <script type="text/javascript">
+        	$(document).ready(function(){
+    			$("#example").click(function(){
+    				if ($("#sample").css("display") == "none"){
+    					$("#sample").css("display","block");
+    				}
+        			else {
+        				$("#sample").css("display","none");
+        			}
+    			});
+    			$("#evaluation").click(function(){
+    				if ($("#eval").css("display") == "none"){
+    					$("#eval").css("display","block");
+    				}
+        			else {
+        				$("#eval").css("display","none");
+        			}
+    			});
+			});
+        </script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                            <!--<img id="brand" src="img/Logo_Blue.svg">-->
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html#About" id="side-nav-bar">Overview</a>
+                    </li>
+                     <li>
+                        <a href="index.html#radarLanguage" id="side-nav-bar">Modelling Language</a>
+                    </li>
+                     <li>
+                        <a href="index.html#Analysis" id="side-nav-bar">Model Analysis</a>
+                    </li>
+                   
+                    <li>
+                        <a id="example" href="#Logo">Subject Models</a>
+                        <ul id="sample" style="display: none;">
+                        	<li><a href="sas.html">SAS Model</a></li>
+                        	<li><a href="nasa.html">NASA ECS Model</a></li>
+                        	<li><a href="fds.html">Fraud Detection System</a></li>
+                        	<li><a href="#security.html">Building Security</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a id="evaluation" href="#Buttons">Evaluation</a>
+                        <ul id="eval" style="display: none;">
+                        	<li><a href="index.html#saseval">SAS Model</a></li>
+                        	<li><a href="index.html#nasaeval">NASA ECS Model</a></li>
+                        	<li><a href="index.html#fdseval">Fraud Detection System</a></li>
+                        	<li><a href="index.html#bspdmeval">Building Security</a></li>
+                        </ul>
+                    </li>
+                     
+                    <li>
+                        <a href="index.html#radardownloads">Downloads</a>
+                    </li>
+                    <li>
+                        <a href="index.html#Colours">Tool Documentation</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/sbusari/RADAR" target="_blank">Source Code</a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2 id="bspdm">Building Security Policy Decisions Model</h2>
+                                <p>
+                                	<a href="models/building_security_policy_decisions_v2.md" download><h4>Download Model</h4></a>
+                                </p>
+                                <pre style="background-color: #FFFFFF; margin: 0; line-height: 125%"># Building Security Policy Decisions
+
+<p>This example analyses security policy decisions for an organisation concerned with leaks of confidential information. The problem is described in the following papers:</p>
+
+[1] T. Caulfield and D. Pym, &quot;Improving Security Policy Decisions with Models,&quot; in IEEE Security <span style="color: #007020">&amp;</span> Privacy, vol. 13, no. 5, pp. 34-41, Sept.-Oct. 2015.
+
+[2] T. Caulfield and D. Pym, &quot;Modelling and simulating systems security policy.&quot; in Poc. of the 8th International Conference on Simulation Tools and Techniques (SIMUTools &#39;15), pp. 9-18, Brussels, Belgium, 2015.
+
+The organisation is concerned about its employees&#39; habit of sharing documents through a globally shared drive. Having files on the shared drive increases the risk and potential damages caused by insiders&#39; leaks.  The organisation is considering recommending its employees to share documents through emails or portable media devices instead of using the shared drive but this recommendation may create other security risk and may not be followed by employees.
+
+The organisation is also concerned by loss and theft of documents stored on mobile phones, laptops and portable media devices. Theft of mobiles devices and portable media can happen outside and inside the organisation&#39;s building. To prevent thieves entering the building, the building entrance is equipped with automated gates that require employee to swipe their access card to access the building. Some employees, however, let other persons tailgate them when entering the building, for example to let other employees in when they have forgotten their access card. The organisation is considering adding a security guard at the building entrance to prevent tailgating. It is hoped this will reduce the risk of thefts inside the building although the actual impact is uncertain. Preventing all tailgating may annoy employees as they will waste time to enter the building when they have forgotten their access card.
+
+TODO: give model overview.
+
+TODO: outline how our model relates to and differs from [1, 2]
+
+## Costs of Disclosures
+
+The primary decision objectives are related to the uncertain costs associated to the disclosure of confidential documents:
+
+```
+Objective Min ExpectedCostOfDisclosures = E[Cost<span style="color: #007020">_</span>of<span style="color: #007020">_</span>Disclosures]
+Objective Min RiskOfCatastrophicDisclosures = P[Cost<span style="color: #007020">_</span>of<span style="color: #007020">_</span>Disclosure &gt; 10<span style="color: #007020">^</span>6]
+```
+
+We assume three categories of confidential documents (high, medium, and low confidentiality) with different costs to the organisation if they are leaked:
+    
+```  
+Cost<span style="color: #007020">_</span>of<span style="color: #007020">_</span>Disclosures = 
+    Nbr<span style="color: #007020">_</span>HighConfidentialityLeaks * Cost<span style="color: #007020">_</span>HighConfidentialityLeak
+    + Nbr<span style="color: #007020">_</span>MediumConfidentialityLeaks * Cost<span style="color: #007020">_</span>MediumConfidentialityLeak
+    + Nbr<span style="color: #007020">_</span>LowConfidentialityLeaks * Cost<span style="color: #007020">_</span>LowConfidentialityLeak
+    	
+Nbr<span style="color: #007020">_</span>HighConfidentialityLeaks = Nbr<span style="color: #007020">_</span>LeakedDoc * Ratio<span style="color: #007020">_</span>HighConfientialityDocs
+Nbr<span style="color: #007020">_</span>MediumConfidentialityLeaks = Nbr<span style="color: #007020">_</span>LeakedDoc * Ratio<span style="color: #007020">_</span>MediumConfientialityDocs
+Nbr<span style="color: #007020">_</span>LowConfidentialityLeaks = Nbr<span style="color: #007020">_</span>LeakedDoc * Ratio<span style="color: #007020">_</span>LowConfientialityDocs
+   	
+Ratio<span style="color: #007020">_</span>HighConfidentialityDocs = parameter(1<span style="color: #888888">%)</span>
+Ratio<span style="color: #007020">_</span>MediumConfidentialityDocs = parameter(5<span style="color: #888888">%)</span>
+Ratio<span style="color: #007020">_</span>LowConfidentialityDocs = parameter(50<span style="color: #888888">%)</span>
+// other docs are not confidential 
+    
+Cost<span style="color: #007020">_</span>HighConfidentialityLeak = parameter(10<span style="color: #007020">^</span>6)
+Cost<span style="color: #007020">_</span>MediumConfidentialityLeak = parameter(10<span style="color: #007020">^</span>4)
+Cost<span style="color: #007020">_</span>LowConfidentialityLeak = parameter(10<span style="color: #007020">^</span>2)
+```  
+In this model, the ratios and leak costs for each type of document is given a point-based estimates but they could be uncertain. (TODO: add uncertainty to the model parameter)  
+    
+## Documents Leaks
+
+Documents leaks are the result of insider&#39;s leaks or of theft by outsider who gained accessed to the building. 
+
+```    
+Nbr<span style="color: #007020">_</span>LeakedDoc = 
+		Nbr<span style="color: #007020">_</span>DocsLeakedByInsiders + Nbr<span style="color: #007020">_</span>DocsStolenByOutsiders
+		           		
+```
+
+### Insiders&#39; Leaks
+
+```
+Nbr<span style="color: #007020">_</span>DocsLeakedByInsiders = 
+       Probability<span style="color: #007020">_</span>InsidersLeak * 
+       Nbr<span style="color: #007020">_</span>DocsOnSharedDrive * 
+       SharedDriveLeakRange
+       
+Probability<span style="color: #007020">_</span>InsidersLeak = parameter(10<span style="color: #007020">^</span>-3)
+SharedDriveLeakRange = parameter(triangle(10<span style="color: #888888">%, 50%, 100%))</span>
+	// the portion of documents on shared drive that are leaked by insider
+```
+
+### Attackers&#39; Intrusions
+
+```
+Nbr<span style="color: #007020">_</span>DocsStolenByOutsiders = 
+		Nbr<span style="color: #007020">_</span>OfficeIntrustions
+		* Nbr<span style="color: #007020">_</span>DocsStolenPerIntrusion
+		
+Nbr<span style="color: #007020">_</span>OfficeIntrusions = decision(&quot;Building entry security&quot;)<span style="color: #007020">{</span>
+		&quot;not guarded&quot;	: parameter(triangle(0, 3, 6))
+		&quot;guarded&quot; 		: parameter(triangle(0, 1, 2))
+<span style="color: #007020">}</span>
+
+Nbr<span style="color: #007020">_</span>DocsStolenPerIntrusion = 
+		Nbr<span style="color: #007020">_</span>ExternalMediaStolenPerIntrusion *
+		Nbr<span style="color: #007020">_</span>DocsPerExternalMedia
+		
+Nbr<span style="color: #007020">_</span>ExternalMediaStolenPerIntrusion = 
+		Nbr<span style="color: #007020">_</span>ExternalMediaInUse *
+		Percentage<span style="color: #007020">_</span>MediaStolenPerInstrusion
+		
+Percentage<span style="color: #007020">_</span>MediaStolenPerInstrusion = 
+		parameter(triangle(0, 1<span style="color: #888888">%, 10%))</span>
+
+```
+    
+## Documents Sharing  
+
+The number of documents on the shared drive and on external media depends on the organisation&#39;s document sharing policy:  
+    
+``` 
+Nbr<span style="color: #007020">_</span>DocsOnSharedDrive = decision(&quot;Document Sharing Policy&quot;)<span style="color: #007020">{</span>
+    		&quot;Neutral&quot;: parameter(143)
+    		&quot;Recommend Email&quot;: parameter(44)
+    		&quot;Recommend External Media&quot;: parameter(91)
+<span style="color: #007020">}</span> 
+
+Nbr<span style="color: #007020">_</span>DocsOnExternalMedia = decision(&quot;Document Sharing Policy&quot;)<span style="color: #007020">{</span>
+    		&quot;Neutral&quot;: parameter(0)
+    		&quot;Recommend Email&quot;: parameter(0)
+    		&quot;Recommend External Media&quot;: parameter(52)
+<span style="color: #007020">}</span>
+
+Nbr<span style="color: #007020">_</span>ExternalMediaInUse = Nbr<span style="color: #007020">_</span>DocsOnExternalMedia / Nbr<span style="color: #007020">_</span>DocsPerMedia
+
+Nbr<span style="color: #007020">_</span>DocsPerMedia = parameter(triangle(0, 5, 10)) 
+
+    
+```
+
+Data about the number of documents on shared drive and on external media come from Table 1 in [1].
+
+## Relation with Previous Analysis
+
+...
+</pre>
+
+                        </div>
+                    </div>
+                </div>
+           </div>
+                                                    
+                                                                    <!-- /#page-content-wrapper -->
+                                                                
+                                                                <!-- /#wrapper -->
+                                                                <!-- jQuery -->
+                                                                <script src="js/jquery.js"></script>
+                                                                <!-- Bootstrap Core JavaScript -->
+                                                                <script src="js/bootstrap.min.js"></script>
+                                                                <!-- Menu Toggle Script -->
+                                                                <script>
+                                                                $("#menu-toggle").click(function(e) {
+                                                                e.preventDefault();
+                                                                $("#wrapper").toggleClass("toggled");
+                                                                });
+                                                                </script>
+                                                            </body>
+                                                            <script>
+                                                            $(function() {
+                                                            $('a[href*="#"]:not([href="#"])').click(function() {
+                                                            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                                                            var target = $(this.hash);
+                                                            target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                                                            if (target.length) {
+                                                            $('html, body').animate({
+                                                            scrollTop: target.offset().top
+                                                            }, 1000);
+                                                            return false;
+                                                            }
+                                                            }
+                                                            });
+                                                            });
+                                                            </script>
+                                                        </html>

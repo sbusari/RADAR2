@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Untitled Document.md</title><style></style></head><body id="preview">
+<h1><a id="Optimising_the_Design_of_Plastic_Card_Fraud_Detection_Systems_0"></a>Optimising the Design of Plastic Card Fraud Detection Systems</h1>
+<p>The purpose of a plastic card fraud detection system is to detect when plastic card accounts have been compromised by fraudsters who are using the account to steal funds (Hand et al, 2008).</p>
+<p>Design decisions for fraud detection systems include:</p>
+<ul>
+<li>
+<p>the <strong>processing type</strong> that can be continuous or batch; continuous processing analyses transactions individually, whereas batch processing analyses sets of transactions together;</p>
+</li>
+<li>
+<p>the <strong>fraud detection method</strong> which can be a <em>two-class supervised classification method</em> in which a classifier is trained from past samples of fraudulent and non-fraudulent transactions, or a <em>non-statistical rule-based method</em> that flags transactions matching configurations known to be high risk;</p>
+</li>
+<li>
+<p>the <strong>blocking policy</strong> that can include blocking an account as soon as the fraud detection algorithm flags a transaction as fraudulent, or only blocking the account after the suspected fraud has been confirmed by human investigators.</p>
+</li>
+</ul>
+<p>These design decisions have impacts on how quickly frauds are detected and compromised accounts blocked and on the cost-effectiveness of the fraud detection system.</p>
+<p>The optimisation of plastic card fraud detection systems includes two main objectives (Hand et al., 2008):</p>
+<ul>
+<li>minimising financial loss</li>
+<li>minimising investigation costs</li>
+</ul>
+<p>Our optimisation model is based on our experience in analysing the scalability of a commercial financial fraud detection system (Duboc et al., 2008; Duboc et al. 20??) and extends a previous analysis of performance criteria for plastic card fraud detection tools (Hand et al., 2008) by modelling the impact of alternative design decisions on the above goals.</p>
+<p>Our model is not perfect. … But better approximation of relative importance of false alert and missed fraud than assuming the two class of misclassification to be of equal importance. Better and more useful approximation than qualitative intuition-based evaluation of alternatives with respect to optimisation goals (e.g. i*, QFD, AHP, etc.). An advantage of our model is that it can be validated against real-world data and modified to better fit the data if necessary.</p>
+<h2><a id="Modelling_Financial_Loss_23"></a>Modelling Financial Loss</h2>
+<p>This plastic card fraud detection system analyses transactions <em>after</em> they have been authorised by the bank. Therefore, if the fraud detection system detects a transaction as fraudulent, the bank will still lose the fraudulent transaction amount (unless the bank can prove the fraud is due to negligence from the cardholder or vendor, a concern we will not consider in our model). The purpose of the fraud detection system is to block compromised card accounts as quickly as possible so as to prevent further fraud.</p>
+<p>Following Hand et al. (2008), plastic card fraud detection system are thus evaluated by their ability to minimise future financial losses. We model the future financial loss as the product of the number of compromised accounts, the average number of fraudulent transactions that will be authorised on an account before it is blocked, and the average value of a fraudulent transaction:</p>
+<pre><code>FinancialLoss = NbrCompromisedAccounts 
+                * NbrFraudPerAccountBeforeBlocked
+                * AverageFraudValue 
+</code></pre>
+<p>The <code>FinancialLoss</code> is measured in £ per day, <code>NbrCompromisedAccounts</code> in number of accounts per day, and <code>AverageFraudValue</code> in pound.</p>
+<p>The number of compromised accounts is given by the total number of accounts multiplied by the percentage of compromised accounts:</p>
+<pre><code>NbrCompromisedAccounts = NbrAccounts * CompromisedAccountRatio
+</code></pre>
+<p>Both quantities are parameters that can be estimated from past data. For example:</p>
+<pre><code>NbrAccounts = parameter(10^6)
+CompromisedAccountRatio = parameter(0.01%)
+</code></pre>
+<p>Here, we give point-based estimates for model parameters. Later, we will model and analyse uncertainty about all our model parameters.</p>
+<p>&lt;!–
+The <code>parameter</code> keyword indicates that a variable is a model parameter and will allow us to distinguish random variables in the model from uncertainty about model parameter. For example:</p>
+<pre><code>NumberTransactions = normal(10^9, 10^4)
+</code></pre>
+<p>means that the number of daily transactions follow a normal distribution with the above parameters. Whereas</p>
+<pre><code>AverageNbrTransactions = parameter(normal(10^9, 10^4))
+</code></pre>
+<p>means that AverageNumberTransactions is a model parameter with uncertainty described by the above normal distribution.</p>
+<p>This notation will allow us to combine stochastic model and uncertain model parameters.
+–&gt;</p>
+<p>The average fraudulent transaction value can also be estimated from past data. For example:</p>
+<pre><code>AverageFraudValue = parameter(£500)
+</code></pre>
+<p>The average number of frauds on an account before it is blocked, <code>NbrFraudPerAccountBeforeBlocked</code>, depends on the blocking policy. If accounts are blocked as soon as the fraud detection system suspects a fraud, the number of fraud before the account is blocked is the number of fraud before detection. If accounts are blocked only after suspected fraud are confirmed by a fraud investigation, further frauds might occur after detection:</p>
+<pre><code>NbrFraudPerAccountBeforeBlocked = decision(&quot;blocking policy&quot;){
+    &quot;block first&quot;          : NbrFraudBeforeDetection
+    &quot;investigage first&quot;    : NbrFraudBeforeDetection + NbrFraudDuringInvestigation
+}
+</code></pre>
+<p>The average number of frauds before detection, <code>NbrFraudPerAccountBeforeBlocked</code>, depends on the processing type.</p>
+<p>For continuous processing, the mean number of fraud before detection is the infinite series:</p>
+<pre><code>  1 * probability(fraud is detected after 1 fraudulent transactions)
++ 2 * probability(fraud is detected after 2 fraudulent transactions)
++ 3 * probability(fraud is detected after 3 fraudulent transactions)
++ ... 
+</code></pre>
+<p>The probability that a fraudulent transaction is detected is the true alert rate (the ratio of the number of detected fraud over the number of fraud). Factoring the above series yield that for continuous processing</p>
+<pre><code>NbrFraudBeforeDetection = 1/ TrueAlertRate
+</code></pre>
+<p>In batch processing, transactions are analysed at the end of every day. Batch processing thus introduces a delay between a fraudulent transaction and its detections, a delay during which additional fraud might occur, but because transactions are analysed in groups rather than individually, the batch processing may have a better true alert rate than the continuous processing. Assuming that batch processing adds on average a delay of half a day to fraud detection, our models assumes that</p>
+<pre><code>NbrFraudBeforeDetection = NbrFraudsPerCompromisedAccountPerDay / 2 * Batch_TrueAlertRate
+</code></pre>
+<p>Thus, the final equation for estimating <code>NbrFraudBeforeDetection</code> is:</p>
+<pre><code>NbrFraudBeforeDetection = decision(&quot;processing type&quot;){
+    &quot;continuous&quot;    :    1 / ContinuousTrueAlertRate
+    &quot;batch&quot;         :    NbrFraudsPerCompromisedAccountPerDay / 2 * BatchTrueAlertRate
+}
+</code></pre>
+<p>&lt;!-- TODO: make the BatchDelay a parameter rather than a constant, here 1/2 day --&gt;</p>
+<p>The average number of frauds per day per compromised account is a parameter than could be estimated from past data. For example:</p>
+<pre><code>NbrFraudsPerCompromisedAccountPerDay = parameter(3)
+</code></pre>
+<p>The average number of fraud per account committed during the investigation period is also proportional to the number of frauds per compromised account per day. Assume the investigation introduces an average delay of 8 hours (1/3 day) before blocking an account, we have:</p>
+<pre><code>NbrFraudDuringInvestigation = NbrFraudsPerCompromisedAccountPerDay * InvestigationDelay
+InvestigationDelay = parameter(1/3)
+</code></pre>
+<p>The true alerts rates depend on the fraud detection methods and their parameters. True alerts rates are typically estimated by analysing the performance of the fraud detection method on past data.</p>
+<p>To keep our model simple, we assume the classifier has three settings <code>high</code>, <code>medium</code>, and <code>low</code> that generates high, medium, or low number of alerts; and the rule-based approach has a single fixed true alert rate.</p>
+<p>For the continuous true alert rate:</p>
+<pre><code>ContinuousTrueAlertRate = decision(&quot;fraud detection method&quot;){
+    &quot;continuous_classifier&quot; :  ContinuousAlertThreshold
+    &quot;continuous_rule-based&quot; :  parameter(0,75)
+}
+
+ContinuousAlertThreshold = decision(&quot;continuous classifier threshold level&quot;){
+    &quot;high&quot;   : parameter(0.9)
+    &quot;medium&quot; : paramater(0,8)
+    &quot;low&quot;    : parameter(0,7)
+}
+</code></pre>
+<p>For the batch true alert rate:</p>
+<pre><code>BatchTrueAlertRate = decision(&quot;fraud detection method&quot;){
+    &quot;batch_classifier&quot; :  BatchAlertThreshold
+    &quot;batch_rule-based&quot; :  parameter(0,80)
+}
+
+BatchAlertThreshold = decision(&quot;batch classifier threshold level&quot;){
+    &quot;high&quot;   : parameter(0.95)
+    &quot;medium&quot; : paramater(0,85)
+    &quot;low&quot;    : parameter(0,75)
+}
+</code></pre>
+<p>&lt;!-- Add graphical model --&gt;</p>
+<h2><a id="Modelling_Investigation_Costs_139"></a>Modelling Investigation Costs</h2>
+<p>Our model of investigation costs is simpler. The average investigation cost per day is simply the number of alerts per day multiplied by the average investigation cost per alert:</p>
+<pre><code>InvestigationCost = NbrAlerts * CostPerAlert
+</code></pre>
+<p>We assume the average cost per alert can be estimated. For example:</p>
+<pre><code>CostPerAlert = parameter(50)
+</code></pre>
+<p>The number of generated alerts is the sum of the number of true alerts and false alerts:</p>
+<pre><code>NbrAlerts = NbrTrueAlerts + NbrFalseAlerts
+</code></pre>
+<p>The number of true and false alerts are functions of the number of accounts, the percentage of compromised accounts, and the true and false alert rates:</p>
+<pre><code>NbrTrueAlerts = NbrFraud * TrueAlertRate
+NbrFalseAlerts = NbrLegitTransactions * TrueNegativeRate
+</code></pre>
+<p>The true alert rate (the ratio of the number true alert over the number of fraud, a.k.a. sensitivity) and true negative rate (the ratio of the number of un-flagged legitimate transactions over the total number of legitimate transactions, a.k.a. specificity) vary with the processing type:</p>
+<pre><code>TrueAlertRate = decision(&quot;processing type&quot;){
+    &quot;continuous&quot; : ContinuousTrueAlertRate
+    &quot;batch&quot;      : BatchTrueAlertRate
+}
+
+TrueNegativeRate = decision(&quot;processing type&quot;){
+    &quot;continuous&quot; : ContinuousTrueNegativeRate
+    &quot;batch&quot;      : BatchTrueNegativeRate
+}   
+</code></pre>
+<p>Models of the continuous and batch true alert rates have already been defined. The models for the continuous and batch true negative rate follow the same structure:</p>
+<pre><code>ContinuousTrueNegativeRate = decision(&quot;fraud detection method&quot;){
+    &quot;continuous_classifier&quot; :  ContinuousClassierTrueNegativeRate
+    &quot;continuous_rule-based&quot; :  parameter(0,99)
+}
+
+ContinuousClassierTrueNegativeRate = decision(&quot;continuous classifier threshold level&quot;){
+    &quot;high&quot;   : parameter(0.90)
+    &quot;medium&quot; : paramater(0,99)
+    &quot;low&quot;    : parameter(0,999)
+}
+
+BatchTrueNegativeRate = decision(&quot;fraud detection method&quot;){
+    &quot;batch_classifier&quot; :  BatchClassifierTrueNegativeRate
+    &quot;batch_rule-based&quot; :  parameter(0,995)
+}
+
+BatchClassifierTrueNegativeRate = decision(&quot;batch classifier threshold level&quot;){
+    &quot;high&quot;   : parameter(0.99)
+    &quot;medium&quot; : paramater(0,995)
+    &quot;low&quot;    : parameter(0,999)
+}
+</code></pre>
+<p>Finally, the number of fraudulent and legitimate transactions depend on the number of accounts and average number of transactions per account:</p>
+<pre><code>NbrFraud = NbrAccounts * CompromisedAccountRatio * NbrFraudPerCompromisedAccountPerDay
+NbrLegitTransactions = NbrAccounts  * NbrLegitTransactionsPerAccountPerDay
+</code></pre>
+<p>The average number of accounts and compromised account ratio are model parameters that we have already estimated above. The average number of legitimate per account and fraudulent transactions per compromised account per day are also model parameters that could estimated from past data. For example:</p>
+<pre><code>NbrFraudPerCompromisedAccountPerDay  = parameter(3)
+NbrLegitTransactionsPerAccountPerDay = parameter(2)
+</code></pre>
+<h2><a id="The_Full_Model_206"></a>The Full Model</h2>
+<p>Here is the full model:</p>
+<pre><code>    \\ Financial Loss
+
+    FinancialLoss = NbrCompromisedAccounts 
+                    * NbrFraudPerAccountBeforeBlocked
+                    * AverageFraudValue 
+
+    NbrCompromisedAccounts = NbrAccounts * CompromisedAccountRatio
+
+    NbrAccounts = parameter(10^6)
+    CompromisedAccountRatio = parameter(0.01%)
+
+    AverageFraudValue = parameter(£500)
+
+    NbrFraudPerAccountBeforeBlocked = decision(&quot;blocking policy&quot;){
+        &quot;block first&quot;          : NbrFraudBeforeDetection
+        &quot;investigage first&quot;    : NbrFraudBeforeDetection + NbrFraudDuringInvestigation
+    }
+    
+    NbrFraudBeforeDetection = decision(&quot;processing type&quot;){
+        &quot;continuous&quot;    :    1 / Contin
+      uousTrueAlertRate
+        &quot;batch&quot;         :    NbrFraudsPerCompromisedAccountPerDay / 2 * BatchTrueAlertRate
+    }
+    
+    NbrFraudsPerCompromisedAccountPerDay = parameter(3)
+    
+    NbrFraudDuringInvestigation = NbrFraudsPerCompromisedAccountPerDay * InvestigationDelay
+    InvestigationDelay = parameter(1/3)
+    
+    ContinuousTrueAlertRate = decision(&quot;fraud detection method&quot;){
+        &quot;continuous_classifier&quot; :  ContinuousAlertThreshold
+        &quot;continuous_rule-based&quot; :  parameter(0,75)
+    }
+    
+    ContinuousAlertThreshold = decision(&quot;continuous classifier threshold level&quot;){
+        &quot;high&quot;   : parameter(0.9)
+        &quot;medium&quot; : paramater(0,8)
+        &quot;low&quot;    : parameter(0,7)
+    }
+
+    BatchTrueAlertRate = decision(&quot;fraud detection method&quot;){
+        &quot;batch_classifier&quot; :  BatchAlertThreshold
+        &quot;batch_rule-based&quot; :  parameter(0,80)
+    }
+    
+    BatchAlertThreshold = decision(&quot;batch classifier threshold level&quot;){
+        &quot;high&quot;   : parameter(0.95)
+        &quot;medium&quot; : paramater(0,85)
+        &quot;low&quot;    : parameter(0,75)
+    }
+    
+    // Investigation Cost
+
+    InvestigationCost = NbrAlerts * CostPerAlert
+        
+    CostPerAlert = parameter(50)
+
+    NbrAlerts = NbrTrueAlerts + NbrFalseAlerts
+        
+    NbrTrueAlerts = NbrFraud * TrueAlertRate
+    NbrFalseAlerts = NbrLegitTransactions * TrueNegativeRate
+    
+    TrueAlertRate = decision(&quot;processing type&quot;){
+        &quot;continuous&quot; : ContinuousTrueAlertRate
+        &quot;batch&quot;      : BatchTrueAlertRate
+
+    }
+
+    TrueNegativeRate = decision(&quot;processing type&quot;){
+        &quot;continuous&quot; : ContinuousTrueNegativeRate
+        &quot;batch&quot;      : BatchTrueNegativeRate
+    }   
+        
+    ContinuousTrueNegativeRate = decision(&quot;fraud detection method&quot;){
+        &quot;continuous_classifier&quot; :  ContinuousClassierTrueNegativeRate
+        &quot;continuous_rule-based&quot; :  parameter(0,99)
+    }
+    
+    ContinuousClassierTrueNegativeRate = decision(&quot;continuous classifier threshold level&quot;){
+        &quot;high&quot;   : parameter(0.90)
+        &quot;medium&quot; : paramater(0,99)
+        &quot;low&quot;    : parameter(0,999)
+    }
+
+    BatchTrueNegativeRate = decision(&quot;fraud detection method&quot;){
+        &quot;batch_classifier&quot; :  BatchClassifierTrueNegativeRate
+        &quot;batch_rule-based&quot; :  parameter(0,995)
+    }
+    
+    BatchClassifierTrueNegativeRate = decision(&quot;batch classifier threshold level&quot;){
+        &quot;high&quot;   : parameter(0.99)
+        &quot;medium&quot; : paramater(0,995)
+        &quot;low&quot;    : parameter(0,999)
+    }
+
+
+</code></pre>
+
+</body></html>

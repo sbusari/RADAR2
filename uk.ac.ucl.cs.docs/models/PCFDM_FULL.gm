@@ -1,0 +1,111 @@
+Model PCFDM;
+
+Objective Min FinancialLoss;
+
+FinancialLoss= E(FinLoss);
+
+FinLoss =AverageFraudValue* NbrCompromisedAccounts*NbrFraudPerAccountBeforeBlocked;
+
+NbrCompromisedAccounts = NbrAccounts * CompromisedAccountRatio;
+
+NbrAccounts = parameter(normal(10^6,100));
+
+CompromisedAccountRatio = parameter(0.0001);
+
+AverageFraudValue = parameter(normal(500,50));
+
+NbrFraudPerAccountBeforeBlocked = decision("blocking policy"){
+    "block first"          : NbrFraudBeforeDetection;
+    "investigage first"    : NbrFraudBeforeDetection + NbrFraudDuringInvestigation;
+}
+
+NbrFraudBeforeDetection = decision("processing type"){
+	"continuous"    :    1 / ContinuousTrueAlertRate;
+	"batch"         :    NbrFraudsPerCompromisedAccountPerDay / 2 * BatchTrueAlertRate;
+}
+    
+NbrFraudsPerCompromisedAccountPerDay = parameter(3);
+
+NbrFraudDuringInvestigation = NbrFraudsPerCompromisedAccountPerDay * InvestigationDelay;
+
+InvestigationDelay = parameter(1/3);
+
+ContinuousTrueAlertRate = decision("fraud detection method"){
+	"classifier" :  ContinuousAlertThreshold;
+	"rule-based" :  parameter(triangular(0.75,0.8,0.9));
+}
+
+ContinuousAlertThreshold = decision("threshold level"){
+	"high"   : parameter(0.9);
+	"medium" : parameter(0.8);
+	"low"    : parameter(0.7);
+}
+
+BatchTrueAlertRate = decision("fraud detection method"){
+	"classifier" :  BatchAlertThreshold;
+	"rule-based" :  parameter(0.80);
+}
+
+BatchAlertThreshold = decision("threshold level"){
+	"high"   : parameter(0.95);
+	"medium" : parameter(0.85);
+	"low"    : parameter(0.75);
+}
+
+
+
+
+Objective Min InvestigationCost;
+
+InvestigationCost = E(InvestCost);
+
+InvestCost = NbrAlerts * CostPerAlert; 
+    
+CostPerAlert = parameter(normal(50, 10)) ;
+
+NbrAlerts = NbrTrueAlerts + NbrFalseAlerts ;
+    
+NbrTrueAlerts = NbrFraud * TrueAlertRate;
+
+NbrFalseAlerts = NbrLegitTransactions * TrueNegativeRate ;
+
+TrueAlertRate = decision("processing type"){
+    "continuous" : ContinuousTrueAlertRate;
+    "batch"      : BatchTrueAlertRate;
+
+}
+
+TrueNegativeRate = decision("processing type"){
+    "continuous" : ContinuousTrueNegativeRate;
+    "batch"      : BatchTrueNegativeRate;
+}	
+	
+ContinuousTrueNegativeRate = decision("fraud detection method"){
+	"classifier" :  ContinuousClassierTrueNegativeRate;
+	"rule-based" :  parameter(0.99);
+}
+
+ContinuousClassierTrueNegativeRate = decision("threshold level"){
+	"high"   : parameter(0.90);
+	"medium" : parameter(0.99);
+	"low"    : parameter(0.999);
+}
+
+BatchTrueNegativeRate = decision("fraud detection method"){
+	"classifier" :  BatchClassifierTrueNegativeRate;
+	"rule-based" :  parameter(0.995);
+}
+
+BatchClassifierTrueNegativeRate = decision("threshold level"){
+	"high"   : parameter(0.99);
+	"medium" : parameter(0.995);
+	"low"    : parameter(0.999);
+}
+
+NbrFraud = NbrAccounts * CompromisedAccountRatio * NbrFraudPerCompromisedAccountPerDay;
+
+NbrLegitTransactions = NbrAccounts  * NbrLegitTransactionsPerAccountPerDay;
+
+NbrFraudPerCompromisedAccountPerDay  = parameter(3);
+
+NbrLegitTransactionsPerAccountPerDay = parameter(2);

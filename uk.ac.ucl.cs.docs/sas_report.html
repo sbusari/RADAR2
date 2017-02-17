@@ -1,0 +1,1383 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+	align:justify
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+.container {
+    display:inline-block;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1em}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+<title>RADAR</title>
+
+</head>
+<body id="preview">
+<h1><a id="Situation_Awareness_System_from_ICSE14_paper_0"></a>Analysis of the Emergency Response System</h1>
+<p><em>Saheed. A. Busari and Emmanuel Letier</em></p>
+<p>RADAR is a lightweight modelling language and tool for analysing software requirements and architecture decisions (Busari and Letier, 2016). This report presents an application of RADAR to the analysis of the Emergency Response System, which we refer to, henceforth, as Situation Awareness System (SAS). </p>
+<p>Our analysis is motivated by and based on previous work presented in ICSE 2014 (Letier et al.,2014). Our model parameters are obtained from Table 1 in GMU report “Guided Exploration of the Architectural Solution Space in the Face of Uncertainty” by Naeem et al., 2013.</p>
+
+<h2><a id="Problem_Description_8"></a>Problem Description</h2>
+<p>The Emergency Response System was originally introduced by Naeem et al.,2013 in their research presented at ICSE 2013 on the early architecture selection problem under uncertainty. The SAS is a mobile software application developed to deploy individuals in cases of emergencies, and allows deployed individuals to share  information about the status of an emergency situation. </p> 
+
+<p>However, due to the proliferation of mobile technologies, standards, and platforms, the SAS was considered for an improvement to allow deployed personnels to send and receive real time information about the status of an emergency situation (e.g., interactive overlay on maps) and coordinate with one another (e.g., send reports, chat, and share video streams) </p>
+
+<p>In view of the above goal, the SAS project team, which consisted of academics and engineers from a government agency, identified and described the design decisions and alternative options as presented in figure 1. The team is faced with the decision of selecting design options to be implemented in the new system that give maximum net benefit to the stakeholders at a minimal cost.</p>
+
+<div class="container">
+	<div style="float:right">
+        	 <a href ="fdm_graphs/SASDecision.jpg"><img src="fdm_graphs/SASDecision.jpg"></a>
+	<p align ="center">Figure 1: Design Decisions (click on the image to zoom in)</p>
+    </div>
+</div>
+
+
+<h2><a id="Optimisation_Objectives_5"></a>Modelling the Optimisation Objectives</h2>
+<pre><code>Objective Max ENB = EV(NB);
+Objective Min Risk;
+ </code></pre>    
+
+<h2><a id="Optimisation_Objectives_5"></a>Modelling the Net Benefit (NB)</h2>
+<pre><code>                    
+NB = BatteryUsage_weight * BatteryUsage_preference +
+     ResponseTime_weight * ResponseTime_preference +
+     Reliability_weight * Reliability_preference +
+     RampUpTime_weight * RampUpTime_preference +
+     Cost_weight * Cost_preference +
+     DevelopmentTime_weight * DevelopmentTime_preference +
+     DeploymentTime_weight * DeploymentTime_preference ;
+     
+BatteryUsage_weight = deterministic(9);
+ResponseTime_weight = deterministic(7);
+Reliability_weight = deterministic(3);
+RampUpTime_weight = deterministic(2);
+Cost_weight = deterministic(1);
+DevelopmentTime_weight = deterministic(2);
+DeploymentTime_weight = deterministic(2);
+ </code></pre>
+
+
+<h2><a id="Optimisation_Objectives_5"></a>Modelling the project Risk</h2>
+<pre><code> 
+Risk = 1  - (   (1 - BatteryUsage_Risk) *
+                (1 - ResponseTime_Risk) *
+                (1 - Reliability_Risk) *
+                (1 - RampUpTime_Risk) *
+                (1 - Cost_Risk) *
+                (1 - DevelopmentTime_Risk) *
+                (1 - DeploymentTime_Risk)
+             ) ;
+
+</code></pre>
+
+<div class="container">
+	<div style="float:right">
+        	 <a href ="fdm_graphs/SASRiskAndOrGraph.jpg"><img src="fdm_graphs/SASRiskAndOrGraph.jpg"></a>
+	<p align ="center">Figure 1: Risk AND/OR Graph (click on the image to zoom in)</p>
+    </div>
+</div>
+<h2><a id="Battery_Usage_Model_39"></a> Modelling the Battery Usage</h2>
+<pre><code>BatteryUsage_Preference = (BatteryUsage - BatteryUsage_worst)
+                            /(BatteryUsage_best - BatteryUsage_worst);
+BatteryUsage_Risk =     Pr(BatteryUsage &lt; BatteryUsage_must);
+
+BatteryUsage_best = deterministic(24) ;
+BatteryUsage_worst = deterministic(111) ;
+BatteryUsage_must = deterministic(52);
+
+BatteryUsage = BatteryUsage_LocationFinding + 
+               BatteryUsage_FileSharing + 
+               BatteryUsage_ReportSyncing + 
+               BatteryUsage_ChatProtocol + 
+               BatteryUsage_MapAccess + 
+               BatteryUsage_HardwarePlatform + 
+               BatteryUsage_Connectivity + 
+               BatteryUsage_DataBase + 
+               BatteryUsage_ArchitecturalPattern + 
+               BatteryUsage_DataExchangeFormat;
+                
+BatteryUsage_LocationFinding = decision(&quot;Location Finding&quot;){
+        &quot;GPS&quot; : triangular(10, 10, 14);
+        &quot;radio triangulation&quot; : triangular(4, 5, 6);
+}
+
+BatteryUsage_FileSharing = decision(&quot;File Sharing&quot;){
+        &quot;OpenIntent&quot; : triangular(5, 5, 6);
+        &quot;In house&quot; : triangular(0, 0, 0);
+}
+
+BatteryUsage_ReportSyncing = decision(&quot;Report Syncing&quot;){
+        &quot;Explicit&quot; : triangular(1, 3, 4);
+        &quot;Implicit&quot; : triangular(7, 8, 10);
+}
+
+BatteryUsage_ChatProtocol = decision(&quot;Chat Protocol&quot;){
+        &quot;XMPP (Open Fire)&quot; : triangular(4, 5, 6);
+        &quot;In house&quot; : triangular(2, 3, 12);
+}
+
+BatteryUsage_MapAccess = decision(&quot;Map Access&quot;){
+        &quot;On Demand (Google)&quot; : triangular(4, 4, 12);
+        &quot;Cache on server&quot; : triangular(4, 5, 12);
+        &quot;Preloaded (ESRI)&quot; : triangular(5, 7, 7);
+}
+
+BatteryUsage_HardwarePlatform = decision(&quot;Hardware Platform&quot;){
+        &quot;Nexus I (HTC)&quot; : triangular(3, 5, 5);
+        &quot;Droid (Motorola)&quot; : triangular(4, 5, 14);
+}
+
+BatteryUsage_Connectivity = decision(&quot;Connectivity&quot;){
+        &quot;Wifi&quot; : triangular(3, 4, 5);
+        &quot;3G on Nexus I&quot; : triangular(1, 2, 3);
+        &quot;3G on Droid&quot; : triangular(2, 4, 5);
+        &quot;Bluetooth&quot; : triangular(2, 3, 15);
+}
+
+BatteryUsage_DataBase = decision(&quot;Database&quot;){
+        &quot;MySQL&quot; : triangular(3, 6, 7);
+        &quot;sqLite&quot; : triangular(5, 5, 10);
+}
+
+BatteryUsage_ArchitecturalPattern = decision(&quot;Architectural Pattern&quot;){
+        &quot;Peer-to-peer&quot; : triangular(7, 8, 10);
+        &quot;Client-Server&quot; : triangular(5, 6, 7);
+        &quot;Push-based&quot; : triangular(2, 4, 4);
+}
+
+BatteryUsage_DataExchangeFormat = decision(&quot;Data Exchange Format&quot;){
+        &quot;XML&quot; : triangular(3, 4, 6);
+        &quot;Compressed XML&quot; : triangular(5, 5, 7);
+        &quot;Unformatted data&quot; : triangular(1, 1, 3);
+}
+
+</code></pre>
+<h2><a id="Performance_Model_118"></a>Modelling the Performance </h2>
+<pre><code>ResponseTime_Preference = (ResponseTime - ResponseTime_worst)
+                            /(ResponseTime_best - ResponseTime_worst);
+ResponseTime_Risk =     Pr(ResponseTime &lt; ResponseTime_must);
+
+ResponseTime_best = deterministic(203);
+ResponseTime_worst = deterministic(2850);
+ResponseTime_must = deterministic(882);
+
+ResponseTime = ResponseTime_LocationFinding + 
+               ResponseTime_FileSharing + 
+               ResponseTime_ReportSyncing + 
+               ResponseTime_ChatProtocol + 
+               ResponseTime_MapAccess + 
+               ResponseTime_HardwarePlatform + 
+               ResponseTime_Connectivity + 
+               ResponseTime_DataBase + 
+               ResponseTime_ArchitecturalPattern + 
+               ResponseTime_DataExchangeFormat;
+                
+ResponseTime_LocationFinding = decision(&quot;Location Finding&quot;){
+        &quot;GPS&quot; : triangular(480, 500, 990);
+        &quot;radio triangulation&quot; : triangular(50, 100, 600);
+}
+
+ResponseTime_FileSharing = decision(&quot;File Sharing&quot;){
+        &quot;OpenIntent&quot; : triangular(50, 65, 70);
+        &quot;In house&quot; : triangular(40, 60, 100);
+}
+
+ResponseTime_ReportSyncing = decision(&quot;Report Syncing&quot;){
+        &quot;Explicit&quot; : triangular(20, 30, 50);
+        &quot;Implicit&quot; : triangular(1, 4, 10);
+}
+
+ResponseTime_ChatProtocol = decision(&quot;Chat Protocol&quot;){
+        &quot;XMPP (Open Fire)&quot; : triangular(40, 60, 70);
+        &quot;In house&quot; : triangular(30, 40, 200);
+}
+
+ResponseTime_MapAccess = decision(&quot;Map Access&quot;){
+        &quot;On Demand (Google)&quot; : triangular(700, 800, 900);
+        &quot;Cache on server&quot; : triangular(1, 4, 500);
+        &quot;Preloaded (ESRI)&quot; : triangular(1, 2, 3);
+}
+
+ResponseTime_HardwarePlatform = decision(&quot;Hardware Platform&quot;){
+        &quot;Nexus I (HTC)&quot; : triangular(40, 60, 65);
+        &quot;Droid (Motorola)&quot; : triangular(50, 55, 200);
+}
+
+ResponseTime_Connectivity = decision(&quot;Connectivity&quot;){
+        &quot;Wifi&quot; : triangular(30, 35, 40);
+        &quot;3G on Nexus I&quot; : triangular(20, 25, 40);
+        &quot;3G on Droid&quot; : triangular(20, 25, 40);
+        &quot;Bluetooth&quot; : triangular(25, 30, 200);
+}
+
+ResponseTime_DataBase = decision(&quot;Database&quot;){
+        &quot;MySQL&quot; : triangular(20, 25, 30);
+        &quot;sqLite&quot; : triangular(8, 10, 50);
+}
+
+ResponseTime_ArchitecturalPattern = decision(&quot;Architectural Pattern&quot;){
+        &quot;Peer-to-peer&quot; : triangular(10, 20, 30);
+        &quot;Client-Server&quot; : triangular(25, 30, 80);
+        &quot;Push-based&quot; : triangular(15, 25, 40);
+}
+
+ResponseTime_DataExchangeFormat = decision(&quot;Data Exchange Format&quot;){
+        &quot;XML&quot; : triangular(20, 35, 80);
+        &quot;Compressed XML&quot; : triangular(12, 20, 35);
+        &quot;Unformatted data&quot; : triangular(3, 10, 15);
+}
+
+</code></pre>
+<h2><a id="Reliability_Model_197"></a>Modelling the Reliability </h2>
+<pre><code>Reliability_Preference = (Reliability - Reliability_worst)
+                            /(Reliability_best - Reliability_worst);
+Reliability_Risk =  Pr(Reliability &lt; Reliability_must);
+
+Reliability_best = deterministic(792);
+Reliability_worst = deterministic(535);
+Reliability_must = deterministic(721);
+
+Reliability = Reliability_LocationFinding + 
+               Reliability_FileSharing + 
+               Reliability_ReportSyncing + 
+               Reliability_ChatProtocol + 
+               Reliability_MapAccess + 
+               Reliability_HardwarePlatform + 
+               Reliability_Connectivity + 
+               Reliability_DataBase + 
+               Reliability_ArchitecturalPattern + 
+               Reliability_DataExchangeFormat;
+                
+Reliability_LocationFinding = decision(&quot;Location Finding&quot;){
+        &quot;GPS&quot; : triangular(60, 75, 80);
+        &quot;radio triangulation&quot; : triangular(90, 92, 99);
+}
+
+Reliability_FileSharing = decision(&quot;File Sharing&quot;){
+        &quot;OpenIntent&quot; : triangular(90, 95, 99);
+        &quot;In house&quot; : triangular(80, 92, 96);
+}
+
+Reliability_ReportSyncing = decision(&quot;Report Syncing&quot;){
+        &quot;Explicit&quot; : triangular(85, 88, 90);
+        &quot;Implicit&quot; : triangular(30, 40, 200);
+}
+
+Reliability_ChatProtocol = decision(&quot;Chat Protocol&quot;){
+        &quot;XMPP (Open Fire)&quot; : triangular(94, 95, 99);
+        &quot;In house&quot; : triangular(60, 96, 97);
+}
+
+Reliability_MapAccess = decision(&quot;Map Access&quot;){
+        &quot;On Demand (Google)&quot; : triangular(70, 91, 92);
+        &quot;Cache on server&quot; : triangular(85, 97, 98);
+        &quot;Preloaded (ESRI)&quot; : triangular(85, 90, 99);
+}
+
+Reliability_HardwarePlatform = decision(&quot;Hardware Platform&quot;){
+        &quot;Nexus I (HTC)&quot; : deterministic(0);
+        &quot;Droid (Motorola)&quot; : deterministic(0);
+}
+
+Reliability_Connectivity = decision(&quot;Connectivity&quot;){
+        &quot;Wifi&quot; : triangular(80, 85, 90);
+        &quot;3G on Nexus I&quot; : triangular(80, 88, 99);
+        &quot;3G on Droid&quot; : triangular(80, 88, 99);
+        &quot;Bluetooth&quot; : triangular(50, 85, 85);
+}
+
+Reliability_DataBase = decision(&quot;Database&quot;){
+        &quot;MySQL&quot; : triangular(85, 90, 99);
+        &quot;sqLite&quot; : triangular(70, 90, 95);
+}
+
+Reliability_ArchitecturalPattern = decision(&quot;Architectural Pattern&quot;){
+        &quot;Peer-to-peer&quot; : triangular(60, 66, 70);
+        &quot;Client-Server&quot; : triangular(85, 95, 97);
+        &quot;Push-based&quot; : triangular(90, 94, 99);
+}
+
+Reliability_DataExchangeFormat = decision(&quot;Data Exchange Format&quot;){
+        &quot;XML&quot; : deterministic(0);
+        &quot;Compressed XML&quot; : deterministic(0);
+        &quot;Unformatted data&quot; : deterministic(0);
+}
+
+</code></pre>
+<h2><a id="Ramp_Up_Time_Model_277"></a>Modelling the Ramp Up Time </h2>
+<pre><code>RampUpTime_Preference = (RampUpTime - RampUpTime_worst)
+                            /(RampUpTime_best - RampUpTime_worst);
+RampUpTime_Risk =   Pr(RampUpTime &lt; RampUpTime_must);
+
+RampUpTime_best = deterministic(31)
+RampUpTime_worst = deterministic(83)
+RampUpTime_must = deterministic(58)
+
+RampUpTime = RampUpTime_LocationFinding + 
+               RampUpTime_FileSharing + 
+               RampUpTime_ReportSyncing + 
+               RampUpTime_ChatProtocol + 
+               RampUpTime_MapAccess + 
+               RampUpTime_HardwarePlatform + 
+               RampUpTime_Connectivity + 
+               RampUpTime_DataBase + 
+               RampUpTime_ArchitecturalPattern + 
+               RampUpTime_DataExchangeFormat
+                
+RampUpTime_LocationFinding = decision(&quot;Location Finding&quot;){
+        &quot;GPS&quot; : triangular(5, 6, 7);
+        &quot;radio triangulation&quot; : triangular(7, 8, 9);
+}
+
+RampUpTime_FileSharing = decision(&quot;File Sharing&quot;){
+        &quot;OpenIntent&quot; : triangular(8, 9, 10);
+        &quot;In house&quot; : triangular(5, 8, 12);
+}
+
+RampUpTime_ReportSyncing = decision(&quot;Report Syncing&quot;){
+        &quot;Explicit&quot; : triangular(2, 2, 3);
+        &quot;Implicit&quot; : triangular(1, 2, 2);
+}
+
+RampUpTime_ChatProtocol = decision(&quot;Chat Protocol&quot;){
+        &quot;XMPP (Open Fire)&quot; : triangular(5, 6, 7);
+        &quot;In house&quot; : triangular(3, 4, 14);
+}
+
+RampUpTime_MapAccess = decision(&quot;Map Access&quot;){
+        &quot;On Demand (Google)&quot; : triangular(7, 9, 10);
+        &quot;Cache on server&quot; : triangular(7, 9, 10);
+        &quot;Preloaded (ESRI)&quot; : triangular(10, 13, 14);
+}
+
+RampUpTime_HardwarePlatform = decision(&quot;Hardware Platform&quot;){
+        &quot;Nexus I (HTC)&quot; : deterministic(0);
+        &quot;Droid (Motorola)&quot; : deterministic(0);
+}
+
+RampUpTime_Connectivity = decision(&quot;Connectivity&quot;){
+        &quot;Wifi&quot; : triangular(1, 3, 4);
+        &quot;3G on Nexus I&quot; : triangular(1, 2, 3);
+        &quot;3G on Droid&quot; : triangular(1, 2, 3);
+        &quot;Bluetooth&quot; : triangular(1, 2, 8);
+}
+
+RampUpTime_DataBase = decision(&quot;Database&quot;){
+        &quot;MySQL&quot; : triangular(1, 2, 3);
+        &quot;sqLite&quot; : triangular(3, 4, 5);
+}
+
+RampUpTime_ArchitecturalPattern = decision(&quot;Architectural Pattern&quot;){
+        &quot;Peer-to-peer&quot; : triangular(10, 11, 13);
+        &quot;Client-Server&quot; : triangular(7, 8, 10);
+        &quot;Push-based&quot; : triangular(9, 10, 12);
+}
+
+RampUpTime_DataExchangeFormat = decision(&quot;Data Exchange Format&quot;){
+        &quot;XML&quot; : triangular(2, 3, 4);
+        &quot;Compressed XML&quot; : triangular(4, 5, 6);
+        &quot;Unformatted data&quot; : triangular(1, 2, 3);
+}
+
+</code></pre>
+<h2><a id="Cost_Model_356"></a> Modelling the Cost </h2>
+<pre><code>Cost_Preference = (Cost - Cost_worst)
+                            /(Cost_best - Cost_worst);
+Cost_Risk =     Pr(Cost &lt; Cost_must);
+
+Cost_best = deterministic(550);
+Cost_worst = deterministic(2250);
+Cost_must = deterministic(1290);
+
+Cost = Cost_LocationFinding + 
+               Cost_FileSharing + 
+               Cost_ReportSyncing + 
+               Cost_ChatProtocol + 
+               Cost_MapAccess + 
+               Cost_HardwarePlatform + 
+               Cost_Connectivity + 
+               Cost_DataBase + 
+               Cost_ArchitecturalPattern + 
+               Cost_DataExchangeFormat;
+                
+Cost_LocationFinding = decision(&quot;Location Finding&quot;){
+        &quot;GPS&quot; : triangular(50, 80 100);
+        &quot;radio triangulation&quot; : deterministic(0);
+}
+
+Cost_FileSharing = decision(&quot;File Sharing&quot;){
+        &quot;OpenIntent&quot; : deterministic(0);
+        &quot;In house&quot; : deterministic(0);
+}
+
+Cost_ReportSyncing = decision(&quot;Report Syncing&quot;){
+        &quot;Explicit&quot; : deterministic(0);
+        &quot;Implicit&quot; : deterministic(0);
+}
+
+Cost_ChatProtocol = decision(&quot;Chat Protocol&quot;){
+        &quot;XMPP (Open Fire)&quot; : deterministic(0);
+        &quot;In house&quot; : deterministic(0);
+}
+
+Cost_MapAccess = decision(&quot;Map Access&quot;){
+        &quot;On Demand (Google)&quot; : deterministic(0);
+        &quot;Cache on server&quot; : triangular(700, 900, 950);
+        &quot;Preloaded (ESRI)&quot; : triangular(100, 170, 200);
+}
+
+Cost_HardwarePlatform = decision(&quot;Hardware Platform&quot;){
+        &quot;Nexus I (HTC)&quot; : triangular(500, 525, 530);
+        &quot;Droid (Motorola)&quot; : triangular(520, 520, 600);
+}
+
+Cost_Connectivity = decision(&quot;Connectivity&quot;){
+        &quot;Wifi&quot; : triangular(70, 80, 85);
+        &quot;3G on Nexus I&quot; : triangular(360, 400, 600);
+        &quot;3G on Droid&quot; : triangular(360, 400, 600);
+        &quot;Bluetooth&quot; : triangular(50, 70, 200);
+}
+
+Cost_DataBase = decision(&quot;Database&quot;){
+        &quot;MySQL&quot; : deterministic(0);
+        &quot;sqLite&quot; : deterministic(0);
+}
+
+Cost_ArchitecturalPattern = decision(&quot;Architectural Pattern&quot;){
+        &quot;Peer-to-peer&quot; : deterministic(0);
+        &quot;Client-Server&quot; : deterministic(0);
+        &quot;Push-based&quot; : deterministic(0);
+}
+
+Cost_DataExchangeFormat = decision(&quot;Data Exchange Format&quot;){
+        &quot;XML&quot; : deterministic(0);
+        &quot;Compressed XML&quot; : deterministic(0);
+        &quot;Unformatted data&quot; : deterministic(0);
+}
+
+</code></pre>
+<h2><a id="Development_Time_Model_435"></a>Modelling the Development Time </h2>
+<pre><code>DevelopmentTime_Preference = (DevelopmentTime - DevelopmentTime_worst)
+                            /(DevelopmentTime_best - DevelopmentTime_worst);
+DevelopmentTime_Risk =  Pr(DevelopmentTime &lt; DevelopmentTime_must);
+
+DevelopmentTime_best = deterministic(61) ;
+DevelopmentTime_worst = deterministic(149);
+DevelopmentTime_must = deterministic(111);
+
+DevelopmentTime = DevelopmentTime_LocationFinding + 
+               DevelopmentTime_FileSharing + 
+               DevelopmentTime_ReportSyncing + 
+               DevelopmentTime_ChatProtocol + 
+               DevelopmentTime_MapAccess + 
+               DevelopmentTime_DataBase + 
+               DevelopmentTime_ArchitecturalPattern + 
+               DevelopmentTime_DataExchangeFormat;
+                
+DevelopmentTime_LocationFinding = decision(&quot;Location Finding&quot;){
+        &quot;GPS&quot; : triangular(3, 4, 5);
+        &quot;radio triangulation&quot; : triangular(10, 14, 15);
+}
+
+DevelopmentTime_FileSharing = decision(&quot;File Sharing&quot;){
+        &quot;OpenIntent&quot; : triangular(3, 4, 6);
+        &quot;In house&quot; : triangular(5, 6, 15);
+}
+
+DevelopmentTime_ReportSyncing = decision(&quot;Report Syncing&quot;){
+        &quot;Explicit&quot; : triangular(5, 6, 7);
+        &quot;Implicit&quot; : triangular(3, 4, 4);
+}
+
+DevelopmentTime_ChatProtocol = decision(&quot;Chat Protocol&quot;){
+        &quot;XMPP (Open Fire)&quot; : triangular(5, 6, 8);
+        &quot;In house&quot; : triangular(7, 8, 20);
+}
+
+DevelopmentTime_MapAccess = decision(&quot;Map Access&quot;){
+        &quot;On Demand (Google)&quot; : triangular(14, 18, 21);
+        &quot;Cache on server&quot; : triangular(14, 18, 21);
+        &quot;Preloaded (ESRI)&quot; : triangular(20, 27, 30);
+}
+
+
+DevelopmentTime_DataBase = decision(&quot;Database&quot;){
+        &quot;MySQL&quot; : triangular(15, 17, 18);
+        &quot;sqLite&quot; : triangular(15, 16, 22);
+}
+
+DevelopmentTime_ArchitecturalPattern = decision(&quot;Architectural Pattern&quot;){
+        &quot;Peer-to-peer&quot; : triangular(20, 26, 30);
+        &quot;Client-Server&quot; : triangular(15, 16, 20);
+        &quot;Push-based&quot; : triangular(20, 24, 25);
+}
+
+DevelopmentTime_DataExchangeFormat = decision(&quot;Data Exchange Format&quot;){
+        &quot;XML&quot; : triangular(6, 7, 8);
+        &quot;Compressed XML&quot; : triangular(7, 9, 10);
+        &quot;Unformatted data&quot; : triangular(3, 4, 5);
+}
+
+</code></pre>
+<h2><a id="Deployment_Time_Model_502"></a>Modelling the Deployment Time </h2>
+<pre><code>DeploymentTime_Preference = (DeploymentTime - DeploymentTime_worst)
+                            /(DeploymentTime_best - DeploymentTime_worst);
+DeploymentTime_Risk =   Pr(DeploymentTime &lt; DeploymentTime_must);
+
+DeploymentTime_best = deterministic(21) ;
+DeploymentTime_worst = deterministic(72) ;
+DeploymentTime_must = deterministic(38);
+
+DeploymentTime = DeploymentTime_LocationFinding + 
+               DeploymentTime_FileSharing + 
+               DeploymentTime_ReportSyncing + 
+               DeploymentTime_ChatProtocol + 
+               DeploymentTime_MapAccess + 
+               DeploymentTime_Connectivity + 
+               DeploymentTime_DataBase + 
+               DeploymentTime_ArchitecturalPattern;
+                               
+DeploymentTime_LocationFinding = decision(&quot;Location Finding&quot;){
+        &quot;GPS&quot; : triangular(2, 3, 3);
+        &quot;radio triangulation&quot; : triangular(1, 1, 2);
+}
+
+DeploymentTime_FileSharing = decision(&quot;File Sharing&quot;){
+        &quot;OpenIntent&quot; : triangular(1, 1, 2);
+        &quot;In house&quot; : deterministic(0);
+}
+
+DeploymentTime_ReportSyncing = decision(&quot;Report Syncing&quot;){
+        &quot;Explicit&quot; : triangular(1, 2, 2);
+        &quot;Implicit&quot; : deterministic(1);
+}
+
+DeploymentTime_ChatProtocol = decision(&quot;Chat Protocol&quot;){
+        &quot;XMPP (Open Fire)&quot; : triangular(1, 1, 2);
+        &quot;In house&quot; : deterministic(0);
+}
+
+DeploymentTime_MapAccess = decision(&quot;Map Access&quot;){
+        &quot;On Demand (Google)&quot; : deterministic(0);
+        &quot;Cache on server&quot; : triangular(3, 4, 5);
+        &quot;Preloaded (ESRI)&quot; : triangular(3, 4, 5);
+}
+
+
+DeploymentTime_Connectivity = decision(&quot;Connectivity&quot;){
+        &quot;Wifi&quot; : triangular(5, 6, 7);
+        &quot;3G on Nexus I&quot; : triangular(2, 3, 4);
+        &quot;3G on Droid&quot; : triangular(2, 3, 4);
+        &quot;Bluetooth&quot; : triangular(4, 5, 15);
+}
+
+DeploymentTime_DataBase = decision(&quot;Database&quot;){
+        &quot;MySQL&quot; : triangular(10, 15, 16);
+        &quot;sqLite&quot; : triangular(13, 14, 22);
+}
+
+DeploymentTime_ArchitecturalPattern = decision(&quot;Architectural Pattern&quot;){
+        &quot;Peer-to-peer&quot; : triangular(14, 18, 21);
+        &quot;Client-Server&quot; : triangular(7, 9, 10);
+        &quot;Push-based&quot; : triangular(8, 9, 12);
+}
+
+
+</code></pre>
+
+<h2>Analysis Results </h2>
+<p>Our analysis result is similar to that obtained in Letier et al. ,2014. However, as a comparison, our previous analysis of the same emergency
+response system model in R took 5 minutes (compared to approx. 2 minutes used by RADAR) and required manual coding and significant optimisation of the simulation function in R (without optimisation, the simulation of the
+whole search-space would have taken 7 hours) </p>
+<h3><a id="Optimisation_Analysis_248"></a>Optimisation Analysis</h3>
+<p>Here is a summary of the modelling and analysis information: </p>
+<table class="table table-bordered table-hover table-condensed">
+<tbody><tr><td>Objective </td>
+<td><strong>Max</strong>ENB</td>
+</tr>
+<tr><td>Objective </td>
+<td><strong>Min</strong>Risk</td>
+</tr>
+<tr><td>SolutionSpace </td>
+<td>6912</td>
+</tr>
+<tr><td>Minimal SolutionSet </td>
+<td>6912</td>
+</tr>
+<tr><td>Shortlisted </td>
+<td>15</td>
+</tr>
+<tr><td>Nbr. Variables </td>
+<td>117</td>
+</tr>
+<tr><td>Nbr. Parameters </td>
+<td>137</td>
+</tr>
+<tr><td>Nbr. Decisions </td>
+<td>10</td>
+</tr>
+<tr><td>Runtime(s) </td>
+<td>111</td>
+</tr>
+</tbody></table>
+<p>The model analysis generates the following shortlist of Pareto-optimal solutions:</p>
+<table class="table table-bordered table-hover table-condensed">
+<tbody>
+<tr><td><strong>ID</strong></td>
+<td><strong>Location Finding</strong></td>
+<td><strong>File Sharing</strong></td>
+<td><strong>Report Syncing</strong></td>
+<td><strong>Chat Protocol</strong></td>
+<td><strong>Map Access</strong></td>
+<td><strong>Hardware Platform</strong></td>
+<td><strong>Connectivity</strong></td>
+<td><strong>Database</strong></td>
+<td><strong>Architectural Pattern</strong></td>
+<td><strong>Data Exchange Format</strong></td>
+<td><strong>ENB</strong></td>
+<td><strong>Risk</strong></td>
+</tr>
+<tr><td>1</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>Wifi</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Compressed XML</td>
+<td>16.37529833</td>
+<td>0.9997</td>
+</tr>
+<tr><td>2</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td>15.96290754</td>
+<td>0.5634</td>
+</tr>
+<tr><td>3</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Explicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td>15.1679976</td>
+<td>0.039</td>
+</tr>
+<tr><td>4</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>XML</td>
+<td>16.24388763</td>
+<td>0.9863</td>
+</tr>
+<tr><td>5</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Compressed XML</td>
+<td>16.32688836</td>
+<td>0.9983</td>
+</tr>
+<tr><td>6</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>Wifi</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>XML</td>
+<td>16.2922976</td>
+<td>0.9961</td>
+</tr>
+<tr><td>7</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Nexus I</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td>15.79036997</td>
+<td>0.4258</td>
+</tr>
+<tr><td>8</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Push-based</td>
+<td>Unformatted data</td>
+<td>15.50738273</td>
+<td>0.417</td>
+</tr>
+<tr><td>9</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>3G on Nexus I</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td>15.99582951</td>
+<td>0.7475</td>
+</tr>
+<tr><td>10</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Explicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>XML</td>
+<td>15.24351815</td>
+<td>0.06</td>
+</tr>
+<tr><td>11</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Explicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Compressed XML</td>
+<td>15.32651889</td>
+<td>0.1079</td>
+</tr>
+<tr><td>12</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>Wifi</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td>16.21677705</td>
+<td>0.9429</td>
+</tr>
+<tr><td>13</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td>16.16836707</td>
+<td>0.8782</td>
+</tr>
+<tr><td>14</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Implicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Nexus I (HTC)</td>
+<td>Wifi</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td>16.01131751</td>
+<td>0.7632</td>
+</tr>
+<tr><td>15</td>
+<td>radio triangulation</td>
+<td>OpenIntent</td>
+<td>Explicit</td>
+<td>XMPP (Open Fire)</td>
+<td>Preloaded (ESRI)</td>
+<td>Droid (Motorola)</td>
+<td>3G on Droid</td>
+<td>MySQL</td>
+<td>Client-Server</td>
+<td>Unformatted data</td>
+<td>15.37345714</td>
+<td>0.1928</td>
+</tr>
+</tbody></table>
+<!--<p><img src="SAS.png" alt="Figure 4: SAS model pareto front">Figure 4: SAS model pareto front</p>-->
+<div class="container">
+	<div style="float:right">
+        	 <a href ="SAS.png"><img src="SAS.png"></a>
+	<p align ="center">Figure 4: SAS model pareto front</p>
+    </div>
+</div>
+<p>These results show that all shortlisted solutions include options <code>radio triangulation</code> , <code>Open Intent </code> , <code>XMPP (Open Fire)</code> ,  <code>Preloaded (ESRI)</code>  and <code>MySQL</code> . This means that, in our model, these five options, respectively, outperform the <code>GPS</code> option for decision Location Finding, <code>In house</code> option  for decision File Sharing, <code>In house</code> option   for decision Chat protocol, <code>Cache on Server</code>  and <code>On Demand (Google)</code> options  for decision Map Access and <code>SqLite</code> option  for decision Database  on both objectives.</p>
+<p>However, once these five options are selected, the shortlist includes all possible combinations of Report Syncing, Hardware Platform, Connectivity, Architectural pattern and Data Exchange Format; each combination representing different tradeoffs between maximising Expected Net Benefit (ENB) and minimising Risk.</p>
+<p>To visualise such tradeoffs, RADAR generates the graph in Fig. 4 plotting the objective values for the shortlised solutions (shown squares at the top of the graph) and all other non shortlisted ones (shown as circles).</p>
+
+<h3><a id=" Information_Value_Analysis_248"></a> Information Value Analysis</h3>
+<p>Analysing information value gives the following results that show that the information value for all model parameters is very low:</p>
+<p>EVTPI = 0.04</p>
+<table class="table table-bordered table-hover table-condensed">
+<thead><tr><th title="Field #1">Parameter</th>
+<th title="Field #2">EVPPI</th>
+</tr></thead>
+<tbody><tr><td>BatteryUsage_LocationFinding[GPS]</td>
+<td>0 </td>
+</tr>
+<tr><td>BatteryUsage_LocationFinding[radio triangulation]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_FileSharing[OpenIntent]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_FileSharing[In house]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_ReportSyncing[Explicit]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_ReportSyncing[Implicit]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_ChatProtocol[XMPP (Open Fire)]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_ChatProtocol[In house]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_MapAccess[On Demand (Google)]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_MapAccess[Cache on server]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_MapAccess[Preloaded (ESRI)]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_HardwarePlatform[Nexus I (HTC)]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_HardwarePlatform[Droid (Motorola)]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_Connectivity[Wifi]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_Connectivity[3G on Nexus I]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_Connectivity[3G on Droid]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_Connectivity[Bluetooth]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_DataBase[MySQL]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_DataBase[sqLite]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_ArchitecturalPattern[Peer-to-peer]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_ArchitecturalPattern[Client-Server]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_ArchitecturalPattern[Push-based]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_DataExchangeFormat[XML]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_DataExchangeFormat[Compressed XML]</td>
+<td>0</td>
+</tr>
+<tr><td>BatteryUsage_DataExchangeFormat[Unformatted data]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_LocationFinding[GPS]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_LocationFinding[radio triangulation]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_FileSharing[OpenIntent]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_FileSharing[In house]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_ReportSyncing[Explicit]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_ReportSyncing[Implicit]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_ChatProtocol[XMPP (Open Fire)]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_ChatProtocol[In house]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_MapAccess[On Demand (Google)]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_MapAccess[Cache on server]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_MapAccess[Preloaded (ESRI)]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_HardwarePlatform[Nexus I (HTC)]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_HardwarePlatform[Droid (Motorola)]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_Connectivity[Wifi]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_Connectivity[3G on Nexus I]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_Connectivity[3G on Droid]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_Connectivity[Bluetooth]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_DataBase[MySQL]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_DataBase[sqLite]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_ArchitecturalPattern[Peer-to-peer]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_ArchitecturalPattern[Client-Server]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_ArchitecturalPattern[Push-based]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_DataExchangeFormat[XML]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_DataExchangeFormat[Compressed XML]</td>
+<td>0</td>
+</tr>
+<tr><td>ResponseTime_DataExchangeFormat[Unformatted data]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_LocationFinding[GPS]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_LocationFinding[radio triangulation]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_FileSharing[OpenIntent]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_FileSharing[In house]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_ReportSyncing[Explicit]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_ReportSyncing[Implicit]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_ChatProtocol[XMPP (Open Fire)]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_ChatProtocol[In house]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_MapAccess[On Demand (Google)]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_MapAccess[Cache on server]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_MapAccess[Preloaded (ESRI)]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_Connectivity[Wifi]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_Connectivity[3G on Nexus I]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_Connectivity[3G on Droid]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_Connectivity[Bluetooth]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_DataBase[MySQL]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_DataBase[sqLite]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_ArchitecturalPattern[Peer-to-peer]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_ArchitecturalPattern[Client-Server]</td>
+<td>0</td>
+</tr>
+<tr><td>Reliability_ArchitecturalPattern[Push-based]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_LocationFinding[GPS]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_LocationFinding[radio triangulation]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_FileSharing[OpenIntent]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_FileSharing[In house]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_ReportSyncing[Explicit]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_ReportSyncing[Implicit]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_ChatProtocol[XMPP (Open Fire)]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_ChatProtocol[In house]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_MapAccess[On Demand (Google)]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_MapAccess[Cache on server]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_MapAccess[Preloaded (ESRI)]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_Connectivity[Wifi]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_Connectivity[3G on Nexus I]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_Connectivity[3G on Droid]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_Connectivity[Bluetooth]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_DataBase[MySQL]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_DataBase[sqLite]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_ArchitecturalPattern[Peer-to-peer]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_ArchitecturalPattern[Client-Server]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_ArchitecturalPattern[Push-based]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_DataExchangeFormat[XML]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_DataExchangeFormat[Compressed XML]</td>
+<td>0</td>
+</tr>
+<tr><td>RampUpTime_DataExchangeFormat[Unformatted data]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_LocationFinding[GPS]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_MapAccess[Cache on server]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_MapAccess[Preloaded (ESRI)]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_HardwarePlatform[Nexus I (HTC)]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_HardwarePlatform[Droid (Motorola)]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_Connectivity[Wifi]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_Connectivity[3G on Nexus I]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_Connectivity[3G on Droid]</td>
+<td>0</td>
+</tr>
+<tr><td>Cost_Connectivity[Bluetooth]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_LocationFinding[GPS]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_LocationFinding[radio triangulation]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_FileSharing[OpenIntent]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_FileSharing[In house]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_ReportSyncing[Explicit]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_ReportSyncing[Implicit]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_ChatProtocol[XMPP (Open Fire)]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_ChatProtocol[In house]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_MapAccess[On Demand (Google)]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_MapAccess[Cache on server]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_MapAccess[Preloaded (ESRI)]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_DataBase[MySQL]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_DataBase[sqLite]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_ArchitecturalPattern[Peer-to-peer]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_ArchitecturalPattern[Client-Server]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_ArchitecturalPattern[Push-based]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_DataExchangeFormat[XML]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_DataExchangeFormat[Compressed XML]</td>
+<td>0</td>
+</tr>
+<tr><td>DevelopmentTime_DataExchangeFormat[Unformatted data]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_LocationFinding[GPS]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_LocationFinding[radio triangulation]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_FileSharing[OpenIntent]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_ReportSyncing[Explicit]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_ChatProtocol[XMPP (Open Fire)]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_MapAccess[Cache on server]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_MapAccess[Preloaded (ESRI)]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_Connectivity[Wifi]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_Connectivity[3G on Nexus I]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_Connectivity[3G on Droid]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_Connectivity[Bluetooth]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_DataBase[MySQL]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_DataBase[sqLite]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_ArchitecturalPattern[Peer-to-peer]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_ArchitecturalPattern[Client-Server]</td>
+<td>0</td>
+</tr>
+<tr><td>DeploymentTime_ArchitecturalPattern[Push-based]</td>
+<td>0</td>
+</tr>
+</tbody></table>
+
+<h3>References</h3>
+<ol>
+<li>
+<p>Saheed A. Busari and Emmanuel Letier, &quot;<a href="radar_icse17">RADAR: A lightweight tool for requirements and architecture decision analysis</a>,&quot; in submission, August 2016</p>
+</li>
+<li></p>Esfahani, Naeem, and Sam Malek. Guided exploration of the architectural solution space in the face of uncertainty. Technical report, 2011.</p></li>
+<li><p>Letier, Emmanuel, David Stefan, and Earl T. Barr. "Uncertainty, risk, and information value in software requirements and architecture." Proceedings of the 36th International Conference on Software Engineering. ACM, 2014.</p></li>
+<li><p>Esfahani, Naeem, Sam Malek, and Kaveh Razavi. "GuideArch: guiding the exploration of architectural solution space under uncertainty." 2013 35th International Conference on Software Engineering (ICSE). IEEE, 2013.</p><li>
+</ol>
+
+</body></html>

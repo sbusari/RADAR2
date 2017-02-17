@@ -1,0 +1,36 @@
+Model SYNTHETICMODEL; 
+Objective Max OF0 = EV(X0);
+Objective Max OF1 = EV(Y0);
+X0 = X1 / X2 + X3;
+X4 = normalCI(1,10);
+X5 = normal(20,26);
+X6 = decision("D_3"){
+	 "O3_0" : triangular(74,113,179); 
+	 "O3_1" : normalCI(0,9); 
+}
+X2 = normal(19,30);
+X3 = decision("D_4"){
+	 "O4_0" : X4 + X5; 
+	 "O4_1" : X6; 
+	 "O4_2" : triangular(63,140,178); 
+}
+X1 = normalCI(1,7);
+Y0 = Y1 / Y2 + Y3;
+Y2 = normal(17,24);
+Y3 = decision("D_2"){
+	 "O2_0" : normal(10,25); 
+	 "O2_1" : normalCI(4,6); 
+}
+Y1 = Y4 + Y5 + Y6;
+Y7 = decision("D_3"){
+	 "O3_0" : normalCI(1,10); 
+	 "O3_1" : triangular(65,132,151); 
+}
+Y5 = normalCI(2,6);
+Y6 = decision("D_1"){
+	 "O1_0" : normal(11,22); 
+	 "O1_1" : normal(19,22); 
+	 "O1_2" : Y7; 
+}
+Y4 = normalCI(4,9);
+

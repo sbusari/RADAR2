@@ -1,0 +1,555 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+	align:justify
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+.container {
+    display:inline-block;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1em}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+<title>RADAR</title>
+
+</head>
+<body id="preview">
+<h1><a id="Analysis_of_Design_Decisions_for_Plastic_Card_Fraud_Detection_Systems_0"></a>Analysis of Design Decisions for Plastic Card Fraud Detection Systems</h1>
+<p><em>Saheed. A. Busari and Emmanuel Letier</em></p>
+<p>RADAR is a lightweight modelling language and tool for analysing software requirements and architecture decisions (Busari and Letier, 2016). This report presents an application of RADAR to the analysis of plastic card fraud detection systems.</p>
+<p>Our analysis is motivated by and based on previous studies of the scalability of a commercial fraud detection system (Duboc et al., 2008; Duboc et al. 2013) and of the performance criteria of plastic card fraud detection tools (Hand et al., 2008).</p>
+<h2><a id="Problem_Description_8"></a>Problem Description</h2>
+<p>The purpose of a plastic card fraud detection system is to detect when plastic card accounts have been compromised by fraudsters who are using the account to steal funds (Hand et al, 2008).</p>
+<p>Design decisions for fraud detection systems include:</p>
+<ul>
+<li>
+<p>the <strong>processing type</strong> that can be continuous or batch; continuous processing analyses transactions individually, whereas batch processing analyses sets of transactions together;</p>
+</li>
+<li>
+<p>the <strong>fraud detection method</strong> which can be a <em>two-class supervised classification method</em> in which a classifier is trained from past samples of fraudulent and non-fraudulent transactions, or a <em>non-statistical rule-based method</em> that flags transactions matching configurations known to be high risk;</p>
+</li>
+<li>
+<p>if the classifier fraud detection method is chosen, the <strong>alert threshold</strong> defines some threshold above which the classifier should flag a transaction as suspect; a low alert threshold means more alerts will be generated and thus a higher ratio of false alerts;</p>
+</li>
+<li>
+<p>the <strong>blocking policy</strong> that can include blocking an account as soon as the fraud detection algorithm flags a transaction as fraudulent, or only blocking the account after the suspected fraud has been confirmed by human investigators.</p>
+</li>
+</ul>
+<p>These design decisions (shown below) have impacts on how quickly frauds are detected and compromised accounts blocked and on the cost-effectiveness of the fraud detection system.</p>
+<div class="container">
+	<div style="float:right">
+        	 <a href ="fdm_graphs/FDMDecision.jpg"><img src="fdm_graphs/FDMDecision.jpg"></a>
+	<p align ="center">Design Decisions</p>
+    </div>
+</div>
+
+<p>The current system analyses transactions in batch using a rule-based method. Accounts are blocked only after the suspected fraud has been confirmed by human investigators.</p>
+<h2><a id="Modelling_the_Optimisation_Objectives_27"></a>Modelling the Optimisation Objectives</h2>
+<p>Two key concerns of a fraud detection system are to minimise the financial loss due to fraud and to minimise the manual fraud investigation costs.</p>
+<p>The first object of minimising financial loss is equivalent to maximising the benefits of using a fraud detection system, where the benefits are defined as the reduction in financial loss with respect to the current system's baseline:</p>
+<pre><code>Objective Max FraudDetectionBenefit= EV(Benefit);
+
+Benefit = BaseLineFinancialLoss - FinancialLoss;
+
+BaseLineFinancialLoss = deterministic(500000);
+</code></pre>
+<p>This objective formulation as a maximisation of expected benefits instead of minimisation of expected loss is more convenient for RADAR's information value analysis.</p>
+<p>We model the second objective as minimising the alert investigation load defined here as the 95th percentile of the number of alerts generated by the fraud detection system:</p>
+<pre><code>Objective Min InvestigationLoad = percentile(NbrAlerts, 95);
+</code></pre>
+<p>The percentile means that 95 days out of 100, the number of alerts will be below the investigation load.</p>
+<h2><a id="Modelling_Financial_Loss_51"></a>Modelling Financial Loss</h2>
+<p>This plastic card fraud detection system analyses transactions <em>after</em> they have been authorised by the bank. Therefore, if the fraud detection system detects a transaction as fraudulent, the bank will still lose the fraudulent transaction amount (unless the bank can prove the fraud is due to negligence from the cardholder or vendor, a concern we will not consider in our model). The purpose of the fraud detection system is to block compromised card accounts as quickly as possible so as to prevent further fraud. Plastic card fraud detection system are thus evaluated by their ability to minimise future financial losses.</p>
+<p>We model the future financial loss as the product of the number of compromised accounts, the average number of fraudulent transactions that will be authorised on an account before it is blocked, and the average value of a fraudulent transaction:</p>
+<pre><code>FinancialLoss = NbrCompromisedAccounts 
+                    * NbrFraudPerAccountBeforeBlocked
+                    * AverageFraudValue;
+</code></pre>
+<p>The <code>FinancialLoss</code> is measured in &pound; per day, <code>NbrCompromisedAccounts</code> in number of accounts per day, and <code>AverageFraudValue</code> in &pound;.</p>
+<p>The number of compromised accounts is the total number of accounts multiplied by the percentage of compromised accounts:</p>
+<pre><code>NbrCompromisedAccounts = NbrAccounts * CompromisedAccountRatio;
+</code></pre>
+<p>Both quantities are parameters that can be estimated from past data. For example:</p>
+<pre><code>NbrAccounts = normalCI(0.9 * 10^6, 1.1 * 10^6);
+CompromisedAccountRatio = triangular(0, 0.0001, 0.0003 );
+</code></pre>
+<p>The average fraudulent transaction value can also be estimated from past data. For example:</p>
+<pre><code>AverageFraudValue = normalCI(100, 1000);
+</code></pre>
+<p>The average number of frauds on an account before it is blocked, <code>NbrFraudPerAccountBeforeBlocked</code>, depends on the blocking policy. If accounts are blocked as soon as the fraud detection system suspects a fraud, the number of fraud before the account is blocked is the number of fraud before detection. If accounts are blocked only after suspected fraud are confirmed by a fraud investigation, further frauds might occur during investigation:</p>
+<pre><code>NbrFraudPerAccountBeforeBlocked = decision(&quot;blocking policy&quot;){
+    &quot;block first&quot;          : NbrFraudBeforeDetection;
+    &quot;investigate first&quot;    : NbrFraudBeforeDetection + NbrFraudDuringInvestigation;
+}
+</code></pre>
+<p>The average number of frauds before detection, <code>NbrFraudPerAccountBeforeBlocked</code>, depends on the processing type.</p>
+<p>For continuous processing, the mean number of fraud before detection is the infinite series:</p>
+<pre><code>  1 * probability(fraud is detected after 1 fraudulent transactions)
++ 2 * probability(fraud is detected after 2 fraudulent transactions)
++ 3 * probability(fraud is detected after 3 fraudulent transactions)
++ ... 
+</code></pre>
+<p>The probability that a fraudulent transaction is detected is the true alert rate (the ratio of the number of detected fraud over the number of fraud). Factoring the above series yield that for continuous processing</p>
+<pre><code>NbrFraudBeforeDetection = 1/ TrueAlertRate
+</code></pre>
+<p>In batch processing, transactions are analysed at the end of every day. Batch processing thus introduces a delay between a fraudulent transaction and its detections, a delay during which additional fraud might occur, but because transactions are analysed in groups rather than individually, the batch processing may have a better true alert rate than the continuous processing. Assuming that batch processing adds on average a delay of a day to fraud detection, our models assumes that</p>
+<pre><code>NbrFraudBeforeDetection = NbrFraudsPerCompromisedAccountPerDay * 1/ Batch_TrueAlertRate
+</code></pre>
+<p>Thus, the final equation for estimating <code>NbrFraudBeforeDetection</code> is:</p>
+<pre><code>NbrFraudBeforeDetection = decision(&quot;processing type&quot;){
+    &quot;continuous&quot;    :    1 / ContinuousTrueAlertRate;
+    &quot;batch&quot;         :    NbrFraudPerCompromisedAccountPerDay / BatchTrueAlertRate;
+}
+</code></pre>
+<p>The average number of frauds per day per compromised account is a parameter than could be estimated from past data. For example:</p>
+<pre><code>NbrFraudsPerCompromisedAccountPerDay = normalCI(1, 20);
+</code></pre>
+<p>The average number of fraud per account committed during the investigation period is also proportional to the number of frauds per compromised account per day.</p>
+<pre><code>NbrFraudDuringInvestigation = NbrFraudPerCompromisedAccountPerDay * InvestigationDelay;
+
+InvestigationDelay = triangular(1/24, 1/3, 1);
+</code></pre>
+<p>The true alerts rates depend on the fraud detection methods and their parameters. True alerts rates are typically estimated by analysing the performance of the fraud detection method on past data.</p>
+<p>To keep our model simple, we assume the classifier has three settings <code>high</code>, <code>medium</code>, and <code>low</code> that generates high, medium, or low number of alerts; and the rule-based approach has a single fixed true alert rate.</p>
+<p>For the continuous true alert rate:</p>
+<pre><code>ContinuousTrueAlertRate = decision(&quot;fraud detection method&quot;){
+    &quot;classifier&quot; :  ContinuousAlertThreshold;
+    &quot;rule-based&quot; :  deterministic(0.75);
+}
+
+ContinuousAlertThreshold = decision(&quot;alert threshold&quot;){
+    &quot;low&quot;   : triangular(0.75, 0.85, 0.95);
+    &quot;medium&quot; : triangular(0.65, 0.75, 0.85);
+    &quot;high&quot;    : triangular(0.55, 0.65, 0.75);
+}
+
+</code></pre>
+<p>For the batch true alert rate:</p>
+<pre><code>BatchTrueAlertRate = decision(&quot;fraud detection method&quot;){
+    &quot;classifier&quot; :  BatchAlertThreshold;
+    &quot;rule-based&quot; :  deterministic(0.80);
+}
+
+BatchAlertThreshold = decision(&quot;alert threshold&quot;){
+    &quot;low&quot;   : triangular(0.75, 0.85, 0.95);
+    &quot;medium&quot; : triangular(0.65, 0.75, 0.85);
+    &quot;high&quot;    : triangular(0.55, 0.65, 0.75);
+}
+</code></pre>
+<p>The AND/OR refinement graph for the financial loss model looks like this:</p>
+<!--<p><img src="fdm_graphs/FinancialLossAndOrGraph.jpg" alt="Financial Loss And-Or Refinement Graph"></p>-->
+
+<div class="container">
+	<div style="float:right">
+        	 <a href ="fdm_graphs/FinancialLossAndOrGraph.jpg"><img src="fdm_graphs/FinancialLossAndOrGraph.jpg"></a>
+	<p align ="center">Financial Loss And-Or Refinement Graph</p>
+ </div>
+</div>
+
+
+
+<h2><a id="Modelling_Investigation_Load_173"></a>Modelling Investigation Load</h2>
+<p>The number of generated alerts is the sum of the number of true alerts and false alerts:</p>
+<pre><code>NbrAlerts = NbrTrueAlerts + NbrFalseAlerts;
+</code></pre>
+<p>The number of true and false alerts are functions of the number of accounts, the percentage of compromised accounts, and the true and false alert rates:</p>
+<pre><code>NbrTrueAlerts = NbrFraud * TrueAlertRate;
+NbrFalseAlerts = NbrLegitTransactions * (1 - TrueNegativeRate);
+</code></pre>
+<p>The true alert rate (the ratio of the number true alert over the number of fraud, a.k.a. sensitivity) and true negative rate (the ratio of the number of un-flagged legitimate transactions over the total number of legitimate transactions, a.k.a. specificity) vary with the processing type:</p>
+<pre><code>TrueAlertRate = decision(&quot;processing type&quot;){
+    &quot;continuous&quot; : ContinuousTrueAlertRate;
+    &quot;batch&quot;      : BatchTrueAlertRate;
+}
+
+TrueNegativeRate = decision(&quot;processing type&quot;){
+    &quot;continuous&quot; : ContinuousTrueNegativeRate;
+    &quot;batch&quot;      : BatchTrueNegativeRate;
+}   
+</code></pre>
+<p>Models of the continuous and batch true alert rates have already been defined. The models for the continuous and batch true negative rate follow the same structure:</p>
+<pre><code>ContinuousTrueNegativeRate = decision(&quot;fraud detection method&quot;){
+    &quot;continuous_classifier&quot; :  ContinuousClassierTrueNegativeRate;
+    &quot;continuous_rule-based&quot; :  deterministic(0,99);
+}
+    
+ContinuousClassierTrueNegativeRate = decision(&quot;continuous classifier threshold level&quot;){
+    &quot;low&quot;   : triangular(0.95, 0.99, 0.995);
+    &quot;medium&quot; : triangular(0.99, 0.995, 0.999);
+    &quot;high&quot;    : triangular(0.995, 0.999, 0.9999);}
+
+BatchTrueNegativeRate = decision(&quot;fraud detection method&quot;){
+    &quot;batch_classifier&quot; :  BatchClassifierTrueNegativeRate;
+    &quot;batch_rule-based&quot; :  deterministic(0,995);
+}
+    
+BatchClassifierTrueNegativeRate = decision(&quot;batch classifier threshold level&quot;){
+    &quot;low&quot;   : triangular(0.9, 0.99, 0.995);
+    &quot;medium&quot; : triangular(0.99, 0.995, 0.999);
+    &quot;high&quot;    : triangular(0.995, 0.999, 0.9999);
+}
+</code></pre>
+<p>Finally, the number of fraudulent and legitimate transactions depend on the number of accounts and average number of transactions per account:</p>
+<pre><code>NbrFraud = NbrAccounts * CompromisedAccountRatio * NbrFraudPerCompromisedAccountPerDay
+    
+NbrLegitTransactions = NbrAccounts  * NbrLegitTransactionsPerAccountPerDay
+</code></pre>
+<p>The average number of accounts and compromised account ratio are model parameters that we have already estimated above. The average number of legitimate and fraudulent transactions per compromised account per day are also model parameters that could estimated from past data. For example:</p>
+<pre><code>NbrFraudPerCompromisedAccountPerDay  = triangle(0, 3, 10)
+NbrLegitTransactionsPerAccountPerDay = triangle(0, 3, 10)
+</code></pre>
+<p>The And/Or refinement graph for the investigation load model looks like this:</p>
+<!--<p><img src="fdm_graphs/NbrAltertsAndOrGraph.jpg" alt="And/Or refinement graph for the investigation load model"></p>-->
+
+<div class="container">
+	<div style="float:right">
+        	 <a href ="fdm_graphs/NbrAltertsAndOrGraph.jpg"><img src="fdm_graphs/NbrAltertsAndOrGraph.jpg"></a>
+	<p align ="center">And/Or refinement graph for the investigation load model</p>
+    </div>
+</div>
+
+
+<h2><a id="Analysis_Results_246"></a>Analysis Results</h2>
+<h3><a id="Optimisation_Analysis_248"></a>Optimisation Analysis</h3>
+<p>Here is a summary of the modelling and analysis information: </p>
+<table class="table table-bordered table-hover table-condensed" align ="center">
+<tbody><tr><td>Objective </td>
+<td><strong>Max</strong>FraudDetectionBenefit</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Objective </td>
+<td><strong>Min</strong>InvestigationLoad</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>SolutionSpace </td>
+<td>24</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Minimal SolutionSet </td>
+<td>16</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Shortlisted </td>
+<td>4</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Variables </td>
+<td>31</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Parameters </td>
+<td>19</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Nbr. Decisions </td>
+<td>4</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+<tr><td>Runtime(s) </td>
+<td>0</td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+</tbody></table>
+
+
+
+<p>The model analysis generates the following shortlist of Pareto-optimal solutions:</p>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>ID</th>
+<th>blocking policy</th>
+<th>processing type</th>
+<th>fraud detection method</th>
+<th>alert threshold</th>
+<th>FraudDetectionBenefit</th>
+<th>InvestigationLoad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>block first</td>
+<td>continuous</td>
+<td>rule-based</td>
+<td></td>
+<td>402799</td>
+<td>82709</td>
+</tr>
+<tr>
+<td>2</td>
+<td>block first</td>
+<td>continuous</td>
+<td>classifier</td>
+<td>medium</td>
+<td>402516</td>
+<td>52139</td>
+</tr>
+<tr>
+<td>3</td>
+<td>block first</td>
+<td>continuous</td>
+<td>classifier</td>
+<td>high</td>
+<td>387394</td>
+<td>22467</td>
+</tr>
+<tr>
+<td>4</td>
+<td>block first</td>
+<td>continuous</td>
+<td>classifier</td>
+<td>low</td>
+<td>414087</td>
+<td>232479</td>
+</tr>
+</tbody>
+</table>
+<!--<p><img src="FDM.png" alt="Figure 4: fraud detection model pareto front">Figure 4: Fraud detection model pareto front</p>-->
+<div class="container">
+	<div style="float:right">
+        	 <a href ="FDM.png"><img src="FDM.png"></a>
+	<p align ="center">Figure 4: fraud detection model pareto front</p>
+    </div>
+</div>
+<p>These results show that all shortlisted solutions include the <code>block first</code> policy and <code>continuous</code> processing type. This means that, in our model, these two options outperform the <code>investigate first</code> policy and <code>batch</code> processing on both objectives.</p>
+<p>But once these two options are selected, the shortlist includes all possible combinations of fraud detection methods and alert thresholds; each combination representing a different tradeoffs between maximising fraud detection benefit and minimising investigation load.</p>
+<p>To visualise such tradeoffs, RADAR generates the graph in Fig. 4 plotting the objective values for the shortlised solutions (shown squares at the top of the graph) and all other non shortlisted ones (shown as circles).</p>
+<h3><a id=" Information_Value_Analysis_248"></a> Information Value Analysis</h3>
+<p>Analysing information value gives the following results:</p>
+<p>EVTPI = 220</p>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>EVPPI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AverageFraudValue</td>
+<td>122</td>
+</tr>
+<tr>
+<td>ContinuousAlertThreshold[medium]</td>
+<td>1.56</td>
+</tr>
+<tr>
+<td>ContinuousAlertThreshold[low]</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ContinuousClassierTrueNegativeRate[low]</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ContinuousAlertThreshold[high]</td>
+<td>1</td>
+</tr>
+<tr>
+<td>BatchClassifierTrueNegativeRate[low]</td>
+<td>0</td>
+</tr>
+<tr>
+<td>BatchClassifierTrueNegativeRate[medium]</td>
+<td>0</td>
+</tr>
+<tr>
+<td>NbrAccounts</td>
+<td>0</td>
+</tr>
+<tr>
+<td>BatchAlertThreshold[medium]</td>
+<td>0</td>
+</tr>
+<tr>
+<td>NbrFraudPerCompromisedAccountPerDay</td>
+<td>0</td>
+</tr>
+<tr>
+<td>BatchAlertThreshold[low]</td>
+<td>0</td>
+</tr>
+<tr>
+<td>CompromisedAccountRatio</td>
+<td>0</td>
+</tr>
+<tr>
+<td>BatchAlertThreshold[high]</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ContinuousClassierTrueNegativeRate[high]</td>
+<td>0</td>
+</tr>
+<tr>
+<td>NbrLegitTransactionsPerAccountPerDay</td>
+<td>0</td>
+</tr>
+<tr>
+<td>BatchClassifierTrueNegativeRate[high]</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ContinuousClassierTrueNegativeRate[medium]</td>
+<td>0</td>
+</tr>
+<tr>
+<td>InvestigationDelay</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>The results show that except for <code>AvarageFraudValue</code> the information value of all model parameters is very low.</p>
+<h3>References</h3>
+<ol>
+<li>
+<p>Saheed A. Busari and Emmanuel Letier, &quot;<a href="radar_icse17">RADAR: A lightweight tool for requirements and architecture decision analysis</a>,&quot; in submission, August 2016</p>
+</li>
+<li>
+<p>Leticia Duboc, Emmanuel Letier, David S. Rosenblum, and Tony Wicks,"A case study in eliciting scalability requirements," <em>16th IEEE International Requirements Engineering Conference (RE 2008)</em>, 2008, pp. 247-252.</p>
+</li>
+<li>
+<p>Leticia Duboc, Emmanuel Letier, and David S. Rosenblum, "Systematic elaboration of scalability requirements through goal-obstacle analysis" <em>IEEE Transactions on Software Engineering</em>, vol. 39, no. 1, pp. 119-140, 2013.</p>
+</li>
+<li>
+<p>D. J. Hand, C. Whitrow, N. M. Adams, P. Juszczak, and D. Weston, "Performance criteria for plastic card fraud detection tools," <em>The Journal of the Operational Research Society</em>, vol. 59, no. 7, pp. 956-962, 2008.</p>
+</li>
+</ol>
+
+</body></html></body></html>

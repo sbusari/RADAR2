@@ -1,0 +1,207 @@
+#sidebar-wrapper{
+background: #132F4D;
+}
+.sidebar-nav li a{
+color: #FFF;
+}
+@font-face {
+font-family: Karla;
+src: url(../fonts/Karla-Regular.ttf);
+}
+#brand{
+font-family: Karla;
+}
+body{
+font-family: Karla;
+}
+img#brand{
+width:75%;
+margin: 7px 10px 10px -20px;
+}
+#side-nav-bar a{
+margin-top: 5px;
+}
+.section-example-container{
+border-color: #DDD;
+border-width: 1px;
+border-radius: 4px 4px 0 0;
+border-style: solid;
+}
+div.code{
+background-color: #DDD;
+}
+.logo-icon{
+font-size: 60px;
+}
+.center-row{
+text-align: center;
+}
+.glyph-row{
+display: inline-block;
+text-align: center;
+}
+.glyph{
+display: inline-block;
+padding: 20px;
+}
+.hide_glyph{
+display: none;
+}
+.glyph:hover .hide_glyph{
+display: inherit;
+}
+.glyph:hover .show_glyph{
+display: none;
+}
+.padding-row{
+padding-top: 15px;
+padding-bottom: 15px;
+}
+.btn-ex{
+margin-top: 4px;
+}
+/*Navbar CSS*/
+.navbar-header a img{
+width: 180px;
+margin: -17px;
+}
+/*Navbar CSS main*/
+.nav-peach-main{
+background: #132F4D;
+}
+.nav-peach-main li a{
+color: white;
+padding-top: 20px;
+}
+.nav-peach-main li a:hover{
+color: #132F4D;
+padding-top: 20px;
+background-color: white;
+border-radius: 3px;
+}
+.nav-peach-main button.navbar-toggle.collapsed{
+border-color: white;
+}
+.nav-peach-main button.navbar-toggle{
+border-color: white;
+}
+.nav-peach-main .navbar-toggle .icon-bar{
+background-color: white;
+}
+/*Navbar CSS mint*/
+.nav-peach-mint{
+background: #6AB6AC;
+}
+.nav-peach-mint li a{
+color: white;
+padding-top: 20px;
+}
+.nav-peach-mint li a:hover{
+color: #6AB6AC;
+padding-top: 20px;
+background-color: white;
+border-radius: 3px;
+}
+.nav-peach-mint button.navbar-toggle.collapsed{
+border-color: white;
+}
+.nav-peach-mint button.navbar-toggle{
+border-color: white;
+}
+.nav-peach-mint .navbar-toggle .icon-bar{
+background-color: white;
+}
+/*Navbar CSS green*/
+.nav-peach-green{
+background: #50864E;
+}
+.nav-peach-green li a{
+color: white;
+padding-top: 20px;
+}
+.nav-peach-green li a:hover{
+color: #50864E;
+padding-top: 20px;
+background-color: white;
+border-radius: 3px;
+}
+.nav-peach-green button.navbar-toggle.collapsed{
+border-color: white;
+}
+.nav-peach-green button.navbar-toggle{
+}
+.nav-peach-green .navbar-toggle .icon-bar{
+background-color: white;
+}
+/*Navbar CSS pink*/
+#side-nav-bar{
+border-bottom: 1px solid #000000;
+}
+#splitter{
+border-top: 2px solid #132F4D;
+}
+/*Logo Section CSS*/
+.main-logo-container{
+padding-top: 10px;
+padding-bottom: 2px;
+}
+.main-logo-container img{
+display: block;
+margin: auto;
+width: 50%;
+}
+.logo-example{
+width: 33%;
+padding-top: 5px;
+}
+.clearspace-container{
+padding-top: 10px;
+padding-bottom: 2px;
+}
+.clearspace-container img{
+display: block;
+margin: auto;
+width: 50%;
+}
+.colour-content{
+display: inline-block;
+margin: auto;
+}
+.colour-block{
+display: inline-block;
+height: 150px;
+width: 130px;
+text-align: center;
+margin-left: 20px;
+margin-right: 20px;
+margin-bottom:20px;
+border: 1px solid #f2f2f2;
+padding:7px;
+border-radius: 5px;
+box-shadow: 0px 0px 2px 3px #CDCDCD;
+}
+.colour-display{
+display:block;
+height: 90px;
+width: 90px;
+margin: 0 auto;
+border-radius: 5px;
+}
+.colour-title{
+padding-bottom: 10px;
+}
+.multi-logo-container{
+text-align: center;
+}
+.tab-text{
+text-indent: 50px;
+}
+.ptsans{
+font-family: 'PT Sans';
+}
+.logo-example{
+font-family: 'Karla';
+}
+#wrong-name-label{
+color: red;
+}

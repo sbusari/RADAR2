@@ -1,0 +1,17 @@
+digraph G { 
+"blocking policy" [shape = polygon, sides =8] 
+"blocking policy" -> "block first"[arrowhead= odot]
+"blocking policy" -> "investigage first"[arrowhead= odot]
+"processing type" [shape = polygon, sides =8] 
+"processing type" -> "continuous"[arrowhead= odot]
+"processing type" -> "batch"[arrowhead= odot]
+"fraud detection method" [shape = polygon, sides =8] 
+"fraud detection method" -> "classifier"[arrowhead= odot]
+"threshold level" [shape = polygon, sides =8] 
+"classifier" -> "threshold level"[arrowhead= dot]
+"fraud detection method" -> "rule-based"[arrowhead= odot]
+"threshold level" [shape = polygon, sides =8] 
+"threshold level" -> "high"[arrowhead= odot]
+"threshold level" -> "medium"[arrowhead= odot]
+"threshold level" -> "low"[arrowhead= odot]
+}

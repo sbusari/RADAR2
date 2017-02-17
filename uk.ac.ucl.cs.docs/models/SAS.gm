@@ -1,0 +1,539 @@
+Model SAS;
+
+Objective Max ENB;		
+				   
+ENB = E(NB);
+
+NB = BatteryUsage_weight * BatteryUsage_Preference +
+     ResponseTime_weight * ResponseTime_Preference +
+     Reliability_weight * Reliability_Preference +
+     RampUpTime_weight * RampUpTime_Preference +
+     Cost_weight * Cost_Preference +
+     DevelopmentTime_weight * DevelopmentTime_Preference +
+     DeploymentTime_weight * DeploymentTime_Preference ;
+     
+BatteryUsage_weight = parameter(9);
+ResponseTime_weight = parameter(7);
+Reliability_weight = parameter(3);
+RampUpTime_weight = parameter(2);
+Cost_weight = parameter(1);
+DevelopmentTime_weight = parameter(2);
+DeploymentTime_weight = parameter(2);
+
+Objective Min Risk ;
+Risk = 1  - ( 	(1 - BatteryUsage_Risk) *
+				(1 - ResponseTime_Risk) *
+				(1 - Reliability_Risk) *
+				(1 - RampUpTime_Risk) *
+				(1 - Cost_Risk) *
+				(1 - DevelopmentTime_Risk) *
+				(1 - DeploymentTime_Risk)
+			 ) ;
+
+BatteryUsage_Preference = (BatteryUsage - BatteryUsage_best)
+							/(BatteryUsage_worst - BatteryUsage_best);
+							
+BatteryUsage_Risk = P(BatteryUsage < BatteryUsage_must);
+
+BatteryUsage_best = parameter(20);
+BatteryUsage_worst = parameter(12);
+BatteryUsage_must = parameter(16);
+
+BatteryUsage = BatteryUsage_LocationFinding + 
+               BatteryUsage_FileSharing + 
+               BatteryUsage_ReportSyncing + 
+               BatteryUsage_ChatProtocol + 
+               BatteryUsage_MapAccess + 
+               BatteryUsage_HardwarePlatform + 
+               BatteryUsage_Connectivity + 
+               BatteryUsage_DataBase + 
+               BatteryUsage_ArchitecturalPattern + 
+               BatteryUsage_DataExchangeFormat;
+                
+BatteryUsage_LocationFinding = decision("Location Finding"){
+		"GPS" : parameter(triangular(10, 12, 14));
+		"radio triangulation" : parameter(triangular(4, 5, 6));
+}
+
+BatteryUsage_FileSharing = decision("File Sharing"){
+		"OpenIntent" : parameter(triangular(15, 17, 19));
+		"In house" : parameter(triangular(20, 21, 22));
+}
+
+BatteryUsage_ReportSyncing = decision("Report Syncing"){
+		"Explicit" : parameter(triangular(23, 25, 27));
+		"Implicit" : parameter(triangular(28, 29, 30));
+}
+
+BatteryUsage_ChatProtocol = decision("Chat Protocol"){
+		"XMPP (Open Fire)" : parameter(triangular(40, 45, 50));
+		"In house" : parameter(triangular(60, 65, 70));
+}
+
+BatteryUsage_MapAccess = decision("Map Access"){
+		"On Demand (Google)" : parameter(triangular(31, 32, 33));
+		"Cache on server" : parameter(triangular(34, 35, 36));
+		"Preloaded (ESRI)" : parameter(triangular(37, 38, 39));
+}
+
+BatteryUsage_HardwarePlatform = decision("Hardware Platform"){
+		"Nexus I (HTC)" : parameter(triangular(40, 41, 42));
+		"Droid (Motorola)" : parameter(triangular(43, 44, 45));
+}
+
+BatteryUsage_Connectivity = decision("Connectivity"){
+		"Wifi" : parameter(triangular(45, 47, 48));
+		"3G on Nexus I" : parameter(triangular(49, 50, 51));
+		"3G on Droid" : parameter(triangular(52, 53, 54));
+		"Bluetooth" : parameter(triangular(44, 46, 49));
+}
+
+BatteryUsage_DataBase = decision("Database"){
+		"MySQL" : parameter(triangular(55, 56, 57));
+		"sqLite" : parameter(triangular(48, 55, 59));
+}
+
+BatteryUsage_ArchitecturalPattern = decision("Architectural Pattern"){
+		"Client-Server" : parameter(triangular(55, 56, 57));
+		"Peer-to-peer" : parameter(triangular(48, 49, 52));
+		"Push-based" : parameter(triangular(55, 57, 60));
+}
+
+BatteryUsage_DataExchangeFormat = decision("Data Exchange Format"){
+		"XML" : parameter(triangular(61, 66, 70));
+		"Compressed XML" : parameter(triangular(40, 41, 42));
+		"Unformatted data" : parameter(triangular(55, 56, 70));
+}
+
+// Response Time
+
+ResponseTime_Preference = (ResponseTime - ResponseTime_worst)
+							/(ResponseTime_best - ResponseTime_worst);
+ResponseTime_Risk = 	P(ResponseTime < ResponseTime_must);
+
+ResponseTime_best = parameter(203);
+ResponseTime_worst = parameter(2850);
+ResponseTime_must = parameter(882);
+
+ResponseTime = ResponseTime_LocationFinding + 
+               ResponseTime_FileSharing + 
+               ResponseTime_ReportSyncing + 
+               ResponseTime_ChatProtocol + 
+               ResponseTime_MapAccess + 
+               ResponseTime_HardwarePlatform + 
+               ResponseTime_Connectivity + 
+               ResponseTime_DataBase + 
+               ResponseTime_ArchitecturalPattern + 
+               ResponseTime_DataExchangeFormat;
+                
+ResponseTime_LocationFinding = decision("Location Finding"){
+		"GPS" : parameter(triangular(480, 500, 990));
+		"radio triangulation" : parameter(triangular(50, 100, 600));
+}
+
+ResponseTime_FileSharing = decision("File Sharing"){
+		"OpenIntent" : parameter(triangular(50, 65, 70));
+		"In house" : parameter(triangular(40, 60, 100));
+}
+
+ResponseTime_ReportSyncing = decision("Report Syncing"){
+		"Explicit" : parameter(triangular(20, 30, 50));
+		"Implicit" : parameter(triangular(1, 4, 10));
+}
+
+ResponseTime_ChatProtocol = decision("Chat Protocol"){
+		"XMPP (Open Fire)" : parameter(triangular(40, 60, 70));
+		"In house" : parameter(triangular(30, 40, 200));
+}
+
+ResponseTime_MapAccess = decision("Map Access"){
+		"On Demand (Google)" : parameter(triangular(700, 800, 900));
+		"Cache on server" : parameter(triangular(1, 4, 500));
+		"Preloaded (ESRI)" : parameter(triangular(1, 2, 3));
+}
+
+ResponseTime_HardwarePlatform = decision("Hardware Platform"){
+		"Nexus I (HTC)" : parameter(triangular(40, 60, 65));
+		"Droid (Motorola)" : parameter(triangular(50, 55, 200));
+}
+
+ResponseTime_Connectivity = decision("Connectivity"){
+		"Wifi" : parameter(triangular(30, 35, 40));
+		"3G on Nexus I" : parameter(triangular(20, 25, 40));
+		"3G on Droid" : parameter(triangular(20, 25, 40));
+		"Bluetooth" : parameter(triangular(25, 30, 200));
+}
+
+ResponseTime_DataBase = decision("Database"){
+		"MySQL" : parameter(triangular(20, 25, 30));
+		"sqLite" : parameter(triangular(8, 10, 50));
+}
+
+ResponseTime_ArchitecturalPattern = decision("Architectural Pattern"){
+		"Peer-to-peer" : parameter(triangular(10, 20, 30));
+		"Client-Server" : parameter(triangular(25, 30, 80));
+		"Push-based" : parameter(triangular(15, 25, 40));
+}
+
+ResponseTime_DataExchangeFormat = decision("Data Exchange Format"){
+		"XML" : parameter(triangular(20, 35, 80));
+		"Compressed XML" : parameter(triangular(12, 20, 35));
+		"Unformatted data" : parameter(triangular(3, 10, 15));
+}
+
+// Reliability
+
+
+Reliability_Preference = (Reliability - Reliability_worst)
+							/(Reliability_best - Reliability_worst);
+Reliability_Risk = 	P(Reliability < Reliability_must);
+
+Reliability_best = parameter(792);
+Reliability_worst = parameter(535);
+Reliability_must = parameter(721);
+
+Reliability = Reliability_LocationFinding + 
+               Reliability_FileSharing + 
+               Reliability_ReportSyncing + 
+               Reliability_ChatProtocol + 
+               Reliability_MapAccess + 
+               Reliability_HardwarePlatform + 
+               Reliability_Connectivity + 
+               Reliability_DataBase + 
+               Reliability_ArchitecturalPattern + 
+               Reliability_DataExchangeFormat;
+                
+Reliability_LocationFinding = decision("Location Finding"){
+		"GPS" : parameter(triangular(60, 75, 80));
+		"radio triangulation" : parameter(triangular(90, 92, 99));
+}
+
+Reliability_FileSharing = decision("File Sharing"){
+		"OpenIntent" : parameter(triangular(90, 95, 99));
+		"In house" : parameter(triangular(80, 92, 96));
+}
+
+Reliability_ReportSyncing = decision("Report Syncing"){
+		"Explicit" : parameter(triangular(85, 88, 90));
+		"Implicit" : parameter(triangular(30, 40, 200));
+}
+
+Reliability_ChatProtocol = decision("Chat Protocol"){
+		"XMPP (Open Fire)" : parameter(triangular(94, 95, 99));
+		"In house" : parameter(triangular(60, 96, 97));
+}
+
+Reliability_MapAccess = decision("Map Access"){
+		"On Demand (Google)" : parameter(triangular(70, 91, 92));
+		"Cache on server" : parameter(triangular(85, 97, 98));
+		"Preloaded (ESRI)" : parameter(triangular(85, 90, 99));
+}
+
+Reliability_HardwarePlatform = decision("Hardware Platform"){
+		"Nexus I (HTC)" : parameter(0);
+		"Droid (Motorola)" : parameter(0);
+}
+
+Reliability_Connectivity = decision("Connectivity"){
+		"Wifi" : parameter(triangular(80, 85, 90));
+		"3G on Nexus I" : parameter(triangular(80, 88, 99));
+		"3G on Droid" : parameter(triangular(80, 88, 99));
+		"Bluetooth" : parameter(triangular(50, 85, 85));
+}
+
+Reliability_DataBase = decision("Database"){
+		"MySQL" : parameter(triangular(85, 90, 99));
+		"sqLite" : parameter(triangular(70, 90, 95));
+}
+
+Reliability_ArchitecturalPattern = decision("Architectural Pattern"){
+		"Peer-to-peer" : parameter(triangular(60, 66, 70));
+		"Client-Server" : parameter(triangular(85, 95, 97));
+		"Push-based" : parameter(triangular(90, 94, 99));
+}
+
+Reliability_DataExchangeFormat = decision("Data Exchange Format"){
+		"XML" : parameter(0);
+		"Compressed XML" : parameter(0);
+		"Unformatted data" : parameter(0);
+}
+
+//Ramp Up Time Model
+
+RampUpTime_Preference = (RampUpTime - RampUpTime_worst)
+							/(RampUpTime_best - RampUpTime_worst);
+RampUpTime_Risk = 	P(RampUpTime < RampUpTime_must);
+
+RampUpTime_best = parameter(31);
+RampUpTime_worst = parameter(83);
+RampUpTime_must = parameter(58);
+
+RampUpTime = RampUpTime_LocationFinding + 
+               RampUpTime_FileSharing + 
+               RampUpTime_ReportSyncing + 
+               RampUpTime_ChatProtocol + 
+               RampUpTime_MapAccess + 
+               RampUpTime_HardwarePlatform + 
+               RampUpTime_Connectivity + 
+               RampUpTime_DataBase + 
+               RampUpTime_ArchitecturalPattern + 
+               RampUpTime_DataExchangeFormat;
+                
+RampUpTime_LocationFinding = decision("Location Finding"){
+		"GPS" : parameter(triangular(5, 6, 7));
+		"radio triangulation" : parameter(triangular(7, 8, 9));
+}
+
+RampUpTime_FileSharing = decision("File Sharing"){
+		"OpenIntent" : parameter(triangular(8, 9, 10));
+		"In house" : parameter(triangular(5, 8, 12));
+}
+
+RampUpTime_ReportSyncing = decision("Report Syncing"){
+		"Explicit" : parameter(triangular(2, 2, 3));
+		"Implicit" : parameter(triangular(1, 2, 2));
+}
+
+RampUpTime_ChatProtocol = decision("Chat Protocol"){
+		"XMPP (Open Fire)" : parameter(triangular(5, 6, 7));
+		"In house" : parameter(triangular(3, 4, 14));
+}
+
+RampUpTime_MapAccess = decision("Map Access"){
+		"On Demand (Google)" : parameter(triangular(7, 9, 10));
+		"Cache on server" : parameter(triangular(7, 9, 10));
+		"Preloaded (ESRI)" : parameter(triangular(10, 13, 14));
+}
+
+RampUpTime_HardwarePlatform = decision("Hardware Platform"){
+		"Nexus I (HTC)" : parameter(0);
+		"Droid (Motorola)" : parameter(0);
+}
+
+RampUpTime_Connectivity = decision("Connectivity"){
+		"Wifi" : parameter(triangular(1, 3, 4));
+		"3G on Nexus I" : parameter(triangular(1, 2, 3));
+		"3G on Droid" : parameter(triangular(1, 2, 3));
+		"Bluetooth" : parameter(triangular(1, 2, 8));
+}
+
+RampUpTime_DataBase = decision("Database"){
+		"MySQL" : parameter(triangular(1, 2, 3));
+		"sqLite" : parameter(triangular(3, 4, 5));
+}
+
+RampUpTime_ArchitecturalPattern = decision("Architectural Pattern"){
+		"Peer-to-peer" : parameter(triangular(10, 11, 13));
+		"Client-Server" : parameter(triangular(7, 8, 10));
+		"Push-based" : parameter(triangular(9, 10, 12));
+}
+
+RampUpTime_DataExchangeFormat = decision("Data Exchange Format"){
+		"XML" : parameter(triangular(2, 3, 4));
+		"Compressed XML" : parameter(triangular(4, 5, 6));
+		"Unformatted data" : parameter(triangular(1, 2, 3));
+}
+
+
+//Cost Model
+
+Cost_Preference = (Cost - Cost_worst)
+							/(Cost_best - Cost_worst);
+Cost_Risk = 	P(Cost < Cost_must);
+
+Cost_best = parameter(550);
+Cost_worst = parameter(2250);
+Cost_must = parameter(1290);
+
+Cost = Cost_LocationFinding + 
+               Cost_FileSharing + 
+               Cost_ReportSyncing + 
+               Cost_ChatProtocol + 
+               Cost_MapAccess + 
+               Cost_HardwarePlatform + 
+               Cost_Connectivity + 
+               Cost_DataBase + 
+               Cost_ArchitecturalPattern + 
+               Cost_DataExchangeFormat;
+                
+Cost_LocationFinding = decision("Location Finding"){
+		"GPS" : parameter(triangular(50, 80, 100));
+		"radio triangulation" : parameter(0);
+}
+
+Cost_FileSharing = decision("File Sharing"){
+		"OpenIntent" : parameter(0);
+		"In house" : parameter(0);
+}
+
+Cost_ReportSyncing = decision("Report Syncing"){
+		"Explicit" : parameter(0);
+		"Implicit" : parameter(0);
+}
+
+Cost_ChatProtocol = decision("Chat Protocol"){
+		"XMPP (Open Fire)" : parameter(0);
+		"In house" : parameter(0);
+}
+
+Cost_MapAccess = decision("Map Access"){
+		"On Demand (Google)" : parameter(0);
+		"Cache on server" : parameter(triangular(700, 900, 950));
+		"Preloaded (ESRI)" : parameter(triangular(100, 170, 200));
+}
+
+Cost_HardwarePlatform = decision("Hardware Platform"){
+		"Nexus I (HTC)" : parameter(triangular(500, 525, 530));
+		"Droid (Motorola)" : parameter(triangular(520, 520, 600));
+}
+
+Cost_Connectivity = decision("Connectivity"){
+		"Wifi" : parameter(triangular(70, 80, 85));
+		"3G on Nexus I" : parameter(triangular(360, 400, 600));
+		"3G on Droid" : parameter(triangular(360, 400, 600));
+		"Bluetooth" : parameter(triangular(50, 70, 200));
+}
+
+Cost_DataBase = decision("Database"){
+		"MySQL" : parameter(0);
+		"sqLite" : parameter(0);
+}
+
+Cost_ArchitecturalPattern = decision("Architectural Pattern"){
+		"Peer-to-peer" : parameter(0);
+		"Client-Server" : parameter(0);
+		"Push-based" : parameter(0);
+}
+
+Cost_DataExchangeFormat = decision("Data Exchange Format"){
+		"XML" : parameter(0);
+		"Compressed XML" : parameter(0);
+		"Unformatted data" : parameter(0);
+}
+
+//Development Time Model
+
+DevelopmentTime_Preference = (DevelopmentTime - DevelopmentTime_worst)
+							/(DevelopmentTime_best - DevelopmentTime_worst);
+DevelopmentTime_Risk = 	P(DevelopmentTime < DevelopmentTime_must);
+
+DevelopmentTime_best = parameter(61) ;
+DevelopmentTime_worst = parameter(149);
+DevelopmentTime_must = parameter(111);
+
+DevelopmentTime = DevelopmentTime_LocationFinding + 
+               DevelopmentTime_FileSharing + 
+               DevelopmentTime_ReportSyncing + 
+               DevelopmentTime_ChatProtocol + 
+               DevelopmentTime_MapAccess + 
+               DevelopmentTime_DataBase + 
+               DevelopmentTime_ArchitecturalPattern + 
+               DevelopmentTime_DataExchangeFormat;
+                
+DevelopmentTime_LocationFinding = decision("Location Finding"){
+		"GPS" : parameter(triangular(3, 4, 5));
+		"radio triangulation" : parameter(triangular(10, 14, 15));
+}
+
+DevelopmentTime_FileSharing = decision("File Sharing"){
+		"OpenIntent" : parameter(triangular(3, 4, 6));
+		"In house" : parameter(triangular(5, 6, 15));
+}
+
+DevelopmentTime_ReportSyncing = decision("Report Syncing"){
+		"Explicit" : parameter(triangular(5, 6, 7));
+		"Implicit" : parameter(triangular(3, 4, 4));
+}
+
+DevelopmentTime_ChatProtocol = decision("Chat Protocol"){
+		"XMPP (Open Fire)" : parameter(triangular(5, 6, 8));
+		"In house" : parameter(triangular(7, 8, 20));
+}
+
+DevelopmentTime_MapAccess = decision("Map Access"){
+		"On Demand (Google)" : parameter(triangular(14, 18, 21));
+		"Cache on server" : parameter(triangular(14, 18, 21));
+		"Preloaded (ESRI)" : parameter(triangular(20, 27, 30));
+}
+
+
+DevelopmentTime_DataBase = decision("Database"){
+		"MySQL" : parameter(triangular(15, 17, 18));
+		"sqLite" : parameter(triangular(15, 16, 22));
+}
+
+DevelopmentTime_ArchitecturalPattern = decision("Architectural Pattern"){
+		"Peer-to-peer" : parameter(triangular(20, 26, 30));
+		"Client-Server" : parameter(triangular(15, 16, 20));
+		"Push-based" : parameter(triangular(20, 24, 25));
+}
+
+DevelopmentTime_DataExchangeFormat = decision("Data Exchange Format"){
+		"XML" : parameter(triangular(6, 7, 8));
+		"Compressed XML" : parameter(triangular(7, 9, 10));
+		"Unformatted data" : parameter(triangular(3, 4, 5));
+}
+
+//Deployment Time Model
+
+DeploymentTime_Preference = (DeploymentTime - DeploymentTime_worst)
+							/(DeploymentTime_best - DeploymentTime_worst);
+DeploymentTime_Risk = 	P(DeploymentTime < DeploymentTime_must);
+
+DeploymentTime_best = parameter(21) ;
+DeploymentTime_worst = parameter(72) ;
+DeploymentTime_must = parameter(38);
+
+DeploymentTime = DeploymentTime_LocationFinding + 
+               DeploymentTime_FileSharing + 
+               DeploymentTime_ReportSyncing + 
+               DeploymentTime_ChatProtocol + 
+               DeploymentTime_MapAccess + 
+               DeploymentTime_Connectivity + 
+               DeploymentTime_DataBase + 
+               DeploymentTime_ArchitecturalPattern;
+                               
+DeploymentTime_LocationFinding = decision("Location Finding"){
+		"GPS" : parameter(triangular(2, 3, 3));
+		"radio triangulation" : parameter(triangular(1, 1, 2));
+}
+
+DeploymentTime_FileSharing = decision("File Sharing"){
+		"OpenIntent" : parameter(triangular(1, 1, 2));
+		"In house" : parameter(0);
+}
+
+DeploymentTime_ReportSyncing = decision("Report Syncing"){
+		"Explicit" : parameter(triangular(1, 2, 2));
+		"Implicit" : parameter(1);
+}
+
+DeploymentTime_ChatProtocol = decision("Chat Protocol"){
+		"XMPP (Open Fire)" : parameter(triangular(1, 1, 2));
+		"In house" : parameter(0);
+}
+
+DeploymentTime_MapAccess = decision("Map Access"){
+		"On Demand (Google)" : parameter(0);
+		"Cache on server" : parameter(triangular(3, 4, 5));
+		"Preloaded (ESRI)" : parameter(triangular(3, 4, 5));
+}
+
+
+DeploymentTime_Connectivity = decision("Connectivity"){
+		"Wifi" : parameter(triangular(5, 6, 7));
+		"3G on Nexus I" : parameter(triangular(2, 3, 4));
+		"3G on Droid" : parameter(triangular(2, 3, 4));
+		"Bluetooth" : parameter(triangular(4, 5, 15));
+}
+
+DeploymentTime_DataBase = decision("Database"){
+		"MySQL" : parameter(triangular(10, 15, 16));
+		"sqLite" : parameter(triangular(13, 14, 22));
+}
+
+DeploymentTime_ArchitecturalPattern = decision("Architectural Pattern"){
+		"Peer-to-peer" : parameter(triangular(14, 18, 21));
+		"Client-Server" : parameter(triangular(7, 9, 10));
+		"Push-based" : parameter(triangular(8, 9, 12));
+}
