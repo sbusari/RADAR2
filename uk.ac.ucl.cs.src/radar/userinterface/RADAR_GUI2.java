@@ -56,15 +56,26 @@ import javax.swing.JButton;
 import javax.swing.ScrollPaneConstants;
 
 import org.apache.commons.lang3.StringUtils;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.UIManager;
+
 import java.awt.Dimension;
+
 import javax.swing.JToolBar;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTabbedPane;
+
+import java.awt.Color;
+
+import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import java.awt.Component;
 
 public class RADAR_GUI2 {
 
@@ -101,7 +112,13 @@ public class RADAR_GUI2 {
 	private JMenuItem mntmNewMenuItem;
 	private JSeparator separator_9;
 	private JMenuItem itemSaveAs;
-	
+	JPanel editModel;
+	JPanel analysisResult; 
+	JTabbedPane tabbedPane;
+	JPanel console;
+	JScrollPane scrollPaneEditModel;
+	JScrollPane scrollPaneAnalysisResult;
+	ModelTextPane modelTextPane;
 
 	/**
 	 * Launch the application.
@@ -927,6 +944,33 @@ public class RADAR_GUI2 {
 		
 		JToolBar toolBar = new JToolBar();
 		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		analysisResult = new JPanel();
+		analysisResult.setForeground(Color.LIGHT_GRAY);
+		
+		editModel = new JPanel();
+		editModel.setForeground(Color.LIGHT_GRAY);
+		tabbedPane.addTab("Edit Model",editModel);
+		tabbedPane.setBackgroundAt(0, Color.GRAY);
+		
+		modelTextPane = new ModelTextPane();
+		
+		scrollPaneEditModel = new JScrollPane(modelTextPane);
+		scrollPaneEditModel.setPreferredSize(new Dimension(850, 450));
+		editModel.add(scrollPaneEditModel);
+		
+		
+		
+		
+		tabbedPane.addTab("Analysis Result",analysisResult);
+		
+		scrollPaneAnalysisResult = new JScrollPane();
+		scrollPaneAnalysisResult.setPreferredSize(new Dimension(850, 450));
+		analysisResult.add(scrollPaneAnalysisResult);
+		tabbedPane.setBackgroundAt(1, Color.GRAY);
+		
+		
 		//populateDecisionTable();
 		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
@@ -935,33 +979,52 @@ public class RADAR_GUI2 {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(toolFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(6)
+							.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 878, Short.MAX_VALUE))
 						.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(790, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(toolFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(16))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(toolFile, GroupLayout.DEFAULT_SIZE, 5, Short.MAX_VALUE)
-					.addGap(677))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(toolFile, GroupLayout.DEFAULT_SIZE, 5, Short.MAX_VALUE)
+							.addGap(677))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 504, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
 		);
+		console = new JPanel();
+		tabbedPane.addTab("Console", null, console, null);
+		console.setForeground(Color.LIGHT_GRAY);
+		
+		JScrollPane scrollPaneConsole = new JScrollPane();
+		scrollPaneConsole.setPreferredSize(new Dimension(850, 450));
+		console.add(scrollPaneConsole);
+		console.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{scrollPaneConsole}));
 		
 		JButton btnNewFile = new JButton("");
+		btnNewFile.setToolTipText("New File");
 		btnNewFile.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/NewFileIcon.png"));
 		toolBar.add(btnNewFile);
 		
 		JButton btnOpenFile = new JButton("");
+		btnOpenFile.setToolTipText("Open File");
 		btnOpenFile.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/OpenFileIcon.png"));
 		toolBar.add(btnOpenFile);
 		
 		JButton btnSaveFile = new JButton("");
+		btnSaveFile.setToolTipText("Save File");
 		btnSaveFile.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/SaveFileIcon.png"));
 		toolBar.add(btnSaveFile);
 		
 		JButton btnExportFile = new JButton("");
+		btnExportFile.setToolTipText("Export File");
 		btnExportFile.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ExportIcon.png"));
 		toolBar.add(btnExportFile);
 		
@@ -969,24 +1032,70 @@ public class RADAR_GUI2 {
 		toolBar.add(toolBar_1);
 		
 		JButton btnCut = new JButton("");
+		btnCut.setToolTipText("Cut");
 		btnCut.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CutFileIcon.png"));
 		toolBar_1.add(btnCut);
 		
 		JButton btnCopy = new JButton("");
+		btnCopy.setToolTipText("Copy");
 		btnCopy.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CopyFileIcon.png"));
 		toolBar_1.add(btnCopy);
 		
 		JButton btnPaste = new JButton("");
+		btnPaste.setToolTipText("Paste");
 		btnPaste.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/PasteFileIcon.png"));
 		toolBar_1.add(btnPaste);
 		
 		JButton btnUndo = new JButton("");
+		btnUndo.setToolTipText("Undo");
 		btnUndo.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/UndoIcon.png"));
 		toolBar_1.add(btnUndo);
 		
 		JButton btnRedo = new JButton("");
+		btnRedo.setToolTipText("Redo");
 		btnRedo.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/RedoIcon.png"));
 		toolBar_1.add(btnRedo);
+		
+		JToolBar toolBar_2 = new JToolBar();
+		toolBar_1.add(toolBar_2);
+		
+		JButton btnParse = new JButton("");
+		btnParse.setToolTipText("Parse Model");
+		btnParse.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ParseIcon.png"));
+		toolBar_2.add(btnParse);
+		
+		JButton btnSolve = new JButton("");
+		btnSolve.setToolTipText("Solve");
+		btnSolve.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/SolveIcon.png"));
+		toolBar_2.add(btnSolve);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DEFAULT-Exhaustive Search", "NSGA-II", "SPEA-II", "MOGA", "IBEA"}));
+		comboBox.setPreferredSize(new Dimension(400, 27));
+		toolBar_2.add(comboBox);
+		
+		JButton btnStop = new JButton("");
+		btnStop.setToolTipText("Stop Analysis");
+		btnStop.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/StopIcon2.png"));
+		toolBar_2.add(btnStop);
+		
+		JToolBar toolBar_3 = new JToolBar();
+		toolBar_2.add(toolBar_3);
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setToolTipText("Optimisation Analysis");
+		btnNewButton.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/OptimisationIcon.png"));
+		toolBar_3.add(btnNewButton);
+		
+		JButton btnNewButton_2 = new JButton("");
+		btnNewButton_2.setToolTipText("Information value Analysis");
+		btnNewButton_2.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/InfoValueIcon.png"));
+		toolBar_3.add(btnNewButton_2);
+		
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.setToolTipText("Pareto Front");
+		btnNewButton_1.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ParetoFrontIcon.png"));
+		toolBar_3.add(btnNewButton_1);
 		
 		JSeparator separator_21 = new JSeparator();
 		toolFile.add(separator_21);
