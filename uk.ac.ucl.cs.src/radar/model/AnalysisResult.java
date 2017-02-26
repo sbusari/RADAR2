@@ -36,12 +36,19 @@ public class AnalysisResult {
 	//private BigInteger solutionSpace;
 	
 	private long totalRuntime;
+	private long designSpaceRuntime;
+	private long simulationRuntime;
+	private long optimisationRuntime;
+	private long informationValueRuntime;
+	
 	
 	private int nbrVariables;
 	
 	private int nbrOfDecision;
 	
 	private int nbrParameters;
+	
+	private String consoleMessage;
 
 	// mapping from parameter's label to parameter's evppi
 	private Map<String, Double> evppi;
@@ -164,6 +171,55 @@ public class AnalysisResult {
 	}
 	
 	/**
+	 * @param design space time
+	 */
+	void addDesignSpaceRunTime (long designSpaceTime){
+		designSpaceRuntime = designSpaceTime;
+	}
+	/**
+	 * @return design space run time.
+	 */
+	public long getDesignSpaceRunTime (){
+		return designSpaceRuntime;
+	}
+	/**
+	 * @param simulation run time
+	 */
+	void addSimulationRuntime (long simulationTime){
+		simulationRuntime = simulationTime;
+	}
+	/**
+	 * @return simulation run time.
+	 */
+	public long getSimulationRuntime (){
+		return simulationRuntime;
+	}
+	/**
+	 * @param optimisation run time
+	 */
+	void addOptimisationRuntime (long optimisationTime){
+		optimisationRuntime = optimisationTime;
+	}
+	/**
+	 * @return optimisation run time.
+	 */
+	public long getOptimisationRuntime (){
+		return optimisationRuntime;
+	}
+	/**
+	 * @param informationValue run time
+	 */
+	void addInformationValueRuntime (long informationValueTime){
+		informationValueRuntime = informationValueTime;
+	}
+	/**
+	 * @return informationValue run time.
+	 */
+	public long getInformationValueRuntime (){
+		return informationValueRuntime;
+	}
+	
+	/**
 	 * Adds the number of quality variables to analysis result.
 	 * @param nbrVar execution analysis run time.
 	 */
@@ -223,6 +279,12 @@ public class AnalysisResult {
 	 */
 	public Objective getSubGraphObjective (){
 		return subGraphObjective;
+	}
+	public void setConsoleMessage (String progressMessage){
+		consoleMessage = progressMessage;
+	}
+	public String getConsoleMessage (){
+		return consoleMessage;
 	}
 	
 	public String generateSolutionHeader ( String separator){

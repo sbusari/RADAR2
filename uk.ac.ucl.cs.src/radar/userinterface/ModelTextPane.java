@@ -35,6 +35,10 @@ public class ModelTextPane extends JTextPane {
         //"text/plain" 
         
         addKeyListener(new IndentKeyListener());
+        
+        //==========imple of redo and undo
+        
+        
     }
     
 	private class IndentKeyListener implements KeyListener {

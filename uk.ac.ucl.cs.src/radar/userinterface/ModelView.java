@@ -53,8 +53,10 @@ import javax.swing.text.Utilities;
  */
 public class ModelView extends PlainView {
 
+	private static String DISTRIBUTIONS = "triangular mormal normalCI geometric deterministic exponential binomial uniform random";
     private static HashMap<Pattern, Color> patternColors;
-    private static String RADAR_TEXT = "[A-Za-z ]+[A-Za-z0-9\\-_ ]*(:[A-Za-z ]+[A-Za-z0-9\\-_ ]+)?";
+    //private static String OPERATORS =  "[\\+\\-\\/\\*&&\\|<>=!]?";
+    private static String RADAR_TEXT = "[0-9\\(\\)]?[A-Za-z ]+[A-Za-z0-9\\-_ \\(\\)]*(:[A-Za-z ]+[A-Za-z0-9\\-_\\(\\) ]+)?";
     private static String RADAR_MODEL = "(\\bModel\\b)";
     private static String RADAR_OBJECTIVE = "(\\bObjective\\b)";
     private static String RADAR_MAXIMISE = "(\\bMax\\b)";
@@ -63,11 +65,15 @@ public class ModelView extends PlainView {
     private static String RADAR_PR = "(\\bPr\\b)";
     private static String RADAR_PERCENTILE = "(\\bpercentile\\b)";
     private static String RADAR_DECISION ="(\\bdecision\\b)";
-    private static String RADAR_COMMENT = "(\\/\\/[\\w :_,!/+^*&~.]*|\\/\\*[\\w :_,!/+^*&~.]*\\*\\/)";
-    private static String RADAR_OPTION = "(" + "\""+ RADAR_TEXT + "\"" + ")";
-    private static String RADAR_DISTRIBUTION = "(\\w*triangular\\w*|\\w*normalCI\\w*|\\w*normal\\w*|\\w*geometric\\w*|\\w*deterministic\\w*|\\w*exponential\\w*|\\w*binomial\\w*|\\w*uniform\\w*|\\w*random\\w* )";
-    //private static String RADAR_OPERATORS = "(\\w*\\+\\w*|\\w*\\-\\w*|\\w*\\/\\w*|\\w*\\*\\w*|\\w*&&\\w*|\\w*\\|\\|\\w*|\\w*<\\w*|\\w*>\\w*|\\w*<=\\w*|\\w*>=\\w*|\\w*!\\w*)";
+    private static String RADAR_COMMENT = "(\\/\\/[\\w :_,!/+^*&~.();=]*|\\/\\*[\\w :_,!/+^*&~.();=]*\\*\\/)";
+    //private static String RADAR_COMMENT = "(\\/\\/[\\w :_,!/+^*&~.();=" + DISTRIBUTIONS +"]*|\\/\\*[\\w :_,!/+^*&~.();=" +DISTRIBUTIONS +"]*\\*\\/)";
+    //private static String RADAR_COMMENT = "(\\/\\/ [\\w ]*?|\\/\\* [\\w ]*? \\*\\/)";
+    //private static String RADAR_OPTION = "(" + "\""+ RADAR_TEXT + "\"" + ")";
+    private static String RADAR_DISTRIBUTION = "(\\w*\\btriangular\\b\\w*|\\w*normalCI\\w*|\\w*normal\\w*|\\w*geometric\\w*|\\w*deterministic\\w*|\\w*exponential\\w*|\\w*binomial\\w*|\\w*uniform\\w*|\\w*random\\w* )";
+   // private static String RADAR_OPERATORS = "(\\s*\\+\\s*|\\s*\\-\\s*|\\s*\\/\\s*|\\s*\\*\\s*|\\s*&&\\s*|\\s*\\|\\|\\s*|\\s*<\\s*|\\s*>\\s*|\\s*<=\\s*|\\s*>=\\s*|\\s*!\\s*)";
+    //private static String RADAR_OPERATORS = "(" +OPERATORS +")";
 
+    
     static {
         // NOTE: the order is important!
         patternColors = new LinkedHashMap<Pattern, Color>();
@@ -78,10 +84,11 @@ public class ModelView extends PlainView {
         patternColors.put(Pattern.compile(RADAR_EV), new Color(131,111,255));
         patternColors.put(Pattern.compile(RADAR_PR), new Color(131,111,255));
         patternColors.put(Pattern.compile(RADAR_PERCENTILE), new Color(131,111,255));
-        patternColors.put(Pattern.compile(RADAR_DECISION), Color.BLUE); //30,144,255,  255,99,71
-        patternColors.put(Pattern.compile(RADAR_OPTION), new Color(99,184,255)); //72,118,255, 255,99,71
-        patternColors.put(Pattern.compile(RADAR_COMMENT), new Color(0,201,87));
-        patternColors.put(Pattern.compile(RADAR_DISTRIBUTION), new Color(255,99,71)); //99,184,255
+        patternColors.put(Pattern.compile(RADAR_DECISION), new Color(131,111,255)); //Color.BLUE, 30,144,255,  255,99,71
+        //patternColors.put(Pattern.compile(RADAR_OPTION), new Color(99,184,255)); //72,118,255, 255,99,71
+        patternColors.put(Pattern.compile(RADAR_COMMENT), new Color(0,201,87));//0,201,87
+        patternColors.put(Pattern.compile(RADAR_DISTRIBUTION), new Color(131,111,255)); //255,99,71, 99,184,255
+        //patternColors.put(Pattern.compile(RADAR_OPERATORS), Color.RED); //99,184,255
     }
 
     public ModelView(Element element) {

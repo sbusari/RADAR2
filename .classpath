@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/jfreeChart/lib/jfreechart-1.0.19.jar"/>
 	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/orsonchart/lib/orsoncharts-1.5.jar"/>
 	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/jfreeChart/lib/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/GraphvizVisualiser.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
