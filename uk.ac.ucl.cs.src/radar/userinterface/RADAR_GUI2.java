@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
@@ -107,6 +108,12 @@ import com.github.jabbalaci.graphviz.GraphViz;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 
 public class RADAR_GUI2 implements PropertyChangeListener {
@@ -126,7 +133,6 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 	private DefaultTableModel decisionTableModel;
 	private ModelResultFrame modelResultFrame;
 	private TutorialFrame tutorialFrame;
-	private JMenuItem itemWriteModel;
 	private JMenuItem itemParseModel;
 	private JMenuItem itemSolveModel;
 	private JMenuItem itemAbout;
@@ -176,10 +182,9 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 	private JButton btnParse;
 	private JButton btnSolve;
 	private JComboBox comboBox;
-	private JButton btnStop;
-	private JButton btnNewButton;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_1;
+	private JButton btnOptimisationAnalysis;
+	private JButton btnInfoValueAnalysis;
+	private JButton btnParetoFront;
 	private ProgressMonitor progressMonitor;
 	private Task task;
 	private JScrollPane scrollPaneConsole;
@@ -244,23 +249,444 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		undoRedo();
 		solveModelToolBar();
 		solveModelMenuBar();
-		stopAnalysisToolBar();
+		displayOptimisationAnalysisToolBar();
+		displayOptimisationAnalysisMenuBar();
+		displayInformationValueAnalysisToolBar();
+		displayInformationValueAnalysisMenuBar();
+		displayParetoFrontMenuBar();
+		displayParetoFrontToolBar();
+		displayANDORGraphMenuBar();
+		displayDecisionDependencyGraphMenuBar();
+		displayModelDecisionsToolBar();
+	}
+	void displayModeldDecision(){
+		if (semanticModel != null){
+			String modelResultPath = outPutDirectory + semanticModel.getModelName() + "/ICSE/AnalysisResult/" ;
+			String title = "Decisions";
+			
+			JPanel  decision= new JPanel();
+			decision.setName(title);
+			decision.setForeground(Color.LIGHT_GRAY);
+			
+			JScrollPane scrollPaneDecision = new JScrollPane();
+			scrollPaneDecision.setPreferredSize(new Dimension(850, 590));
+			decision.add(scrollPaneDecision);
+			
+			JTable decisionTable = new JTable();
+			scrollPaneDecision.setViewportView(decisionTable);
+			
+			populateDecisionTable(decisionTable);
+			
+			Component [] allTabbedComponent = tabbedPane.getComponents();
+			for (Component comp: allTabbedComponent){
+				if (title.equals(comp.getName())){
+					tabbedPane.remove(comp);
+				}
+			}
+			tabbedPane.addTab(title, decision);
+			tabbedPane.setSelectedComponent(decision);
+			chckbxmntmModelDecisions.setSelected(true);
+		}else{
+			JOptionPane.showMessageDialog(null, "No model decision to disolay. Write a new model." , "", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
 		
 	}
+	void displayModelDecisionsToolBar (){
+		chckbxmntmModelDecisions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String tabName = "Decisions";
+				AbstractButton aButton = (AbstractButton)e.getSource();
+				boolean selected = aButton.getModel().isSelected();
+				if (selected){
+					if (!tabbedComponentExits(tabName)){
+						displayModeldDecision();
+					}
+					
+				}
+				else{ // commented this becuause there is no way to sync the close of a tab with jcheckboxitem when selected or not
+					// remove it from tabbed bar
+					Component [] allTabbedComponent = tabbedPane.getComponents();
+					for (Component comp: allTabbedComponent){
+						if (tabName.equals(comp.getName())){
+							tabbedPane.remove(comp);
+						}
+					}
+					chckbxmntmModelDecisions.setSelected(false);	
+				}
+			}
+		});
+	}
+	void displayDecisionDependencyGraph(){
+		if (semanticModel != null){
+			String modelResultPath = outPutDirectory + semanticModel.getModelName() + "/ICSE/AnalysisResult/" ;
+			String imageOutput = modelResultPath + "/";
+			String decisionGraph = semanticModel.generateDecisionDiagram(result.getAllSolutions());
+			//Helper.printResults (modelResultPath + "graph/", decisionGraph, semanticModel.getModelName() + "dgraph.dot", false);
+			decisionDependencyGraphPanel = new JPanel(new BorderLayout());
+			String graphType = "DD-Graph";
+			decisionDependencyGraphPanel.setName(graphType);
+			viewDotGraph(decisionGraph,"png", graphType, decisionDependencyGraphPanel);
+			chckbxmntmDecisionDependencyGraph.setSelected(true);
+		}else{
+			JOptionPane.showMessageDialog(null, "You need to write a new model." , "", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		
+	}
+	void displayDecisionDependencyGraphMenuBar(){
+		chckbxmntmDecisionDependencyGraph.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String tabName = "DD-Graph";
+				AbstractButton aButton = (AbstractButton)e.getSource();
+				boolean selected = aButton.getModel().isSelected();
+				if (selected){
+					if (!tabbedComponentExits(tabName)){
+						displayDecisionDependencyGraph();
+					}
+					
+				}else{
+					// remove it from tabbed bar
+					Component [] allTabbedComponent = tabbedPane.getComponents();
+					for (Component comp: allTabbedComponent){
+						if (tabName.equals(comp.getName())){
+							tabbedPane.remove(comp);
+						}
+					}
+					chckbxmntmDecisionDependencyGraph.setSelected(false);	
+				}
+			}
+		});
+	}
+	void displayANDORGraph (){
+		if (semanticModel != null){
+			String modelResultPath = outPutDirectory + semanticModel.getModelName() + "/ICSE/AnalysisResult/" ;
+			String imageOutput = modelResultPath + "/";
+			String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
+			//Helper.printResults (modelResultPath + "graph/", variableGraph, semanticModel.getModelName() +"vgraph.dot", false);
+			variableGraphPanel = new JPanel(new BorderLayout());
+			String graphType = "AND/OR-Graph";
+			variableGraphPanel.setName(graphType);
+			viewDotGraph(variableGraph,"png", graphType, variableGraphPanel);
+			chckbxmntmVariableAndorGraph.setSelected(true);
+		}else{
+			JOptionPane.showMessageDialog(null, "You need to write a new model." , "", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		
+	}
+	void displayANDORGraphMenuBar(){
+		chckbxmntmVariableAndorGraph.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String tabName = "AND/OR-Graph";
+				AbstractButton aButton = (AbstractButton)e.getSource();
+				boolean selected = aButton.getModel().isSelected();
+				if (selected){
+					if (!tabbedComponentExits(tabName)){
+						displayANDORGraph();
+					}
+					
+				}else{
+					// remove it from tabbed bar
+					Component [] allTabbedComponent = tabbedPane.getComponents();
+					for (Component comp: allTabbedComponent){
+						if (tabName.equals(comp.getName())){
+							tabbedPane.remove(comp);
+						}
+					}
+					chckbxmntmVariableAndorGraph.setSelected(false);	
+				}
+			}
+		});
+	}
+	void displayParetoFront(){
+		if (result != null){
+			String modelResultPath = outPutDirectory + semanticModel.getModelName() + "/ICSE/AnalysisResult/" ;
+			String imageOutput = modelResultPath + "/";
+			String title = "Pareto-Front";
+			if (result.getShortListObjectives().get(0).length == 2){
+				//TwoDPlotter twoDPlot = new TwoDPlotter();
+				TwoDPanelPlotter twoDPlot = new TwoDPanelPlotter();
+				twoDPlot.setSize(editModel.getSize());
+				twoDPlot.setName(title);
+				twoDPlot.setLayout(new BorderLayout());
+				viewPareto(twoDPlot, title);
+				twoDPlot.plot(semanticModel,imageOutput, result);
+			}else if (result.getShortListObjectives().get(0).length == 3){
+				ScatterPlotPanel3D sc3D2= new ScatterPlotPanel3D( );
+				sc3D2.setSize(editModel.getSize());
+				sc3D2.setName(title);
+				sc3D2.setLayout(new BorderLayout());
+				viewPareto(sc3D2, title);
+				try {
+					sc3D2.plot(semanticModel, imageOutput, result);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			chckbxmntmParetoFront.setSelected(true);
+		}else{
+			JOptionPane.showMessageDialog(null, "No analysis result to disolay." , "", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+	}
+	boolean tabbedComponentExits(String componentName){
+		boolean exist =false;
+		Component [] allTabbedComponent = tabbedPane.getComponents();
+		for (Component comp: allTabbedComponent){
+			if (componentName.equals(comp.getName())){
+				exist = true;
+			}
+		}
+		return exist;
+	}
+	void displayParetoFrontMenuBar(){
+		chckbxmntmParetoFront.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String tabName = "Pareto-Front";
+				AbstractButton aButton = (AbstractButton)e.getSource();
+				boolean selected = aButton.getModel().isSelected();
+				// synonymous to when the chkbox is clicked
+				if (selected){
+					if (!tabbedComponentExits(tabName)){
+						displayParetoFront();
+					}
+					
+				}else{
+					// remove it from tabbed bar
+					Component [] allTabbedComponent = tabbedPane.getComponents();
+					for (Component comp: allTabbedComponent){
+						if (tabName.equals(comp.getName())){
+							tabbedPane.remove(comp);
+						}
+					}
+					chckbxmntmParetoFront.setSelected(false);	
+				}
+			}
+		});
+	}
+	void displayParetoFrontToolBar(){
+		btnParetoFront.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				displayParetoFront();
+				chckbxmntmParetoFront.setSelected(true);
+			}
+		});
+	}
+	void displayInformationValueAnalysisToolBar(){
+		btnInfoValueAnalysis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				displayInformationValueAnalysis();
+				chckbxmntmInformationValueAnalysis.setSelected(true);
+			}
+		});
+	}
+	void displayInformationValueAnalysisMenuBar(){
+		//https://books.google.co.uk/books?id=hoUnCgAAQBAJ&pg=PA205&lpg=PA205&dq=JCHECKBOXMENUITEM+selected+property+does+not+work&source=bl&ots=3-ZgJqY5SM&sig=8Hkuss_flecOG0eQsK6tfxLalE4&hl=en&sa=X&ved=0ahUKEwjo1IDX37LSAhWLAMAKHVPaACgQ6AEIPTAG#v=onepage&q=JCHECKBOXMENUITEM%20selected%20property%20does%20not%20work&f=false
+		chckbxmntmInformationValueAnalysis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AbstractButton aButton = (AbstractButton)e.getSource();
+				boolean selected = aButton.getModel().isSelected();
+				String tabName = "Information Value Analysis";
+				if (selected){
+					if (!tabbedComponentExits(tabName)){
+						displayInformationValueAnalysis();
+					}
+					//chckbxmntmInformationValueAnalysis.setState(true);
+					
+					//aButton.getModel().setSelected(true);
+				}else{
+					// remove it from tabbed bar
+					Component [] allTabbedComponent = tabbedPane.getComponents();
+					for (Component comp: allTabbedComponent){
+						if (tabName.equals(comp.getName())){
+							tabbedPane.remove(comp);
+						}
+					}
+					//chckbxmntmInformationValueAnalysis.setState(false);
+					chckbxmntmInformationValueAnalysis.setSelected(false);
+					//aButton.getModel().setSelected(false);
+				}
+			}
+		});
+		
+	}
+	void displayInformationValueAnalysis(){
+		String tabName = "Information Value Analysis";
+		if (result != null){
+			
+			JPanel  infoValueAnalysis= new JPanel();
+			infoValueAnalysis.setName(tabName);
+			infoValueAnalysis.setForeground(Color.LIGHT_GRAY);
+			//tabbedPane.addTab(tabName, optimisationAnalysis);
+
+			JScrollPane scrollPaneInfoValueAnalysis = new JScrollPane();
+			scrollPaneInfoValueAnalysis.setPreferredSize(new Dimension(850, 590));
+			infoValueAnalysis.add(scrollPaneInfoValueAnalysis);
+			
+			
+			JTable infoValueAnalysisTable = new JTable();
+			populateTable(infoValueAnalysisTable, "infoValue");
+			scrollPaneInfoValueAnalysis.setViewportView(infoValueAnalysisTable);
+			
+			
+			Component [] allTabbedComponent = tabbedPane.getComponents();
+			for (Component comp: allTabbedComponent){
+				if (tabName.equals(comp.getName())){
+					tabbedPane.remove(comp);
+				}
+			}
+			tabbedPane.addTab(tabName, infoValueAnalysis);
+			tabbedPane.setSelectedComponent(infoValueAnalysis);
+			chckbxmntmInformationValueAnalysis.setSelected(true);
+
+		}else{
+			JOptionPane.showMessageDialog(null, "No analysis result to disolay." , "", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+	}
+	
+	void displayOptimisationAnalysis(){
+		String tabName = "Optimisation Analysis";
+		if (result != null){
+			JPanel  optimisationAnalysis= new JPanel();
+			optimisationAnalysis.setName(tabName);
+			optimisationAnalysis.setForeground(Color.LIGHT_GRAY);
+			//tabbedPane.addTab(tabName, optimisationAnalysis);
+
+			JScrollPane scrollPaneOptimisationDetails = new JScrollPane();
+			scrollPaneOptimisationDetails.setPreferredSize(new Dimension(850, 155));
+			optimisationAnalysis.add(scrollPaneOptimisationDetails);
+			
+			
+			JTable optimisationTable = new JTable();
+			populateTable(optimisationTable, "optimisation");
+			scrollPaneOptimisationDetails.setViewportView(optimisationTable);
+			
+			JScrollPane scrollPaneOptimisationSolution = new JScrollPane();
+			scrollPaneOptimisationSolution.setPreferredSize(new Dimension(850, 440));
+			optimisationAnalysis.add(scrollPaneOptimisationSolution);
+			
+			JTable solutionTable = new JTable();
+			populateTable(solutionTable, "solution");
+			scrollPaneOptimisationSolution.setViewportView(solutionTable);
+			Component [] allTabbedComponent = tabbedPane.getComponents();
+			for (Component comp: allTabbedComponent){
+				if (tabName.equals(comp.getName())){
+					tabbedPane.remove(comp);
+				}
+			}
+			tabbedPane.addTab(tabName, optimisationAnalysis);
+			tabbedPane.setSelectedComponent(optimisationAnalysis);
+			chckbxmntmOptimisationAnalysis.setSelected(true);
+
+		}else{
+			JOptionPane.showMessageDialog(null, "No analysis result to disolay." , "", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+	}
+	void displayOptimisationAnalysisToolBar(){
+    	btnOptimisationAnalysis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				displayOptimisationAnalysis();
+				chckbxmntmOptimisationAnalysis.setSelected(true);
+			}
+		});
+    }
+	void displayOptimisationAnalysisMenuBar(){
+		chckbxmntmOptimisationAnalysis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String tabName = "Optimisation Analysis";
+				AbstractButton aButton = (AbstractButton)e.getSource();
+				boolean selected = aButton.getModel().isSelected();
+				// synonymous to wgen the chkbox is clicked
+				if (selected){
+					if (!tabbedComponentExits(tabName)){
+						displayOptimisationAnalysis();
+					}
+					
+				}
+				else{
+					// remove it from tabbed bar
+					Component [] allTabbedComponent = tabbedPane.getComponents();
+					for (Component comp: allTabbedComponent){
+						if (tabName.equals(comp.getName())){
+							tabbedPane.remove(comp);
+						}
+					}
+					chckbxmntmOptimisationAnalysis.setSelected(false);	
+				}
+				
+			}
+		});
+	}
+	int progress;
+	boolean progressBarCancelled =false;
+	String progressMessage = "";
+	private JToolBar toolBar_1;
+	private JButton button;
+	private JButton button_1;
+	private JButton button_2;
+	private JMenu mnNewMenu;
+	private JCheckBoxMenuItem chckbxmntmOptimisationAnalysis;
+	private JCheckBoxMenuItem chckbxmntmInformationValueAnalysis;
+	private JCheckBoxMenuItem chckbxmntmVariableAndorGraph;
+	private JCheckBoxMenuItem chckbxmntmDecisionDependencyGraph;
+	private JCheckBoxMenuItem chckbxmntmParetoFront;
+	private JSeparator separator;
+	private JCheckBoxMenuItem chckbxmntmModelDecisions;
+	/*
+	 * http://www.javacreed.com/swing-worker-example/
+	 *  http://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html#ProgressMonitorDemo
+	 */
     class Task extends SwingWorker<Void, Void> {
+    	
         @Override
         public Void doInBackground() {
-            Random random = new Random();
-            int progress = 0;
+            AnalysisResult tempResult = null;
+            progress = 0;
             setProgress(0);
             try {
-                Thread.sleep(1000);
+                //Thread.sleep(1000);
+                int analysisIndex = -1;
+                //progress += 20;
+                setProgress(Math.min(progress, 100));
+                // perform analysis
                 while (progress < 100 && !isCancelled()) {
-                	//Sleep for up to one second.
-                    Thread.sleep(random.nextInt(1000));
-                    progress += 25;
+                	if (analysisIndex == -1){
+                		progressMessage =  "Checking cyclic dependencies in model." ;
+                		consoleTextArea.append("Checking cyclic dependencies in model.\n");
+                	}
+                    if (analysisIndex == 0){
+                    	progressMessage = "Step "+ (analysisIndex+1) +": Generating design space." ;
+                    	consoleTextArea.append("Step "+ (analysisIndex+1) +": Generating design space.\n");
+                    }
+                    if (analysisIndex == 1){
+                    	progressMessage ="Step "+ (analysisIndex+1) + ": Simulating the design space.";
+                    	consoleTextArea.append("Step "+ (analysisIndex+1) + ": Simulating the design space.\n");
+                    }
+                    if (analysisIndex == 2){
+                    	progressMessage ="Step "+ (analysisIndex+1) + ": Shortlisting Pareto optimal solutions.";
+                    	consoleTextArea.append("Step "+ (analysisIndex+1) + ": Shortlisting Pareto optimal solutions.\n");
+                    }
+                    if (analysisIndex == 3){
+                    	progressMessage ="Step "+ (analysisIndex+1) + ": Computing expected value of information.";
+                    	consoleTextArea.append("Step "+ (analysisIndex+1) + ": Computing expected value of information.\n");
+                    }
+                	setProgress(Math.min(progress, 100));
+                	Thread.sleep(1000);
+                    tempResult = ModelSolver.solve(semanticModel, tempResult, analysisIndex);
+                    consoleTextArea.append(tempResult.getConsoleMessage()+"\n");
+                    progress += 20;
                     setProgress(Math.min(progress, 100));
+                    analysisIndex++;
+                    
                 }
+                Thread.sleep(1000);
+                consoleTextArea.append("Generating Pareto fronts, AND-OR graph and decision dependency graph"+"\n");
+                progressMessage = "Analysis completed";
+            	result = tempResult;
+            	setProgress(Math.min(90, 100));
             } catch (InterruptedException ignore) {}
             return null;
         }
@@ -268,9 +694,17 @@ public class RADAR_GUI2 implements PropertyChangeListener {
         @Override
         public void done() {
             Toolkit.getDefaultToolkit().beep();
-            btnStop.setEnabled(true);
+            btnParse.setEnabled(true);
+    		btnSolve.setEnabled(true);
+    		itemParseModel.setEnabled(true);
+    		itemSolveModel.setEnabled(true);
             progressMonitor.setProgress(0);
-            //progressMonitor.close();
+            // add these here to avoid the exception thrown when in inside the do in background method.
+            loadResultInFrame();
+			generateAnalysisGraphs();
+			//chckbxmntmInformationValueAnalysis.setSelected(true);
+			modelSolved = true;
+            
         }
     }
     /**
@@ -280,14 +714,16 @@ public class RADAR_GUI2 implements PropertyChangeListener {
         if ("progress" == evt.getPropertyName() ) {
             int progress = (Integer) evt.getNewValue();
             progressMonitor.setProgress(progress);
-            String message =
-                String.format("Completed %d%% of analysis\n", progress);
-            progressMonitor.setNote(message);
-            consoleTextArea.append(message);
+            String message =String.format("Completed %d%% of analysis\n", progress);
+            progressMonitor.setNote(progressMessage);
+            //progressMonitor.setNote(message);
+            //consoleTextArea.append(message);
             if (progressMonitor.isCanceled() || task.isDone()) {
                 Toolkit.getDefaultToolkit().beep();
                 if (progressMonitor.isCanceled()) {
                     task.cancel(true);
+                    progressBarCancelled = true;
+                    Thread.currentThread().stop();
                     consoleTextArea.append("Analysis canceled.\n");
                 } else {
                 	consoleTextArea.append("Analysis completed.\n");
@@ -297,25 +733,83 @@ public class RADAR_GUI2 implements PropertyChangeListener {
         }
 
     }
-	/*
-	 * http://www.javacreed.com/swing-worker-example/
-	 *  http://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html#ProgressMonitorDemo
-	 */
-	void stopAnalysisToolBar(){
-		btnStop.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 progressMonitor = new ProgressMonitor(frame,
-                         "Running a Long Task",
-                         "", 0, 100);
-				progressMonitor.setProgress(0);
-				task = new Task();
-				task.addPropertyChangeListener(RADAR_GUI2.this);
-				task.execute();
-				btnStop.setEnabled(false);
+  
+    void generateAnalysisGraphs(){
+    	try {
+	    	String analysisResult = result.analysisToString();
+			String analysisResultToCSV = result.analysisResultToCSV();
+			String modelResultPath = outPutDirectory + semanticModel.getModelName() + "/ICSE/AnalysisResult/" ;
+			
+			Helper.printResults (modelResultPath , analysisResult, semanticModel.getModelName() +".out", false);
+			Helper.printResults (modelResultPath , analysisResultToCSV, semanticModel.getModelName() +".csv", false);
+			
+			// generate graphs
+			if (true){
+				
+				String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
+				Helper.printResults (modelResultPath + "graph/", variableGraph, semanticModel.getModelName() +"vgraph.dot", false);
+				variableGraphPanel = new JPanel(new BorderLayout());
+				String graphType = "AND/OR-Graph";
+				variableGraphPanel.setName(graphType);
+				viewDotGraph(variableGraph,"png", graphType, variableGraphPanel);
+				chckbxmntmVariableAndorGraph.setSelected(true);
+				
 			}
-		});
+			if (true){
+				String decisionGraph = semanticModel.generateDecisionDiagram(result.getAllSolutions());
+				Helper.printResults (modelResultPath + "graph/", decisionGraph, semanticModel.getModelName() + "dgraph.dot", false);
+				decisionDependencyGraphPanel = new JPanel(new BorderLayout());
+				String graphType = "DD-Graph";
+				decisionDependencyGraphPanel.setName(graphType);
+				viewDotGraph(decisionGraph,"png", graphType, decisionDependencyGraphPanel);
+				chckbxmntmDecisionDependencyGraph.setSelected(true);
+			}
+			if (true){
+				String imageOutput = modelResultPath + "/";
+				String title = "Pareto-Front";
+				if (result.getShortListObjectives().get(0).length == 2){
+					//TwoDPlotter twoDPlot = new TwoDPlotter();
+					TwoDPanelPlotter twoDPlot = new TwoDPanelPlotter();
+					twoDPlot.setSize(editModel.getSize());
+					twoDPlot.setName(title);
+					twoDPlot.setLayout(new BorderLayout());
+					viewPareto(twoDPlot, title);
+					twoDPlot.plot(semanticModel,imageOutput, result);
+				}else if (result.getShortListObjectives().get(0).length == 3){
+					ScatterPlotPanel3D sc3D2= new ScatterPlotPanel3D( );
+					sc3D2.setSize(editModel.getSize());
+					sc3D2.setName(title);
+					sc3D2.setLayout(new BorderLayout());
+					viewPareto(sc3D2, title);
+					sc3D2.plot(semanticModel, imageOutput, result);
+				}
+				chckbxmntmParetoFront.setSelected(true);
+				
+			}
+			System.out.println("Finished!");
+			modelSolved =true;
+			solvedModel = ""; // textModelArea.getText();
+    	} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+	void asynchronousSolve (){
+		progressMonitor = new ProgressMonitor(frame,
+                "Analysing the  " + semanticModel.getModelName().toUpperCase() + " model.",
+                "", 0, 100);
+		//progressMonitor.setPreferredSize( new Dimension (100, 50));
+		progressMonitor.setProgress(0);
+		task = new Task();
+		task.addPropertyChangeListener(RADAR_GUI2.this);
+		task.execute();
+		btnParse.setEnabled(false);
+		btnSolve.setEnabled(false);
+		itemParseModel.setEnabled(false);
+		itemSolveModel.setEnabled(false);
+		
+		
 	}
-    
 	void openModel(){
 		final JFileChooser  fileDialog = new JFileChooser();
 		int returnVal = fileDialog.showOpenDialog(frame);
@@ -369,18 +863,25 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			}
 			
 		}
+		chckbxmntmOptimisationAnalysis.setSelected(false);
+		chckbxmntmInformationValueAnalysis.setSelected(false);
+		chckbxmntmVariableAndorGraph.setSelected(false);
+		chckbxmntmDecisionDependencyGraph.setSelected(false);
+		chckbxmntmParetoFront.setSelected(false);
+		chckbxmntmModelDecisions.setSelected(false);
 	}
 	void clearEditModel(){
 		if(modelTextPane != null) modelTextPane.setText("");
 	}
 	void clearAnalysisResult(){
+		
 		DefaultTableModel dtm = new DefaultTableModel();
 		if(tableOptimisationSolutions != null)tableOptimisationSolutions.setModel(dtm);
 		if(tableOptimisationDetails != null) tableOptimisationDetails.setModel(dtm);
 		if(tableInfoValueAnalysis != null) tableInfoValueAnalysis.setModel(dtm);
 	}
 	void clearConsole(){
-		
+		consoleTextArea.setText("");
 	}
 	void writeModelContent(TableModel model, File fileToExport ) throws IOException{
         FileWriter out;
@@ -699,26 +1200,6 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 	}
 	
 	void visualiseModelBoard(){
-		itemWriteModel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (true){//!textModelArea.getText().isEmpty()){
-					int selection = JOptionPane.showConfirmDialog( null , "The content in the model board will be removed. \nDo you want to continue?" , "Confirmation "
-		                    , JOptionPane.OK_CANCEL_OPTION , JOptionPane.INFORMATION_MESSAGE);
-					if (selection == JOptionPane.OK_OPTION)
-	                {
-						//textModelArea.setText("");
-						openedFilePath = "";
-	                }
-				}
-				/*modelBoard.setEnabled(true);
-				decisionPanel.setEnabled(true);
-				analysisPanel.setEnabled(true);*/
-				activateModelWriting();
-				isBoardEnabled = true;
-				itemEnableBoard.setText("Disable Model Board");
-				
-			}
-		});
 	}
 	void parseModel(){
 		if (modelTextPane.getText().isEmpty()){
@@ -732,19 +1213,18 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		}
 		parse();
 		if (parsed ==true){
-			populateDecisionTable();
-			
+			//populateDecisionTable();
 			int selection = JOptionPane.showConfirmDialog( null , "Model has been parsed successfully. \nDo you want to continue with analysis?" , "Confirmation "
                     , JOptionPane.YES_NO_CANCEL_OPTION , JOptionPane.INFORMATION_MESSAGE);
-			if (selection == JOptionPane.OK_OPTION)
+			if (selection == JOptionPane.YES_OPTION)
             {
-				solve();
+				//solve();
+				clearConsole();
+				clearAnalysisResult();
+				asynchronousSolve();
 				if (modelSolved){
-					loadResultInFrame();
 					solvedModel = modelTextPane.getText();
 				}
-				
-				
             }
 			modelParsed= true;
 		}
@@ -778,7 +1258,8 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			parse();
 		}
 		if (semanticModel != null && modelParsed == true) {
-			solve();
+			//solve();
+			asynchronousSolve();
 		}else{
 			String analysisMsg = allAnalysisSettingValid();
 			if (!analysisMsg.isEmpty()){
@@ -787,19 +1268,18 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			}
 			parseModel();
 			if (modelParsed == true){
-				solve();
+				//solve();
+				asynchronousSolve();
 			}
 			
-		}
-		if (modelSolved){
-			populateDecisionTable();
-			loadResultInFrame();
 		}
 	}
 	
 	void solveModelToolBar(){
 		btnSolve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				clearAnalysisResult();
+				clearConsole();
 				solveModel();
 			}
 		});
@@ -807,6 +1287,8 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 	private void solveModelMenuBar(){
 		itemSolveModel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				clearAnalysisResult();
+				clearConsole();
 				solveModel();
 			}
 		});
@@ -856,11 +1338,11 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		}
 		return message;
 	}*/
-	private void populateDecisionTable (){
+	private void populateDecisionTable (JTable  decisionsTable){
 		if (semanticModel != null){
 			decisionTableModel.setNumRows(0);
 			List<Decision> decisions = semanticModel.getDecisions();
-			//setDecisionTableHeader(decisionTableModel,decisionsTable);
+			setDecisionTableHeader(decisionTableModel,decisionsTable);
 			populateDecisionOptionTable(decisionTableModel, decisions);
 		}
 	}
@@ -870,6 +1352,9 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		decisionOption.add("Option");
 		String[]header =  decisionOption.toArray(new String[decisionOption.size()]);
 		decisionTableModel.setColumnIdentifiers(header);
+		tableDecisionOptions.setModel(decisionTableModel);
+		
+		
 	}
 	private void fillDecisionTable (Map<String, List<String>> decisionsEntry){
 		if (decisionsEntry != null){
@@ -943,6 +1428,8 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			infoValueTableModel.addRow(data);
 		}
 	}
+
+	
 	void populateTable (JTable table, String detail){
 		DefaultTableModel tableModel =  new DefaultTableModel( );
 		if (detail.equals("solution")){
@@ -1035,8 +1522,8 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		}
 		tabbedPane.addTab(graphType,graphPanel);
 	}
+
 	void solve (){
-		
 		try {
 			// analyse model
 			result = ModelSolver.solve(semanticModel);
@@ -1160,20 +1647,16 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 	private void findOutPutDirectory(){
 		final JFileChooser  fileDialog = new JFileChooser();
 	}
-	/*private void populateDecisionTable(){
-		decisionTableModel = new DefaultTableModel();
-	}*/
-	 /*class StartListener implements ActionListener {
-		 public void actionPerformed(ActionEvent e) {
-			 timer.start();
-		 }
-	 }
-		 
-    class StopListener implements ActionListener {
-    	public void actionPerformed(ActionEvent e) {
-    		timer.stop();
-    	}
-    }*/
+	void updateWindowItemsOnTabClosed(String clossedTab ){
+		switch (clossedTab){
+			case "Decisions": chckbxmntmModelDecisions.setSelected(false); break;
+			case "Optimisation Analysis": chckbxmntmOptimisationAnalysis.setSelected(false); break;
+			case "Information Value Analysis": chckbxmntmInformationValueAnalysis.setSelected(false); break;
+			case "AND/OR-Graph": chckbxmntmVariableAndorGraph.setSelected(false); break;
+			case "DD-Graph": chckbxmntmDecisionDependencyGraph.setSelected(false); break;
+			case "Pareto-Front": chckbxmntmParetoFront.setSelected(false); break;
+		}
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -1182,7 +1665,9 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		
 		radarUtility = new Utility();
 		frame = new JFrame();
+		frame.setPreferredSize(new Dimension(900, 600));
 		frame.setBounds(100, 100, 900, 600);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("RADAR- Requirements engineering And Architecture Decisions Analyser");
 		//frame.pack();
@@ -1296,15 +1781,6 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		JMenu actionMenu = new JMenu("Action");
 		menuBar.add(actionMenu);
 		
-		itemWriteModel = new JMenuItem("Write Model");
-		
-		
-		
-		actionMenu.add(itemWriteModel);
-		
-		JSeparator separator = new JSeparator();
-		actionMenu.add(separator);
-		
 		itemParseModel = new JMenuItem("Parse");
 		
 		
@@ -1317,39 +1793,49 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		
 		actionMenu.add(itemSolveModel);
 		
-		JMenu mnWindow = new JMenu("Analysis Results");
+		JMenu mnWindow = new JMenu("Window");
 		menuBar.add(mnWindow);
 		
-		JCheckBoxMenuItem chckbxmntmOptimisationAnalysis = new JCheckBoxMenuItem("Optimisation Analysis");
-		chckbxmntmOptimisationAnalysis.setSelected(true);
+		chckbxmntmOptimisationAnalysis = new JCheckBoxMenuItem("Optimisation Analysis");
+		
 		mnWindow.add(chckbxmntmOptimisationAnalysis);
 		
 		JSeparator separator_11 = new JSeparator();
 		mnWindow.add(separator_11);
 		
-		JCheckBoxMenuItem chckbxmntmInformationValueAnalysis = new JCheckBoxMenuItem("Information Value Analysis");
-		chckbxmntmInformationValueAnalysis.setSelected(true);
+		chckbxmntmInformationValueAnalysis = new JCheckBoxMenuItem("Information Value Analysis");
+		
 		mnWindow.add(chckbxmntmInformationValueAnalysis);
 		
 		JSeparator separator_12 = new JSeparator();
 		mnWindow.add(separator_12);
 		
-		JCheckBoxMenuItem chckbxmntmVariableAndorGraph = new JCheckBoxMenuItem("Variable AND/OR Graph");
+		chckbxmntmVariableAndorGraph = new JCheckBoxMenuItem("Variable AND/OR Graph");
+		
 		mnWindow.add(chckbxmntmVariableAndorGraph);
 		
 		JSeparator separator_13 = new JSeparator();
 		mnWindow.add(separator_13);
 		
-		JCheckBoxMenuItem chckbxmntmDecisionDependencyGraph = new JCheckBoxMenuItem("Decision Dependency Graph");
+		chckbxmntmDecisionDependencyGraph = new JCheckBoxMenuItem("Decision Dependency Graph");
+		
 		mnWindow.add(chckbxmntmDecisionDependencyGraph);
 		
 		JSeparator separator_14 = new JSeparator();
 		mnWindow.add(separator_14);
 		
-		JCheckBoxMenuItem chckbxmntmParetoFront = new JCheckBoxMenuItem("Pareto Front");
+		chckbxmntmParetoFront = new JCheckBoxMenuItem("Pareto Front");
+		
 		mnWindow.add(chckbxmntmParetoFront);
 		
-		JMenu mnNewMenu = new JMenu("Optimiser Algorithm");
+		separator = new JSeparator();
+		mnWindow.add(separator);
+		
+		chckbxmntmModelDecisions = new JCheckBoxMenuItem("Model Decisions");
+		
+		mnWindow.add(chckbxmntmModelDecisions);
+		
+		mnNewMenu = new JMenu("Optimiser Algorithm");
 		menuBar.add(mnNewMenu);
 		
 		JCheckBoxMenuItem chckbxmntmExhaustiveSearch = new JCheckBoxMenuItem("Exhaustive Search");
@@ -1399,11 +1885,23 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				
 				radarMenu.add(itemExit);
 		
-		JToolBar toolFile = new JToolBar();
-		toolFile.setFloatable(false);
-		toolFile.setToolTipText("New File");
+		/*btnCut = new JButton();
+		btnCut.setToolTipText("Cut");
+		btnCut.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CutFileIcon.png"));
+		toolBar_1.add(btnCut);
 		
-		JToolBar toolBar = new JToolBar();
+		btnCopy = new JButton("");
+		btnCopy.setToolTipText("Copy");
+		btnCopy.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CopyFileIcon.png"));
+		toolBar_1.add(btnCopy);
+		
+		btnPaste = new JButton("");
+		btnPaste.setToolTipText("Paste");
+		btnPaste.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/PasteFileIcon.png"));
+		toolBar_1.add(btnPaste);*/
+		
+		
+		decisionTableModel = new DefaultTableModel();
 		
 		//tabbedPane = new JTabbedPane(JTabbedPane.TOP); 
 		//tabbedPane = new ClosableTabbedPane();
@@ -1415,6 +1913,9 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 						"You are about to close '" + tab
 								+ "'\nDo you want to proceed ?",
 						"Confirmation Dialog", JOptionPane.INFORMATION_MESSAGE);
+				if (choice == JOptionPane.YES_OPTION){
+					updateWindowItemsOnTabClosed(tab);
+				}
 				return choice == 0; // if returned false tab closing will be
 									// canceled
 			}
@@ -1479,34 +1980,27 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		tabbedPane.setBackgroundAt(1, Color.GRAY);
 		
 		
-		//populateDecisionTable();
+		JToolBar toolBar = new JToolBar();
+		//http://examples.oreilly.com/jswing2/code/ch23/SimpleEditor.java
+		Action a ;
+		Action b ;
+		Action c;
 		
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 878, Short.MAX_VALUE))
-						.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(toolFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(16))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(toolFile, GroupLayout.DEFAULT_SIZE, 5, Short.MAX_VALUE)
-							.addGap(677))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 504, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
-		);
+		a = modelTextPane.getActionMap().get(DefaultEditorKit.cutAction);
+		b = modelTextPane.getActionMap().get(DefaultEditorKit.copyAction);
+		c = modelTextPane.getActionMap().get(DefaultEditorKit.pasteAction);
+		
+		a.putValue(Action.SMALL_ICON, new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CutFileIcon.png"));
+		a.putValue(Action.NAME, "Cut");
+		
+		
+		b.putValue(Action.SMALL_ICON, new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CopyFileIcon.png"));
+		b.putValue(Action.NAME, "Copy");
+	
+		
+		c.putValue(Action.SMALL_ICON, new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/PasteFileIcon.png"));
+		c.putValue(Action.NAME, "Paste");
+				
 		
 		
 		btnNewFile = new JButton("");
@@ -1532,110 +2026,108 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		btnExportFile.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ExportIcon.png"));
 		toolBar.add(btnExportFile);
 		
-		JToolBar toolBar_1 = new JToolBar();
+		toolBar_1 = new JToolBar();
 		toolBar.add(toolBar_1);
+			
+			button = toolBar_1.add((Action) a);
+			button.setText("");
+			
+			button_1 = toolBar_1.add((Action) b);
+			button_1.setText("");
+			
+			button_2 = toolBar_1.add((Action) c);
+			button_2.setText("");
 		
-		/*btnCut = new JButton();
-		btnCut.setToolTipText("Cut");
-		btnCut.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CutFileIcon.png"));
-		toolBar_1.add(btnCut);
+			
+			btnUndo = new JButton("");
+			btnUndo.setEnabled(false);
+			
+			btnUndo.setToolTipText("Undo");
+			btnUndo.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/UndoIcon.png"));
+			toolBar_1.add(btnUndo);
+			
+			btnRedo = new JButton("");
+			btnRedo.setEnabled(false);
+			
+			btnRedo.setToolTipText("Redo");
+			btnRedo.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/RedoIcon.png"));
+			toolBar_1.add(btnRedo);
+			
+			JToolBar toolBar_2 = new JToolBar();
+			toolBar_1.add(toolBar_2);
+			
+			btnParse = new JButton("");
+			
+			btnParse.setToolTipText("Parse Model");
+			btnParse.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ParseIcon.png"));
+			toolBar_2.add(btnParse);
+			
+			btnSolve = new JButton("");
+			
+			btnSolve.setToolTipText("Solve");
+			btnSolve.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/SolveIcon.png"));
+			toolBar_2.add(btnSolve);
+			
+			comboBox = new JComboBox();
+			comboBox.setModel(new DefaultComboBoxModel(new String[] {"DEFAULT-Exhaustive Search", "NSGA-II", "SPEA-II", "MOGA", "IBEA"}));
+
+			toolBar_2.add(comboBox);
+			
+			JToolBar toolBar_3 = new JToolBar();
+			toolBar_2.add(toolBar_3);
+			
+			btnOptimisationAnalysis = new JButton("");
+			
+			btnOptimisationAnalysis.setToolTipText("Optimisation Analysis");
+			btnOptimisationAnalysis.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/OptimisationIcon.png"));
+			toolBar_3.add(btnOptimisationAnalysis);
+			
+			btnInfoValueAnalysis = new JButton("");
+			
+			btnInfoValueAnalysis.setToolTipText("Information value Analysis");
+			btnInfoValueAnalysis.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/InfoValueIcon.png"));
+			toolBar_3.add(btnInfoValueAnalysis);
+			
+			btnParetoFront = new JButton("");
+			
+			btnParetoFront.setToolTipText("Pareto Front");
+			btnParetoFront.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ParetoFrontIcon.png"));
+			
+			toolBar_3.add(btnParetoFront);
+			
+			//toolBar_1.add(modelTextPane.getActionMap().get(DefaultEditorKit.cutAction)).setText("");
+			//toolBar_1.add(modelTextPane.getActionMap().get(DefaultEditorKit.copyAction)).setText("");
+			//toolBar_1.add(modelTextPane.getActionMap().get(DefaultEditorKit.pasteAction)).setText("");
 		
-		btnCopy = new JButton("");
-		btnCopy.setToolTipText("Copy");
-		btnCopy.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CopyFileIcon.png"));
-		toolBar_1.add(btnCopy);
-		
-		btnPaste = new JButton("");
-		btnPaste.setToolTipText("Paste");
-		btnPaste.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/PasteFileIcon.png"));
-		toolBar_1.add(btnPaste);*/
-		
-		//http://examples.oreilly.com/jswing2/code/ch23/SimpleEditor.java
-		Action a;
-		a = modelTextPane.getActionMap().get(DefaultEditorKit.cutAction);
-		a.putValue(Action.SMALL_ICON, new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CutFileIcon.png"));
-		a.putValue(Action.NAME, "Cut");
-		toolBar_1.add(modelTextPane.getActionMap().get(DefaultEditorKit.cutAction)).setText("");
-		
-		Action b;
-		b = modelTextPane.getActionMap().get(DefaultEditorKit.copyAction);
-		b.putValue(Action.SMALL_ICON, new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CopyFileIcon.png"));
-		b.putValue(Action.NAME, "Copy");
-		toolBar_1.add(modelTextPane.getActionMap().get(DefaultEditorKit.copyAction)).setText("");
-	
-		Action c;
-		c = modelTextPane.getActionMap().get(DefaultEditorKit.pasteAction);
-		c.putValue(Action.SMALL_ICON, new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/PasteFileIcon.png"));
-		c.putValue(Action.NAME, "Paste");
-		toolBar_1.add(modelTextPane.getActionMap().get(DefaultEditorKit.pasteAction)).setText("");
-	
-		
-		btnUndo = new JButton("");
-		btnUndo.setEnabled(false);
-		
-		btnUndo.setToolTipText("Undo");
-		btnUndo.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/UndoIcon.png"));
-		toolBar_1.add(btnUndo);
-		
-		btnRedo = new JButton("");
-		btnRedo.setEnabled(false);
-		
-		btnRedo.setToolTipText("Redo");
-		btnRedo.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/RedoIcon.png"));
-		toolBar_1.add(btnRedo);
-		
-		JToolBar toolBar_2 = new JToolBar();
-		toolBar_1.add(toolBar_2);
-		
-		btnParse = new JButton("");
-		
-		btnParse.setToolTipText("Parse Model");
-		btnParse.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ParseIcon.png"));
-		toolBar_2.add(btnParse);
-		
-		btnSolve = new JButton("");
-		
-		btnSolve.setToolTipText("Solve");
-		btnSolve.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/SolveIcon.png"));
-		toolBar_2.add(btnSolve);
-		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DEFAULT-Exhaustive Search", "NSGA-II", "SPEA-II", "MOGA", "IBEA"}));
-		comboBox.setPreferredSize(new Dimension(400, 27));
-		toolBar_2.add(comboBox);
-		
-		btnStop = new JButton("");
-		//btnStop.addActionListener(new StopListener());
-		
-		btnStop.setToolTipText("Stop Analysis");
-		btnStop.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/StopIcon2.png"));
-		toolBar_2.add(btnStop);
-		
-		JToolBar toolBar_3 = new JToolBar();
-		toolBar_2.add(toolBar_3);
-		
-		btnNewButton = new JButton("");
-		btnNewButton.setToolTipText("Optimisation Analysis");
-		btnNewButton.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/OptimisationIcon.png"));
-		toolBar_3.add(btnNewButton);
-		
-		btnNewButton_2 = new JButton("");
-		btnNewButton_2.setToolTipText("Information value Analysis");
-		btnNewButton_2.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/InfoValueIcon.png"));
-		toolBar_3.add(btnNewButton_2);
-		
-		btnNewButton_1 = new JButton("");
-		btnNewButton_1.setToolTipText("Pareto Front");
-		btnNewButton_1.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ParetoFrontIcon.png"));
-		toolBar_3.add(btnNewButton_1);
+		JToolBar toolFile = new JToolBar();
+		toolFile.setFloatable(false);
+		toolFile.setToolTipText("New File");
 		
 		JSeparator separator_21 = new JSeparator();
 		toolFile.add(separator_21);
 		
 		JSeparator separator_22 = new JSeparator();
 		toolFile.add(separator_22);
-		
-		decisionTableModel = new DefaultTableModel();
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(toolBar, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(tabbedPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(toolFile, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(5)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(toolFile, GroupLayout.PREFERRED_SIZE, 5, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 504, GroupLayout.PREFERRED_SIZE)))
+		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
 

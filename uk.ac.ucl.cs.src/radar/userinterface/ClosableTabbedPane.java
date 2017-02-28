@@ -223,7 +223,7 @@ public class ClosableTabbedPane extends JTabbedPane{
 		private boolean mouseOverTab(int x, int y) {
 			int tabCount = tabbedPane.getTabCount();
 			for(int j = 0; j < tabCount; j++)
-				if(tabbedPane.getBoundsAt(j).contains(meX, meY)){
+				if(tabbedPane.getBoundsAt(j) != null && tabbedPane.getBoundsAt(j).contains(meX, meY)){
 					selectedTab = j;
 					closeX = tabbedPane.getBoundsAt(j).x + tabbedPane.getBoundsAt(j).width -width-5;
 					closeY = tabbedPane.getBoundsAt(j).y +5;					

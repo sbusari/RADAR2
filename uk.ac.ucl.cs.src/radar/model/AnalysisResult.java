@@ -48,7 +48,7 @@ public class AnalysisResult {
 	
 	private int nbrParameters;
 	
-	private String consoleMessage;
+	private String consoleMessage = "";
 
 	// mapping from parameter's label to parameter's evppi
 	private Map<String, Double> evppi;
