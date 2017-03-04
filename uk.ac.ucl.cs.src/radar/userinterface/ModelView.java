@@ -58,18 +58,23 @@ public class ModelView extends PlainView {
     //private static String OPERATORS =  "[\\+\\-\\/\\*&&\\|<>=!]?";
     private static String RADAR_TEXT = "[0-9\\(\\)]?[A-Za-z ]+[A-Za-z0-9\\-_ \\(\\)]*(:[A-Za-z ]+[A-Za-z0-9\\-_\\(\\) ]+)?";
     private static String RADAR_MODEL = "(\\bModel\\b)";
+    private static String RADAR_NUMBER = "(\\b[0-9]+\\.?([0-9]+)?\\b)";
     private static String RADAR_OBJECTIVE = "(\\bObjective\\b)";
     private static String RADAR_MAXIMISE = "(\\bMax\\b)";
     private static String RADAR_MINIMISE = "(\\bMin\\b)";
     private static String RADAR_EV = "(\\bEV\\b)";
     private static String RADAR_PR = "(\\bPr\\b)";
     private static String RADAR_PERCENTILE = "(\\bpercentile\\b)";
-    private static String RADAR_DECISION ="(\\bdecision\\b)";
-    private static String RADAR_COMMENT = "(\\/\\/[\\w :_,!/+^*&~.();=]*|\\/\\*[\\w :_,!/+^*&~.();=]*\\*\\/)";
+    private static String RADAR_DECISION ="(\\bdecision\\b)"; //(\\w*^triangular$\\w*)
+    private static String RADAR_COMMENT = "(\\/\\/[\\w .:_,!/+^*&~.();=]*|\\/\\*[\\w .:_,!/+^*&~.();=]*\\*\\/)";
+    //private static String RADAR_COMMENT = "(\\/\\/(?!\\w*\\bnormal\\b\\w*|\\w*\\btriangular\\b\\w*).*)";
+    //private static String RADAR_COMMENT = "(\\/\\/[\\w :_,!/+^*&~.();=]*|\\/\\*[\\w :_,!/+^*&~.();=](?!\\w*\\bnormal\\b\\w*|\\w*\\btriangular\\b\\w*)*\\*\\/)";
+    //private static String RADAR_COMMENT = "(\\/\\/[\\w :_,!/+^*&~.();=]*|\\/\\*[\\w :_,!/+^*&~.();=]*\\*\\/)";// here
     //private static String RADAR_COMMENT = "(\\/\\/[\\w :_,!/+^*&~.();=" + DISTRIBUTIONS +"]*|\\/\\*[\\w :_,!/+^*&~.();=" +DISTRIBUTIONS +"]*\\*\\/)";
     //private static String RADAR_COMMENT = "(\\/\\/ [\\w ]*?|\\/\\* [\\w ]*? \\*\\/)";
     //private static String RADAR_OPTION = "(" + "\""+ RADAR_TEXT + "\"" + ")";
-    private static String RADAR_DISTRIBUTION = "(\\w*\\btriangular\\b\\w*|\\w*normalCI\\w*|\\w*normal\\w*|\\w*geometric\\w*|\\w*deterministic\\w*|\\w*exponential\\w*|\\w*binomial\\w*|\\w*uniform\\w*|\\w*random\\w* )";
+    //private static String RADAR_DISTRIBUTION = "(\\w*\\btriangular\\b\\w*|\\w*normalCI\\w*|\\w*normal\\w*|\\w*geometric\\w*|\\w*deterministic\\w*|\\w*exponential\\w*|\\w*binomial\\w*|\\w*uniform\\w*|\\w*random\\w* )";
+    private static String RADAR_DISTRIBUTION = "(\\w*\\btriangular\\b\\w*|\\w*\\bnormalCI\\b\\w*|\\w*\\bnormal\\b\\w*|\\w*\\bgeometric\\b\\w*|\\w*\\bdeterministic\\b\\w*|\\w*\\bexponential\\b\\w*|\\w*\\bbinomial\\b\\w*|\\w*\\buniform\\b\\w*|\\w*\\brandom\\b\\w* )";
    // private static String RADAR_OPERATORS = "(\\s*\\+\\s*|\\s*\\-\\s*|\\s*\\/\\s*|\\s*\\*\\s*|\\s*&&\\s*|\\s*\\|\\|\\s*|\\s*<\\s*|\\s*>\\s*|\\s*<=\\s*|\\s*>=\\s*|\\s*!\\s*)";
     //private static String RADAR_OPERATORS = "(" +OPERATORS +")";
 
@@ -77,18 +82,22 @@ public class ModelView extends PlainView {
     static {
         // NOTE: the order is important!
         patternColors = new LinkedHashMap<Pattern, Color>();
-        patternColors.put(Pattern.compile(RADAR_MODEL), new Color(131,111,255));
-        patternColors.put(Pattern.compile(RADAR_OBJECTIVE), new Color(131,111,255));
-        patternColors.put(Pattern.compile(RADAR_MAXIMISE), new Color(131,111,255));
-        patternColors.put(Pattern.compile(RADAR_MINIMISE), new Color(131,111,255));
-        patternColors.put(Pattern.compile(RADAR_EV), new Color(131,111,255));
-        patternColors.put(Pattern.compile(RADAR_PR), new Color(131,111,255));
-        patternColors.put(Pattern.compile(RADAR_PERCENTILE), new Color(131,111,255));
-        patternColors.put(Pattern.compile(RADAR_DECISION), new Color(131,111,255)); //Color.BLUE, 30,144,255,  255,99,71
+        
+        patternColors.put(Pattern.compile(RADAR_MODEL), Color.BLUE); //new Color(131,111,255)
+        patternColors.put(Pattern.compile(RADAR_NUMBER), Color.RED);
+        patternColors.put(Pattern.compile(RADAR_OBJECTIVE), Color.BLUE);
+        patternColors.put(Pattern.compile(RADAR_MAXIMISE), Color.BLUE);
+        patternColors.put(Pattern.compile(RADAR_MINIMISE), Color.BLUE);
+        patternColors.put(Pattern.compile(RADAR_EV),  Color.BLUE);
+        patternColors.put(Pattern.compile(RADAR_PR), Color.BLUE);
+        patternColors.put(Pattern.compile(RADAR_PERCENTILE), Color.BLUE);
+        patternColors.put(Pattern.compile(RADAR_DECISION), Color.BLUE); //Color.BLUE, 30,144,255,  255,99,71
         //patternColors.put(Pattern.compile(RADAR_OPTION), new Color(99,184,255)); //72,118,255, 255,99,71
-        patternColors.put(Pattern.compile(RADAR_COMMENT), new Color(0,201,87));//0,201,87
-        patternColors.put(Pattern.compile(RADAR_DISTRIBUTION), new Color(131,111,255)); //255,99,71, 99,184,255
+       
+        patternColors.put(Pattern.compile(RADAR_COMMENT), new Color(124,252,0));//0,201,87
+        patternColors.put(Pattern.compile(RADAR_DISTRIBUTION), Color.BLUE); //255,99,71, 99,184,255
         //patternColors.put(Pattern.compile(RADAR_OPERATORS), Color.RED); //99,184,255
+        //
     }
 
     public ModelView(Element element) {
@@ -114,11 +123,23 @@ public class ModelView extends PlainView {
         for (Map.Entry<Pattern, Color> entry : patternColors.entrySet()) {
 
             Matcher matcher = entry.getKey().matcher(text);
-
-            while (matcher.find()) {
-                startMap.put(matcher.start(1), matcher.end());
-                colorMap.put(matcher.start(1), entry.getValue());
+            //System.out.println(text);
+            // adding this part for the comment section, it w
+            if (text.contains("//")||text.contains("/*")|| text.contains("*/")){
+            	//System.out.println("true");
+            	while (matcher.find()) {
+            		startMap.put(matcher.start(1), matcher.end());
+                    colorMap.put(matcher.start(1), new Color(124,252,0));
+            	}
+            }else{
+            	//System.out.println("false");
+            	while (matcher.find()) {
+                    startMap.put(matcher.start(1), matcher.end());
+                    colorMap.put(matcher.start(1), entry.getValue());
+                }
             }
+            
+            
         }
 
         // TODO: check the map for overlapping parts

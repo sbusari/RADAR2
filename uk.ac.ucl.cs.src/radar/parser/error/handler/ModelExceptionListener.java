@@ -15,11 +15,10 @@ public class ModelExceptionListener extends BaseErrorListener {
                             String msg,
                             RecognitionException e)
     {
-		
         List<String> stack = ((Parser)recognizer).getRuleInvocationStack();
         Collections.reverse(stack);
         charPositionInLine = charPositionInLine +1;
-        errorMessage += "Syntax error at line "+line+", character position "+charPositionInLine + ". "+msg + " \n";
+        errorMessage += "Syntax error at line "+line+", character position "+charPositionInLine + ".\n"+msg + " \n";
     }
 	public String getErrorMsg (){
 		return errorMessage;

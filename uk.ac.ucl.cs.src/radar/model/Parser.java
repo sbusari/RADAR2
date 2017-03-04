@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import radar.parser.engine.Visitor;
 import radar.parser.error.handler.ModelExceptionListener;
 import radar.parser.error.handler.ModelParserErrorStrategy;
+import radar.parser.error.handler.UnderlineModelExceptionListener;
 import radar.parser.generated.ModelLexer;
 import radar.parser.generated.ModelParser;
 import radar.utilities.Helper;
@@ -65,14 +66,15 @@ public class Parser {
 	public Visitor runVisitor (String inputString, int nbr_simulation,  String infoValueObjective,String subGraphObjective) {
 		Visitor visitor = new Visitor(nbr_simulation, infoValueObjective, subGraphObjective);
 		String model = inputString + "\n\n\n";
-		ModelExceptionListener errorListener = null;
+		//ModelExceptionListener errorListener = null;
+		UnderlineModelExceptionListener errorListener = null;
 		try{
 			ANTLRInputStream input = new ANTLRInputStream(model); 
 	        ModelLexer lexer = new ModelLexer(input); 
 	        CommonTokenStream tokens = new CommonTokenStream(lexer); 
 	        ModelParser parser = new ModelParser(tokens); 
 	        parser.removeErrorListeners(); // remove ConsoleErrorListener
-	        errorListener = new ModelExceptionListener();
+	        errorListener = new UnderlineModelExceptionListener(); // ModelExceptionListener();
 	        parser.addErrorListener(errorListener);
 	        //parser.setErrorHandler(new ModelParserErrorStrategy());
 	        ParseTree tree = parser.model(); 
@@ -88,7 +90,7 @@ public class Parser {
 			if (errorListener.getErrorMsg() != "") {
 				throw new RuntimeException(errorListener.getErrorMsg() + "\nPossible resolution hints:\n1. Remove extraneous and unrecognised tokens within expressions. \n2. Ensure model keywords are written according to RADAR syntax. \n3. The equality signs '=' must be used when defining a quality variable. \n4 Add semicolon at the end of each statement and ensure quality variable names do not start with a number. ");
 			}else{
-				throw new RuntimeException( e.getMessage());
+				throw new RuntimeException(e.getMessage());
 			}
 		}
 		return visitor;

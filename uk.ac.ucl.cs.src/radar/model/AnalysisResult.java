@@ -40,7 +40,7 @@ public class AnalysisResult {
 	private long simulationRuntime;
 	private long optimisationRuntime;
 	private long informationValueRuntime;
-	
+	private int decimalPrecision;
 	
 	private int nbrVariables;
 	
@@ -218,7 +218,12 @@ public class AnalysisResult {
 	public long getInformationValueRuntime (){
 		return informationValueRuntime;
 	}
-	
+	/**
+	 * @param Decimal precision
+	 */
+	 public void addDecimalPrecision (int decimalPrecisionValue){
+		decimalPrecision = decimalPrecisionValue;
+	}
 	/**
 	 * Adds the number of quality variables to analysis result.
 	 * @param nbrVar execution analysis run time.
@@ -315,6 +320,7 @@ public class AnalysisResult {
 	 * @return optimisation analysis result in string form.
 	 */
 	String getOptimisationAnalysisResult (){
+		totalRuntime = designSpaceRuntime+simulationRuntime+ optimisationRuntime+informationValueRuntime;
 		TableBuilder tableBuilder = new TableBuilder ();
 		tableBuilder.addRow (new String []{"Optimisation", "Analysis"});
 		tableBuilder.addRow ("----------------------", "\n");
@@ -333,6 +339,7 @@ public class AnalysisResult {
 		return tableBuilder.toString();
 	}
 	public List<String> optimisationAnalysisDetails (){
+		totalRuntime = designSpaceRuntime+simulationRuntime+ optimisationRuntime+informationValueRuntime;
 		List<String> result = new ArrayList<String> ();
 		for(int j=0; j < objectives.size(); j++){
 			String optimisationDirection = objectives.get(j).getIsMinimisation() ? "Min" : "Max";
@@ -348,6 +355,10 @@ public class AnalysisResult {
 		result.add ("Total Runtime(s) ,"+ totalRuntime);
 		return result;
 	}
+	String roundOffToDesiredPrecision(double val)
+	{
+	    return String.format("%."+ decimalPrecision+ "f", val);
+	}
 	public List<String> infoValueDetails (){
 		List<String> result = new ArrayList<String> ();
 		if (eviObjective != null){
@@ -355,7 +366,7 @@ public class AnalysisResult {
 			result.add("EVTPI," + evtpi + "\n" );
 			result.add ("Parameter,"+ "EVPPI");
 			for (Map.Entry<String, Double> entry: evppi.entrySet()){
-				result.add(entry.getKey()+ ","+entry.getValue() );
+				result.add(entry.getKey()+ ","+roundOffToDesiredPrecision(entry.getValue()) );
 			}
 		}
 		return result;
@@ -486,7 +497,7 @@ public class AnalysisResult {
 		int i =0;
 		for(double  entry: objValues.get(index)){
 			double value = objectives.get(i).getIsMinimisation() == true? entry: entry *-1;
-        	record += value + separator;
+        	record += roundOffToDesiredPrecision(value) + separator;
         	i++;
         }
 		return record;
@@ -524,7 +535,7 @@ public class AnalysisResult {
 		result.addRow ("Parameter", "EVPPI \n");
 		result.addRow ("----------","----- \n\n");
 		for (Map.Entry<String, Double> entry: evppi.entrySet()){
-			result.addRow(new String[]{ entry.getKey() ,  entry.getValue() +"\n"});
+			result.addRow(new String[]{ entry.getKey() ,  roundOffToDesiredPrecision(entry.getValue()) +"\n"});
 		}
 		return result.toString();
 	}

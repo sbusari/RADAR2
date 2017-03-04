@@ -17,6 +17,7 @@ public class AboutRadar {
 	        // create jeditorpane
 	        JEditorPane jEditorPane = new JEditorPane();
 	        
+	        
 	        // make it read-only
 	        jEditorPane.setEditable(false);
 	        
@@ -50,6 +51,8 @@ public class AboutRadar {
 	        Document doc = kit.createDefaultDocument();
 	        jEditorPane.setDocument(doc);
 	        jEditorPane.setText(htmlString);
+	        
+	        
 	        jEditorPane.setBounds(100, 100, 30, 20);
 
 	        // now add it all to a frame

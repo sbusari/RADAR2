@@ -14,7 +14,7 @@ public class InputValidator {
 	public static String verifyEmptyField (JComponent input, String fieldName, String dataType){
 		String message ="";
 	    if (((JTextField) input).getText().isEmpty()){
-	    	message += fieldName + " must be specified. \n";
+	    	message += "'"+fieldName + "' must be specified. \n";
 	    }
 	   return message;
 	}
@@ -28,7 +28,7 @@ public class InputValidator {
 		if (modelPath != null){
 			File modelFile = new File (modelPath.trim());
     		if (!modelFile.exists()){
-    			throw new Exception ("Warning: "+ "model file "+ modelPath+ " does not exist."); 
+    			throw new Exception ("Warning: "+ "model file '"+ modelPath+ "' does not exist."); 
     		}
 		}
 	}
@@ -36,7 +36,7 @@ public class InputValidator {
 		if (outputPath != null){
 			File modelFile = new File (outputPath.trim());
     		if (!modelFile.exists()){
-    			throw new Exception ("Warning: "+ "file "+ outputPath+ " does not exist."); 
+    			throw new Exception ("Warning: "+ "file '"+ outputPath+ "' does not exist."); 
     		}
 		}
 	}
@@ -96,12 +96,19 @@ public class InputValidator {
 				switch (dataType){
 					case "Integer" : Integer.parseInt(text);break;
 					case "Double" : Double.parseDouble(text);break;
+					case "String" : {
+							try{
+								double a = Double.parseDouble(text);
+								throw new NumberFormatException();
+							}catch(NumberFormatException e){
+								message += "Input value for '" +fieldName+ "' must be of data type '"+ dataType +"'.\n";
+							}}; break;
 					default: 
 				}
 				
 			}
 			catch (Exception e) {
-				message += "Input value for " +fieldName+ " must be of data type "+ dataType +". \n"; 
+				message += "Input value for '" +fieldName+ "' must be of data type '"+ dataType +"'.\n"; 
 		    }
 		}
 	   return message;
@@ -111,8 +118,8 @@ public class InputValidator {
 		String text = input;
 		if (! text.isEmpty()){
 			switch (dataType){
-				case "Integer" : message+= Integer.parseInt(text) < 0 ? "Value for "+fieldName + " cannot be negative. \n": "" ;break;
-				case "Double" : message+=  Double.parseDouble(text) < 0 ? "Value for "+fieldName + " cannot be negative. \n": "" ;break;
+				case "Integer" : message+= Integer.parseInt(text) < 0 ? "Value for '"+fieldName + "' cannot be negative. \n": "" ;break;
+				case "Double" : message+=  Double.parseDouble(text) < 0 ? "Value for '"+fieldName + "' cannot be negative.\n": "" ;break;
 				default: 
 			}
 		}
@@ -124,8 +131,8 @@ public class InputValidator {
 		String text = input;
 		if (! text.isEmpty()){
 			switch (dataType){
-				case "Integer" : message+= Integer.parseInt(text) < 0 || Integer.parseInt(text) >1 ? "Value for "+fieldName + " must be between 0 and 1. \n": "" ;break;
-				case "Double" : message+=  Double.parseDouble(text) < 0 || Double.parseDouble(text) > 1 ? "Value for "+fieldName + " must be between 0 and 1. \n": "" ;break;
+				case "Integer" : message+= Integer.parseInt(text) < 0 || Integer.parseInt(text) >1 ? "Value for '"+fieldName + "' must be between 0 and 1. \n": "" ;break;
+				case "Double" : message+=  Double.parseDouble(text) < 0 || Double.parseDouble(text) > 1 ? "Value for '"+fieldName + "' must be between 0 and 1. \n": "" ;break;
 				default: 
 			}
 		}

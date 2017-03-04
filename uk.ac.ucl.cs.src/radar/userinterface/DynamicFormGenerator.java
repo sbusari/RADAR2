@@ -1,6 +1,7 @@
 package radar.userinterface;
 
 import java.awt.Component;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 public class DynamicFormGenerator {
 
@@ -29,7 +31,9 @@ public class DynamicFormGenerator {
 	}
 	public void initialiseFormPanel(Map<String,String> formLabels){
 		int nbrOfFields = formLabels.size();
-		formPanel = new JPanel (new GridLayout(nbrOfFields, 2,6,6));
+		formPanel = new JPanel ();//new GridLayout(nbrOfFields, 2,6,6)
+		formPanel.setLayout(new GridBagLayout());
+		formPanel.setBorder(LineBorder.createBlackLineBorder());
 		for (Map.Entry<String, String> entry:formLabels.entrySet()){
 			JLabel label = new JLabel (entry.getKey());
 			label.setHorizontalAlignment(JLabel.TRAILING);

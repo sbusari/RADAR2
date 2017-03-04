@@ -150,7 +150,7 @@ public class ModelSolver {
 				i++;
 			}
 			long simulationEndTime = System.currentTimeMillis()-simulationStartTime ;
-			result.addDesignSpaceRunTime(simulationEndTime/1000);
+			result.addSimulationRuntime(simulationEndTime/1000);
 			message += "Simulated the design space in "+ simulationEndTime/1000 +" seconds.\n";
 			message += "----------------------------------------------------------------------------.\n";
 			result.setConsoleMessage(message);
@@ -168,7 +168,7 @@ public class ModelSolver {
 			result.addNumberOfVariables(m.getQualityVariables().size());
 			result.addNumberOfDecisions(m.getDecisions().size());
 			long optimisationEndTime = System.currentTimeMillis()-optimisationStartTime ;
-			result.addDesignSpaceRunTime(optimisationEndTime/1000);
+			result.addOptimisationRuntime(optimisationEndTime/1000);
 			message += "Shortlisted Pareto Optimal solutions in "+ optimisationEndTime/1000 +" seconds.\n";
 			message += "----------------------------------------------------------------------------.\n";
 			result.setConsoleMessage(message);
@@ -187,7 +187,7 @@ public class ModelSolver {
 				InformationValueAnalyser.computeInformationValue(result,infoValueObjective, result.getShortListSolutions(), parameters);;
 			}
 			long InformationValueAnalysisEndTime = System.currentTimeMillis()-InformationValueAnalysisStartTime;
-			result.addRunTime(InformationValueAnalysisEndTime/1000);
+			result.addInformationValueRuntime(InformationValueAnalysisEndTime/1000);
 			result.addNumberOfParameters(nbrParam);
 			result.addSubGraphObejctive(m.getSubGraphObjective());
 			result.addEviObjective(infoValueObjective);
