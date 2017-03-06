@@ -98,7 +98,13 @@ public class InputValidator {
 					case "Double" : Double.parseDouble(text);break;
 					case "String" : {
 							try{
-								double a = Double.parseDouble(text);
+								try{
+									double a = Double.parseDouble(text);
+								}catch(Exception e){
+									// break if it throws and excepion for matching a string, since that is what is expected.
+									break;
+								}
+								// if no exception throw number exception.
 								throw new NumberFormatException();
 							}catch(NumberFormatException e){
 								message += "Input value for '" +fieldName+ "' must be of data type '"+ dataType +"'.\n";

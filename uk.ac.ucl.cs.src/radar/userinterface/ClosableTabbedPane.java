@@ -70,7 +70,8 @@ public class ClosableTabbedPane extends JTabbedPane{
 		public void mouseEntered(MouseEvent me) {}
 		public void mouseExited(MouseEvent me) {}
 		public void mousePressed(MouseEvent me) {}
-		public void mouseClicked(MouseEvent me) {}
+		public void mouseClicked(MouseEvent me) {
+		}
 		public void mouseDragged(MouseEvent me) {
 			// This section was initially empty.
 			/*if(!dragging) {

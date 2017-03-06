@@ -338,6 +338,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			}
 		}
 		openModelExamples();
+		initialiseAnalysisSettings();
 		tabbedPane.addTab("Editor",editModel);
 		tabbedPane.setSelectedComponent(editModel);
 		tabbedPane.addTab("Analysis Result",analysisResult);
@@ -475,7 +476,6 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				initialiseAnalysisSettings();
 				tabbedPane.addTab(title, null, analysisSettingsPanel, null);
 				tabbedPane.setSelectedComponent(analysisSettingsPanel);
-				
 				
 				
 			}
@@ -1009,6 +1009,28 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			Helper.printResults (modelResultPath , analysisResult, semanticModel.getModelName() +".out", false);
 			Helper.printResults (modelResultPath , analysisResultToCSV, semanticModel.getModelName() +".csv", false);
 			
+			if (false){
+				String imageOutput = modelResultPath + "/";
+				String title = "Pareto-Front";
+				if (result.getShortListObjectives().get(0).length == 2){
+					//TwoDPlotter twoDPlot = new TwoDPlotter();
+					TwoDPanelPlotter twoDPlot = new TwoDPanelPlotter();
+					twoDPlot.setSize(editModel.getSize());
+					twoDPlot.setName(title);
+					twoDPlot.setLayout(new BorderLayout());
+					viewPareto(twoDPlot, title);
+					twoDPlot.plot(semanticModel,imageOutput, result);
+				}else if (result.getShortListObjectives().get(0).length == 3){
+					ScatterPlotPanel3D sc3D2= new ScatterPlotPanel3D( );
+					sc3D2.setSize(editModel.getSize());
+					sc3D2.setName(title);
+					sc3D2.setLayout(new BorderLayout());
+					viewPareto(sc3D2, title);
+					sc3D2.plot(semanticModel, imageOutput, result);
+				}
+				chckbxmntmParetoFront.setSelected(true);
+				
+			}
 			// generate graphs
 			if (true){
 				
@@ -1032,28 +1054,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				decisionDependencyGraphIcon  = viewDotGraph(decisionGraph,"png", graphType, decisionDependencyGraphPanel,decisionDependencyGraphImageLabel);
 				chckbxmntmDecisionDependencyGraph.setSelected(true);
 			}
-			if (true){
-				String imageOutput = modelResultPath + "/";
-				String title = "Pareto-Front";
-				if (result.getShortListObjectives().get(0).length == 2){
-					//TwoDPlotter twoDPlot = new TwoDPlotter();
-					TwoDPanelPlotter twoDPlot = new TwoDPanelPlotter();
-					twoDPlot.setSize(editModel.getSize());
-					twoDPlot.setName(title);
-					twoDPlot.setLayout(new BorderLayout());
-					viewPareto(twoDPlot, title);
-					twoDPlot.plot(semanticModel,imageOutput, result);
-				}else if (result.getShortListObjectives().get(0).length == 3){
-					ScatterPlotPanel3D sc3D2= new ScatterPlotPanel3D( );
-					sc3D2.setSize(editModel.getSize());
-					sc3D2.setName(title);
-					sc3D2.setLayout(new BorderLayout());
-					viewPareto(sc3D2, title);
-					sc3D2.plot(semanticModel, imageOutput, result);
-				}
-				chckbxmntmParetoFront.setSelected(true);
-				
-			}
+		
 			System.out.println("Finished!");
 			modelSolved =true;
 			solvedModel = ""; // textModelArea.getText();
@@ -1337,19 +1338,22 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		        // create some simple html as a string
 		        String htmlString = "<html>\n"
 	                    + "<body>\n"
+		        		+ "<h1>RADAR</h1>"
+	                    + "<p>RADAR is a lightweight modelling language and automated decision analysis tool to support multi-objective decision under uncertainty in requirements engineering and software architecture.</p>"
 	                    +"<h1> How to Use RADAR </h1>"
-	                    +"<p>RADAR has three main panels:"
+	                    +"<p>RADAR has four main panels:"
 	                    +"<ul align =\"justify\">"
-	                    +"<li><strong>Model Board </strong> where modellers can write their own models and also load existing models for editing.</li>"	
-	                    +"<li><strong>Model Analysis Settings</strong> for specifying parameters for model analysis. Examples of these parameters includes: the number of simulation, output directory where model analysis results are stored, information value objective for computing the expected value of total and partial perfect information (evtpi and evppi), sub-graph objective for restricting the AND/OR graph to a single specified objective, and some checkboxes used to indicate users' preferences on whether the tool should generate AND/OR dependency graph, decision dependency graph and the Pareto front.  </li>"
+	                    +"<li><strong>Editor</strong> where modellers can write their decision models and also load existing models for editing.</li>"	
+	                    +"<li><strong>Analysis Result</strong> where the results of the optimisation and information value analysis are displayed.</li>"
+	                    +"<li><strong>Analysis Settings</strong> for specifying parameters for model analysis and the path where Graphviz is installed to enable visualisation of the variable AND/OR graph and decision dependency graph. Examples of these parameters needed to be specified for analysis includes: the number of simulation (mandatory), output directory where model analysis results are stored (optional), information value objective for computing the expected value of total and partial perfect information (evtpi and evppi), sub-graph objective for restricting the AND/OR graph to a single specified objective, and some checkboxes used to indicate users' preferences on whether the tool should generate AND/OR dependency graph, decision dependency graph and the Pareto front.  </li>"
 	                    +"<li><strong>Model Decisions</strong> which displays all specified model decisions and their corresponding options, once the model has been parsed successfully.</li>"
 	                    +"</ul>"
 	                    +"<p>To analyse an existing model, the following steps can be followed:</p>"
 	                    +"<ol align =\"justify\">"
-	                    +"<li>Enable the model board by either clicking <strong>enable model board </strong> under the Radar menu or clicking the <strong>write model</strong> under the Action menu.</li>"
-	                    +"<li>Open the RADAR file (we recommend starting with the first example below i.e. refactoring cost-benefit analysis) by simply clicking on the file menu and then click  <strong>open</strong> to load the existing model on the model board. if successful, you will see the model displayed in the model board. At this point, users can edit the model and save changes by clicking on <strong>save</strong> under the file menu. </li>"
-	                    +"<li>Go to the Action menu and  click  <strong>parse model </strong> to check that the specified model conforms to RADAR syntaxes defined in the paper. If not, an error message is displayed. If successful, you will be prompted to either continue with analysing the model or you could decide to further review the model and later analyse the model by clicking <strong>analyse model</strong> under the Action menu. Note that before parsing the model, you will be required by the tool to specify the output directory, which stores model analysis results. </li>"
-	                    +"<li> If you click continue with model analysis, RADAR analyses the model as described in the paper, and the analysis results, such as the optimisation analysis, Pareto front (if checkbox is enabled) and information value analysis (if the information value objective is specified), are displayed in a tabular format within another window. In addition, the model analysis result (in .csv and .out extensions), AND/OR variable dependency graph (DOT format), decision dependency graph (in DOT format) and the Pareto front (in .PNG) are saved in the specified output directory.  </li>"
+	                    //+"<li>Enable the model board by either clicking <strong>enable model board </strong> under the Radar menu or clicking the <strong>write model</strong> under the Action menu.</li>"
+	                    +"<li>Open the RADAR file (we recommend starting with the first example below i.e. refactoring cost-benefit analysis) by simply clicking on the file menu and then click  <strong>open</strong> to load the existing model on the editor. if successful, you will see the model displayed in the editor. At this point, users can edit the model and save changes by clicking on <strong>save</strong> under the file menu. </li>"
+	                    +"<li>Go to the Action menu and  click  <strong>parse model </strong> to check that the specified model conforms to RADAR syntaxes defined in the paper. If not, an error message is displayed. If successful, you will be prompted to either continue with analysing the model or you could decide to further review the model and later analyse the model by clicking <strong>solve model</strong> under the Action menu. </li>"
+	                    +"<li> If you click continue with model analysis, RADAR analyses the model as described in the icse 2017 paper, and the analysis results, such as the optimisation analysis and information value analysis (if the information value objective is specified), are displayed in a tabular format within another tab. In addition, the model analysis result (in .csv and .out extensions), AND/OR variable dependency graph (DOT format), decision dependency graph (in DOT format) and the Pareto front (in .PNG) are saved in the specified output directory.  </li>"
 	                    +"</ol>"
 	                    +"<p align =\"justify\">To analyse your own model, simply follow the same steps after having edited your model in the tool or using an external text editor.</p>"
 	                    +"</body>\n";
@@ -1390,9 +1394,9 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 	                    			+ "<h1>RADAR: Requirements and Architecture Decision Analyser</h1>\n"
 	                    			+ "<h2><a href=\"http://www0.cs.ucl.ac.uk/staff/S.Busari/\">Saheed Busari</a> and <a href=\"http://letier.cs.ucl.ac.uk/\">Emmanuel Letier</a></h2>"
 		        					+"<p align =\"justify\">RADAR is a lightweight modelling language and decision analysis tool to support multi-objective decision under uncertainty in software requirements engineering and architectural design.</p>"
-		        					+"<p>Build ID: 20160828-1159 </p>"
-		        					+"<p>Version Nunmber: v1.0 </p>"
-		        					+"<p>Webpage: http://www0.cs.ucl.ac.uk/staff/S.Busari/RADAR/ </p>"
+		        					+"<p>Build ID: 20170305-1159 </p>"
+		        					+"<p>Version Nunmber: v1.1 </p>"
+		        					+"<p>Webpage: https://ucl-badass.github.io/radar/ </p>"
 		        					+"<p>Contact email: <a href=\"mailto:{saheed.busari.13, e.letier}@ucl.ac.uk\">{saheed.busari.13, e.letier}@ucl.ac.uk</a></p>"
 		        					+"</body>\n";
 		        // create a document, set it on the jeditorpane, then add the html
@@ -1815,9 +1819,11 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			}
 		}
 		tabbedPane.addTab(title,panel);
+		tabbedPane.setSelectedComponent(panel); // added this part to ensure the pareto front is focussed
+		
 	}
 	void resizeGraphOnPanel(String graphType, ImageIcon imageIcon, ImageLabel imageLabel, String resizeType){
-		imageLabel.setHorizontalAlignment(JLabel.CENTER);
+		//imageLabel.setHorizontalAlignment(JLabel.NORTH); already set
 		imageLabel.setIcon(imageIcon);
 		if(resizeType.equals("increase")){
 			imageLabel.increaseScale(0.1);
@@ -1831,13 +1837,20 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		scrollVariableImageLabel.setPreferredSize(new Dimension(850, 450));
 		panel.add(scrollVariableImageLabel, BorderLayout.CENTER);
 		Component [] allTabbedComponent = tabbedPane.getComponents();
+		int i=-1;
 		for (Component comp: allTabbedComponent){
 			if (panel.getName().equals(comp.getName())){
-				tabbedPane.remove(comp);
+				tabbedPane.remove(comp); 
+				i++;
+				break;
+			}else{
+				i++;
 			}
 		}
-		tabbedPane.addTab(graphType,panel);
+		tabbedPane.addTab( graphType, panel);
 		tabbedPane.setSelectedComponent(panel);
+		//tabbedPane.setSelectedIndex(i);
+		tabbedPane.repaint();
 	}
 	void minimiseViewToolBar(){
 		buttonMinimise.addActionListener(new ActionListener() {
@@ -1913,8 +1926,8 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		variableImageLabel.setHorizontalAlignment(JLabel.CENTER);
 		JScrollPane scrollVariableImageLabel = new JScrollPane(variableImageLabel);*/
 		
+		//imageLabel.setHorizontalAlignment(JLabel.NORTH);
 		imageLabel.setIcon(imageIcon);
-		imageLabel.setHorizontalAlignment(JLabel.CENTER);
 		JScrollPane scrollVariableImageLabel = new JScrollPane(imageLabel);
 		scrollVariableImageLabel.setPreferredSize(new Dimension(850, 450));
 		graphPanel.add(scrollVariableImageLabel, BorderLayout.CENTER);
@@ -1948,6 +1961,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				variableGraphImageLabel = new ImageLabel("");
 				String graphType = "AND/OR-Graph";
 				variableGraphPanel.setName(graphType);
+				variableGraphImageLabel.setHorizontalAlignment(JLabel.NORTH);
 				variableGraphIcon = viewDotGraph(variableGraph,"png", graphType, variableGraphPanel,variableGraphImageLabel);
 				variableGraphImageLabel.setIcon(variableGraphIcon);
 			}
@@ -1956,6 +1970,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				Helper.printResults (modelResultPath + "graph/", decisionGraph, semanticModel.getModelName() + "dgraph.dot", false);
 				decisionDependencyGraphPanel = new JPanel(new BorderLayout());
 				decisionDependencyGraphImageLabel = new ImageLabel("");
+				decisionDependencyGraphImageLabel.setHorizontalAlignment(JLabel.NORTH);
 				String graphType = "DD-Graph";
 				decisionDependencyGraphPanel.setName(graphType);
 				decisionDependencyGraphIcon = viewDotGraph(decisionGraph,"png", graphType, decisionDependencyGraphPanel,decisionDependencyGraphImageLabel);
@@ -2232,12 +2247,6 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		mntmSatelliteImageProcessing = new JMenuItem("Satellite Image Processing");
 		
 		mnExamples.add(mntmSatelliteImageProcessing);
-		
-		JSeparator separator_19 = new JSeparator();
-		fileMenu.add(separator_19);
-		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Exit");
-		fileMenu.add(mntmNewMenuItem_3);
 		
 		JMenu mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
@@ -2719,12 +2728,15 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			
 			button = toolBar_1.add((Action) a);
 			button.setText("");
+			button.setToolTipText("Cut");
 			
 			button_1 = toolBar_1.add((Action) b);
 			button_1.setText("");
+			button_1.setToolTipText("Copy");
 			
 			button_2 = toolBar_1.add((Action) c);
 			button_2.setText("");
+			button_2.setToolTipText("Paste");
 		
 			
 			btnUndo = new JButton("");
