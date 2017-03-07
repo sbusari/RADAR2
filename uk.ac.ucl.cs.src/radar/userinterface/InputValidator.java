@@ -25,10 +25,10 @@ public class InputValidator {
 		}
 	}
 	public static void validateModelPath (String modelPath) throws Exception{
-		if (modelPath != null){
+		if (modelPath != null && !modelPath.isEmpty()){
 			File modelFile = new File (modelPath.trim());
     		if (!modelFile.exists()){
-    			throw new Exception ("Warning: "+ "model file '"+ modelPath+ "' does not exist."); 
+    			throw new Exception ("Warning: "+ "The file '"+ modelPath+ "' does not exist."); 
     		}
 		}
 	}
@@ -36,7 +36,7 @@ public class InputValidator {
 		if (outputPath != null){
 			File modelFile = new File (outputPath.trim());
     		if (!modelFile.exists()){
-    			throw new Exception ("Warning: "+ "file '"+ outputPath+ "' does not exist."); 
+    			throw new Exception (""+ "The file '"+ outputPath+ "' does not exist."); 
     		}
 		}
 	}

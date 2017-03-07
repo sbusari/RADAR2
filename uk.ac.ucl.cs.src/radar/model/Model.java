@@ -32,6 +32,7 @@ public class Model implements ModelVisitorElement {
 	private int noOfSimulation_;
 	private Map<String, QualityVariable> visitedQualityVariableStack_;
 	private List<String> undefinedQualityVariable_;
+	private String subgraphVariable_;
 	public void setModelName(String modelName ){
 		modelName_ =modelName;
 	}
@@ -132,6 +133,12 @@ public class Model implements ModelVisitorElement {
 	 */
 	public Objective getSubGraphObjective (){
 		return subgraphObjective ;
+	}
+	public void setSubgraphVariable(String subgraphVar){
+		subgraphVariable_ = subgraphVar;
+	}
+	public String getSubgraphVariable(){
+		return subgraphVariable_;
 	}
 	/**
 	 * Sets the number of simulation for monte-carlo simulation.
@@ -246,9 +253,17 @@ public class Model implements ModelVisitorElement {
 	 */
 	public void accept(ModelVisitor visitor, Model m) {
 		if (m.getSubGraphObjective() == null){
-			for (Objective obj: this.getObjectives()){
-				obj.accept(visitor, m);
+			//Get the specific quality variable and call accept on that variable.
+			QualityVariable var = m.getQualityVariables().get(m.getSubgraphVariable());
+			// if var is null, then generate and/or- graoh for the whole model.
+			if(var != null){
+				var.accept(visitor, m);
+			}else{
+				for (Objective obj: this.getObjectives()){
+					obj.accept(visitor, m);
+				}
 			}
+			
 		}else{
 			m.getSubGraphObjective().accept(visitor, m);
 		}
@@ -368,7 +383,7 @@ public class Model implements ModelVisitorElement {
 				}
 			}
 			if (exist == false){
-				throw new ModelException ("Error: "+ "specified objective name "+ objectiveName + " does not exist in the model."); 
+				throw new ModelException (""+ "Specified objective name "+ objectiveName + " does not exist in the model."); 
 			}
 		}
 	}

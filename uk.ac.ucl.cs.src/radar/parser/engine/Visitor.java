@@ -72,6 +72,7 @@ public class Visitor extends ModelBaseVisitor<Value> {
 		modelConstructor.addModelName(semanticModel,ctx.var_name().getText());
 		
 		semanticModel.setNbr_Simulation(nbr_simulation);
+		semanticModel.setSubgraphVariable(subGraphObjective);
 		modelConstructor.setModelParameterLabels(semanticModel);
 		return new Value(null);
 	}

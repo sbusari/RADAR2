@@ -280,8 +280,9 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		rdbtnMAC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rdbtnMAC.isSelected()){
-					textGraphvizExecutablePath.setText("/usr/local/bin/dot");
 					executable = "/usr/local/bin/dot";
+					textGraphvizExecutablePath.setText(executable);
+					btnBrowseExecutablePath.setVisible(false);
 				}
 			}
 		});
@@ -292,6 +293,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				if (rdbtnWindows.isSelected()){
 					executable = "c:/Program Files (x86)/Graphviz 2.28/bin/dot.exe";
 					textGraphvizExecutablePath.setText(executable);
+					btnBrowseExecutablePath.setVisible(false);
 				}
 			}
 		});
@@ -302,6 +304,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				if (rdbtnLinux.isSelected()){
 					executable = "/usr/bin/dot";
 					textGraphvizExecutablePath.setText(executable);
+					btnBrowseExecutablePath.setVisible(false);
 				}
 				
 			}
@@ -322,29 +325,33 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 	void viewModelExample (String model_example){
 		modelExample = model_example;
 		if (modelTextPane != null && !modelTextPane.getText().equals("")){
-			int choice = JOptionPane.showConfirmDialog(null,
+			int choice = JOptionPane.showConfirmDialog(frame,
 					"The current model will be cleared'" + ""
 							+ "'\nDo you want to proceed ?",
 					"Confirmation Dialog", JOptionPane.INFORMATION_MESSAGE);
 			if(choice == JOptionPane.OK_OPTION){
+				
 				clearEditModel();
 				clearAnalysisResult();
 				clearConsole();
-				//clear all tabbedPane
 				Component [] tabbedComponent = tabbedPane.getComponents();
-				for (Component comp: tabbedComponent){
-					tabbedPane.remove(comp);
+				if (tabbedComponent != null){
+					for (Component comp: tabbedComponent){
+						if (comp instanceof JPanel && comp.getName() != null && !comp.getName().equals("Editor") && !comp.getName().equals("Analysis Result") && !comp.getName().equals("Console") ){
+							tabbedPane.remove(comp);
+						}
+					}
 				}
 			}
 		}
 		openModelExamples();
 		initialiseAnalysisSettings();
 		tabbedPane.addTab("Editor",editModel);
-		tabbedPane.setSelectedComponent(editModel);
 		tabbedPane.addTab("Analysis Result",analysisResult);
 		tabbedPane.addTab("Console",console);
+		
 		tabbedPane.setSelectedComponent(editModel);
-	
+		
 		chckbxmntmOptimisationAnalysis.setSelected(false);
 		chckbxmntmInformationValueAnalysis.setSelected(false);
 		chckbxmntmVariableAndorGraph.setSelected(false);
@@ -472,7 +479,6 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		mntmAnalysisSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String title = "Analysis Settings";
-				
 				initialiseAnalysisSettings();
 				tabbedPane.addTab(title, null, analysisSettingsPanel, null);
 				tabbedPane.setSelectedComponent(analysisSettingsPanel);
@@ -1118,15 +1124,19 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			tabbedPane.setSelectedComponent(editModel);
 		}else{
 			if (modelTextPane != null && !modelTextPane.getText().equals("")){
-				int choice = JOptionPane.showConfirmDialog(null,
+				int choice = JOptionPane.showConfirmDialog(frame,
 						"The current model will be cleared'" + ""
 								+ "'\nDo you want to proceed ?",
 						"Confirmation Dialog", JOptionPane.INFORMATION_MESSAGE);
 				if(choice == JOptionPane.OK_OPTION){
 					//clear all tabbedPane
 					Component [] tabbedComponent = tabbedPane.getComponents();
-					for (Component comp: tabbedComponent){
-						tabbedPane.remove(comp);
+					if (tabbedComponent != null){
+						for (Component comp: tabbedComponent){
+							if (comp instanceof JPanel && comp.getName() != null && !comp.getName().equals("Editor") && !comp.getName().equals("Analysis Result") && !comp.getName().equals("Console") ){
+								tabbedPane.remove(comp);
+							}
+						}
 					}
 					// load new edit model board.
 					tabbedPane.addTab("Editor",editModel);
@@ -1524,10 +1534,17 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			JOptionPane.showMessageDialog(null, analysisMsg);
 			return;
 		}
+		
 		parse();
 		if (parsed ==true){
+			//check that info value objective exist
+			boolean infoValueObjExist = infoValueObjectiveExist();
+			if (!infoValueObjExist) return;
+			
+			
+			
 			//populateDecisionTable();
-			int selection = JOptionPane.showConfirmDialog( null , "Model has been parsed successfully. \nDo you want to continue with analysis?" , "Confirmation "
+			int selection = JOptionPane.showConfirmDialog( frame , "Model has been parsed successfully. \nDo you want to continue with analysis?" , "Confirmation "
                     , JOptionPane.YES_NO_CANCEL_OPTION , JOptionPane.INFORMATION_MESSAGE);
 			if (selection == JOptionPane.YES_OPTION)
             {
@@ -1535,6 +1552,8 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				clearConsole();
 				clearAnalysisResult();
 				asynchronousSolve();
+				//assign new value incase it changes
+				executable = textGraphvizExecutablePath.getText();
 				if (modelSolved){
 					solvedModel = modelTextPane.getText();
 				}
@@ -1627,7 +1646,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 	private String inputValidation (){
 		String message = "";
 		message += InputValidator.verifyEmptyField (textNbrSimulation, "number of simulation", "Integer");
-		message += InputValidator.verifyEmptyField (textOutputDirectory, "output directory", "String");
+		//message += InputValidator.verifyEmptyField (textOutputDirectory, "output directory", "String");
 		message += InputValidator.verifyFieldDataType (textSubgraphObjective.getText(), "Subgraph Objective", "String");
 		message += InputValidator.verifyFieldDataType (textInformationValueObjective.getText(), "Information Value Objective", "String");
 		message += InputValidator.verifyFieldDataType (textNbrSimulation.getText(), "Nbr. Simulation", "Integer");
@@ -1636,7 +1655,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		message += InputValidator.verifyFieldNonNegativeValue(textFieldDecimalPrecision.getText(), "Decimal Precision", "Integer");
 		message += InputValidator.verifyEmptyField(textFieldDecimalPrecision, "Decimal Precision", "Integer");
 		if (!message.isEmpty()){
-			message += "Check the 'analsis settings' form to make corrections.\n";
+			message += "Check the 'analysis settings' page to make corrections.\n";
 		}
 		
 		//message += validateOutputDirectoryPath();
@@ -1699,8 +1718,28 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		}
 		fillDecisionTable(decisionsEntry);		
 	}
+	String validateOutputPath (String outputPath){
+		String message ="";
+		if (outputPath != null){
+			File modelFile = new File (outputPath.trim());
+    		if (!modelFile.exists()){
+    			message = "The file '"+ outputPath+ "' does not exist."; 
+    		}
+		}
+		return message;
+	}
 	void parse (){
 		try {
+			if (textOutputDirectory.getText() != "" && !textOutputDirectory.getText().isEmpty()){
+				String message = validateOutputPath(textOutputDirectory.getText());
+				if (message != "") {
+					JOptionPane.showMessageDialog(null, message);
+					parsed =false;
+					consoleTextArea.append(message);
+					tabbedPane.setSelectedComponent(console);
+					return;
+				}
+			}
 			semanticModel = loadModel();
 			if (semanticModel != null){
 				parsed =true;
@@ -1832,6 +1871,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		}
 		imageLabel.repaint();
 		JPanel  panel = new JPanel(new BorderLayout());
+		panel.setForeground(Color.LIGHT_GRAY);
 		JScrollPane scrollVariableImageLabel = new JScrollPane(imageLabel);
 		panel.setName(graphType);
 		scrollVariableImageLabel.setPreferredSize(new Dimension(850, 450));
@@ -1958,6 +1998,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				String variableGraph = semanticModel.generateDOTRefinementGraph(semanticModel, result.getSubGraphObjective());
 				Helper.printResults (modelResultPath + "graph/", variableGraph, semanticModel.getModelName() +"vgraph.dot", false);
 				variableGraphPanel = new JPanel(new BorderLayout());
+				variableGraphPanel.setForeground(Color.LIGHT_GRAY);
 				variableGraphImageLabel = new ImageLabel("");
 				String graphType = "AND/OR-Graph";
 				variableGraphPanel.setName(graphType);
@@ -1969,6 +2010,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				String decisionGraph = semanticModel.generateDecisionDiagram(result.getAllSolutions());
 				Helper.printResults (modelResultPath + "graph/", decisionGraph, semanticModel.getModelName() + "dgraph.dot", false);
 				decisionDependencyGraphPanel = new JPanel(new BorderLayout());
+				decisionDependencyGraphPanel.setForeground(Color.LIGHT_GRAY);
 				decisionDependencyGraphImageLabel = new ImageLabel("");
 				decisionDependencyGraphImageLabel.setHorizontalAlignment(JLabel.NORTH);
 				String graphType = "DD-Graph";
@@ -1982,6 +2024,8 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 				if (result.getShortListObjectives().get(0).length == 2){
 					//TwoDPlotter twoDPlot = new TwoDPlotter();
 					TwoDPanelPlotter twoDPlot = new TwoDPanelPlotter();
+					twoDPlot.setForeground(Color.LIGHT_GRAY);
+					
 					twoDPlot.setSize(editModel.getSize());
 					twoDPlot.setName(title);
 					twoDPlot.setLayout(new BorderLayout());
@@ -1989,6 +2033,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 					twoDPlot.plot(semanticModel,imageOutput, result);
 				}else if (result.getShortListObjectives().get(0).length == 3){
 					ScatterPlotPanel3D sc3D2= new ScatterPlotPanel3D( );
+					sc3D2.setForeground(Color.LIGHT_GRAY);
 					sc3D2.setSize(editModel.getSize());
 					sc3D2.setName(title);
 					sc3D2.setLayout(new BorderLayout());
@@ -2027,6 +2072,8 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			}
 		}catch(Exception e){
 			result = false;
+			JOptionPane.showMessageDialog(null, "There was a problem during model analysis. \nDetails:" + e.getMessage());
+
 		}
 		return result;
 	}
@@ -2038,6 +2085,8 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			}
 		}catch (Exception e){
 			result = false;
+			JOptionPane.showMessageDialog(null, "There was a problem during model analysis. \nDetails:" + e.getMessage());
+
 		}
 		return result;
 	}
@@ -2048,6 +2097,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			subGraphObjective = textSubgraphObjective.getText();
 			infoValueObjective = textInformationValueObjective.getText();
 			semanticModel = new Parser().parseUIModel(modelTextPane.getText(), nbr_Simulation, infoValueObjective,subGraphObjective);
+			
 		}catch (RuntimeException re){
 			parsed = false;
 			String err = re.getMessage();
@@ -2070,7 +2120,9 @@ public class RADAR_GUI2 implements PropertyChangeListener {
         	done = true;
         } catch (IOException exp) {
         	String err = exp.getMessage();
+        	consoleTextArea.append(err);
 			JOptionPane.showMessageDialog(null, err);
+			
         }
 		return done;
 	}
@@ -2415,7 +2467,7 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 
 			public boolean tabAboutToClose(int tabIndex) {
 				String tab = tabbedPane.getTabTitleAt(tabIndex);
-				int choice = JOptionPane.showConfirmDialog(null,
+				int choice = JOptionPane.showConfirmDialog(frame,
 						"You are about to close '" + tab
 								+ "'\nDo you want to proceed ?",
 						"Confirmation Dialog", JOptionPane.INFORMATION_MESSAGE);
@@ -2546,10 +2598,10 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		textInformationValueObjective.setToolTipText("An optional field that takes the objective on which the expected value of total and partial perfect information is computed.");
 		textInformationValueObjective.setColumns(10);
 		
-		JLabel lblVariableAndorObjective = new JLabel("Subgraph Objective");
+		JLabel lblVariableAndorObjective = new JLabel("Variable Subgraph");
 		
 		textSubgraphObjective = new JTextField();
-		textSubgraphObjective.setToolTipText("An optional field that takes an objective's variable for  which AND/OR goal graph is generated.\n");
+		textSubgraphObjective.setToolTipText("An optional field that takes a variable for  which AND/OR sub-graph is generated.\n");
 		textSubgraphObjective.setColumns(10);
 		
 		lblOutputDirectory = new JLabel("Output Directory");
@@ -2687,40 +2739,40 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 		b = modelTextPane.getActionMap().get(DefaultEditorKit.copyAction);
 		c = modelTextPane.getActionMap().get(DefaultEditorKit.pasteAction);
 		
-		a.putValue(Action.SMALL_ICON, new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CutFileIcon.png"));
+		a.putValue(Action.SMALL_ICON, new ImageIcon(RADAR_GUI2.class.getResource("/resources/CutFileIcon.png")));
 		a.putValue(Action.NAME, "Cut");
 		
 		
-		b.putValue(Action.SMALL_ICON, new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/CopyFileIcon.png"));
+		b.putValue(Action.SMALL_ICON, new ImageIcon(RADAR_GUI2.class.getResource("/resources/CopyFileIcon.png")));
 		b.putValue(Action.NAME, "Copy");
 	
 		
-		c.putValue(Action.SMALL_ICON, new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/PasteFileIcon.png"));
+		c.putValue(Action.SMALL_ICON, new ImageIcon(RADAR_GUI2.class.getResource("/resources/PasteFileIcon.png")));
 		c.putValue(Action.NAME, "Paste");
 				
 		
 		
 		btnNewFile = new JButton("");
 		btnNewFile.setToolTipText("New Model");
-		btnNewFile.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/NewFileIcon.png"));
+		btnNewFile.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/NewFileIcon.png")));
 		toolBar.add(btnNewFile);
 		
 		btnOpenFile = new JButton("");
 		
 		btnOpenFile.setToolTipText("Open Model");
-		btnOpenFile.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/OpenFileIcon.png"));
+		btnOpenFile.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/OpenFileIcon.png")));
 		toolBar.add(btnOpenFile);
 		
 		btnSaveFile = new JButton("");
 		
 		btnSaveFile.setToolTipText("Save Model");
-		btnSaveFile.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/SaveFileIcon.png"));
+		btnSaveFile.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/SaveFileIcon.png")));
 		toolBar.add(btnSaveFile);
 		
 		btnExportFile = new JButton("");
 		
 		btnExportFile.setToolTipText("Export Result");
-		btnExportFile.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ExportIcon.png"));
+		btnExportFile.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/ExportIcon.png")));
 		toolBar.add(btnExportFile);
 		
 		toolBar_1 = new JToolBar();
@@ -2743,27 +2795,27 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			btnUndo.setEnabled(false);
 			
 			btnUndo.setToolTipText("Undo");
-			btnUndo.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/UndoIcon.png"));
+			btnUndo.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/UndoIcon.png")));
 			toolBar_1.add(btnUndo);
 			
 			btnRedo = new JButton("");
 			btnRedo.setEnabled(false);
 			
 			btnRedo.setToolTipText("Redo");
-			btnRedo.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/RedoIcon.png"));
+			btnRedo.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/RedoIcon.png")));
 			toolBar_1.add(btnRedo);
 			
 			buttonMaximise = new JButton("");
 			buttonMaximise.setToolTipText("Maximise Image");
 			
-			buttonMaximise.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/MaximiseIcon.png"));
+			buttonMaximise.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/MaximiseIcon.png")));
 			buttonMaximise.setSelectedIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/MaximiseIcon.png"));
 			toolBar_1.add(buttonMaximise);
 			
 			buttonMinimise = new JButton("");
 			
 			buttonMinimise.setToolTipText("Minimise Image");
-			buttonMinimise.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/MinimiseIcon.png"));
+			buttonMinimise.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/MinimiseIcon.png")));
 			toolBar_1.add(buttonMinimise);
 			
 			JToolBar toolBar_2 = new JToolBar();
@@ -2772,13 +2824,13 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			btnParse = new JButton("");
 			
 			btnParse.setToolTipText("Parse Model");
-			btnParse.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ParseIcon.png"));
+			btnParse.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/ParseIcon.png")));
 			toolBar_2.add(btnParse);
 			
 			btnSolve = new JButton("");
 			
 			btnSolve.setToolTipText("Solve Model");
-			btnSolve.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/SolveIcon.png"));
+			btnSolve.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/SolveIcon.png")));
 			toolBar_2.add(btnSolve);
 			
 			comboBox = new JComboBox();
@@ -2792,19 +2844,19 @@ public class RADAR_GUI2 implements PropertyChangeListener {
 			btnOptimisationAnalysis = new JButton("");
 			
 			btnOptimisationAnalysis.setToolTipText("Optimisation Analysis");
-			btnOptimisationAnalysis.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/OptimisationIcon.png"));
+			btnOptimisationAnalysis.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/OptimisationIcon.png")));
 			toolBar_3.add(btnOptimisationAnalysis);
 			
 			btnInfoValueAnalysis = new JButton("");
 			
 			btnInfoValueAnalysis.setToolTipText("Information value Analysis");
-			btnInfoValueAnalysis.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/InfoValueIcon.png"));
+			btnInfoValueAnalysis.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/InfoValueIcon.png")));
 			toolBar_3.add(btnInfoValueAnalysis);
 			
 			btnParetoFront = new JButton("");
 			
 			btnParetoFront.setToolTipText("Pareto Front");
-			btnParetoFront.setIcon(new ImageIcon("/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.icons/ParetoFrontIcon.png"));
+			btnParetoFront.setIcon(new ImageIcon(RADAR_GUI2.class.getResource("/resources/ParetoFrontIcon.png")));
 			
 			toolBar_3.add(btnParetoFront);
 			
