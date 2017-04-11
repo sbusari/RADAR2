@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="uk.ac.ucl.cs.src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="uk.ac.ucl.cs.src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/antlr-4.5.1-complete.jar"/>
-	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/commons-lang3-3.4.jar"/>
-	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/commons-math3-3.6.1.jar"/>
-	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/jcommander-1.7.jar"/>
-	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/opencsv-3.1.jar"/>
-	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/jfreeChart/lib/jfreechart-1.0.19.jar"/>
-	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/orsonchart/lib/orsoncharts-1.5.jar"/>
-	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/jfreeChart/lib/jcommon-1.0.23.jar"/>
-	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE/uk.ac.ucl.cs.lib/GraphvizVisualiser.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE2/uk.ac.ucl.cs.lib/antlr-4.5.1-complete.jar"/>
+	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE2/uk.ac.ucl.cs.lib/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE2/uk.ac.ucl.cs.lib/commons-math3-3.6.1.jar"/>
+	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE2/uk.ac.ucl.cs.lib/jcommander-1.7.jar"/>
+	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE2/uk.ac.ucl.cs.lib/opencsv-3.1.jar"/>
+	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE2/uk.ac.ucl.cs.lib/jfreeChart/lib/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE2/uk.ac.ucl.cs.lib/orsonchart/lib/orsoncharts-1.5.jar"/>
+	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE2/uk.ac.ucl.cs.lib/jfreeChart/lib/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="/Users/INTEGRALSABIOLA/Documents/JavaProject/ICSE2/uk.ac.ucl.cs.lib/GraphvizVisualiser.jar"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

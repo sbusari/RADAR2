@@ -82,7 +82,7 @@ public class InformationAnalysis {
             nbs = MatrixUtils.addRow(nbs, zeros);
         }
 
-        // Create segmentation template
+        // Create segmentation templatexxxxxxx
         int[][] nSegs = new int[d][d];
 
         for (int[] row : nSegs) {
