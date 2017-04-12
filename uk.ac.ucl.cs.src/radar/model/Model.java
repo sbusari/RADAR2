@@ -374,7 +374,7 @@ public class Model implements ModelVisitorElement {
 	* @throws CyclicDependencyException  if objective with the specified name does not exist.
 	*/
 	public void objectiveExist ( String objectiveName) throws Exception{
-		if (objectiveName != null){
+		if (objectiveName != null && !objectiveName.isEmpty()){
 			List<Objective>  objs = this.getObjectives();
 			boolean exist = false;
 			for (int i =0; i <objs.size(); i ++ ){
@@ -383,7 +383,7 @@ public class Model implements ModelVisitorElement {
 				}
 			}
 			if (exist == false){
-				throw new ModelException (""+ "Specified objective name "+ objectiveName + " does not exist in the model."); 
+				throw new ModelException (""+ "Specified objective name "+ objectiveName + " is not an optimisation objective in the model."); 
 			}
 		}
 	}
