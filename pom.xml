@@ -1,0 +1,166 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>RADAR</groupId>
+  <artifactId>ICSE2</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+<!--    <repositories> -->
+<!--     	<repository> -->
+<!--         	<id>maven-repository</id> -->
+<!--         	<url>file:///${project.basedir}/libs</url> -->
+<!--     	</repository> -->
+<!--   	</repositories> -->
+  <dependencies>
+  <dependency>
+  		<groupId>RADAR</groupId>
+  		<artifactId>commons-lang3</artifactId>
+  		<version>3.4</version>
+<!--   		<scope>system</scope> -->
+<!--   		<systemPath>${project.basedir}/lib/RADAR/commons-lang3/3.4/commons-lang3-3.4.jar</systemPath> 	 -->
+  	</dependency>
+  	<dependency>
+  		<groupId>RADAR</groupId>
+  		<artifactId>antlr</artifactId>
+  		<version>4.5.1</version>
+<!--   		<scope>system</scope> -->
+<!--     	<systemPath>${project.basedir}/lib/RADAR/antlr/4.5.1/antlr-4.5.1.jar</systemPath> -->
+  	</dependency>
+  	<dependency>
+  		<groupId>RADAR</groupId>
+  		<artifactId>commons-math3</artifactId>
+  		<version>3.6.1</version>
+<!--   		<scope>system</scope> -->
+<!--     	<systemPath>${project.basedir}/lib/RADAR/commons-math3/3.6.1/commons-math3-3.6.1.jar</systemPath> -->
+  	</dependency>
+  	<dependency>
+  		<groupId>RADAR</groupId>
+  		<artifactId>jcommander</artifactId>
+  		<version>1.7</version>
+<!--   		<scope>system</scope> -->
+<!--     	<systemPath>${project.basedir}/lib/RADAR/jcommander/1.7/jcommander-1.7.jar</systemPath> -->
+  	</dependency>
+  	<dependency>
+  		<groupId>RADAR</groupId>
+  		<artifactId>opencsv</artifactId>
+  		<version>3.1</version>
+<!--   		<scope>system</scope> -->
+<!--     	<systemPath>${project.basedir}/lib/RADAR/opencsv/3.1/opencsv-3.1.jar</systemPath> -->
+  	</dependency>
+  	<dependency>
+  		<groupId>RADAR</groupId>
+  		<artifactId>GraphvizVisualiser</artifactId>
+  		<version>0.1</version>
+<!--   		<scope>system</scope> -->
+<!--     	<systemPath>${project.basedir}/lib/RADAR/GraphvizVisualiser/0.1/GraphvizVisualiser-0.1.jar</systemPath> -->
+  	</dependency>
+  	<dependency>
+  		<groupId>RADAR</groupId>
+  		<artifactId>jcommon</artifactId>
+  		<version>1.0.23</version>
+<!--   		<scope>system</scope> -->
+<!--     	<systemPath>${project.basedir}/lib/RADAR/jcommon/1.0.23/jcommon-1.0.23.jar</systemPath> -->
+  	</dependency>
+  	<dependency>
+  		<groupId>RADAR</groupId>
+  		<artifactId>jfreechart</artifactId>
+  		<version>1.0.19</version>
+<!--   		<scope>system</scope> -->
+<!--     	<systemPath>${project.basedir}/lib/RADAR/jfreechart/1.0.19/jfreechart-1.0.19.jar</systemPath> -->
+  	</dependency>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.12</version>
+	</dependency>
+	<dependency>
+    	<groupId>RADAR</groupId>
+    	<artifactId>orsoncharts</artifactId>
+    	<version>1.5</version>
+<!--     	<scope>system</scope> -->
+<!--     	<systemPath>${project.basedir}/lib/RADAR/orsoncharts/1.5/orsoncharts-1.5.jar</systemPath> -->
+	</dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>uk.ac.ucl.cs.src</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>uk.ac.ucl.cs.src</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+<!--       <plugin> -->
+<!--     	<groupId>org.apache.maven.plugins</groupId> -->
+<!--     	<artifactId>maven-dependency-plugin</artifactId> -->
+<!--     	<version>2.1</version> -->
+<!--     	<executions> -->
+<!--     		 <execution> -->
+<!--      		 <id>copy-dependencies</id> -->
+<!--       		<phase>package</phase> -->
+<!--       		<goals> -->
+<!--       			 <goal>copy-dependencies</goal> -->
+<!--       		</goals> -->
+<!--       		<configuration> -->
+<!--       			 <outputdirectory>${project.build.directory}/libs</outputdirectory> -->
+<!--       			 <overwritereleases>false</overwritereleases> -->
+<!--        			<overwritesnapshots>false</overwritesnapshots> -->
+<!--        			<overwriteifnewer>true</overwriteifnewer> -->
+<!--       		</configuration> -->
+<!--      	</execution> -->
+<!--     </executions> -->
+<!--    </plugin> -->
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>2.4</version>
+    <configuration>
+     <archive>
+      <manifest>
+       <addClasspath>true</addClasspath>
+       <classpathPrefix>libss/</classpathPrefix>
+       <mainClass>radar.userinterface.RADAR_GUI2</mainClass>
+      </manifest>
+     </archive>
+    </configuration>
+   </plugin> 
+<!--        <plugin> -->
+<!--         <groupId>org.apache.maven.plugins</groupId> -->
+<!--         <artifactId>maven-jar-plugin</artifactId> -->
+<!--         <configuration> -->
+<!--             <archive> -->
+<!--                 <manifest> -->
+<!--                     <mainClass>radar.userinterface.RADAR_GUI2</mainClass> -->
+<!--                 </manifest> -->
+<!--             </archive> -->
+<!--         </configuration> -->
+<!--     </plugin> -->
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
